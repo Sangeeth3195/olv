@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:omaliving/screens/home/home_screen.dart';
 
-import 'homepage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,7 +17,7 @@ class SplashScreenState extends State<SplashScreen> {
     Timer(
         const Duration(seconds: 4),
         () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const Homepage())));
+            MaterialPageRoute(builder: (context) => const HomeScreen())));
   }
 
   @override
