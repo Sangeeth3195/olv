@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:omaliving/screens/home/home_screen.dart';
+import 'package:omaliving/size_config.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -22,6 +23,7 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,

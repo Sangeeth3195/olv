@@ -13,7 +13,7 @@ class ProductCard extends StatelessWidget {
   }) : super(key: key);
   final String image, title;
   final VoidCallback press;
-  final int price;
+  final double price;
   final Color bgColor;
 
   @override
@@ -53,7 +53,7 @@ class ProductCard extends StatelessWidget {
                 ),
                 const SizedBox(width: defaultPadding / 4),
                 Text(
-                  "\$" + price.toString(),
+                  "\$$price",
                   style: Theme.of(context).textTheme.subtitle2!.copyWith(color: priceColor),
                 ),
               ],

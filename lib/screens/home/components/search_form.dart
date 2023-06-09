@@ -29,7 +29,7 @@ class SearchForm extends StatelessWidget {
             filled: true,
 
             fillColor: Colors.white,
-            hintStyle: TextStyle(color: headingColor),
+            hintStyle: const TextStyle(color: headingColor),
             hintText: "what are you looking for",
             border: outlineInputBorder,
             enabledBorder: outlineInputBorder,
@@ -39,24 +39,6 @@ class SearchForm extends StatelessWidget {
               padding: const EdgeInsets.all(14),
               child: SvgPicture.asset("assets/icons/Search.svg",color: headingColor),
             ),
-            // suffixIcon: Padding(
-            //   padding: const EdgeInsets.symmetric(
-            //       horizontal: defaultPadding, vertical: defaultPadding / 2),
-            //   child: SizedBox(
-            //     width: 48,
-            //     height: 48,
-            //     child: ElevatedButton(
-            //       style: ElevatedButton.styleFrom(
-            //         primary: primaryColor,
-            //         shape: const RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.all(Radius.circular(12)),
-            //         ),
-            //       ),
-            //       onPressed: () {},
-            //       child: SvgPicture.asset("assets/icons/Filter.svg"),
-            //     ),
-            //   ),
-            // ),
           ),
         ),
       ),

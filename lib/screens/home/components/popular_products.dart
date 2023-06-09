@@ -32,9 +32,9 @@ class PopularProducts extends StatelessWidget {
                 padding: const EdgeInsets.only(right: defaultPadding),
                 child: ProductCard(
                   title: demo_product[index].title,
-                  image: demo_product[index].image,
+                  image: demo_product[index].images[0],
                   price: demo_product[index].price,
-                  bgColor: demo_product[index].bgColor,
+                  bgColor: demo_product[index].colors[0],
                   press: () {},
                 ),
               ),

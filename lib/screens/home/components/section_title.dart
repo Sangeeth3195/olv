@@ -22,13 +22,13 @@ class SectionTitle extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
         ),
-        TextButton(
-          onPressed: pressSeeAll,
-          child: const Text(
-            "See All",
-            style: TextStyle(color: headingColor),
-          ),
-        )
+        // TextButton(
+        //   onPressed: pressSeeAll,
+        //   child: const Text(
+        //     "See All",
+        //     style: TextStyle(color: headingColor),
+        //   ),
+        // )
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/Product.dart';
 import 'package:omaliving/screens/details/details_screen.dart';
@@ -25,32 +26,35 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {},
-          icon: SvgPicture.asset("assets/icons/menu.svg",color: headingColor,),
+          icon: SvgPicture.asset(
+            "assets/icons/menu.svg",
+            color: headingColor,
+          ),
         ),
-        title:            Padding(
-          padding: const EdgeInsets.all(8.0),
+        title: Padding(
+          padding: const EdgeInsets.all(2.0),
           child: Center(
-            child: Text(
-              "OMA",
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: headingColor),
-            ),
+            child: Image.asset('assets/omalogo.png', height: 50, width: 100),
           ),
         ),
         actions: [
           IconButton(
-            icon: SvgPicture.asset("assets/icons/Notification.svg",color: headingColor,),
+            icon: const FaIcon(
+              FontAwesomeIcons.user,
+              color: Colors.brown,
+            ),
             onPressed: () {},
           ),
         ],
       ),
-      body:  Column(
+      body: Column(
         children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 0),
-                  child: SearchForm(),
-                ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 0),
+            child: SearchForm(),
+          ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1,horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
             child: SectionTitle(
               title: "Decorative cushions",
               pressSeeAll: () {},
@@ -66,13 +70,13 @@ class HomeScreen extends StatelessWidget {
               maxCrossAxisExtent: 300.0,
               children: List.generate(
                 demo_product.length,
-                    (index) => Padding(
+                (index) => Padding(
                   padding: const EdgeInsets.only(right: defaultPadding),
                   child: ProductCard(
                     title: demo_product[index].title,
-                    image: demo_product[index].image,
+                    image: demo_product[index].images[0],
                     price: demo_product[index].price,
-                    bgColor: demo_product[index].bgColor,
+                    bgColor: demo_product[index].colors[0],
                     press: () {
                       Navigator.push(
                           context,
@@ -83,9 +87,9 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                 ),
-              ),),
+              ),
+            ),
           ),
-
         ],
       ),
       // body: SingleChildScrollView(
