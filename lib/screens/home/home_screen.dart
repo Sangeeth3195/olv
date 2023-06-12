@@ -12,18 +12,30 @@ import 'components/popular_products.dart';
 import 'components/search_form.dart';
 import 'components/section_title.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String _selectedOption="Popularity";
+  List<String> _options = [
+    'Popularity',
+    'Product Name',
+    'Lowest to Highest Proce',
+    'Highest to Lowest Price',
+  ];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 3;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2.8;
     final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: omaColor,
         leading: IconButton(
           onPressed: () {},
           icon: SvgPicture.asset(
@@ -39,8 +51,16 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
+            icon: const Icon(
+              Icons.person,
+              size: 30,
+              color: Colors.brown,
+            ),
+            onPressed: () {},
+          ),
+          IconButton(
             icon: const FaIcon(
-              FontAwesomeIcons.user,
+              FontAwesomeIcons.shoppingBag,
               color: Colors.brown,
             ),
             onPressed: () {},
@@ -49,15 +69,103 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 0),
+          Container(
+            height: 70,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: searchBackgroundColor,
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            ),
             child: SearchForm(),
+          ),
+          SizedBox(
+            height: 20,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
             child: SectionTitle(
-              title: "Decorative cushions",
+              title: "New Arrival",
               pressSeeAll: () {},
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 4,top: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 1),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    shape: BoxShape.rectangle,
+                    border: Border.all(color: headingColor),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(0.0),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.sort,color: headingColor,),
+                      const SizedBox(width: defaultPadding / 4),
+                      Text(
+                        "Filter",
+                        style: const TextStyle(
+                            color: headingColor, fontWeight: FontWeight.bold,fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(height: 5,),
+                        Text(
+                          "84 Items",
+                          style: const TextStyle(
+                              color: headingColor, fontWeight: FontWeight.bold,fontSize: 18),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 40,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        shape: BoxShape.rectangle,
+                        border: Border.all(color: headingColor),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(0.0),
+                        ),
+                      ),
+                      margin: EdgeInsets.only(left: 4,top: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 1),
+                      child: DropdownButton<String>(
+                        underline: Container(),
+
+                        value: _selectedOption,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedOption = newValue!;
+                          });
+                        },
+                        items: _options.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
           Expanded(

@@ -19,26 +19,23 @@ class SearchForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Form(
-      child: Container(
-        color: tileColor,
-        padding: const EdgeInsets.all(8.0),
-        child: TextFormField(
+      child: TextFormField(
 
-          onSaved: (value) {},
-          decoration: InputDecoration(
-            filled: true,
-
-            fillColor: Colors.white,
-            hintStyle: const TextStyle(color: headingColor),
-            hintText: "what are you looking for",
-            border: outlineInputBorder,
-            enabledBorder: outlineInputBorder,
-            focusedBorder: outlineInputBorder,
-            errorBorder: outlineInputBorder,
-            suffixIcon: Padding(
-              padding: const EdgeInsets.all(14),
-              child: SvgPicture.asset("assets/icons/Search.svg",color: headingColor),
-            ),
+        onSaved: (value) {},
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          hintStyle: const TextStyle(color: Colors.black),
+          hintText: "what are you looking for",
+          border: outlineInputBorder,
+          enabledBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.black, width: 0.5),
+          ),
+          focusedBorder: outlineInputBorder,
+          errorBorder: outlineInputBorder,
+          suffixIcon: Padding(
+            padding: const EdgeInsets.all(14),
+            child: SvgPicture.asset("assets/icons/Search.svg",color:  Colors.black),
           ),
         ),
       ),

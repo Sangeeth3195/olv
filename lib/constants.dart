@@ -8,6 +8,8 @@ const Color tileColor = Color(0xFFEFEEEC);
 const Color textColor = Color(0xFF6D6861);
 const Color priceColor = Color(0xFF554C48);
 const Color headingColor = Color(0xFF8A7559);
+const Color searchBackgroundColor = Color(0xFFE3E1DF);
+const Color omaColor = Color(0xFFF6F4F2);
 
 const double defaultPadding = 16.0;
 const double defaultBorderRadius = 12.0;

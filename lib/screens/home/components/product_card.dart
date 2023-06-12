@@ -24,11 +24,14 @@ class ProductCard extends StatelessWidget {
         width: 154,
         height: 200,
         padding: const EdgeInsets.all(defaultPadding / 2),
+        // margin: const EdgeInsets.all(defaultPadding / 2),
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: double.infinity,
@@ -43,18 +46,23 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: defaultPadding / 2),
-            Row(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: const TextStyle(color: textColor),
-                  ),
+                Text(
+                  title,
+                  style: const TextStyle(color: textColor),
                 ),
-                const SizedBox(width: defaultPadding / 4),
+                const SizedBox(height: defaultPadding / 4),
                 Text(
                   "\$$price",
                   style: Theme.of(context).textTheme.subtitle2!.copyWith(color: priceColor),
+                ),
+                const SizedBox(height: defaultPadding / 4),
+                Text(
+                  "Add to Cart",
+                  style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
                 ),
               ],
             )
