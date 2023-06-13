@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _selectedOption="Popularity";
-  List<String> _options = [
+  final List<String> _options = [
     'Popularity',
     'Product Name',
     'Lowest to Highest Proce',
@@ -71,15 +71,15 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Container(
             height: 70,
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
               color: searchBackgroundColor,
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
             ),
-            child: SearchForm(),
+            child: const SearchForm(),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -96,23 +96,23 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 4,top: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 1),
+                  margin: const EdgeInsets.only(left: 4,top: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 1),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     shape: BoxShape.rectangle,
                     border: Border.all(color: headingColor),
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(0.0),
                     ),
                   ),
                   child: Row(
-                    children: [
+                    children: const [
                       Icon(Icons.sort,color: headingColor,),
-                      const SizedBox(width: defaultPadding / 4),
+                      SizedBox(width: defaultPadding / 4),
                       Text(
                         "Filter",
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: headingColor, fontWeight: FontWeight.bold,fontSize: 18),
                       ),
                     ],
@@ -124,11 +124,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
-                      children: [
+                      children: const [
                         SizedBox(height: 5,),
                         Text(
                           "84 Items",
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: headingColor, fontWeight: FontWeight.bold,fontSize: 18),
                         ),
                       ],
@@ -140,12 +140,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.transparent,
                         shape: BoxShape.rectangle,
                         border: Border.all(color: headingColor),
-                        borderRadius: BorderRadius.all(
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(0.0),
                         ),
                       ),
-                      margin: EdgeInsets.only(left: 4,top: 10),
-                      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 1),
+                      margin: const EdgeInsets.only(left: 4,top: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 1),
                       child: DropdownButton<String>(
                         underline: Container(),
 

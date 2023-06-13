@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:omaliving/size_config.dart';
+import 'package:omaliving/components/size_config.dart';
 
 
 const Color primaryColor = Color(0xFFF67952);

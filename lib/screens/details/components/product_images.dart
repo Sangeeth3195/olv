@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 
 import '../../../models/Product_detail.dart';
-import '../../../size_config.dart';
+import '../../../components/size_config.dart';
 
 class ProductImages extends StatefulWidget {
   const ProductImages({
@@ -54,12 +54,12 @@ class _ProductImagesState extends State<ProductImages> {
       child: AnimatedContainer(
         duration: defaultDuration,
         margin: const EdgeInsets.only(right: 15),
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(0),
         height: getProportionateScreenWidth(48),
         width: getProportionateScreenWidth(48),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(2),
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),

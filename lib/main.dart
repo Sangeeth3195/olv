@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omaliving/routes.dart';
 import 'package:omaliving/splash.dart';
 
 void main() {
@@ -17,7 +18,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.brown,
       ),
-      home: const SplashScreen(),
+      // home: SplashScreen(),
+      initialRoute: SplashScreen.routeName,
+      routes: routes,
     );
   }
 }
