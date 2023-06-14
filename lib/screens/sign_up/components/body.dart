@@ -19,13 +19,14 @@ class Body extends StatelessWidget {
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
                 Text("Register Account", style: headingStyle),
+                SizedBox(height: SizeConfig.screenHeight * 0.02), // 4%
                 const Text(
                   "Complete your details or continue \nwith social media",
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                SizedBox(height: SizeConfig.screenHeight * 0.05),
                 SignUpForm(),
-                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                SizedBox(height: SizeConfig.screenHeight * 0.04),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -41,13 +42,13 @@ class Body extends StatelessWidget {
 
                       },
                     ),
-                    // SocalCard(
-                    //   icon: "assets/icons/twitter.svg",
-                    //   press: () {},
-                    // ),
+                   /* SocalCard(
+                      icon: "assets/icons/twitter.svg",
+                      press: () {},
+                    ),*/
                   ],
                 ),
-                SizedBox(height: getProportionateScreenHeight(20)),
+                SizedBox(height: getProportionateScreenHeight(25)),
                 Text(
                   'By continuing your confirm that you agree \nwith our Term and Condition',
                   textAlign: TextAlign.center,

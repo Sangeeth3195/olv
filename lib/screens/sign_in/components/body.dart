@@ -29,9 +29,9 @@ class Body extends StatelessWidget {
                   "Sign in with your email and password  \nor continue with social media",
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: SizeConfig.screenHeight * 0.08),
-                SignForm(),
-                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                SizedBox(height: SizeConfig.screenHeight * 0.05),
+                const SignForm(),
+                SizedBox(height: SizeConfig.screenHeight * 0.04),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -43,13 +43,13 @@ class Body extends StatelessWidget {
                       icon: "assets/icons/facebook-2.svg",
                       press: () {},
                     ),
-                    SocalCard(
+                    /*SocalCard(
                       icon: "assets/icons/twitter.svg",
                       press: () {},
-                    ),
+                    ),*/
                   ],
                 ),
-                SizedBox(height: getProportionateScreenHeight(20)),
+                SizedBox(height: getProportionateScreenHeight(25)),
                 const NoAccountText(),
               ],
             ),

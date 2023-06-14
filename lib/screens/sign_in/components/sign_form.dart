@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omaliving/screens/home/home_screen.dart';
 
 import '../../../components/custom_surfix_icon.dart';
 import '../../../components/form_error.dart';
@@ -45,47 +46,67 @@ class _SignFormState extends State<SignForm> {
       child: Column(
         children: [
           buildEmailFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
+          SizedBox(height: getProportionateScreenHeight(25)),
           buildPasswordFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
+          SizedBox(height: getProportionateScreenHeight(10)),
           Row(
             children: [
               Checkbox(
                 value: remember,
-                activeColor: kPrimaryColor,
+                activeColor: priceColor,
                 onChanged: (value) {
                   setState(() {
                     remember = value;
                   });
                 },
               ),
-              const Text("Remember me"),
+              const Text('Remember me'),
               const Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(
                     context, ForgotPasswordScreen.routeName),
                 child: const Text(
-                  "Forgot Password",
+                  'Forgot Password',
                   style: TextStyle(decoration: TextDecoration.underline),
                 ),
               )
             ],
           ),
           FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(20)),
+          SizedBox(height: getProportionateScreenHeight(15)),
           DefaultButton(
-            text: "Continue",
+            text: 'Login',
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-                // Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                Navigator.pushNamed(context, HomeScreen.routeName);
               }
             },
           ),
+          SizedBox(height: getProportionateScreenHeight(20)),
+          _buildSignInWithText()
         ],
       ),
+    );
+  }
+
+  Widget _buildSignInWithText() {
+    return Column(
+      children: const <Widget>[
+        Text(
+          '- OR -',
+          style: TextStyle(
+            color: priceColor,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Text(
+          'Sign in with',
+        ),
+      ],
     );
   }
 
@@ -117,6 +138,9 @@ class _SignFormState extends State<SignForm> {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: priceColor, width: 1.0),
+        ),
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
@@ -150,7 +174,15 @@ class _SignFormState extends State<SignForm> {
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: priceColor, width: 1.0),
+        ),
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+
+        // prefixIcon: Padding(
+        //   padding: EdgeInsetsDirectional.only(start: 12.0),
+        //   child: Icon(svgIcon: "assets/icons/Mail.svg"), // _myIcon is a 48px-wide widget.
+        // )
       ),
     );
   }

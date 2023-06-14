@@ -10,10 +10,10 @@ class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(context),
-      body: const Body(),
-      bottomNavigationBar: const CheckoutCard(),
+    return const Scaffold(
+      // appBar: buildAppBar(context),
+      body: Body(),
+      bottomNavigationBar: CheckoutCard(),
     );
   }
 

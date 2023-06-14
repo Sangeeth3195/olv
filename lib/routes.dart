@@ -13,11 +13,11 @@ import 'screens/sign_up/sign_up_screen.dart';
 final Map<String, WidgetBuilder> routes = {
   SplashScreen.routeName: (context) => const SplashScreen(),
   SignInScreen.routeName: (context) => const SignInScreen(),
-  ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen(),
+  ForgotPasswordScreen.routeName: (context) => const ForgotPasswordScreen(),
   // LoginSuccessScreen.routeName: (context) => LoginSuccessScreenScreen(),
   SignUpScreen.routeName: (context) => SignUpScreen(),
   // OtpScreen.routeName: (context) => OtpScreen(),
-  // HomeScreen.routeName: (context) => const HomeScreen(),
+  HomeScreen.routeName: (context) => const HomeScreen(),
   // DetailsScreen.routeName: (context) => const DetailsScreen(),
   CartScreen.routeName: (context) => const CartScreen(),
 };
