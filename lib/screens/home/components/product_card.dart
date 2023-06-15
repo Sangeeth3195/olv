@@ -29,43 +29,52 @@ class ProductCard extends StatelessWidget {
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: const BorderRadius.all(
-                    Radius.circular(defaultBorderRadius)),
-              ),
-              child: Image.asset(
-                image,
-                height: 132,
-              ),
-            ),
-            const SizedBox(height: defaultPadding / 2),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(color: textColor),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: bgColor,
+                    borderRadius: const BorderRadius.all(
+                        Radius.circular(defaultBorderRadius)),
+                  ),
+                  child: Image.asset(
+                    image,
+                    height: 132,
+                  ),
                 ),
-                const SizedBox(height: defaultPadding / 4),
-                Text(
-                  "\$$price",
-                  style: Theme.of(context).textTheme.subtitle2!.copyWith(color: priceColor),
-                ),
-                const SizedBox(height: defaultPadding / 4),
-                Text(
-                  "Add to Cart",
-                  style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
-                ),
+                const SizedBox(height: defaultPadding / 2),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(color: textColor),
+                    ),
+                    const SizedBox(height: defaultPadding / 4),
+                    Text(
+                      "\$$price",
+                      style: Theme.of(context).textTheme.subtitle2!.copyWith(color: priceColor),
+                    ),
+                    const SizedBox(height: defaultPadding / 4),
+                    Text(
+                      "Add to Cart",
+                      style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                )
               ],
-            )
+            ),
+            const Positioned(top: 0,right: 10,child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 2.0,vertical: 6),
+              child: Icon(Icons.favorite_border, color: headingColor,),
+            )),
+
           ],
         ),
       ),

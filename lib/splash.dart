@@ -19,7 +19,8 @@ class SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
         const Duration(seconds: 4),
-        () =>Navigator.pushNamed(context, SignInScreen.routeName));
+        () =>/*Navigator.pushNamed(context, SignInScreen.routeName)*/Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()))
+    );
 
   }
 

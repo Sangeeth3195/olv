@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   margin: const EdgeInsets.only(left: 4,top: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 1),
+                  padding: const EdgeInsets.symmetric(horizontal: 13,vertical: 1),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     shape: BoxShape.rectangle,
@@ -120,11 +120,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         "Filter",
                         style: TextStyle(
-                            color: headingColor, fontWeight: FontWeight.bold,fontSize: 18),
+                            color: headingColor, fontWeight: FontWeight.w600,fontSize: 18),
                       ),
                     ],
                   ),
                 ),
+
+
 
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Container(
                       height: 40,
-                      width: 150,
+                      width: MediaQuery.of(context).size.width/3.3,
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         shape: BoxShape.rectangle,
@@ -156,6 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: DropdownButton<String>(
                         underline: Container(),
 
+                        isExpanded: true,
                         value: _selectedOption,
                         onChanged: (String? newValue) {
                           setState(() {
@@ -165,16 +168,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         items: _options.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(value,style: TextStyle(fontSize: 12),),
                           );
                         }).toList(),
                       ),
                     ),
+
+
                   ],
                 ),
               ],
             ),
           ),
+
           Expanded(
             child: GridView.extent(
               primary: false,
