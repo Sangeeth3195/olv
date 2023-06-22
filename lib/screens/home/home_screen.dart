@@ -37,43 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2.8;
     final double itemWidth = size.width / 2;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: omaColor,
-        leading: IconButton(
-          onPressed: () {
-
-            Navigator.pushNamed(context, CartScreen.routeName);
-
-          },
-          icon: SvgPicture.asset(
-            "assets/icons/menu.svg",
-            color: headingColor,
-          ),
-        ),
-        title: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: Center(
-            child: Image.asset('assets/omalogo.png', height: 50, width: 100),
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.person,
-              size: 30,
-              color: Colors.brown,
-            ),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const FaIcon(
-              FontAwesomeIcons.shoppingBag,
-              color: Colors.brown,
-            ),
-            onPressed: () {},
-          ),
-        ],
-      ),
       body: Column(
         children: [
           Container(

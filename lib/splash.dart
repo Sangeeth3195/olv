@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/screens/home/home_screen.dart';
 import 'package:omaliving/components/size_config.dart';
 import 'package:omaliving/screens/sign_in/sign_in_screen.dart';
@@ -19,7 +20,7 @@ class SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
         const Duration(seconds: 4),
-        () =>/*Navigator.pushNamed(context, SignInScreen.routeName)*/Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()))
+        () =>/*Navigator.pushNamed(context, SignInScreen.routeName)*/Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainLayout()))
     );
 
   }
