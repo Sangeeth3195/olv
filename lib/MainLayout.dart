@@ -5,11 +5,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/home/home_screen.dart';
+import 'package:omaliving/screens/profile/profile_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 class MainLayout extends StatelessWidget {
 
-  PersistentTabController _controller = PersistentTabController(initialIndex: 0);
-  MainLayout();
+  final PersistentTabController _controller = PersistentTabController(initialIndex: 0);
+  MainLayout({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,9 @@ class MainLayout extends StatelessWidget {
                 size: 30,
                 color: Colors.brown,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, ProfileScreen.routeName);
+              },
             ),
             IconButton(
               icon: const FaIcon(
@@ -70,11 +73,11 @@ class MainLayout extends StatelessWidget {
           ),
           popAllScreensOnTapOfSelectedTab: true,
           popActionScreens: PopActionScreensType.all,
-          itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
+          itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
             duration: Duration(milliseconds: 200),
             curve: Curves.ease,
           ),
-          screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+          screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
             animateTabTransition: true,
             curve: Curves.ease,
             duration: Duration(milliseconds: 200),
@@ -86,20 +89,20 @@ class MainLayout extends StatelessWidget {
   }
   List<Widget> _buildScreens() {
     return [
-      HomeScreen(),
-      Container(child: Text('page2'),)
+      const HomeScreen(),
+      const Text('page2')
     ];
   }
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.home),
+        icon: const Icon(CupertinoIcons.home),
         title: ("Home"),
         activeColorPrimary: headingColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.settings),
+        icon: const Icon(CupertinoIcons.settings),
         title: ("Settings"),
         activeColorPrimary: headingColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,

@@ -17,17 +17,16 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
   static String routeName = "/home_screen";
 
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _selectedOption="Popularity";
+  String _selectedOption = "Popularity";
   final List<String> _options = [
     'Popularity',
     'Product Name',
-    'Lowest to Highest Proce',
+    'Lowest to Highest Price',
     'Highest to Lowest Price',
   ];
   @override
@@ -66,8 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  margin: const EdgeInsets.only(left: 4,top: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 13,vertical: 1),
+                  margin: const EdgeInsets.only(left: 4, top: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 13, vertical: 1),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     shape: BoxShape.rectangle,
@@ -78,36 +78,43 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Row(
                     children: const [
-                      Icon(Icons.sort,color: headingColor,),
-                      SizedBox(width: defaultPadding / 4),
+                      Icon(
+                        FontAwesomeIcons.filter,
+                        color: headingColor,
+                        size: 28.0,
+                      ),
+                      SizedBox(width: defaultPadding / 2),
                       Text(
                         "Filter",
                         style: TextStyle(
-                            color: headingColor, fontWeight: FontWeight.w600,fontSize: 18),
+                            color: headingColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18),
                       ),
                     ],
                   ),
                 ),
-
-
-
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       children: const [
-                        SizedBox(height: 5,),
+                        SizedBox(
+                          height: 5,
+                        ),
                         Text(
                           "84 Items",
                           style: TextStyle(
-                              color: headingColor, fontWeight: FontWeight.bold,fontSize: 18),
+                              color: headingColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
                         ),
                       ],
                     ),
                     Container(
                       height: 40,
-                      width: MediaQuery.of(context).size.width/3.3,
+                      width: MediaQuery.of(context).size.width / 3.3,
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         shape: BoxShape.rectangle,
@@ -116,11 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           Radius.circular(0.0),
                         ),
                       ),
-                      margin: const EdgeInsets.only(left: 4,top: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 1),
+                      margin: const EdgeInsets.only(left: 4, top: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 1),
                       child: DropdownButton<String>(
                         underline: Container(),
-
                         isExpanded: true,
                         value: _selectedOption,
                         onChanged: (String? newValue) {
@@ -128,26 +135,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             _selectedOption = newValue!;
                           });
                         },
-                        items: _options.map<DropdownMenuItem<String>>((String value) {
+                        items: _options
+                            .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value,style: TextStyle(fontSize: 12),),
+                            child: Text(
+                              value,
+                              style: const TextStyle(fontSize: 12),
+                            ),
                           );
                         }).toList(),
                       ),
                     ),
-
-
                   ],
                 ),
               ],
             ),
           ),
-
           Expanded(
             child: GridView.extent(
               primary: false,
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(5),
               crossAxisSpacing: 0,
               mainAxisSpacing: 0,
               childAspectRatio: (itemWidth / itemHeight),

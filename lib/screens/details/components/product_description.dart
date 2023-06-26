@@ -51,7 +51,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
           ),
         ),
 
-        SizedBox(height: 16,),
+        const SizedBox(height: 16,),
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
@@ -61,7 +61,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
           ),
         ),
 
-        SizedBox(height: 16,),
+        const SizedBox(height: 16,),
         Padding(
           padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
@@ -70,7 +70,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
             style: Theme.of(context).textTheme.headline6!.copyWith(color: headingColor),
           ),
         ),
-        SizedBox(height: 8,),
+        const SizedBox(height: 8,),
 
 
         Padding(
@@ -84,7 +84,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
           ),
         ),
-        SizedBox(height: 32,),
+        const SizedBox(height: 32,),
 
         Row(
           children: [
@@ -96,30 +96,30 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 style: Theme.of(context).textTheme.headline6!.copyWith(color: headingColor),
               ),
             ),
-            SizedBox(width: 16,),
+            const SizedBox(width: 16,),
             Column(
               children: [
                 Chip(
                   backgroundColor: chipColor,
-                  label: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  label: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text('8.66 "',style: TextStyle(color: Colors.white),),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0.0), // Adjust the border radius for rectangle shape
-                    side: BorderSide(color: omaColor,),
+                    side: const BorderSide(color: omaColor,),
                   ),
                 ),
                 Chip(
                   backgroundColor: chip2Color,
 
-                  label: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  label: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text('4.57 "'),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0.0), // Adjust the border radius for rectangle shape
-                    side: BorderSide(color: omaColor),
+                    side: const BorderSide(color: omaColor),
                   ),
                 ),
                 // Add more chips as needed
@@ -127,7 +127,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
             ),
           ],
         ),
-        SizedBox(height: 32,),
+        const SizedBox(height: 32,),
 
         Row(
           children: [
@@ -139,7 +139,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 style: Theme.of(context).textTheme.headline6!.copyWith(color: headingColor),
               ),
             ),
-            SizedBox(width: 16,),
+            const SizedBox(width: 16,),
             Container(
               // padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 4), // Adjust padding as needed
               decoration: BoxDecoration(
@@ -156,7 +156,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   Container(
                     height: 40,
                     child: IconButton(
-                      icon: Icon(Icons.remove,color: headingColor,),
+                      icon: const Icon(Icons.remove,color: headingColor,),
                       onPressed: () {
                         decrementQuantity();
                       },
@@ -165,7 +165,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   Container(
                     height: 40,
 
-                    padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 12), // Adjust padding as needed
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 12), // Adjust padding as needed
                     decoration: BoxDecoration(
                       color: Colors.white,
 
@@ -177,14 +177,14 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     ),
                     child: Text(
                       quantity.toString(),
-                      style: TextStyle(fontSize: 15),
+                      style: const TextStyle(fontSize: 15),
                     ),
                   ),
                   Container(
                     height: 40,
 
                     child: IconButton(
-                      icon: Icon(Icons.add,color: headingColor,),
+                      icon: const Icon(Icons.add,color: headingColor,),
                       onPressed: () {
                         incrementQuantity();
                       },
@@ -195,19 +195,19 @@ class _ProductDescriptionState extends State<ProductDescription> {
             ),
           ],
         ),
-        SizedBox(height: 32,),
+        const SizedBox(height: 32,),
         Container(
           width: double.infinity, // Set the container width to occupy the full width
-          margin: EdgeInsets.symmetric(horizontal: 10.0,vertical: 4), // Adjust margins as needed
+          margin: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 4), // Adjust margins as needed
           child: ElevatedButton(
             onPressed: () {
               // Button onPressed action
             },
             style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               primary: headingColor, // Set the background color
             ),
-            child: Text(
+            child: const Text(
               'ADD TO CART',
               style: TextStyle(fontSize: 15),
             ),
@@ -215,25 +215,25 @@ class _ProductDescriptionState extends State<ProductDescription> {
         ),
         Container(
           width: double.infinity, // Set the container width to occupy the full width
-          margin: EdgeInsets.symmetric(horizontal: 10.0,vertical: 4), // Adjust margins as needed
+          margin: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 4), // Adjust margins as needed
           child: ElevatedButton(
             onPressed: () {
               // Button onPressed action
             },
             style: ElevatedButton.styleFrom(
 
-              side: BorderSide(color: headingColor),
-              padding: EdgeInsets.all(10),
+              side: const BorderSide(color: headingColor),
+              padding: const EdgeInsets.all(10),
 
               primary: Colors.white, // Set the background color
             ),
-            child: Text(
+            child: const Text(
               'ADD TO WATCHLIST',
               style: TextStyle(fontSize: 15,color: headingColor),
             ),
           ),
         ),
-        SizedBox(height: 8,),
+        const SizedBox(height: 8,),
 
       ],
     );

@@ -29,7 +29,7 @@ class SearchForm extends StatelessWidget {
           hintText: "what are you looking for",
           border: outlineInputBorder,
           enabledBorder: const OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.black, width: 0.5),
+            borderSide: BorderSide(color: Colors.black, width: 0.5),
           ),
           focusedBorder: outlineInputBorder,
           errorBorder: outlineInputBorder,

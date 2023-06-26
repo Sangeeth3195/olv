@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:omaliving/MainLayout.dart';
-import 'package:omaliving/screens/home/home_screen.dart';
 import 'package:omaliving/components/size_config.dart';
-import 'package:omaliving/screens/sign_in/sign_in_screen.dart';
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,9 +17,10 @@ class SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
         const Duration(seconds: 4),
-        () =>/*Navigator.pushNamed(context, SignInScreen.routeName)*/Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainLayout()))
-    );
-
+        () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => MainLayout())));
   }
 
   @override
@@ -43,9 +41,7 @@ class SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image.asset('assets/omalogo.png',
-                        height: 220,
-                        width: 220),
+                    Image.asset('assets/omalogo.png', height: 220, width: 220),
                   ],
                 ),
               ),
@@ -56,5 +52,3 @@ class SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-

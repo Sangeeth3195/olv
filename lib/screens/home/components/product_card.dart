@@ -21,7 +21,7 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: Container(
-        width: 154,
+        width: 180,
         height: 200,
         padding: const EdgeInsets.all(defaultPadding / 2),
         // margin: const EdgeInsets.all(defaultPadding / 2),
@@ -44,7 +44,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   child: Image.asset(
                     image,
-                    height: 132,
+                    height: 150 ,
                   ),
                 ),
                 const SizedBox(height: defaultPadding / 2),
@@ -62,9 +62,9 @@ class ProductCard extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle2!.copyWith(color: priceColor),
                     ),
                     const SizedBox(height: defaultPadding / 4),
-                    Text(
+                    const Text(
                       "Add to Cart",
-                      style: const TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
+                      style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),
                     ),
                   ],
                 )
