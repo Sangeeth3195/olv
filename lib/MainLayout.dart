@@ -4,8 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
+import 'package:omaliving/screens/home/components/search_form.dart';
 import 'package:omaliving/screens/home/home_screen.dart';
 import 'package:omaliving/screens/profile/profile_screen.dart';
+import 'package:omaliving/screens/wishlist/wishlist.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 class MainLayout extends StatelessWidget {
 
@@ -71,18 +73,19 @@ class MainLayout extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
             colorBehindNavBar: Colors.white,
           ),
+
           popAllScreensOnTapOfSelectedTab: true,
           popActionScreens: PopActionScreensType.all,
-          itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
-            duration: Duration(milliseconds: 200),
-            curve: Curves.ease,
-          ),
-          screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
-            animateTabTransition: true,
-            curve: Curves.ease,
-            duration: Duration(milliseconds: 200),
-          ),
-          navBarStyle: NavBarStyle.style1, // Choose the nav bar style with this property.
+          // itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
+          //   duration: Duration(milliseconds: 200),
+          //   curve: Curves.ease,
+          // ),
+          // screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+          //   animateTabTransition: true,
+          //   curve: Curves.ease,
+          //   duration: Duration(milliseconds: 200),
+          // ),
+          navBarStyle: NavBarStyle.style6, // Choose the nav bar style with this property.
         ),
       ),
     );
@@ -90,7 +93,10 @@ class MainLayout extends StatelessWidget {
   List<Widget> _buildScreens() {
     return [
       const HomeScreen(),
-      const Text('page2')
+      const SearchForm(),
+      const Wishlist(),
+      const CartScreen(),
+      const ProfileScreen()
     ];
   }
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -102,11 +108,30 @@ class MainLayout extends StatelessWidget {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.settings),
-        title: ("Settings"),
+        icon: Icon(CupertinoIcons.search),
+        title: ("Search"),
         activeColorPrimary: headingColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
+      PersistentBottomNavBarItem(
+        icon: Icon(CupertinoIcons.bag),
+        title: ("WishList"),
+        activeColorPrimary: headingColor,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(CupertinoIcons.cart),
+        title: ("Cart"),
+        activeColorPrimary: headingColor,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(CupertinoIcons.profile_circled),
+        title: ("Profile"),
+        activeColorPrimary: headingColor,
+        inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+
     ];
   }
 }
