@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
 
-class ProfileMenu extends StatelessWidget {
-  const ProfileMenu({
+class SettingsMenu extends StatelessWidget {
+  const SettingsMenu({
     Key? key,
     required this.text,
     required this.icon,

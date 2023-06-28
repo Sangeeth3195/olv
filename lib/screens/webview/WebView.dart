@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'components/body.dart';
 
-class ProfileScreen extends StatelessWidget {
-  static String routeName = "/profile";
+class WebView extends StatelessWidget {
+  static String routeName = "/webview";
 
-  const ProfileScreen({super.key});
+  const WebView({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Body(),
     );
   }

@@ -22,47 +22,39 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-
-      Scaffold(
-
-        body: Container(
-          color: Colors.white,
-          child: ListView(
-        children: [
-
-          Container(
-            height: 70,
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-              color: searchBackgroundColor,
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: ListView(
+          children: [
+            Container(
+              height: 70,
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: searchBackgroundColor,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              child: const SearchForm(),
             ),
-            child: const SearchForm(),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ProductImages(product: product),
-
-
-
-          TopRoundedContainer(
-            color: Colors.white,
-            child: Column(
-              children: [
-                ProductDescription(
-                  product: product,
-                  pressOnSeeMore: () {},
-                ),
-
-              ],
+            const SizedBox(
+              height: 20,
             ),
-          ),
-        ],
-    ),
+            ProductImages(product: product),
+            TopRoundedContainer(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  ProductDescription(
+                    product: product,
+                    pressOnSeeMore: () {},
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
 }

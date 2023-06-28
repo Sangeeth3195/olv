@@ -18,7 +18,7 @@ const double defaultPadding = 16.0;
 const double defaultBorderRadius = 12.0;
 
 
-const kPrimaryColor = Color(0xFFFF7643);
+const kPrimaryColor = Color(0xFF6D6861);
 const kPrimaryLightColor = Color(0xFFFFECDF);
 const kPrimaryGradientColor = LinearGradient(
   begin: Alignment.topLeft,

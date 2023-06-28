@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:omaliving/screens/settings/settings.dart';
 
 import 'profile_menu.dart';
 import 'profile_pic.dart';
@@ -14,38 +16,46 @@ class Body extends StatelessWidget {
           const SizedBox(height: 20),
           ProfileMenu(
             text: "Account",
-            icon: "assets/icons/User Icon.svg",
+            icon: Icons.person_outline,
             press: () => {},
           ),
           ProfileMenu(
             text: "My Orders",
-            icon: "assets/icons/Bell.svg",
+            icon: Icons.shopping_basket,
             press: () {},
           ),
           ProfileMenu(
             text: "Address",
-            icon: "assets/icons/Settings.svg",
+            icon: Icons.add_business_outlined,
             press: () {},
           ),
           ProfileMenu(
             text: "Information",
-            icon: "assets/icons/Question mark.svg",
+            icon: Icons.info_sharp,
+            press: () {},
+          ),
+          ProfileMenu(
+            text: "Cart",
+            icon: Icons.shopping_cart,
             press: () {},
           ),
           ProfileMenu(
             text: "My Wishlist",
-            icon: "assets/icons/Log out.svg",
+            icon: FontAwesomeIcons.heart,
             press: () {},
           ),
           ProfileMenu(
             text: "Newsletter",
-            icon: "assets/icons/Log out.svg",
+            icon: Icons.email_sharp,
             press: () {},
           ),
           ProfileMenu(
-            text: "Logout",
-            icon: "assets/icons/Log out.svg",
-            press: () {},
+            text: "Settings",
+            icon: Icons.settings,
+            press: () {
+              print('click');
+              Navigator.pushNamed(context, Settings.routeName);
+            },
           ),
         ],
       ),

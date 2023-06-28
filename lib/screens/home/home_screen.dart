@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   margin: const EdgeInsets.only(left: 4, top: 10),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 13, vertical: 1),
+                      const EdgeInsets.symmetric(horizontal: 13, vertical: 5),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     shape: BoxShape.rectangle,
@@ -79,9 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: const [
                       Icon(
-                        FontAwesomeIcons.filter,
+                        FontAwesomeIcons.sliders,
                         color: headingColor,
-                        size: 28.0,
+                        size: 18.0,
                       ),
                       SizedBox(width: defaultPadding / 2),
                       Text(
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: TextStyle(
                             color: headingColor,
                             fontWeight: FontWeight.w600,
-                            fontSize: 18),
+                            fontSize: 16),
                       ),
                     ],
                   ),
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               color: headingColor,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16),
+                              fontSize: 15),
                         ),
                       ],
                     ),
@@ -141,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             value: value,
                             child: Text(
                               value,
-                              style: const TextStyle(fontSize: 12),
+                              style: const TextStyle(fontSize: 14),
                             ),
                           );
                         }).toList(),
@@ -182,6 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+
         ],
       ),
       // body: SingleChildScrollView(

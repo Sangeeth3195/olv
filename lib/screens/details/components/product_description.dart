@@ -24,19 +24,16 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
   void incrementQuantity() {
     quantity++;
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void decrementQuantity() {
     if (quantity > 0) {
       quantity--;
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,80 +42,105 @@ class _ProductDescriptionState extends State<ProductDescription> {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
-          child: Text(
-            widget.product.title,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(color: blackColor),
-          ),
+          child: Text(widget.product.title,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                  fontSize: 18)
+              // style: Theme.of(context)
+              //     .textTheme
+              //     .titleMedium!
+              //     .copyWith(color: blackColor),
+              ),
         ),
-
-        const SizedBox(height: 16,),
+        const SizedBox(
+          height: 16,
+        ),
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
-          child: Text(
-            "₹ "+widget.product.price.toStringAsFixed(2),
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(color: blackColor),
-          ),
+          child: Text("₹ ${widget.product.price.toStringAsFixed(2)}",
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: headingColor,
+                  fontSize: 15)),
         ),
-
-        const SizedBox(height: 16,),
+        const SizedBox(
+          height: 16,
+        ),
         Padding(
           padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
-          child: Text(
-            'OVERVIEW',
-            style: Theme.of(context).textTheme.headline6!.copyWith(color: headingColor),
-          ),
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
+          child: const Text('OVERVIEW',
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: headingColor)),
         ),
-        const SizedBox(height: 8,),
-
-
+        const SizedBox(
+          height: 12,
+        ),
         Padding(
           padding: EdgeInsets.only(
             left: getProportionateScreenWidth(10),
             right: getProportionateScreenWidth(10),
           ),
-          child: Text(
-            widget.product.description,
-            style: Theme.of(context).textTheme.subtitle2!.copyWith(color: headingColor),
-
-          ),
+          child: Text(widget.product.description,
+              style: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                  color: headingColor,
+                  height: 1.3,
+                  fontSize: 15)),
         ),
-        const SizedBox(height: 32,),
-
+        const SizedBox(
+          height: 18,
+        ),
         Row(
           children: [
             Padding(
-              padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
-              child: Text(
-                'SIZE',
-                style: Theme.of(context).textTheme.headline6!.copyWith(color: headingColor),
-              ),
+              padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(10)),
+              child: const Text('SIZE',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: headingColor)
+                  // style: Theme.of(context)
+                  //     .textTheme
+                  //     .headlineSmall!
+                  //     .copyWith(color: headingColor),
+                  ),
             ),
-            const SizedBox(width: 16,),
-            Column(
+            const SizedBox(
+              width: 10,
+            ),
+            Row(
               children: [
                 Chip(
                   backgroundColor: chipColor,
                   label: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text('8.66 "',style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      '8.66 "',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0.0), // Adjust the border radius for rectangle shape
-                    side: const BorderSide(color: omaColor,),
+                    borderRadius: BorderRadius.circular(
+                        0.0), // Adjust the border radius for rectangle shape
+                    side: const BorderSide(
+                      color: omaColor,
+                    ),
                   ),
+                ),
+                const SizedBox(
+                  width: 5,
                 ),
                 Chip(
                   backgroundColor: chip2Color,
-
                   label: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text('4.57 "'),
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0.0), // Adjust the border radius for rectangle shape
+                    borderRadius: BorderRadius.circular(
+                        0.0), // Adjust the border radius for rectangle shape
                     side: const BorderSide(color: omaColor),
                   ),
                 ),
@@ -127,64 +149,71 @@ class _ProductDescriptionState extends State<ProductDescription> {
             ),
           ],
         ),
-        const SizedBox(height: 32,),
-
+        const SizedBox(
+          height: 18,
+        ),
         Row(
           children: [
             Padding(
-              padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
-              child: Text(
-                'QUANTITY',
-                style: Theme.of(context).textTheme.headline6!.copyWith(color: headingColor),
-              ),
+              padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(10)),
+              child: const Text('QUANTITY',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: headingColor)),
             ),
-            const SizedBox(width: 16,),
+            const SizedBox(
+              width: 16,
+            ),
             Container(
-              // padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 4), // Adjust padding as needed
               decoration: BoxDecoration(
                 color: omaColor,
                 border: Border.all(
                   color: headingColor, // Border color
                   width: 0.0, // Border width
                 ),
-                borderRadius: BorderRadius.circular(0.0), // Adjust border radius as needed
+                borderRadius: BorderRadius.circular(0.0),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 40,
+                  SizedBox(
+                    height: 34,
                     child: IconButton(
-                      icon: const Icon(Icons.remove,color: headingColor,),
+                      icon: const Icon(
+                        Icons.remove,
+                        color: headingColor,
+                      ),
                       onPressed: () {
                         decrementQuantity();
                       },
                     ),
                   ),
                   Container(
-                    height: 40,
-
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 12), // Adjust padding as needed
+                    height: 34,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 8), // Adjust padding as needed
                     decoration: BoxDecoration(
                       color: Colors.white,
-
                       border: Border.all(
                         color: headingColor, // Border color
                         width: 1.0, // Border width
                       ),
-                      borderRadius: BorderRadius.circular(0.0), // Adjust border radius as needed
+                      borderRadius: BorderRadius.circular(
+                          0.0), // Adjust border radius as needed
                     ),
                     child: Text(
                       quantity.toString(),
                       style: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  Container(
-                    height: 40,
-
+                  SizedBox(
+                    height: 34,
                     child: IconButton(
-                      icon: const Icon(Icons.add,color: headingColor,),
+                      icon: const Icon(
+                        Icons.add,
+                        color: headingColor,
+                      ),
                       onPressed: () {
                         incrementQuantity();
                       },
@@ -195,46 +224,51 @@ class _ProductDescriptionState extends State<ProductDescription> {
             ),
           ],
         ),
-        const SizedBox(height: 32,),
+        const SizedBox(
+          height: 15,
+        ),
         Container(
-          width: double.infinity, // Set the container width to occupy the full width
-          margin: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 4), // Adjust margins as needed
+          width: double
+              .infinity, // Set the container width to occupy the full width
+          margin: const EdgeInsets.symmetric(
+              horizontal: 10.0, vertical: 4), // Adjust margins as needed
           child: ElevatedButton(
             onPressed: () {
               // Button onPressed action
             },
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(5),
               primary: headingColor, // Set the background color
             ),
             child: const Text(
               'ADD TO CART',
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 14),
             ),
           ),
         ),
         Container(
-          width: double.infinity, // Set the container width to occupy the full width
-          margin: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 4), // Adjust margins as needed
+          width: double
+              .infinity, // Set the container width to occupy the full width
+          margin: const EdgeInsets.symmetric(
+              horizontal: 10.0, vertical: 4), // Adjust margins as needed
           child: ElevatedButton(
             onPressed: () {
               // Button onPressed action
             },
             style: ElevatedButton.styleFrom(
-
               side: const BorderSide(color: headingColor),
-              padding: const EdgeInsets.all(10),
-
-              primary: Colors.white, // Set the background color
+              backgroundColor: Colors.white,
+              padding: const EdgeInsets.all(5), // Set the background color
             ),
             child: const Text(
               'ADD TO WATCHLIST',
-              style: TextStyle(fontSize: 15,color: headingColor),
+              style: TextStyle(fontSize: 14, color: headingColor),
             ),
           ),
         ),
-        const SizedBox(height: 8,),
-
+        const SizedBox(
+          height: 12,
+        ),
       ],
     );
   }
