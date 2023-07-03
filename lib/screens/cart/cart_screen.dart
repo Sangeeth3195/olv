@@ -11,7 +11,6 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      // appBar: buildAppBar(context),
       body: Body(),
       bottomNavigationBar: CheckoutCard(),
     );
@@ -26,7 +25,7 @@ class CartScreen extends StatelessWidget {
             style: TextStyle(color: Colors.black),
           ),
           Text(
-            "${demoCarts.length} items",
+            '₹ {demoCarts.length} items',
             style: Theme.of(context).textTheme.caption,
           ),
         ],

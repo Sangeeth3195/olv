@@ -1,10 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:omaliving/screens/address/address.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
+import 'package:omaliving/screens/checkout/Checkout.dart';
 import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
-import 'package:omaliving/screens/home/home_screen.dart';
+import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/my_orders/my_orders.dart';
 import 'package:omaliving/screens/newsletter/news_letter.dart';
+import 'package:omaliving/screens/order_summary/ordersummary.dart';
+import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 import 'package:omaliving/screens/profile/profile_screen.dart';
 import 'package:omaliving/screens/settings/settings.dart';
 import 'package:omaliving/screens/sign_in/sign_in_screen.dart';
@@ -18,7 +21,7 @@ final Map<String, WidgetBuilder> routes = {
   SignInScreen.routeName: (context) => const SignInScreen(),
   ForgotPasswordScreen.routeName: (context) => const ForgotPasswordScreen(),
   SignUpScreen.routeName: (context) => SignUpScreen(),
-  HomeScreen.routeName: (context) => const HomeScreen(),
+  ProductListing.routeName: (context) => const ProductListing(),
   ProfileScreen.routeName: (context) => const ProfileScreen(),
   CartScreen.routeName: (context) => const CartScreen(),
   Address.routeName: (context) => const Address(),
@@ -27,4 +30,7 @@ final Map<String, WidgetBuilder> routes = {
   MyOrders.routeName: (context) => const MyOrders(),
   Settings.routeName: (context) => const Settings(),
   WebView.routeName: (context) => const WebView(),
+  Ordersummary.routeName: (context) => const Ordersummary(),
+  Checkout.routeName: (context) => const Checkout(),
+  HomeScreen.routeName: (context) => const HomeScreen(),
 };

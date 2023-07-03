@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/screens/settings/components/settings_menu.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -8,57 +9,69 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 0),
       child: Column(
         children: [
           const SizedBox(height: 20),
           SettingsMenu(
-            text: "Account",
+            text: "About Us",
             icon: Icons.person_outline,
-            press: () => {},
+            press: () => {
+              _launchURLBrowser('https://www.omaliving.com/about-us'),
+            },
           ),
           SettingsMenu(
-            text: "My Orders",
+            text: "A Life of Beauty",
             icon: Icons.shopping_basket,
-            press: () {},
+            press: () {
+              _launchURLBrowser('https://www.omaliving.com/a-life-of-beauty');
+            },
           ),
           SettingsMenu(
-            text: "Address",
+            text: "Shipping & Payment",
             icon: Icons.add_business_outlined,
-            press: () {},
+            press: () {
+              _launchURLBrowser('https://www.omaliving.com/shipping-payment');
+            },
           ),
           SettingsMenu(
-            text: "Information",
+            text: "Returns & Exchanges",
             icon: Icons.info_sharp,
-            press: () {},
+            press: () {
+              _launchURLBrowser('https://www.omaliving.com/returns-exchanges');
+            },
           ),
           SettingsMenu(
-            text: "Cart",
+            text: "Terms of Use",
             icon: Icons.shopping_cart,
-            press: () {},
+            press: () {
+              _launchURLBrowser('https://www.omaliving.com/terms-of-use');
+            },
           ),
           SettingsMenu(
-            text: "My Wishlist",
+            text: "Privacy Policy",
             icon: FontAwesomeIcons.heart,
-            press: () {},
-          ),
-          SettingsMenu(
-            text: "Newsletter",
-            icon: Icons.email_sharp,
-            press: () {},
-          ),
-          SettingsMenu(
-            text: "Settings",
-            icon: Icons.settings,
-            press: () {},
+            press: () {
+              _launchURLBrowser('https://www.omaliving.com/privacy-policy');
+            },
           ),
           SettingsMenu(
             text: "Logout",
             icon: Icons.logout_rounded,
             press: () {},
           ),
+          const SizedBox(height: 10.0,),
+          const Text('Version 1.0',style: TextStyle(fontSize: 14.0,color: Colors.black45),)
+          
         ],
       ),
     );
+  }
+
+  _launchURLBrowser(String _url) async {
+    final url = Uri.parse(_url);
+    if (await canLaunchUrl(url)) {
+      launchUrl(url, mode: LaunchMode.externalApplication);
+    }
   }
 }

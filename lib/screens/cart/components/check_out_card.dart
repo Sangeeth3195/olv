@@ -45,7 +45,7 @@ class CheckoutCard extends StatelessWidget {
                   width: getProportionateScreenWidth(40),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF5F6F9),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: SvgPicture.asset("assets/icons/receipt.svg"),
                 ),
@@ -68,7 +68,7 @@ class CheckoutCard extends StatelessWidget {
                     text: "Total:\n",
                     children: [
                       TextSpan(
-                        text: "\$337.15",
+                        text: "\₹337.15",
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ],

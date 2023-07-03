@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/Product.dart';
-import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/details/details_screen.dart';
-import 'package:omaliving/screens/home/components/product_card.dart';
-
-import 'components/categories.dart';
-import 'components/new_arrival_products.dart';
-import 'components/popular_products.dart';
+import 'components/product_card.dart';
 import 'components/search_form.dart';
 import 'components/section_title.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class ProductListing extends StatefulWidget {
+  const ProductListing({Key? key}) : super(key: key);
   static String routeName = "/home_screen";
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ProductListing> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<ProductListing> {
   String _selectedOption = "Popularity";
   final List<String> _options = [
     'Popularity',

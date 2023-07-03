@@ -4,9 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
-import 'package:omaliving/screens/home/components/search_form.dart';
-import 'package:omaliving/screens/home/home_screen.dart';
+import 'package:omaliving/screens/product_listing/Product_Listing.dart';
+import 'package:omaliving/screens/product_listing/components/search_form.dart';
 import 'package:omaliving/screens/profile/profile_screen.dart';
+import 'package:omaliving/screens/settings/settings.dart';
 import 'package:omaliving/screens/wishlist/wishlist.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -42,7 +43,7 @@ class MainLayout extends StatelessWidget {
                 color: headingColor,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, ProfileScreen.routeName);
+                Navigator.pushNamed(context, Settings.routeName);
               },
             ),
             IconButton(
@@ -83,7 +84,7 @@ class MainLayout extends StatelessWidget {
 
   List<Widget> _buildScreens() {
     return [
-      const HomeScreen(),
+      const ProductListing(),
       const SearchForm(),
       const Wishlist(),
       const CartScreen(),
