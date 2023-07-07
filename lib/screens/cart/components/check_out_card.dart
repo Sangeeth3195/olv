@@ -21,8 +21,8 @@ class CheckoutCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
         ),
         boxShadow: [
           BoxShadow(

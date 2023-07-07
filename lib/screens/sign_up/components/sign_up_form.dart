@@ -43,12 +43,12 @@ class _SignUpFormState extends State<SignUpForm> {
       child: Column(
         children: [
           buildEmailFormField(),
-          SizedBox(height: getProportionateScreenHeight(10)),
+          SizedBox(height: getProportionateScreenHeight(25)),
           buildPasswordFormField(),
-          SizedBox(height: getProportionateScreenHeight(10)),
+          SizedBox(height: getProportionateScreenHeight(25)),
           buildConformPassFormField(),
           FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(10)),
+          SizedBox(height: getProportionateScreenHeight(25)),
           DefaultButton(
             text: "Create an account",
             press: () {

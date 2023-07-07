@@ -8,8 +8,11 @@ class Newsletter extends StatelessWidget {
   const Newsletter({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Body(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Newsletter Subscription'),
+      ),
+      body: const Body(),
     );
   }
 }

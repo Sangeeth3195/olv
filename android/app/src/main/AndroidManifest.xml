@@ -2,9 +2,9 @@
     package="com.oma.omaliving">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
-
-   <application
+    <application
         android:label="Omaliving"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

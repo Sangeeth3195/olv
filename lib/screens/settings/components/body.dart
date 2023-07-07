@@ -70,8 +70,19 @@ class Body extends StatelessWidget {
 
   _launchURLBrowser(String _url) async {
     final url = Uri.parse(_url);
-    if (await canLaunchUrl(url)) {
-      launchUrl(url, mode: LaunchMode.externalApplication);
+    try {
+      await launch(
+        _url,
+        enableJavaScript: true,
+      );
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
     }
+
+    // if (await canLaunchUrl(url)) {
+    //   launchUrl(url, mode: LaunchMode.externalApplication);
+    // }
   }
 }

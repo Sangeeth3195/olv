@@ -8,8 +8,11 @@ class Information extends StatelessWidget {
   const Information({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Body(),
+    return  Scaffold(
+      appBar: AppBar(
+        title: const Text('Account Information'),
+      ),
+      body: const Body(),
     );
   }
 }

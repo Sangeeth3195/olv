@@ -1,4 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:omaliving/screens/Information/information.dart';
+import 'package:omaliving/screens/account/Account.dart';
+import 'package:omaliving/screens/add_address/add_address.dart';
 import 'package:omaliving/screens/address/address.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/checkout/Checkout.dart';
@@ -23,14 +26,19 @@ final Map<String, WidgetBuilder> routes = {
   SignUpScreen.routeName: (context) => SignUpScreen(),
   ProductListing.routeName: (context) => const ProductListing(),
   ProfileScreen.routeName: (context) => const ProfileScreen(),
-  CartScreen.routeName: (context) => const CartScreen(),
-  Address.routeName: (context) => const Address(),
-  Newsletter.routeName: (context) => const Newsletter(),
-  Wishlist.routeName: (context) => const Wishlist(),
   MyOrders.routeName: (context) => const MyOrders(),
-  Settings.routeName: (context) => const Settings(),
   WebView.routeName: (context) => const WebView(),
   Ordersummary.routeName: (context) => const Ordersummary(),
   Checkout.routeName: (context) => const Checkout(),
   HomeScreen.routeName: (context) => const HomeScreen(),
+
+  '/addaddress': (context) => const AddAddress(),
+  '/account': (context) => const Account(),
+  '/wishlist': (context) => const Wishlist(),
+  '/CartScreen': (context) => const CartScreen(),
+  '/information': (context) => const Information(),
+  '/address': (context) => const Address(),
+  '/newsletter': (context) => const Newsletter(),
+  '/settings': (context) => const Settings(),
+
 };

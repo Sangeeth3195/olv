@@ -17,44 +17,57 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Account",
             icon: Icons.person_outline,
-            press: () => {},
+            press: () => {
+              Navigator.of(context, rootNavigator: true).pushNamed("/account"),
+            },
           ),
           ProfileMenu(
             text: "My Orders",
             icon: Icons.shopping_basket,
-            press: () {},
+            press: () {
+              Navigator.of(context, rootNavigator: true).pushNamed("/myorders");
+            },
           ),
           ProfileMenu(
             text: "Address",
             icon: Icons.add_business_outlined,
-            press: () {},
+            press: () {
+              Navigator.of(context, rootNavigator: true).pushNamed("/address");
+            },
           ),
           ProfileMenu(
             text: "Information",
             icon: Icons.info_sharp,
-            press: () {},
+            press: () {
+              Navigator.of(context, rootNavigator: true).pushNamed("/information");
+            },
           ),
           ProfileMenu(
             text: "Cart",
             icon: Icons.shopping_cart,
-            press: () {},
+            press: () {
+              Navigator.of(context, rootNavigator: true).pushNamed("/cart");
+            },
           ),
           ProfileMenu(
             text: "My Wishlist",
             icon: FontAwesomeIcons.heart,
-            press: () {},
+            press: () {
+              Navigator.of(context, rootNavigator: true).pushNamed("/wishlist");
+            },
           ),
           ProfileMenu(
             text: "Newsletter",
             icon: Icons.email_sharp,
-            press: () {},
+            press: () {
+              Navigator.of(context, rootNavigator: true).pushNamed("/newsletter");
+            },
           ),
           ProfileMenu(
             text: "Settings",
             icon: Icons.settings,
             press: () {
-              print('click');
-              Navigator.pushNamed(context, Settings.routeName);
+              Navigator.of(context, rootNavigator: true).pushNamed("/settings");
             },
           ),
         ],

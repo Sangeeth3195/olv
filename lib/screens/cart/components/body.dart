@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/Cart.dart';
 
 import '../../../components/size_config.dart';
@@ -17,7 +18,7 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
       child: ListView.builder(
         itemCount: demoCarts.length,
         itemBuilder: (context, index) => Padding(
@@ -31,10 +32,10 @@ class _BodyState extends State<Body> {
               });
             },
             background: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFE6E6),
-                borderRadius: BorderRadius.circular(15),
+                color: chipColor,
+                borderRadius: BorderRadius.circular(2),
               ),
               child: Row(
                 children: [

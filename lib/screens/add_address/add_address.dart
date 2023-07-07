@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'components/body.dart';
 
-class Address extends StatelessWidget {
-  static String routeName = "/address";
+class AddAddress extends StatelessWidget {
+  static String routeName = "/addaddress";
 
-  const Address({super.key});
+  const AddAddress({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Address'),
+        title: const Text('Add Address'),
       ),
       body: const Body(),
     );
