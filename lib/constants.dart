@@ -13,6 +13,8 @@ const Color omaColor = Color(0xFFF6F4F2);
 const Color blackColor = Color(0xFF000000);
 const Color chipColor = Color(0xFFB09F8C);
 const Color chip2Color = Color(0xFFEBE1D9);
+const Color navBackground = Color(0xFFF6F6F4);
+const Color navTextColor = Color(0xFF7F7671);
 
 const double defaultPadding = 16.0;
 const double defaultBorderRadius = 12.0;

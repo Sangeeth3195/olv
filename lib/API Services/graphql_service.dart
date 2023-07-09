@@ -7,7 +7,7 @@ class GraphQLService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-  Future<List<CategoryModel>> getCategory({
+  Future<List<dynamic>> getCategory({
     required int limit,
   }) async {
     try {
@@ -34,6 +34,14 @@ class GraphQLService {
                       path
                       url_path
                       url_key
+                      children {
+                      id
+                      level
+                      name
+                      path
+                      url_path
+                      url_key
+                    }
                     }
                   }
                 }
@@ -53,11 +61,12 @@ class GraphQLService {
         if (res == null || res.isEmpty) {
           return [];
         }
+        print(res.first['children']);
 
-        List<CategoryModel> categorylist =
-            res.map((feeling) => CategoryModel.fromMap(map: categorylist)).toList();
+        // List<CategoryModel> categorylist =
+        //     res.map((e) => print(e));
 
-        return categorylist;
+        return res.first['children'];
       }
     } catch (error) {
       return [];

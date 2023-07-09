@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
@@ -12,17 +13,40 @@ import 'package:omaliving/screens/settings/settings.dart';
 import 'package:omaliving/screens/wishlist/wishlist.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-class MainLayout extends StatelessWidget {
-  final PersistentTabController _controller =
-      PersistentTabController(initialIndex: 0);
+class MainLayout extends StatefulWidget {
+
   MainLayout({super.key});
 
-  final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
+  @override
+  State<MainLayout> createState() => _MainLayoutState();
+}
 
+class _MainLayoutState extends State<MainLayout> {
+  GraphQLService graphQLService=GraphQLService();
+  List<dynamic> navHeaderList=[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getNavdata();
+  }
+  void getNavdata() async{
+    navHeaderList=await graphQLService.getCategory(limit: 100);
+    setState(() {
+
+    });
+  }
+  final PersistentTabController _controller =
+      PersistentTabController(initialIndex: 0);
+
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
+ // Create a key
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: chipColor),
+
           backgroundColor: omaColor,
           // leading: IconButton(
           //   onPressed: () {
@@ -47,7 +71,8 @@ class MainLayout extends StatelessWidget {
                 color: headingColor,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, Settings.routeName);
+                getNavdata();
+                // Navigator.pushNamed(context, Settings.routeName);
               },
             ),
             IconButton(
@@ -85,33 +110,113 @@ class MainLayout extends StatelessWidget {
               .style12, // Choose the nav bar style with this property.
         ),
         drawer: Drawer(
-          width: MediaQuery.of(context).size.width * 0.9, // 75% of screen will be occupied
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
+          backgroundColor: navBackground,
+          width: MediaQuery.of(context).size.width , // 75% of screen will be occupied
+          child:               ListView(
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
+              AppBar(
+                backgroundColor: navBackground,
+                // leading: IconButton(
+                //   onPressed: () {
+                //     _key.currentState!.openDrawer();
+                //   },
+                //   icon: SvgPicture.asset(
+                //     "assets/icons/menu.svg",
+                //     color: headingColor,
+                //   ),
+                // ),
+                leading:                   IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    size: 28,
+                    color: headingColor,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context); // Close the navigation drawer
+
+                    // Navigator.pushNamed(context, Settings.routeName);
+                  },
                 ),
-                child: Text('Drawer Header'),
+                title: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Center(
+                    child: Image.asset('assets/omalogo.png', height: 50, width: 100),
+                  ),
+                ),
+                actions: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.person,
+                      size: 28,
+                      color: headingColor,
+                    ),
+                    onPressed: () {
+                      getNavdata();
+                      // Navigator.pushNamed(context, Settings.routeName);
+                    },
+                  ),
+                  IconButton(
+                    icon: const FaIcon(
+                      Icons.shopping_bag_sharp,
+                      size: 28,
+                      color: headingColor,
+                    ),
+                    onPressed: () {
+
+                    },
+                  ),
+                ],
               ),
-              ListTile(
-                leading: Icon(
-                  Icons.home,
-                ),
-                title: const Text('Page 1'),
-                onTap: () {
-                  Navigator.pop(context);
+              ListView.separated(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider( color: textColor,thickness: 0.5,);
                 },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.train,
-                ),
-                title: const Text('Page 2'),
-                onTap: () {
-                  Navigator.pop(context);
+                itemCount: navHeaderList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      dividerColor: Colors.transparent, // Set divider color to transparent
+                    ),
+                    child: ExpansionTile(
+                      title: Text(navHeaderList[index]['name'],
+                      style: TextStyle(color: navTextColor,fontSize: 15,fontWeight: FontWeight.w400,fontStyle: FontStyle.normal),
+                      ),
+                      children: <Widget>[
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
+                          itemCount: navHeaderList[index]['children'].length, // Replace with the actual number of items
+                          itemBuilder: (BuildContext context, int itemIndex) {
+                            return ExpansionTile(
+                              initiallyExpanded: true,
+                              title: Text(navHeaderList[index]['children'][itemIndex]['name'],
+
+                                style: TextStyle(color: navTextColor,fontSize: 15,fontWeight: FontWeight.w700,fontStyle: FontStyle.normal),
+                              ),
+                              children: <Widget>[
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: ClampingScrollPhysics(),
+                                  itemCount: navHeaderList[index]['children'][itemIndex]['children'].length, // Replace with the actual number of items
+                                  itemBuilder: (BuildContext context, int subitemIndex) {
+                                    return ListTile(
+                                      title: Text(navHeaderList[index]['children'][itemIndex]['children'][subitemIndex]['name'].toString(),
+                                        style: TextStyle(color: navTextColor,fontSize: 12,fontWeight: FontWeight.w400,fontStyle: FontStyle.normal),
+
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
             ],
