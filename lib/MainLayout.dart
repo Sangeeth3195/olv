@@ -14,7 +14,6 @@ import 'package:omaliving/screens/wishlist/wishlist.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class MainLayout extends StatefulWidget {
-
   MainLayout({super.key});
 
   @override
@@ -22,207 +21,241 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  GraphQLService graphQLService=GraphQLService();
-  List<dynamic> navHeaderList=[];
+  GraphQLService graphQLService = GraphQLService();
+  List<dynamic> navHeaderList = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getNavdata();
   }
-  void getNavdata() async{
-    navHeaderList=await graphQLService.getCategory(limit: 100);
-    setState(() {
 
-    });
+  void getNavdata() async {
+    navHeaderList = await graphQLService.getCategory(limit: 100);
+    setState(() {});
   }
+
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
- // Create a key
+  // Create a key
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: chipColor),
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: chipColor),
 
-          backgroundColor: omaColor,
-          // leading: IconButton(
-          //   onPressed: () {
-          //     _key.currentState!.openDrawer();
-          //   },
-          //   icon: SvgPicture.asset(
-          //     "assets/icons/menu.svg",
-          //     color: headingColor,
-          //   ),
-          // ),
-          title: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Center(
-              child: Image.asset('assets/omalogo.png', height: 50, width: 100),
-            ),
+        backgroundColor: omaColor,
+        // leading: IconButton(
+        //   onPressed: () {
+        //     _key.currentState!.openDrawer();
+        //   },
+        //   icon: SvgPicture.asset(
+        //     "assets/icons/menu.svg",
+        //     color: headingColor,
+        //   ),
+        // ),
+        title: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Center(
+            child: Image.asset('assets/omalogo.png', height: 50, width: 100),
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.person,
-                size: 28,
-                color: headingColor,
-              ),
-              onPressed: () {
-                getNavdata();
-                // Navigator.pushNamed(context, Settings.routeName);
-              },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.person,
+              size: 28,
+              color: headingColor,
             ),
-            IconButton(
-              icon: const FaIcon(
-                Icons.shopping_bag_sharp,
-                size: 28,
-                color: headingColor,
-              ),
-              onPressed: () {
+            onPressed: () {
+              getNavdata();
+              // Navigator.pushNamed(context, Settings.routeName);
+            },
+          ),
+          IconButton(
+            icon: const FaIcon(
+              Icons.shopping_bag_sharp,
+              size: 28,
+              color: headingColor,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: PersistentTabView(
+        context,
+        controller: _controller,
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        confineInSafeArea: true,
+        backgroundColor: Colors.white, // Default is Colors.white.
+        handleAndroidBackButtonPress: true, // Default is true.
+        resizeToAvoidBottomInset:
+            true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+        stateManagement: true, // Default is true.
+        hideNavigationBarWhenKeyboardShows:
+            true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+        decoration: NavBarDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          colorBehindNavBar: Colors.white,
+        ),
+        popAllScreensOnTapOfSelectedTab: true,
+        popActionScreens: PopActionScreensType.all,
+        navBarStyle:
+            NavBarStyle.style12, // Choose the nav bar style with this property.
+      ),
+      drawer: Drawer(
+        backgroundColor: navBackground,
+        width:
+            MediaQuery.of(context).size.width, // 75% of screen will be occupied
+        child: ListView(
+          children: [
+            AppBar(
+              backgroundColor: navBackground,
+              // leading: IconButton(
+              //   onPressed: () {
+              //     _key.currentState!.openDrawer();
+              //   },
+              //   icon: SvgPicture.asset(
+              //     "assets/icons/menu.svg",
+              //     color: headingColor,
+              //   ),
+              // ),
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.close,
+                  size: 28,
+                  color: headingColor,
+                ),
+                onPressed: () {
+                  Navigator.pop(context); // Close the navigation drawer
 
-              },
-            ),
-          ],
-        ),
-        body: PersistentTabView(
-          context,
-          controller: _controller,
-          screens: _buildScreens(),
-          items: _navBarsItems(),
-          confineInSafeArea: true,
-          backgroundColor: Colors.white, // Default is Colors.white.
-          handleAndroidBackButtonPress: true, // Default is true.
-          resizeToAvoidBottomInset:
-              true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-          stateManagement: true, // Default is true.
-          hideNavigationBarWhenKeyboardShows:
-              true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-          decoration: NavBarDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            colorBehindNavBar: Colors.white,
-          ),
-          popAllScreensOnTapOfSelectedTab: true,
-          popActionScreens: PopActionScreensType.all,
-          navBarStyle: NavBarStyle
-              .style12, // Choose the nav bar style with this property.
-        ),
-        drawer: Drawer(
-          backgroundColor: navBackground,
-          width: MediaQuery.of(context).size.width , // 75% of screen will be occupied
-          child:               ListView(
-            children: [
-              AppBar(
-                backgroundColor: navBackground,
-                // leading: IconButton(
-                //   onPressed: () {
-                //     _key.currentState!.openDrawer();
-                //   },
-                //   icon: SvgPicture.asset(
-                //     "assets/icons/menu.svg",
-                //     color: headingColor,
-                //   ),
-                // ),
-                leading:                   IconButton(
+                  // Navigator.pushNamed(context, Settings.routeName);
+                },
+              ),
+              title: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Center(
+                  child:
+                      Image.asset('assets/omalogo.png', height: 50, width: 100),
+                ),
+              ),
+              actions: [
+                IconButton(
                   icon: const Icon(
-                    Icons.close,
+                    Icons.person,
                     size: 28,
                     color: headingColor,
                   ),
                   onPressed: () {
-                    Navigator.pop(context); // Close the navigation drawer
-
+                    getNavdata();
                     // Navigator.pushNamed(context, Settings.routeName);
                   },
                 ),
-                title: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Center(
-                    child: Image.asset('assets/omalogo.png', height: 50, width: 100),
+                IconButton(
+                  icon: const FaIcon(
+                    Icons.shopping_bag_sharp,
+                    size: 28,
+                    color: headingColor,
                   ),
+                  onPressed: () {},
                 ),
-                actions: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.person,
-                      size: 28,
-                      color: headingColor,
-                    ),
-                    onPressed: () {
-                      getNavdata();
-                      // Navigator.pushNamed(context, Settings.routeName);
-                    },
+              ],
+            ),
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              separatorBuilder: (BuildContext context, int index) {
+                return const Divider(
+                  color: textColor,
+                  thickness: 0.3,
+                );
+              },
+              itemCount: navHeaderList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Theme(
+                  data: Theme.of(context).copyWith(
+                    dividerColor:
+                        Colors.transparent, // Set divider color to transparent
                   ),
-                  IconButton(
-                    icon: const FaIcon(
-                      Icons.shopping_bag_sharp,
-                      size: 28,
-                      color: headingColor,
+                  child: ExpansionTile(
+                    title: Text(
+                      navHeaderList[index]['name'],
+                      style: const TextStyle(
+                          color: navTextColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                          fontStyle: FontStyle.normal),
                     ),
-                    onPressed: () {
-
-                    },
-                  ),
-                ],
-              ),
-              ListView.separated(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider( color: textColor,thickness: 0.5,);
-                },
-                itemCount: navHeaderList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Theme(
-                    data: Theme.of(context).copyWith(
-                      dividerColor: Colors.transparent, // Set divider color to transparent
-                    ),
-                    child: ExpansionTile(
-                      title: Text(navHeaderList[index]['name'],
-                      style: TextStyle(color: navTextColor,fontSize: 15,fontWeight: FontWeight.w400,fontStyle: FontStyle.normal),
-                      ),
-                      children: <Widget>[
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: ClampingScrollPhysics(),
-                          itemCount: navHeaderList[index]['children'].length, // Replace with the actual number of items
-                          itemBuilder: (BuildContext context, int itemIndex) {
-                            return ExpansionTile(
-                              initiallyExpanded: true,
-                              title: Text(navHeaderList[index]['children'][itemIndex]['name'],
-
-                                style: TextStyle(color: navTextColor,fontSize: 15,fontWeight: FontWeight.w700,fontStyle: FontStyle.normal),
-                              ),
-                              children: <Widget>[
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: ClampingScrollPhysics(),
-                                  itemCount: navHeaderList[index]['children'][itemIndex]['children'].length, // Replace with the actual number of items
-                                  itemBuilder: (BuildContext context, int subitemIndex) {
-                                    return ListTile(
-                                      title: Text(navHeaderList[index]['children'][itemIndex]['children'][subitemIndex]['name'].toString(),
-                                        style: TextStyle(color: navTextColor,fontSize: 12,fontWeight: FontWeight.w400,fontStyle: FontStyle.normal),
-
+                    children: <Widget>[
+                  Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: navHeaderList[index]['children']
+                            .length, // Replace with the actual number of items
+                        itemBuilder: (BuildContext context, int itemIndex) {
+                          return ExpansionTile(
+                            initiallyExpanded: true,
+                            title: Text(
+                              navHeaderList[index]['children'][itemIndex]
+                                  ['name'],
+                              style: const TextStyle(
+                                  color: navTextColor,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  fontStyle: FontStyle.normal),
+                            ),
+                            children: <Widget>[
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const ClampingScrollPhysics(),
+                                itemCount: navHeaderList[index]['children']
+                                        [itemIndex]['children']
+                                    .length, // Replace with the actual number of items
+                                itemBuilder:
+                                    (BuildContext context, int subitemIndex) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 0),
+                                    child: ListTile(
+                                      onTap: () {
+                                        print(navHeaderList[index]['children']
+                                                    [itemIndex]['children']
+                                                [subitemIndex]['id']
+                                            .toString());
+                                      },
+                                      title: Text(
+                                        navHeaderList[index]['children']
+                                                    [itemIndex]['children']
+                                                [subitemIndex]['name']
+                                            .toString(),
+                                        style: const TextStyle(
+                                            color: navTextColor,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
+                                            fontStyle: FontStyle.normal),
                                       ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ),),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-
+      ),
     );
   }
 
@@ -277,14 +310,11 @@ class _MainLayoutState extends State<MainLayout> {
   }
 }
 
-
 class MyDrawer extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width*0.8,
+      width: MediaQuery.of(context).size.width * 0.8,
       child: Drawer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -301,10 +331,13 @@ class MyDrawer extends StatelessWidget {
                       width: 70,
                       height: 70,
                       child: const CircleAvatar(
-                        backgroundImage: NetworkImage('https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70'),
+                        backgroundImage: NetworkImage(
+                            'https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70'),
                       ),
                     ),
-                    const SizedBox(height: 15,),
+                    const SizedBox(
+                      height: 15,
+                    ),
                     const Text(
                       'Mr.John',
                       style: TextStyle(
@@ -313,7 +346,9 @@ class MyDrawer extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 2,),
+                    const SizedBox(
+                      height: 2,
+                    ),
                     const Text(
                       'John300@gmail.com',
                       style: TextStyle(
@@ -328,28 +363,25 @@ class MyDrawer extends StatelessWidget {
             const ListTile(
               leading: Icon(Icons.home),
               title: Text('Home'),
-
             ),
             const ListTile(
               leading: Icon(Icons.person),
               title: Text('Profile'),
-
             ),
             const ListTile(
               leading: Icon(Icons.phone),
               title: Text('Phone'),
-
             ),
             const ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
-
             ),
-            const Divider(height: 1,),
+            const Divider(
+              height: 1,
+            ),
             const ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),
-
             ),
           ],
         ),
