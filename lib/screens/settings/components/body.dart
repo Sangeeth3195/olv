@@ -60,9 +60,13 @@ class Body extends StatelessWidget {
             icon: Icons.logout_rounded,
             press: () {},
           ),
-          const SizedBox(height: 10.0,),
-          const Text('Version 1.0',style: TextStyle(fontSize: 14.0,color: Colors.black45),)
-          
+          const SizedBox(
+            height: 10.0,
+          ),
+          const Text(
+            'Version 1.0',
+            style: TextStyle(fontSize: 14.0, color: Colors.black45),
+          )
         ],
       ),
     );
@@ -80,9 +84,5 @@ class Body extends StatelessWidget {
       print(e.toString());
       return false;
     }
-
-    // if (await canLaunchUrl(url)) {
-    //   launchUrl(url, mode: LaunchMode.externalApplication);
-    // }
   }
 }

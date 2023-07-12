@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 
+import '../../../API Services/graphql_config.dart';
+import '../../../API Services/graphql_service.dart';
 import '../../../components/custom_surfix_icon.dart';
 import '../../../components/form_error.dart';
 import '../../../constants.dart';
@@ -22,6 +25,7 @@ class _SignFormState extends State<SignForm> {
   String? password;
   bool? remember = false;
   final List<String?> errors = [];
+  GraphQLService graphQLService = GraphQLService();
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -40,13 +44,19 @@ class _SignFormState extends State<SignForm> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: [
           buildEmailFormField(),
-          SizedBox(height: getProportionateScreenHeight(25)),
+          SizedBox(height: getProportionateScreenHeight(20)),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(10)),
           Row(
@@ -77,11 +87,13 @@ class _SignFormState extends State<SignForm> {
           DefaultButton(
             text: 'Login',
             press: () {
+
+              graphQLService.Login('maideen.i@gmail.com', 'Magento@123');
+
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-                Navigator.pushNamed(context, ProductListing.routeName);
+                // Navigator.pushNamed(context, ProductListing.routeName);
               }
             },
           ),
@@ -135,8 +147,6 @@ class _SignFormState extends State<SignForm> {
       decoration: const InputDecoration(
         labelText: "Password",
         hintText: "Enter your password",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         border: OutlineInputBorder(
           borderSide: BorderSide(color: priceColor, width: 1.0),
@@ -171,18 +181,11 @@ class _SignFormState extends State<SignForm> {
       decoration: const InputDecoration(
         labelText: "Email",
         hintText: "Enter your email",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         border: OutlineInputBorder(
           borderSide: BorderSide(color: priceColor, width: 1.0),
         ),
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
-
-        // prefixIcon: Padding(
-        //   padding: EdgeInsetsDirectional.only(start: 12.0),
-        //   child: Icon(svgIcon: "assets/icons/Mail.svg"), // _myIcon is a 48px-wide widget.
-        // )
       ),
     );
   }

@@ -1,5 +1,6 @@
  import 'package:flutter/material.dart';
 
+import '../../../API Services/graphql_service.dart';
 import '../../../components/custom_surfix_icon.dart';
 import '../../../components/form_error.dart';
 import '../../../components/no_account_text.dart';
@@ -55,6 +56,8 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
   final _formKey = GlobalKey<FormState>();
   List<String> errors = [];
   String? email;
+  GraphQLService graphQLService = GraphQLService();
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -111,6 +114,8 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             press: () {
               if (_formKey.currentState!.validate()) {
                 // Do what you want to do
+                graphQLService.resetpassword(
+                    'maideen.i@gmail.com');
               }
             },
           ),

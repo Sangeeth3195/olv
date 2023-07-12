@@ -45,7 +45,6 @@ class _MainLayoutState extends State<MainLayout> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: chipColor),
-
         backgroundColor: omaColor,
         // leading: IconButton(
         //   onPressed: () {
@@ -71,8 +70,7 @@ class _MainLayoutState extends State<MainLayout> {
             ),
             onPressed: () {
               getNavdata();
-              // Navigator.pushNamed(context, Settings.routeName);
-            },
+              Navigator.of(context, rootNavigator: true).pushNamed("/signinscreen");            },
           ),
           IconButton(
             icon: const FaIcon(
@@ -80,7 +78,9 @@ class _MainLayoutState extends State<MainLayout> {
               size: 28,
               color: headingColor,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pushNamed("/signupscreen");
+            },
           ),
         ],
       ),
@@ -190,64 +190,65 @@ class _MainLayoutState extends State<MainLayout> {
                           fontStyle: FontStyle.normal),
                     ),
                     children: <Widget>[
-                  Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 0),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemCount: navHeaderList[index]['children']
-                            .length, // Replace with the actual number of items
-                        itemBuilder: (BuildContext context, int itemIndex) {
-                          return ExpansionTile(
-                            initiallyExpanded: true,
-                            title: Text(
-                              navHeaderList[index]['children'][itemIndex]
-                                  ['name'],
-                              style: const TextStyle(
-                                  color: navTextColor,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  fontStyle: FontStyle.normal),
-                            ),
-                            children: <Widget>[
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: const ClampingScrollPhysics(),
-                                itemCount: navHeaderList[index]['children']
-                                        [itemIndex]['children']
-                                    .length, // Replace with the actual number of items
-                                itemBuilder:
-                                    (BuildContext context, int subitemIndex) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 0),
-                                    child: ListTile(
-                                      onTap: () {
-                                        print(navHeaderList[index]['children']
-                                                    [itemIndex]['children']
-                                                [subitemIndex]['id']
-                                            .toString());
-                                      },
-                                      title: Text(
-                                        navHeaderList[index]['children']
-                                                    [itemIndex]['children']
-                                                [subitemIndex]['name']
-                                            .toString(),
-                                        style: const TextStyle(
-                                            color: navTextColor,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                            fontStyle: FontStyle.normal),
-                                      ),
-                                    ),
-                                  );
-                                },
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 0),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const ClampingScrollPhysics(),
+                          itemCount: navHeaderList[index]['children']
+                              .length, // Replace with the actual number of items
+                          itemBuilder: (BuildContext context, int itemIndex) {
+                            return ExpansionTile(
+                              initiallyExpanded: true,
+                              title: Text(
+                                navHeaderList[index]['children'][itemIndex]
+                                    ['name'],
+                                style: const TextStyle(
+                                    color: navTextColor,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    fontStyle: FontStyle.normal),
                               ),
-                            ],
-                          );
-                        },
-                      ),),
+                              children: <Widget>[
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const ClampingScrollPhysics(),
+                                  itemCount: navHeaderList[index]['children']
+                                          [itemIndex]['children']
+                                      .length, // Replace with the actual number of items
+                                  itemBuilder:
+                                      (BuildContext context, int subitemIndex) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 0),
+                                      child: ListTile(
+                                        onTap: () {
+                                          print(navHeaderList[index]['children']
+                                                      [itemIndex]['children']
+                                                  [subitemIndex]['id']
+                                              .toString());
+                                        },
+                                        title: Text(
+                                          navHeaderList[index]['children']
+                                                      [itemIndex]['children']
+                                                  [subitemIndex]['name']
+                                              .toString(),
+                                          style: const TextStyle(
+                                              color: navTextColor,
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                              fontStyle: FontStyle.normal),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 );

@@ -4,7 +4,14 @@ import '../../../components/socal_card.dart';
 import '../../../components/size_config.dart';
 import 'sign_form.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  const Body({super.key});
+
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -18,7 +25,7 @@ class Body extends StatelessWidget {
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.1),
                 Text(
-                  "Welcome Back",
+                  "Welcome to OMA ",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: getProportionateScreenWidth(25),
@@ -45,10 +52,6 @@ class Body extends StatelessWidget {
                       icon: "assets/icons/facebook-2.svg",
                       press: () {},
                     ),
-                    /*SocalCard(
-                      icon: "assets/icons/twitter.svg",
-                      press: () {},
-                    ),*/
                   ],
                 ),
                 SizedBox(height: getProportionateScreenHeight(25)),

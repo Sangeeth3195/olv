@@ -63,9 +63,6 @@ class GraphQLService {
         }
         print(res.first['children']);
 
-        // List<CategoryModel> categorylist =
-        //     res.map((e) => print(e));
-
         return res.first['children'];
       }
     } catch (error) {
@@ -205,7 +202,8 @@ class GraphQLService {
     }
   }
 
-  Future<List<dynamic>> getsearch({
+  /// product search
+  Future<List<dynamic>> productsearch({
     required int limit,
   }) async {
     try {
@@ -271,16 +269,18 @@ class GraphQLService {
     }
   }
 
-  static String newuser(String email, String password) {
+  /// create new user
+  static String new_user(String firstname, String lastname, String email,
+      String password, bool is_subcribed) {
     return '''
             mutation {
               createCustomerV2(
                 input: {
-                  firstname: "Test User1"
-                  lastname: "Lname"
-                  email: "omatestuser1@yopmail.com"
-                  password: "omatestuser@321"
-                  is_subscribed: true
+                  firstname: '$firstname'
+                  lastname: '$lastname'
+                  email: '$email'
+                  password: '$password'
+                  is_subscribed: '$is_subcribed'
                 }
               ) {
                 customer {
@@ -294,21 +294,17 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> createuser(String email, password) async {
+  Future<String> createuser(String firstname, String lastname,String email, String password,bool issub) async {
     try {
-      //initializing GraphQLConfig
-      GraphQLConfig graphQLConfiguration = GraphQLConfig();
-      GraphQLClient _client = graphQLConfiguration.clientToQuery();
-      QueryResult result = await _client.mutate(
+      QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(login(email, password)), // this
+          document: gql(new_user(firstname, password,email,password,issub)), // this
         ),
       );
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        //  parse your response here and return
-        // var data = User.fromJson(result.data["register"]);
+
       }
 
       return "";
@@ -318,26 +314,25 @@ class GraphQLService {
     }
   }
 
-  //login
+  /// login
   static String login(String email, String password) {
     return '''
-            mutation{
-              login(data: {
-                email:'$email',
-                password: '$password'
-              }){
-                token
+            mutation {
+                generateCustomerToken(
+                  email: "$email",
+                  password: "$password" 
+                  ) {
+                      token
+                  }
               }
-            }
         ''';
   }
 
   Future<String> Login(String email, password) async {
     try {
-      //initializing GraphQLConfig
-      GraphQLConfig graphQLConfiguration = GraphQLConfig();
-      GraphQLClient _client = graphQLConfiguration.clientToQuery();
-      QueryResult result = await _client.mutate(
+      GraphQLConfig graphQLConfig = GraphQLConfig();
+      GraphQLClient client = graphQLConfig.clientToQuery();
+      QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(login(email, password)), // this
         ),
@@ -345,8 +340,9 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        //  parse your response here and return
-        // var data = User.fromJson(result.data["register"]);
+        print(result.data?['generateCustomerToken']['token']);
+
+
       }
 
       return "";
@@ -355,4 +351,188 @@ class GraphQLService {
       return "";
     }
   }
+
+  /// reset password
+  static String resetpass(String email) {
+    return '''
+            mutation {
+              requestPasswordResetEmail(
+                email: "$email"
+              )
+            }
+        ''';
+  }
+
+  Future<String> resetpassword(String email) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(resetpass(email)),
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+
+      }
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// subscribe newsletter
+  static String sub_email(String email) {
+    return '''
+            mutation {
+                subscribeEmailToNewsletter(
+                  email: "$email"
+                ) {
+                  status
+                }
+              }
+        ''';
+  }
+
+  Future<String> subscribe_email(String email) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(sub_email(email)),
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        //  parse your response here and return
+        // var data = User.fromJson(result.data["register"]);
+      }
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// revoke Customer Token
+  static String rev_cus_token() {
+    return '''
+            mutation {
+              revokeCustomerToken {
+                result
+              }
+            }
+        ''';
+  }
+
+  Future<String> revokeCustomerToken() async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(rev_cus_token()),
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+
+      }
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// Add Customer address
+  static String add_cus_add(String firstname, String lastname, String email,
+      String password, bool is_subcribed) {
+    return '''
+            mutation {
+              createCustomerV2(
+                input: {
+                  firstname: '$firstname'
+                  lastname: '$lastname'
+                  email: '$email'
+                  password: '$password'
+                  is_subscribed: '$is_subcribed'
+                }
+              ) {
+                customer {
+                  firstname
+                  lastname
+                  email
+                  is_subscribed
+                }
+              }
+            }
+        ''';
+  }
+
+  Future<String> add_customer_address(String firstname, String lastname,String email, String password,bool issub) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(add_cus_add(firstname, password,email,password,issub)), // this
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+
+      }
+
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// Update Customer address
+  static String upt_cus_add(String firstname, String lastname, String email,
+      String password, bool is_subcribed) {
+    return '''
+            mutation {
+              createCustomerV2(
+                input: {
+                  firstname: '$firstname'
+                  lastname: '$lastname'
+                  email: '$email'
+                  password: '$password'
+                  is_subscribed: '$is_subcribed'
+                }
+              ) {
+                customer {
+                  firstname
+                  lastname
+                  email
+                  is_subscribed
+                }
+              }
+            }
+        ''';
+  }
+
+  Future<String> update_customer_address(String firstname, String lastname,String email, String password,bool issub) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(upt_cus_add(firstname, password,email,password,issub)), // this
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+
+      }
+
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
 }

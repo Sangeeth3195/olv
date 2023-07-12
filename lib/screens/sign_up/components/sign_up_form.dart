@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../API Services/graphql_service.dart';
 import '../../../components/custom_surfix_icon.dart';
 import '../../../components/form_error.dart';
 import '../../../constants.dart';
 import '../../../components/default_button.dart';
 import '../../../components/size_config.dart';
-
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -19,6 +19,7 @@ class _SignUpFormState extends State<SignUpForm> {
   String? conform_password;
   bool remember = false;
   final List<String?> errors = [];
+  GraphQLService graphQLService = GraphQLService();
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -52,10 +53,10 @@ class _SignUpFormState extends State<SignUpForm> {
           DefaultButton(
             text: "Create an account",
             press: () {
+              graphQLService.createuser(
+                  'maideen', 'i', 'maideen.i@gmail.com', '123456', true);
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-                // if all are valid then go to success screen
-                // Navigator.pushNamed(context, CompleteProfileScreen.routeName);
               }
             },
           ),
