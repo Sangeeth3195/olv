@@ -236,8 +236,8 @@ class _MainLayoutState extends State<MainLayout> {
                                               .toString(),
                                           style: const TextStyle(
                                               color: navTextColor,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
                                               fontStyle: FontStyle.normal),
                                         ),
                                       ),

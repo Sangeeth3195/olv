@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:flutter_meedu_videoplayer/meedu_player.dart';
+// import 'package:flutter_meedu_videoplayer/meedu_player.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
 import 'package:omaliving/screens/homescreen/components/text_title.dart';
-import 'package:video_player/video_player.dart';
+// import 'package:video_player/video_player.dart';
 
 import '../../../constants.dart';
 import '../../product_listing/components/search_form.dart';
@@ -33,19 +33,19 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+   /* WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
-    });
+    });*/
   }
 
   @override
   void dispose() {
-    _playerEventSubs?.cancel();
-    _meeduPlayerController.dispose();
+    /*_playerEventSubs?.cancel();
+    _meeduPlayerController.dispose();*/
     super.dispose();
   }
 
-  _init() async {
+  /*_init() async {
     await _meeduPlayerController.setDataSource(
         DataSource(
           type: DataSourceType.network,
@@ -54,13 +54,13 @@ class _BodyState extends State<Body> {
         ),
         autoplay: false,
         looping: false);
-  }
+  }*/
 
-  final _meeduPlayerController = MeeduPlayerController(
+ /* final _meeduPlayerController = MeeduPlayerController(
     controlsStyle: ControlsStyle.primary,
     enabledButtons: const EnabledButtons(pip: true),
     pipEnabled: false,
-  );
+  );*/
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +208,10 @@ class _BodyState extends State<Body> {
       const SizedBox(
         height: 10,
       ),
-      Padding(
+
+      /// Video player
+
+      /*Padding(
         padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
         child: SafeArea(
           child: AspectRatio(
@@ -219,7 +222,7 @@ class _BodyState extends State<Body> {
             ),
           ),
         ),
-      ),
+      ),*/
 
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),

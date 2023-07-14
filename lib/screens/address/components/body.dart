@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:omaliving/constants.dart';
 
+import '../../../API Services/graphql_service.dart';
+
 class Body extends StatefulWidget {
   const Body({super.key});
 
@@ -10,9 +12,21 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
 
+  GraphQLService graphQLService = GraphQLService();
+
+  @override
+  void initState() {
+    super.initState();
+    graphQLService.get_customer_details();
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+
+
+
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context, rootNavigator: true).pushNamed("/addaddress");

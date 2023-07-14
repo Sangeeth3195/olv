@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omaliving/components/default_button.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -33,9 +34,21 @@ class _BodyState extends State<Body> {
                     'Subscribe to Promotional Emails',
                     style: TextStyle(fontSize: 14.0),
                   ),
-                  const SizedBox(width: 10), //SizedBox
+                  const SizedBox(width: 10),
+
                 ],
-              ), //Row
+              ),
+              const SizedBox(height: 15),
+              Container(
+                margin: const EdgeInsets.all(15),
+                child: DefaultButton(
+                  text: 'Save',
+                  press: () {
+
+
+                  },
+                ),
+              ),  //Row
             ],
           ), //Column
           //SizedBox

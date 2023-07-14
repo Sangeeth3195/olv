@@ -46,7 +46,7 @@ class Body extends StatelessWidget {
             text: "Cart",
             icon: Icons.shopping_cart,
             press: () {
-              Navigator.of(context, rootNavigator: true).pushNamed("/cart");
+              Navigator.of(context, rootNavigator: true).pushNamed("/CartScreen");
             },
           ),
           ProfileMenu(
