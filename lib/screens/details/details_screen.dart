@@ -32,7 +32,7 @@ class DetailsScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            // ProductImages(product: product),
+            ProductImages(product: product),
             TopRoundedContainer(
               color: Colors.white,
               child: Column(

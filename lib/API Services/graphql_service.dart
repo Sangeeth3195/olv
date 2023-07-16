@@ -134,11 +134,33 @@ class GraphQLService {
           }
         }
       }
+       image {
+        url
+        label
+        position
+        disabled
+      }
       categories{
        description
       }
        short_description {
         html
+      }
+        media_gallery {
+        url
+        label
+        position
+        disabled
+        ... on ProductVideo {
+          video_content {
+            media_type
+            video_provider
+            video_url
+            video_title
+            video_description
+            video_metadata
+          }
+        }
       }
                       small_image{
                           url

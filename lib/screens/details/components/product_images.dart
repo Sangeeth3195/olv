@@ -10,7 +10,7 @@ class ProductImages extends StatefulWidget {
     required this.product,
   }) : super(key: key);
 
-  final ProductDetail product;
+  final dynamic product;
 
   @override
   _ProductImagesState createState() => _ProductImagesState();
