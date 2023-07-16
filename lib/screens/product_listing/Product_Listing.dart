@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/Product.dart';
 import 'package:omaliving/screens/details/details_screen.dart';
@@ -8,7 +9,8 @@ import 'components/search_form.dart';
 import 'components/section_title.dart';
 
 class ProductListing extends StatefulWidget {
-  const ProductListing({Key? key}) : super(key: key);
+  final int id;
+  const ProductListing({Key? key, required this.id}) : super(key: key);
   static String routeName = "/home_screen";
 
   @override
@@ -17,12 +19,27 @@ class ProductListing extends StatefulWidget {
 
 class _HomeScreenState extends State<ProductListing> {
   String _selectedOption = "Popularity";
+  GraphQLService graphQLService = GraphQLService();
+  List<dynamic> pList=[];
+
   final List<String> _options = [
     'Popularity',
     'Product Name',
     'Lowest to Highest Price',
     'Highest to Lowest Price',
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getNavdata();
+  }
+  void getNavdata() async {
+    pList = await graphQLService.getproductlist(limit: 100,id: widget.id);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -98,7 +115,7 @@ class _HomeScreenState extends State<ProductListing> {
                           height: 5,
                         ),
                         Text(
-                          "84 Items",
+                           "Items",
                           style: TextStyle(
                               color: headingColor,
                               fontWeight: FontWeight.bold,
@@ -155,20 +172,20 @@ class _HomeScreenState extends State<ProductListing> {
               childAspectRatio: (itemWidth / itemHeight),
               maxCrossAxisExtent: 300.0,
               children: List.generate(
-                demo_product.length,
+                pList.length,
                 (index) => Padding(
                   padding: const EdgeInsets.only(right: defaultPadding),
                   child: ProductCard(
-                    title: demo_product[index].title,
-                    image: demo_product[index].images[0],
-                    price: demo_product[index].price,
-                    bgColor: demo_product[index].colors[0],
+                    title: pList[index]['name'],
+                    image: pList[index]['small_image']['url'],
+                    price: double.parse(pList[index]['price_range']['minimum_price']['final_price']['value'].toString()),
+                    bgColor: demo_product[0].colors[0],
                     press: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                DetailsScreen(product: demo_product[index]),
+                                DetailsScreen(product: pList[index]),
                           ));
                     },
                   ),

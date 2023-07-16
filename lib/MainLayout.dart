@@ -103,6 +103,7 @@ class _MainLayoutState extends State<MainLayout> {
         ),
         popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
+        hideNavigationBar: false,
         navBarStyle:
             NavBarStyle.style12, // Choose the nav bar style with this property.
       ),
@@ -181,13 +182,34 @@ class _MainLayoutState extends State<MainLayout> {
                         Colors.transparent, // Set divider color to transparent
                   ),
                   child: ExpansionTile(
-                    title: Text(
-                      navHeaderList[index]['name'],
-                      style: const TextStyle(
-                          color: navTextColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w800,
-                          fontStyle: FontStyle.normal),
+
+                    title: GestureDetector(
+                      onTap: (){
+                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                          context,
+                          settings: RouteSettings(name: 'home'),
+                          screen: ProductListing(id: navHeaderList[index]['id']),
+                          withNavBar: true,
+                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                        );                        // PersistentNavBarNavigator.pushNewScreen(
+                        //   context,
+                        //   screen: ProductListing(id: navHeaderList[index]['id']),
+                        //   withNavBar: true, // OPTIONAL VALUE. True by default.
+                        //   pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                        // );
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (BuildContext context) => ProductListing(id: navHeaderList[index]['id'])));
+                      },
+                      child: Text(
+                        navHeaderList[index]['name'],
+                        style: const TextStyle(
+                            color: navTextColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            fontStyle: FontStyle.normal),
+                      ),
                     ),
                     children: <Widget>[
                       Padding(
@@ -201,14 +223,25 @@ class _MainLayoutState extends State<MainLayout> {
                           itemBuilder: (BuildContext context, int itemIndex) {
                             return ExpansionTile(
                               initiallyExpanded: true,
-                              title: Text(
-                                navHeaderList[index]['children'][itemIndex]
-                                    ['name'],
-                                style: const TextStyle(
-                                    color: navTextColor,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    fontStyle: FontStyle.normal),
+                              title: GestureDetector(
+                                onTap: (){
+
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) => ProductListing(id:                                   navHeaderList[index]['children'][itemIndex]
+                                          ['id'])));
+
+                                },
+                                child: Text(
+                                  navHeaderList[index]['children'][itemIndex]
+                                      ['name'],
+                                  style: const TextStyle(
+                                      color: navTextColor,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      fontStyle: FontStyle.normal),
+                                ),
                               ),
                               children: <Widget>[
                                 ListView.builder(
@@ -228,6 +261,14 @@ class _MainLayoutState extends State<MainLayout> {
                                                       [itemIndex]['children']
                                                   [subitemIndex]['id']
                                               .toString());
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (BuildContext context) => ProductListing(id: navHeaderList[index]['children']
+                                                  [itemIndex]['children']
+                                                  [subitemIndex]['id']
+                                                  )));
+
                                         },
                                         title: Text(
                                           navHeaderList[index]['children']
@@ -263,7 +304,7 @@ class _MainLayoutState extends State<MainLayout> {
   List<Widget> _buildScreens() {
     return [
       const HomeScreen(),
-      const ProductListing(),
+      ProductListing(id: 10071),
       const Wishlist(),
       const CartScreen(),
       const ProfileScreen()

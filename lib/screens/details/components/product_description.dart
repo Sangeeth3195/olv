@@ -12,7 +12,7 @@ class ProductDescription extends StatefulWidget {
     this.pressOnSeeMore,
   }) : super(key: key);
 
-  final ProductDetail product;
+  final Map<String, dynamic> product;
   final GestureTapCallback? pressOnSeeMore;
 
   @override
@@ -42,7 +42,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
-          child: Text(widget.product.title,
+          child: Text(widget.product['name'],
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
@@ -59,7 +59,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
-          child: Text("₹ ${widget.product.price.toStringAsFixed(2)}",
+          child: Text("₹ ${widget.product['price_range']['minimum_price']['final_price']['value'].toStringAsFixed(2)}",
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: headingColor,
@@ -83,7 +83,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
             left: getProportionateScreenWidth(10),
             right: getProportionateScreenWidth(10),
           ),
-          child: Text(widget.product.description,
+          child: Text(widget.product['short_description']['html'].toString(),
               style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   color: headingColor,

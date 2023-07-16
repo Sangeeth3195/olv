@@ -10,7 +10,7 @@ import 'components/top_rounded_container.dart';
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({Key? key, required this.product}) : super(key: key);
 
-  final ProductDetail product;
+  final Map<String, dynamic> product;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class DetailsScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            ProductImages(product: product),
+            // ProductImages(product: product),
             TopRoundedContainer(
               color: Colors.white,
               child: Column(
