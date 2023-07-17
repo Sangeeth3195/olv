@@ -9,9 +9,11 @@ import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 import 'package:omaliving/screens/product_listing/components/search_form.dart';
 import 'package:omaliving/screens/profile/profile_screen.dart';
+import 'package:omaliving/screens/provider/provider.dart';
 import 'package:omaliving/screens/settings/settings.dart';
 import 'package:omaliving/screens/wishlist/wishlist.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:provider/provider.dart';
 
 class MainLayout extends StatefulWidget {
   MainLayout({super.key});
@@ -23,6 +25,7 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> navHeaderList = [];
+  int catId=10071;
   @override
   void initState() {
     // TODO: implement initState
@@ -185,22 +188,11 @@ class _MainLayoutState extends State<MainLayout> {
 
                     title: GestureDetector(
                       onTap: (){
-                        PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                          context,
-                          settings: RouteSettings(name: 'home'),
-                          screen: ProductListing(id: navHeaderList[index]['id']),
-                          withNavBar: true,
-                          pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                        );                        // PersistentNavBarNavigator.pushNewScreen(
-                        //   context,
-                        //   screen: ProductListing(id: navHeaderList[index]['id']),
-                        //   withNavBar: true, // OPTIONAL VALUE. True by default.
-                        //   pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                        // );
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (BuildContext context) => ProductListing(id: navHeaderList[index]['id'])));
+                        Navigator.of(context).pop();
+                        catId=navHeaderList[index]['id'];
+                        final myProvider = Provider.of<MyProvider>(context, listen: false);
+                        myProvider.updateData(catId);
+                        _controller.jumpToTab(1);
                       },
                       child: Text(
                         navHeaderList[index]['name'],
@@ -225,12 +217,10 @@ class _MainLayoutState extends State<MainLayout> {
                               initiallyExpanded: true,
                               title: GestureDetector(
                                 onTap: (){
+                                  Navigator.of(context).pop();
+                                  catId=navHeaderList[index]['children'][itemIndex]['id'];
+                                  _controller.jumpToTab(1);
 
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) => ProductListing(id:                                   navHeaderList[index]['children'][itemIndex]
-                                          ['id'])));
 
                                 },
                                 child: Text(
@@ -257,18 +247,11 @@ class _MainLayoutState extends State<MainLayout> {
                                           horizontal: 20, vertical: 0),
                                       child: ListTile(
                                         onTap: () {
-                                          print(navHeaderList[index]['children']
-                                                      [itemIndex]['children']
-                                                  [subitemIndex]['id']
-                                              .toString());
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (BuildContext context) => ProductListing(id: navHeaderList[index]['children']
-                                                  [itemIndex]['children']
-                                                  [subitemIndex]['id']
-                                                  )));
-
+                                          Navigator.of(context).pop();
+                                          catId=navHeaderList[index]['children']
+                                          [itemIndex]['children']
+                                          [subitemIndex]['id'];
+                                          _controller.jumpToTab(1);
                                         },
                                         title: Text(
                                           navHeaderList[index]['children']
@@ -304,7 +287,7 @@ class _MainLayoutState extends State<MainLayout> {
   List<Widget> _buildScreens() {
     return [
       const HomeScreen(),
-      ProductListing(id: 10071),
+      ProductListing(id: catId),
       const Wishlist(),
       const CartScreen(),
       const ProfileScreen()

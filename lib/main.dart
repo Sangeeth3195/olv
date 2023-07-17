@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/routes.dart';
+import 'package:omaliving/screens/provider/provider.dart';
 import 'package:omaliving/splash.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( ChangeNotifierProvider(
+      create: (context) => MyProvider(),
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

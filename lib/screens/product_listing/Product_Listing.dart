@@ -4,12 +4,15 @@ import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/Product.dart';
 import 'package:omaliving/screens/details/details_screen.dart';
+import 'package:omaliving/screens/provider/provider.dart';
+import 'package:provider/provider.dart';
 import 'components/product_card.dart';
 import 'components/search_form.dart';
 import 'components/section_title.dart';
 
 class ProductListing extends StatefulWidget {
   final int id;
+
   const ProductListing({Key? key, required this.id}) : super(key: key);
   static String routeName = "/home_screen";
 
@@ -20,7 +23,7 @@ class ProductListing extends StatefulWidget {
 class _HomeScreenState extends State<ProductListing> {
   String _selectedOption = "Popularity";
   GraphQLService graphQLService = GraphQLService();
-  List<dynamic> pList=[];
+  List<dynamic> pList = [];
 
   final List<String> _options = [
     'Popularity',
@@ -35,9 +38,20 @@ class _HomeScreenState extends State<ProductListing> {
     super.initState();
     getNavdata();
   }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    print('didChangeDependencies');
+  }
+
   void getNavdata() async {
-    pList = await graphQLService.getproductlist(limit: 100,id: widget.id);
-    setState(() {});
+
+    final myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.updateData(widget.id);
+    // pList = await graphQLService.getproductlist(limit: 100, id: widget.id);
+    // setState(() {});
   }
 
   @override
@@ -47,85 +61,41 @@ class _HomeScreenState extends State<ProductListing> {
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2.8;
     final double itemWidth = size.width / 2;
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: 70,
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-              color: searchBackgroundColor,
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            ),
-            child: const SearchForm(),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
-            child: SectionTitle(
-              title: "New Arrival",
-              pressSeeAll: () {},
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 4, top: 10),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 13, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    shape: BoxShape.rectangle,
-                    border: Border.all(color: headingColor),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(0.0),
-                    ),
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        FontAwesomeIcons.sliders,
-                        color: headingColor,
-                        size: 18.0,
-                      ),
-                      SizedBox(width: defaultPadding / 2),
-                      Text(
-                        "Filter",
-                        style: TextStyle(
-                            color: headingColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16),
-                      ),
-                    ],
-                  ),
+      body: Consumer<MyProvider>(
+        builder: (context, provider, _) {
+          return Column(
+            children: [
+              Container(
+                height: 70,
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  color: searchBackgroundColor,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 ),
-                Row(
+                child: const SearchForm(),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
+                child: SectionTitle(
+                  title: "New Arrival",
+                  pressSeeAll: () {},
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(
-                      children: const [
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                           "Items",
-                          style: TextStyle(
-                              color: headingColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
-                        ),
-                      ],
-                    ),
                     Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width / 3.3,
+                      margin: const EdgeInsets.only(left: 4, top: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 13, vertical: 5),
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         shape: BoxShape.rectangle,
@@ -134,67 +104,117 @@ class _HomeScreenState extends State<ProductListing> {
                           Radius.circular(0.0),
                         ),
                       ),
-                      margin: const EdgeInsets.only(left: 4, top: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 1),
-                      child: DropdownButton<String>(
-                        underline: Container(),
-                        isExpanded: true,
-                        value: _selectedOption,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedOption = newValue!;
-                          });
-                        },
-                        items: _options
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                          );
-                        }).toList(),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.sliders,
+                            color: headingColor,
+                            size: 18.0,
+                          ),
+                          SizedBox(width: defaultPadding / 2),
+                          Text(
+                            "Filter",
+                            style: TextStyle(
+                                color: headingColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16),
+                          ),
+                        ],
                       ),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: const [
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "Items",
+                              style: TextStyle(
+                                  color: headingColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width / 3.3,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            shape: BoxShape.rectangle,
+                            border: Border.all(color: headingColor),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(0.0),
+                            ),
+                          ),
+                          margin: const EdgeInsets.only(left: 4, top: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 1),
+                          child: DropdownButton<String>(
+                            underline: Container(),
+                            isExpanded: true,
+                            value: _selectedOption,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _selectedOption = newValue!;
+                              });
+                            },
+                            items: _options
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: GridView.extent(
-              primary: false,
-              padding: const EdgeInsets.all(5),
-              crossAxisSpacing: 0,
-              mainAxisSpacing: 0,
-              childAspectRatio: (itemWidth / itemHeight),
-              maxCrossAxisExtent: 300.0,
-              children: List.generate(
-                pList.length,
-                (index) => Padding(
-                  padding: const EdgeInsets.only(right: defaultPadding),
-                  child: ProductCard(
-                    title: pList[index]['name'],
-                    image: pList[index]['small_image']['url'],
-                    price: double.parse(pList[index]['price_range']['minimum_price']['final_price']['value'].toString()),
-                    bgColor: demo_product[0].colors[0],
-                    press: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                DetailsScreen(product: pList[index]),
-                          ));
-                    },
+              ),
+              Expanded(
+                child: GridView.extent(
+                  primary: false,
+                  padding: const EdgeInsets.all(5),
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 0,
+                  childAspectRatio: (itemWidth / itemHeight),
+                  maxCrossAxisExtent: 300.0,
+                  children: List.generate(
+                    provider.pList.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.only(right: defaultPadding),
+                      child: ProductCard(
+                        title: provider.pList[index]['name'],
+                        image: provider.pList[index]['small_image']['url'],
+                        price: double.parse(provider.pList[index]['price_range']
+                                ['minimum_price']['final_price']['value']
+                            .toString()),
+                        bgColor: demo_product[0].colors[0],
+                        press: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailsScreen(product: provider.pList[index]),
+                              ));
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-
-        ],
+            ],
+          );
+        },
       ),
       // body: SingleChildScrollView(
       //   physics: const BouncingScrollPhysics(
