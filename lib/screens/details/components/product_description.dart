@@ -47,10 +47,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
                   fontSize: 18)
-              // style: Theme.of(context)
-              //     .textTheme
-              //     .titleMedium!
-              //     .copyWith(color: blackColor),
               ),
         ),
         const SizedBox(
@@ -101,10 +97,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
               child: const Text('SIZE',
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: headingColor)
-                  // style: Theme.of(context)
-                  //     .textTheme
-                  //     .headlineSmall!
-                  //     .copyWith(color: headingColor),
                   ),
             ),
             const SizedBox(

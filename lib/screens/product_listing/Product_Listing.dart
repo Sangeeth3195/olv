@@ -21,6 +21,7 @@ class ProductListing extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<ProductListing> {
+
   String _selectedOption = "Popularity";
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> pList = [];
@@ -47,17 +48,13 @@ class _HomeScreenState extends State<ProductListing> {
   }
 
   void getNavdata() async {
-
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updateData(widget.id);
-    // pList = await graphQLService.getproductlist(limit: 100, id: widget.id);
-    // setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2.8;
     final double itemWidth = size.width / 2;
     return Scaffold(
@@ -142,7 +139,7 @@ class _HomeScreenState extends State<ProductListing> {
                         ),
                         Container(
                           height: 40,
-                          width: MediaQuery.of(context).size.width / 3.3,
+                          width: MediaQuery.of(context).size.width / 2.5,
                           decoration: BoxDecoration(
                             color: Colors.transparent,
                             shape: BoxShape.rectangle,

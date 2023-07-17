@@ -80,99 +80,92 @@ class GraphQLService {
           fetchPolicy: FetchPolicy.noCache,
           document: gql("""
            query Query {
-                  products(
-                  filter: {
-                    category_id: {eq: "${id}"}
-                    }
-                    sort: {name: ASC}
-                    pageSize:16
-                    ) {
-                    aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
-                      attribute_code
-                      count
-                      label
-                      options {
-                        label
-                        value
+                    products(
+                    filter: {
+                      category_id: {eq: "${id}"}
+                      }
+                      sort: {name: ASC}
+                      pageSize:16
+                      ) {
+                      aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
+                        attribute_code
                         count
-                      }
-                    }
-                    items {
-                      id
-                      name
-                      sku
-                      url_key
-                        price_range {
-        minimum_price {
-          regular_price {
-            value
-            currency
-          }
-          final_price {
-            value
-            currency
-          }
-          fixed_product_taxes {
-            label
-            amount {
-              value
-              currency
-            }
-          }
-        }
-        maximum_price {
-          discount {
-            amount_off
-            percent_off
-          }
-          fixed_product_taxes {
-            label
-            amount {
-              value
-              currency
-            }
-          }
-        }
-      }
-       image {
-        url
-        label
-        position
-        disabled
-      }
-      categories{
-       description
-      }
-       short_description {
-        html
-      }
-        media_gallery {
-        url
-        label
-        position
-        disabled
-        ... on ProductVideo {
-          video_content {
-            media_type
-            video_provider
-            video_url
-            video_title
-            video_description
-            video_metadata
-          }
-        }
-      }
-                      small_image{
-                          url
+                        label
+                        options {
                           label
+                          value
+                          count
+                        }
                       }
-                    }
-                    total_count
-                    page_info {
-                      page_size
+                      items {
+                        id
+                        name
+                        __typename
+                        sku
+                        price_range {
+                          minimum_price {
+                            regular_price {
+                              value
+                              currency
+                            }
+                          }
+                        }
+                        ... on ConfigurableProduct {
+                            configurable_options {
+                            id
+                            attribute_id
+                            label
+                            position
+                            use_default
+                            attribute_code
+                            values {
+                              value_index
+                              label
+                              swatch_data{
+                                value
+                              }
+                            }
+                            product_id
+                          }
+                        variants {
+                            product {
+                              id
+                              name
+                              sku
+                              attribute_set_id
+                              ... on PhysicalProductInterface {
+                                weight
+                              }
+                              price_range{
+                                minimum_price{
+                                  regular_price{
+                                    value
+                                    currency
+                                  }
+                                }
+                              }
+                              
+                            }
+                            attributes {
+                              uid
+                              label
+                              code
+                              value_index
+                            }
+                  }
+                        }
+                        url_key
+                        small_image{
+                            url
+                            label
+                        }
+                      }
+                      total_count
+                      page_info {
+                        page_size
+                      }
                     }
                   }
-                }
             """),
           variables: {
             'limit': limit,
@@ -206,181 +199,231 @@ class GraphQLService {
           fetchPolicy: FetchPolicy.noCache,
           document: gql("""
            query Query {
-  products(filter: { sku: { eq: "RI000480" } }) {
-    items {
-      id
-      name
-      sku
-      stock_status
-      only_x_left_in_stock
-      meta_keyword
-      meta_description
-      special_price
-      special_from_date
-      special_to_date
-      attribute_set_id
-      manufacturer
-      canonical_url
-      description {
-        html
-      }
-      short_description {
-        html
-      }
-      image {
-        url
-        label
-        position
-        disabled
-      }
-      small_image {
-        url
-        label
-        position
-        disabled
-      }
-      thumbnail {
-        url
-        label
-        position
-        disabled
-      }
-      new_from_date
-      new_to_date
-      price_tiers {
-        quantity
-        discount {
-          percent_off
-          amount_off
-        }
-        final_price {
-          value
-          currency
-        }
-      }
-      ... on PhysicalProductInterface {
-        weight
-      }
-      options_container
-      created_at
-      updated_at
-      country_of_manufacture
-      type_id
-      websites {
-        id
-        name
-        code
-        sort_order
-        default_group_id
-        is_default
-      }
-      product_links {
-        sku
-        link_type
-        linked_product_sku
-        linked_product_type
-        position
-      }
-      media_gallery {
-        url
-        label
-        position
-        disabled
-        ... on ProductVideo {
-          video_content {
-            media_type
-            video_provider
-            video_url
-            video_title
-            video_description
-            video_metadata
-          }
-        }
-      }
-      price_range {
-        minimum_price {
-          regular_price {
-            value
-            currency
-          }
-          final_price {
-            value
-            currency
-          }
-          fixed_product_taxes {
-            label
-            amount {
-              value
-              currency
-            }
-          }
-        }
-        maximum_price {
-          discount {
-            amount_off
-            percent_off
-          }
-          fixed_product_taxes {
-            label
-            amount {
-              value
-              currency
-            }
-          }
-        }
-      }
-      gift_message_available
-      url_rewrites {
-        parameters {
-          name
-          value
-        }
-      }
-      related_products {
-        id
-        name
-        sku
-      }
-      upsell_products {
-        id
-        name
-        sku
-      }
-      crosssell_products {
-        id
-        name
-        sku
-      }
-      categories {
-        id
-        url_key
-        name
-        position
-        is_anchor
-        url_suffix
-        description
-        display_mode
-        meta_keywords
-        path_in_store
-        default_sort_by
-        meta_description
-        custom_layout_update_file
-        available_sort_by
-        products {
-          items {
-            id
-            sku
-          }
-        }
-        cms_block {
-          title
-          content
-          identifier
-        }
-      }
-    }
-  }
-}
+                    products(filter: { sku: { eq: "RI003953" } }) {
+                      items {
+                        id
+                        care
+                        length
+                        width
+                        height
+                        diameter
+                        overall
+                        capacity
+                        depth
+                        name
+                        sku
+                        stock_status
+                        only_x_left_in_stock
+                        meta_keyword
+                        meta_description
+                        special_price
+                        special_from_date
+                        special_to_date
+                        attribute_set_id
+                        manufacturer
+                        canonical_url
+                        description {
+                          html
+                        }
+                        short_description {
+                          html
+                        }
+                        image {
+                          url
+                          label
+                          position
+                          disabled
+                        }
+                        small_image {
+                          url
+                          label
+                          position
+                          disabled
+                        }
+                        thumbnail {
+                          url
+                          label
+                          position
+                          disabled
+                        }
+                        new_from_date
+                        new_to_date
+                        price_tiers {
+                          quantity
+                          discount {
+                            percent_off
+                            amount_off
+                          }
+                          final_price {
+                            value
+                            currency
+                          }
+                        }
+                        ... on PhysicalProductInterface {
+                          weight
+                        }
+                        ... on ConfigurableProduct {
+                          configurable_options {
+                            id
+                            attribute_id
+                            label
+                            position
+                            use_default
+                            attribute_code
+                            values {
+                              value_index
+                              label
+                              swatch_data{
+                                value
+                              }
+                            }
+                            product_id
+                          }
+                          variants {
+                            product {
+                              id
+                              name
+                              sku
+                              attribute_set_id
+                              ... on PhysicalProductInterface {
+                                weight
+                              }
+                              price_range{
+                                minimum_price{
+                                  regular_price{
+                                    value
+                                    currency
+                                  }
+                                }
+                              }
+                            }
+                            attributes {
+                              label
+                              code
+                              value_index
+                            }
+                          }
+                        }
+                        options_container
+                        created_at
+                        updated_at
+                        country_of_manufacture
+                        type_id
+                        websites {
+                          id
+                          name
+                          code
+                          sort_order
+                          default_group_id
+                          is_default
+                        }
+                        product_links {
+                          sku
+                          link_type
+                          linked_product_sku
+                          linked_product_type
+                          position
+                        }
+                        media_gallery {
+                          url
+                          label
+                          position
+                          disabled
+                          ... on ProductVideo {
+                            video_content {
+                              media_type
+                              video_provider
+                              video_url
+                              video_title
+                              video_description
+                              video_metadata
+                            }
+                          }
+                        }
+                        price_range {
+                          minimum_price {
+                            regular_price {
+                              value
+                              currency
+                            }
+                            final_price {
+                              value
+                              currency
+                            }
+                            fixed_product_taxes {
+                              label
+                              amount {
+                                value
+                                currency
+                              }
+                            }
+                          }
+                          maximum_price {
+                            discount {
+                              amount_off
+                              percent_off
+                            }
+                            fixed_product_taxes {
+                              label
+                              amount {
+                                value
+                                currency
+                              }
+                            }
+                          }
+                        }
+                        gift_message_available
+                        url_rewrites {
+                          parameters {
+                            name
+                            value
+                          }
+                        }
+                        related_products {
+                          id
+                          name
+                          sku
+                        }
+                        upsell_products {
+                          id
+                          name
+                          sku
+                        }
+                        crosssell_products {
+                          id
+                          name
+                          sku
+                        }
+                        categories {
+                          id
+                          url_key
+                          name
+                          position
+                          is_anchor
+                          url_suffix
+                          description
+                          display_mode
+                          meta_keywords
+                          path_in_store
+                          default_sort_by
+                          meta_description
+                          custom_layout_update_file
+                          available_sort_by
+                          products {
+                            items {
+                              id
+                              sku
+                            }
+                          }
+                          cms_block {
+                            title
+                            content
+                            identifier
+                          }
+                        }
+                      }
+                    }
+                  }
             """),
           variables: {
             'limit': limit,
@@ -403,188 +446,6 @@ class GraphQLService {
     } catch (error) {
       return [];
     }
-  }
-
-  /// product search
-  static String prod_search(String firstname) {
-    return '''
-            {
-              products(search: "item-028258") {
-                items {
-                  id
-                  name
-                  sku
-                  stock_status
-                  only_x_left_in_stock
-                  meta_keyword
-                  meta_description
-                  special_price
-                  special_from_date
-                  special_to_date
-                  attribute_set_id
-                  manufacturer
-                  canonical_url
-                  description {
-                    html
-                  }
-                  short_description {
-                    html
-                  }
-                  image {
-                    url
-                    label
-                    position
-                    disabled
-                  }
-                  small_image {
-                    url
-                    label
-                    position
-                    disabled
-                  }
-                  thumbnail {
-                    url
-                    label
-                    position
-                    disabled
-                  }
-                  new_from_date
-                  new_to_date
-                  price_tiers {
-                    quantity
-                    discount {
-                      percent_off
-                      amount_off
-                    }
-                    final_price {
-                      value
-                      currency
-                    }
-                  }
-                  ... on PhysicalProductInterface {
-                    weight
-                  }
-                  options_container
-                  created_at
-                  updated_at
-                  country_of_manufacture
-                  type_id
-                  websites {
-                    id
-                    name
-                    code
-                    sort_order
-                    default_group_id
-                    is_default
-                  }
-                  product_links {
-                    sku
-                    link_type
-                    linked_product_sku
-                    linked_product_type
-                    position
-                  }
-                  media_gallery {
-                    url
-                    label
-                    position
-                    disabled
-                    ... on ProductVideo {
-                      video_content {
-                        media_type
-                        video_provider
-                        video_url
-                        video_title
-                        video_description
-                        video_metadata
-                      }
-                    }
-                  }
-                  price_range {
-                    minimum_price {
-                      regular_price {
-                        value
-                        currency
-                      }
-                      final_price {
-                        value
-                        currency
-                      }
-                      fixed_product_taxes {
-                        label
-                        amount {
-                          value
-                          currency
-                        }
-                      }
-                    }
-                    maximum_price {
-                      discount {
-                        amount_off
-                        percent_off
-                      }
-                      fixed_product_taxes {
-                        label
-                        amount {
-                          value
-                          currency
-                        }
-                      }
-                    }
-                  }
-                  gift_message_available
-                  url_rewrites {
-                    parameters {
-                      name
-                      value
-                    }
-                  }
-                  related_products {
-                    id
-                    name
-                    sku
-                  }
-                  upsell_products {
-                    id
-                    name
-                    sku
-                  }
-                  crosssell_products {
-                    id
-                    name
-                    sku
-                  }
-                  categories {
-                    id
-                    url_key
-                    name
-                    position
-                    is_anchor
-                    url_suffix
-                    description
-                    display_mode
-                    meta_keywords
-                    path_in_store
-                    default_sort_by
-                    meta_description
-                    custom_layout_update_file
-                    available_sort_by
-                    products {
-                      items {
-                        id
-                        sku
-                      }
-                    }
-                    cms_block {
-                      title
-                      content
-                      identifier
-                    }
-                  }
-                }
-              }
-            }
-        ''';
   }
 
   Future<List<dynamic>> productsearch({
@@ -1322,5 +1183,4 @@ class GraphQLService {
       return "";
     }
   }
-
 }

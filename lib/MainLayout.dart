@@ -49,15 +49,6 @@ class _MainLayoutState extends State<MainLayout> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: chipColor),
         backgroundColor: omaColor,
-        // leading: IconButton(
-        //   onPressed: () {
-        //     _key.currentState!.openDrawer();
-        //   },
-        //   icon: SvgPicture.asset(
-        //     "assets/icons/menu.svg",
-        //     color: headingColor,
-        //   ),
-        // ),
         title: Padding(
           padding: const EdgeInsets.all(2.0),
           child: Center(
@@ -118,15 +109,6 @@ class _MainLayoutState extends State<MainLayout> {
           children: [
             AppBar(
               backgroundColor: navBackground,
-              // leading: IconButton(
-              //   onPressed: () {
-              //     _key.currentState!.openDrawer();
-              //   },
-              //   icon: SvgPicture.asset(
-              //     "assets/icons/menu.svg",
-              //     color: headingColor,
-              //   ),
-              // ),
               leading: IconButton(
                 icon: const Icon(
                   Icons.close,
@@ -135,8 +117,6 @@ class _MainLayoutState extends State<MainLayout> {
                 ),
                 onPressed: () {
                   Navigator.pop(context); // Close the navigation drawer
-
-                  // Navigator.pushNamed(context, Settings.routeName);
                 },
               ),
               title: Padding(
@@ -185,11 +165,11 @@ class _MainLayoutState extends State<MainLayout> {
                         Colors.transparent, // Set divider color to transparent
                   ),
                   child: ExpansionTile(
-
                     title: GestureDetector(
                       onTap: (){
                         Navigator.of(context).pop();
-                        catId=navHeaderList[index]['id'];
+                        catId = navHeaderList[index]['id'];
+                        print('item_id --> $catId');
                         final myProvider = Provider.of<MyProvider>(context, listen: false);
                         myProvider.updateData(catId);
                         _controller.jumpToTab(1);
@@ -218,9 +198,10 @@ class _MainLayoutState extends State<MainLayout> {
                               title: GestureDetector(
                                 onTap: (){
                                   Navigator.of(context).pop();
+                                  print('item_id --> $catId');
                                   catId=navHeaderList[index]['children'][itemIndex]['id'];
                                   _controller.jumpToTab(1);
-
+                                  // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
 
                                 },
                                 child: Text(
@@ -247,11 +228,14 @@ class _MainLayoutState extends State<MainLayout> {
                                           horizontal: 20, vertical: 0),
                                       child: ListTile(
                                         onTap: () {
+
                                           Navigator.of(context).pop();
                                           catId=navHeaderList[index]['children']
                                           [itemIndex]['children']
                                           [subitemIndex]['id'];
                                           _controller.jumpToTab(1);
+
+                                          // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
                                         },
                                         title: Text(
                                           navHeaderList[index]['children']
@@ -351,19 +335,19 @@ class MyDrawer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Container(
+                  children: const <Widget>[
+                    SizedBox(
                       width: 70,
                       height: 70,
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         backgroundImage: NetworkImage(
                             'https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70'),
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 15,
                     ),
-                    const Text(
+                    Text(
                       'Mr.John',
                       style: TextStyle(
                         fontSize: 14,
@@ -371,10 +355,10 @@ class MyDrawer extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 2,
                     ),
-                    const Text(
+                    Text(
                       'John300@gmail.com',
                       style: TextStyle(
                         color: Colors.white,
