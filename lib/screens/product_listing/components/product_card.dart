@@ -81,7 +81,7 @@ class ProductCard extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  // _changeColor(index);
+                                   // _changeColor(index);
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.symmetric(horizontal: 5),
