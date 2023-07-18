@@ -63,17 +63,16 @@ class ProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: defaultPadding / 5),
                     Text(
-                      '\₹$price',
+                      '₹$price',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: headingColor,
                           height: 1.2,
                           fontSize: 13),
                     ),
-                    // const SizedBox(height: defaultPadding / 5),
                     product['__typename']=="ConfigurableProduct"?Row(
                       children: [
-                        Container(
+                        SizedBox(
                           height: 50,
                           child: ListView.builder(
                             shrinkWrap: true,
@@ -85,8 +84,8 @@ class ProductCard extends StatelessWidget {
                                   // _changeColor(index);
                                 },
                                 child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  padding: EdgeInsets.all(10),
+                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                  padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: colorFromHex(product['configurable_options'][0]['values'][index]['swatch_data']['value']),
@@ -97,9 +96,9 @@ class ProductCard extends StatelessWidget {
                             },
                           ),
                         ),
-                        product['configurable_options'][0]['values'].length>2?Text(
+                        product['configurable_options'][0]['values'].length>2?const Text(
                           '+ More',
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: headingColor,
                               height: 1.2,
@@ -137,7 +136,7 @@ class ProductCard extends StatelessWidget {
 
     // Check if the hex color code is valid.
     if (hexColor.length != 6) {
-      throw FormatException("Invalid hex color code. It should be 6 characters long (excluding the '#').");
+      throw const FormatException("Invalid hex color code. It should be 6 characters long (excluding the '#').");
     }
 
     // Parse the hexadecimal values and construct the Color object.

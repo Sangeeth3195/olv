@@ -21,7 +21,6 @@ class ProductListing extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<ProductListing> {
-
   String _selectedOption = "Popularity";
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> pList = [];
@@ -192,20 +191,21 @@ class _HomeScreenState extends State<ProductListing> {
                       child: ProductCard(
                         title: provider.pList[index]['name'],
                         image: provider.pList[index]['small_image']['url'],
-                        price: provider.pList[index]['__typename']=="SimpleProduct"?provider.pList[index]['price_range']['minimum_price']['regular_price']['value']                            .toString():
-          provider.pList[index]['price_range']
-          ['minimum_price']['regular_price']['value']
-              .toString()+" - "+provider.pList[index]/*['configurable_options']['variants']*/['price_range']
-                        ['minimum_price']['regular_price']['value']
-                            .toString(),
+                        price: provider.pList[index]['__typename'] ==
+                                "SimpleProduct"
+                            ? provider.pList[index]['price_range']
+                                    ['minimum_price']['regular_price']['value']
+                                .toString()
+                            : "${provider.pList[index]['price_range']['minimum_price']['regular_price']['value']}"
+                            " - ${provider.pList[index]['price_range']['minimum_price']['regular_price']['value']}",
                         product: provider.pList[index],
                         bgColor: demo_product[0].colors[0],
                         press: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailsScreen(product: provider.pList[index]),
+                                builder: (context) => DetailsScreen(
+                                    product: provider.pList[index]),
                               ));
                         },
                       ),
