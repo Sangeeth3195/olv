@@ -10,19 +10,20 @@ class ProductCard extends StatelessWidget {
     required this.price,
     required this.press,
     required this.bgColor,
+    this.product,
   }) : super(key: key);
   final String image, title;
   final VoidCallback press;
-  final double price;
+  final String price;
   final Color bgColor;
+  final dynamic product;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: press,
       child: Container(
-        width: 180,
-        height: 200,
+
         padding: const EdgeInsets.all(defaultPadding / 2),
         decoration: const BoxDecoration(
           color: Colors.transparent,
@@ -53,6 +54,7 @@ class ProductCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
+                    // maxLines: 1,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: blackColor,
@@ -68,7 +70,43 @@ class ProductCard extends StatelessWidget {
                           height: 1.2,
                           fontSize: 13),
                     ),
-                    const SizedBox(height: defaultPadding / 5),
+                    // const SizedBox(height: defaultPadding / 5),
+                    product['__typename']=="ConfigurableProduct"?Row(
+                      children: [
+                        Container(
+                          height: 50,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: product['configurable_options'][0]['values'].length>2?2:product['configurable_options'][0]['values'],
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  // _changeColor(index);
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: colorFromHex(product['configurable_options'][0]['values'][index]['swatch_data']['value']),
+                                  ),
+
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        product['configurable_options'][0]['values'].length>2?Text(
+                          '+ More',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: headingColor,
+                              height: 1.2,
+                              fontSize: 13),
+                        ):Container(),
+                      ],
+                    ):Container(),
                     const Text(
                       "Add to Cart",
                       style: TextStyle(
@@ -90,5 +128,19 @@ class ProductCard extends StatelessWidget {
         ),
       ),
     );
+  }
+  Color colorFromHex(String hexColor) {
+    // Remove the '#' character from the hex color code, if present.
+    if (hexColor.startsWith('#')) {
+      hexColor = hexColor.substring(1);
+    }
+
+    // Check if the hex color code is valid.
+    if (hexColor.length != 6) {
+      throw FormatException("Invalid hex color code. It should be 6 characters long (excluding the '#').");
+    }
+
+    // Parse the hexadecimal values and construct the Color object.
+    return Color(int.parse('FF$hexColor', radix: 16));
   }
 }

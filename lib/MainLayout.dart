@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -165,6 +166,8 @@ class _MainLayoutState extends State<MainLayout> {
                         Colors.transparent, // Set divider color to transparent
                   ),
                   child: ExpansionTile(
+                    trailing: navHeaderList[index]['children'].length==0?Container(width: 10,):Icon(Icons.keyboard_arrow_down),
+
                     title: GestureDetector(
                       onTap: (){
                         Navigator.of(context).pop();
@@ -194,12 +197,17 @@ class _MainLayoutState extends State<MainLayout> {
                               .length, // Replace with the actual number of items
                           itemBuilder: (BuildContext context, int itemIndex) {
                             return ExpansionTile(
+                              trailing: navHeaderList[index]['children']
+                              [itemIndex]['children']
+                                  .length==0?Container(width: 10,):Icon(Icons.keyboard_arrow_down),
                               initiallyExpanded: true,
                               title: GestureDetector(
                                 onTap: (){
                                   Navigator.of(context).pop();
                                   print('item_id --> $catId');
                                   catId=navHeaderList[index]['children'][itemIndex]['id'];
+                                  final myProvider = Provider.of<MyProvider>(context, listen: false);
+                                  myProvider.updateData(catId);
                                   _controller.jumpToTab(1);
                                   // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
 
@@ -233,6 +241,8 @@ class _MainLayoutState extends State<MainLayout> {
                                           catId=navHeaderList[index]['children']
                                           [itemIndex]['children']
                                           [subitemIndex]['id'];
+                                          final myProvider = Provider.of<MyProvider>(context, listen: false);
+                                          myProvider.updateData(catId);
                                           _controller.jumpToTab(1);
 
                                           // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);

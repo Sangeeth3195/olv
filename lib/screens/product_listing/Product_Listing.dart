@@ -183,7 +183,7 @@ class _HomeScreenState extends State<ProductListing> {
                   padding: const EdgeInsets.all(5),
                   crossAxisSpacing: 0,
                   mainAxisSpacing: 0,
-                  childAspectRatio: (itemWidth / itemHeight),
+                  childAspectRatio: 0.6,
                   maxCrossAxisExtent: 300.0,
                   children: List.generate(
                     provider.pList.length,
@@ -192,9 +192,13 @@ class _HomeScreenState extends State<ProductListing> {
                       child: ProductCard(
                         title: provider.pList[index]['name'],
                         image: provider.pList[index]['small_image']['url'],
-                        price: double.parse(provider.pList[index]['price_range']
-                                ['minimum_price']['final_price']['value']
-                            .toString()),
+                        price: provider.pList[index]['__typename']=="SimpleProduct"?provider.pList[index]['price_range']['minimum_price']['regular_price']['value']                            .toString():
+          provider.pList[index]['price_range']
+          ['minimum_price']['regular_price']['value']
+              .toString()+" - "+provider.pList[index]/*['configurable_options']['variants']*/['price_range']
+                        ['minimum_price']['regular_price']['value']
+                            .toString(),
+                        product: provider.pList[index],
                         bgColor: demo_product[0].colors[0],
                         press: () {
                           Navigator.push(

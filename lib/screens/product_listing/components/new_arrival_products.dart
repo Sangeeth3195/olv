@@ -34,7 +34,7 @@ class NewArrivalProducts extends StatelessWidget {
                 child: ProductCard(
                   title: demo_product[index].title,
                   image: demo_product[index].images[0],
-                  price: demo_product[index].price,
+                  price: demo_product[index].price.toString(),
                   bgColor: demo_product[index].colors[0],
                   press: () {
                     /*Navigator.push(
