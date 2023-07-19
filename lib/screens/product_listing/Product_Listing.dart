@@ -197,7 +197,7 @@ class _HomeScreenState extends State<ProductListing> {
                                     ['minimum_price']['regular_price']['value']
                                 .toString()
                             : "${provider.pList[index]['price_range']['minimum_price']['regular_price']['value']}"
-                            " - ${provider.pList[index]['price_range']['minimum_price']['regular_price']['value']}",
+                                " - ${provider.pList[index]['price_range']['minimum_price']['regular_price']['value']}",
                         product: provider.pList[index],
                         bgColor: demo_product[0].colors[0],
                         press: () {

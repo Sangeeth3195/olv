@@ -23,7 +23,6 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: Container(
-
         padding: const EdgeInsets.all(defaultPadding / 2),
         decoration: const BoxDecoration(
           color: Colors.transparent,
@@ -44,7 +43,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   child: Image.network(
                     image,
-                    height: 150 ,
+                    height: 150,
                   ),
                 ),
                 const SizedBox(height: defaultPadding / 2),
@@ -54,12 +53,12 @@ class ProductCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                    // maxLines: 1,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: blackColor,
-                        height: 1.5,
-                        fontSize: 13),
+                      // maxLines: 1,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: blackColor,
+                          height: 1.5,
+                          fontSize: 13),
                     ),
                     const SizedBox(height: defaultPadding / 5),
                     Text(
@@ -70,43 +69,57 @@ class ProductCard extends StatelessWidget {
                           height: 1.2,
                           fontSize: 13),
                     ),
-                    product['__typename']=="ConfigurableProduct"?Row(
-                      children: [
-                        SizedBox(
-                          height: 50,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: product['configurable_options'][0]['values'].length>2?2:product['configurable_options'][0]['values'],
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-
-                                  // _changeColor(index);
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: colorFromHex(product['configurable_options'][0]['values'][index]['swatch_data']['value']),
-                                  ),
-
+                    product['__typename'] == "ConfigurableProduct"
+                        ? Row(
+                            children: [
+                              SizedBox(
+                                height: 50,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: product['configurable_options'][0]
+                                                  ['values']
+                                              .length >
+                                          0
+                                      ? 2
+                                      : product['configurable_options'][0]
+                                          ['values'],
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        // _changeColor(index);
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: colorFromHex(
+                                              product['configurable_options'][0]
+                                                      ['values'][index]
+                                                  ['swatch_data']['value']),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        product['configurable_options'][0]['values'].length>2?const Text(
-                          '+ More',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: headingColor,
-                              height: 1.2,
-                              fontSize: 13),
-                        ):Container(),
-                      ],
-                    ):Container(),
+                              ),
+                              product['configurable_options'][0]['values']
+                                          .length >
+                                      2
+                                  ? const Text(
+                                      '+ More',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: headingColor,
+                                          height: 1.2,
+                                          fontSize: 13),
+                                    )
+                                  : Container(),
+                            ],
+                          )
+                        : Container(),
                     const Text(
                       "Add to Cart",
                       style: TextStyle(
@@ -119,16 +132,22 @@ class ProductCard extends StatelessWidget {
                 )
               ],
             ),
-            const Positioned(top: 0,right: 5,child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 2.0,vertical: 6),
-              child: Icon(Icons.favorite_border, color: headingColor,),
-            )),
-
+            const Positioned(
+                top: 0,
+                right: 5,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
+                  child: Icon(
+                    Icons.favorite_border,
+                    color: headingColor,
+                  ),
+                )),
           ],
         ),
       ),
     );
   }
+
   Color colorFromHex(String hexColor) {
     // Remove the '#' character from the hex color code, if present.
     if (hexColor.startsWith('#')) {
@@ -137,7 +156,8 @@ class ProductCard extends StatelessWidget {
 
     // Check if the hex color code is valid.
     if (hexColor.length != 6) {
-      throw const FormatException("Invalid hex color code. It should be 6 characters long (excluding the '#').");
+      throw const FormatException(
+          "Invalid hex color code. It should be 6 characters long (excluding the '#').");
     }
 
     // Parse the hexadecimal values and construct the Color object.
