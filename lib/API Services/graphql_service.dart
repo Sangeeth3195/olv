@@ -203,6 +203,7 @@ class GraphQLService {
                       items {
                         id
                         care
+                        detail
                         length
                         width
                         height

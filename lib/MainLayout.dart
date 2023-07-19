@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,7 +25,7 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> navHeaderList = [];
-  int catId=10071;
+  int catId = 10071;
   @override
   void initState() {
     // TODO: implement initState
@@ -65,7 +64,9 @@ class _MainLayoutState extends State<MainLayout> {
             ),
             onPressed: () {
               getNavdata();
-              Navigator.of(context, rootNavigator: true).pushNamed("/signinscreen");            },
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed("/signinscreen");
+            },
           ),
           IconButton(
             icon: const FaIcon(
@@ -74,7 +75,8 @@ class _MainLayoutState extends State<MainLayout> {
               color: headingColor,
             ),
             onPressed: () {
-              Navigator.of(context, rootNavigator: true).pushNamed("/signupscreen");
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed("/signupscreen");
             },
           ),
         ],
@@ -166,14 +168,18 @@ class _MainLayoutState extends State<MainLayout> {
                         Colors.transparent, // Set divider color to transparent
                   ),
                   child: ExpansionTile(
-                    trailing: navHeaderList[index]['children'].length==0?Container(width: 10,):Icon(Icons.keyboard_arrow_down),
-
+                    trailing: navHeaderList[index]['children'].length == 0
+                        ? Container(
+                            width: 10,
+                          )
+                        : const Icon(Icons.keyboard_arrow_down),
                     title: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.of(context).pop();
                         catId = navHeaderList[index]['id'];
                         print('item_id --> $catId');
-                        final myProvider = Provider.of<MyProvider>(context, listen: false);
+                        final myProvider =
+                            Provider.of<MyProvider>(context, listen: false);
                         myProvider.updateData(catId);
                         _controller.jumpToTab(1);
                       },
@@ -198,19 +204,26 @@ class _MainLayoutState extends State<MainLayout> {
                           itemBuilder: (BuildContext context, int itemIndex) {
                             return ExpansionTile(
                               trailing: navHeaderList[index]['children']
-                              [itemIndex]['children']
-                                  .length==0?Container(width: 10,):Icon(Icons.keyboard_arrow_down),
+                                              [itemIndex]['children']
+                                          .length ==
+                                      0
+                                  ? Container(
+                                      width: 10,
+                                    )
+                                  : const Icon(Icons.keyboard_arrow_down),
                               initiallyExpanded: true,
                               title: GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   Navigator.of(context).pop();
                                   print('item_id --> $catId');
-                                  catId=navHeaderList[index]['children'][itemIndex]['id'];
-                                  final myProvider = Provider.of<MyProvider>(context, listen: false);
+                                  catId = navHeaderList[index]['children']
+                                      [itemIndex]['id'];
+                                  final myProvider = Provider.of<MyProvider>(
+                                      context,
+                                      listen: false);
                                   myProvider.updateData(catId);
                                   _controller.jumpToTab(1);
                                   // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
-
                                 },
                                 child: Text(
                                   navHeaderList[index]['children'][itemIndex]
@@ -236,12 +249,13 @@ class _MainLayoutState extends State<MainLayout> {
                                           horizontal: 20, vertical: 0),
                                       child: ListTile(
                                         onTap: () {
-
                                           Navigator.of(context).pop();
-                                          catId=navHeaderList[index]['children']
-                                          [itemIndex]['children']
-                                          [subitemIndex]['id'];
-                                          final myProvider = Provider.of<MyProvider>(context, listen: false);
+                                          catId = navHeaderList[index]
+                                                  ['children'][itemIndex]
+                                              ['children'][subitemIndex]['id'];
+                                          final myProvider =
+                                              Provider.of<MyProvider>(context,
+                                                  listen: false);
                                           myProvider.updateData(catId);
                                           _controller.jumpToTab(1);
 

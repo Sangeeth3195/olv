@@ -35,6 +35,13 @@ class _ProductDescriptionState extends State<ProductDescription> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   print('name--> ' + widget.product['name']);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +62,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
-          child: Text("₹ ${widget.product['price_range']['minimum_price']['final_price']['value'].toStringAsFixed(2)}",
+          child: Text("₹ ${widget.product['price_range']['minimum_price']['final_price']['value']}",
               style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: headingColor,
