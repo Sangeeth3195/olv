@@ -9,10 +9,16 @@ class MyProvider extends ChangeNotifier {
 
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> pList = [];
+  dynamic productData;
   void updateData(int id) async{
     pList = await graphQLService.getproductlist(limit: 100, id: id);
     _data = await graphQLService.getproductlist(limit: 100, id: id);
 
+    notifyListeners();
+  }
+
+  void updateProductDescriptionData(int id) async{
+    productData = await graphQLService.getproductdescription(limit: 100, id: id);
     notifyListeners();
   }
 }
