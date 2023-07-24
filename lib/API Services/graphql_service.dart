@@ -192,7 +192,7 @@ class GraphQLService {
 
   Future<dynamic> getproductdescription({
     required int limit,
-    required int id,
+    required String id,
   }) async {
     try {
       QueryResult result = await client.query(
@@ -200,7 +200,7 @@ class GraphQLService {
           fetchPolicy: FetchPolicy.noCache,
           document: gql("""
            query Query {
-                    products(filter: { sku: { eq: "${id}" } }) {
+                    products(filter: { sku: { eq: ${id} } }) {
                       items {
                         id
                         care
@@ -436,7 +436,7 @@ class GraphQLService {
       if (result.hasException) {
         throw Exception(result.exception);
       } else {
-        dynamic res = result.data?['products'];
+        dynamic res = result.data?['products']['items'];
 
         if (res == null || res.isEmpty) {
           return [];

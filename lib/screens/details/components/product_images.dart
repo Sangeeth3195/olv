@@ -27,19 +27,19 @@ class _ProductImagesState extends State<ProductImages> {
           child: AspectRatio(
             aspectRatio: 1,
             child: Hero(
-              tag: widget.product['id'].toString(),
-              child: Image.asset('widget.product.images[0]'),
+              tag: widget.product[0]['id'].toString(),
+              child: widget.product[0]['media_gallery'].length == 0?Image.asset('assets/images/placeholder.png'):Image.network(widget.product[0]['media_gallery'][selectedImage]['url']),
             ),
           ),
         ),
-        // SizedBox(height: getProportionateScreenWidth(20)),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     ...List.generate(widget.product.images.length,
-        //         (index) => buildSmallProductPreview(index)),
-        //   ],
-        // )
+        SizedBox(height: getProportionateScreenWidth(20)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ...List.generate(widget.product[0]['media_gallery'].length,
+                (index) => buildSmallProductPreview(index)),
+          ],
+        )
       ],
     );
   }
@@ -63,7 +63,7 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.asset(widget.product.images[index]),
+        child: Image.network(widget.product[0]['media_gallery'][index]['url']),
       ),
     );
   }

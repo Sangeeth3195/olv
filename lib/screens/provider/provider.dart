@@ -17,7 +17,7 @@ class MyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateProductDescriptionData(int id) async{
+  void updateProductDescriptionData(String id) async{
     productData = await graphQLService.getproductdescription(limit: 100, id: id);
     notifyListeners();
   }
