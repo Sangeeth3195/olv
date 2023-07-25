@@ -48,7 +48,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
     // TODO: implement initState
     super.initState();
     if (kDebugMode) {
-      print('name --> '+widget.product['name']);
+      print('name --> ' + widget.product['name']);
       print('id --> ${widget.product['id']}');
 
       print('id --> ${widget.product['id']}');
@@ -98,8 +98,11 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         ? provider.productData[0]['price_range']
                                 ['minimum_price']['regular_price']['value']
                             .toString()
-                        : '₹'+"${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}"
-                            " - "+'₹'+"${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
+                        : '₹' +
+                            "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}"
+                                " - " +
+                            '₹' +
+                            "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: headingColor,
@@ -108,7 +111,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
               const SizedBox(
                 height: 16,
               ),
-
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(10)),
@@ -136,103 +138,129 @@ class _ProductDescriptionState extends State<ProductDescription> {
               const SizedBox(
                 height: 18,
               ),
-
-              provider.productData[0]['__typename'] == "ConfigurableProduct"
-                  ?  Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: getProportionateScreenWidth(10)),
-                    child: const Text('SIZE',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: headingColor)),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-
-                  provider.productData[0]['__typename'] == "ConfigurableProduct"
-                      ?
-                  Row(
-                    children: [
-                      Chip(
-                        backgroundColor: chipColor,
-                        label: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            '8.66 "',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0.0),
-                          // Adjust the border radius for rectangle shape
-                          side: const BorderSide(
-                            color: omaColor,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Chip(
-                        backgroundColor: chip2Color,
-                        label: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text('4.57 "'),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0.0),
-                          // Adjust the border radius for rectangle shape
-                          side: const BorderSide(color: omaColor),
-                        ),
-                      ),
-                      // Add more chips as needed
-                    ],
-                  ) : Container(),
-                ],
-              ) : Container(),
-
-              const SizedBox(
-                height: 18,
-              ),
-
               provider.productData[0]['__typename'] == "ConfigurableProduct"
                   ? Row(
                       children: [
-                        SizedBox(
-                          height: 50,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: provider.productData[0]['configurable_options'][0]
-                                            ['values']
-                                        .length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  // _changeColor(index);
-                                },
-                                child: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: colorFromHex(
-                                        provider.productData[0]['configurable_options'][0]
-                                                ['values'][index]['swatch_data']
-                                            ['value']),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: getProportionateScreenWidth(10)),
+                          child: const Text('SIZE',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: headingColor)),
                         ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        provider.productData[0]['__typename'] ==
+                                "ConfigurableProduct"
+                            ? Row(
+                                children: [
+                                  Chip(
+                                    backgroundColor: chipColor,
+                                    label: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: Text(
+                                        '8.66 "',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0.0),
+                                      // Adjust the border radius for rectangle shape
+                                      side: const BorderSide(
+                                        color: omaColor,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Chip(
+                                    backgroundColor: chip2Color,
+                                    label: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: Text('4.57 "'),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0.0),
+                                      // Adjust the border radius for rectangle shape
+                                      side: const BorderSide(color: omaColor),
+                                    ),
+                                  ),
+                                  // Add more chips as needed
+                                ],
+                              )
+                            : Container(),
                       ],
                     )
                   : Container(),
-
+              const SizedBox(
+                height: 18,
+              ),
+              provider.productData[0]['__typename'] == "ConfigurableProduct"
+                  ? Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: getProportionateScreenWidth(10)),
+                          child: const Text('COLOR',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: headingColor)),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        provider.productData[0]['__typename'] ==
+                                "ConfigurableProduct"
+                            ? Row(
+                                children: [
+                                  SizedBox(
+                                    height: 50,
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: provider
+                                          .productData[0]
+                                              ['configurable_options'][0]
+                                              ['values']
+                                          .length,
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            // _changeColor(index);
+                                            print('color code --> ' +
+                                                provider.productData[0][
+                                                            'configurable_options']
+                                                        [0]['values'][index]
+                                                    ['swatch_data']['value']);
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: colorFromHex(provider
+                                                              .productData[0][
+                                                          'configurable_options']
+                                                      [0]['values'][index]
+                                                  ['swatch_data']['value']),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                      ],
+                    )
+                  : Container(),
               const SizedBox(
                 height: 18,
               ),
