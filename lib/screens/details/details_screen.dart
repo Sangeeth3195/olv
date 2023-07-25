@@ -29,8 +29,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
     getNavdata();
   }
   void getNavdata() async {
+
+    print('sku ->' + widget.product['sku'].toString());
+
     final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateProductDescriptionData(widget.product['sku']);
+    myProvider.updateProductDescriptionData(widget.product['sku'].toString());
   }
 
   @override

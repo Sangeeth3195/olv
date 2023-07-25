@@ -1,3 +1,5 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../models/categoryList.dart';
@@ -75,6 +77,7 @@ class GraphQLService {
     required int id,
   }) async {
     try {
+      EasyLoading.show(status: 'loading...');
       QueryResult result = await client.query(
         QueryOptions(
           fetchPolicy: FetchPolicy.noCache,
@@ -176,6 +179,8 @@ class GraphQLService {
       if (result.hasException) {
         throw Exception(result.exception);
       } else {
+
+        EasyLoading.dismiss();
         List? res = result.data?['products']['items'];
 
         if (res == null || res.isEmpty) {
@@ -195,12 +200,13 @@ class GraphQLService {
     required String id,
   }) async {
     try {
+      EasyLoading.show(status: 'loading...');
       QueryResult result = await client.query(
         QueryOptions(
           fetchPolicy: FetchPolicy.noCache,
           document: gql("""
            query Query {
-                    products(filter: { sku: { eq: ${id} } }) {
+                    products(filter: { sku: { eq: "${id}" } }) {
                       items {
                         id
                         care
@@ -436,6 +442,8 @@ class GraphQLService {
       if (result.hasException) {
         throw Exception(result.exception);
       } else {
+        EasyLoading.dismiss();
+
         dynamic res = result.data?['products']['items'];
 
         if (res == null || res.isEmpty) {

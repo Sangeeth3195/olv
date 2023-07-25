@@ -18,6 +18,8 @@ class ProductImages extends StatefulWidget {
 
 class _ProductImagesState extends State<ProductImages> {
   int selectedImage = 0;
+
+
   @override
   Widget build(BuildContext context) {
     return Column(

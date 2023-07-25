@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -46,13 +47,17 @@ class _ProductDescriptionState extends State<ProductDescription> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('name--> ' + widget.product['name']);
-    // getNavdata();
+    if (kDebugMode) {
+      print('name --> '+widget.product['name']);
+      print('id --> ${widget.product['id']}');
+
+      print('id --> ${widget.product['id']}');
+    }
   }
 
   void getNavdata() async {
     final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateProductDescriptionData(widget.product['id']);
+    myProvider.updateProductDescriptionData(widget.product['sku'].toString());
   }
 
   void _onExpansionChanged(bool isExpanded) {
@@ -93,8 +98,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         ? provider.productData[0]['price_range']
                                 ['minimum_price']['regular_price']['value']
                             .toString()
-                        : "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}"
-                            " - ${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
+                        : '₹'+"${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}"
+                            " - "+'₹'+"${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: headingColor,
@@ -103,54 +108,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
               const SizedBox(
                 height: 16,
               ),
-              product[0]['__typename'] == "ConfigurableProduct"
-                  ? Row(
-                      children: [
-                        SizedBox(
-                          height: 50,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: product['configurable_options'][0]
-                                            ['values']
-                                        .length >
-                                    0
-                                ? 2
-                                : product['configurable_options'][0]['values'],
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  // _changeColor(index);
-                                },
-                                child: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: colorFromHex(
-                                        product['configurable_options'][0]
-                                                ['values'][index]['swatch_data']
-                                            ['value']),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        product['configurable_options'][0]['values'].length > 2
-                            ? const Text(
-                                '+ More',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: headingColor,
-                                    height: 1.2,
-                                    fontSize: 13),
-                              )
-                            : Container(),
-                      ],
-                    )
-                  : Container(),
+
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(10)),
@@ -178,7 +136,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
               const SizedBox(
                 height: 18,
               ),
-              Row(
+
+              provider.productData[0]['__typename'] == "ConfigurableProduct"
+                  ?  Row(
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -190,6 +150,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   const SizedBox(
                     width: 10,
                   ),
+
+                  provider.productData[0]['__typename'] == "ConfigurableProduct"
+                      ?
                   Row(
                     children: [
                       Chip(
@@ -226,9 +189,50 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ),
                       // Add more chips as needed
                     ],
-                  ),
+                  ) : Container(),
                 ],
+              ) : Container(),
+
+              const SizedBox(
+                height: 18,
               ),
+
+              provider.productData[0]['__typename'] == "ConfigurableProduct"
+                  ? Row(
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: provider.productData[0]['configurable_options'][0]
+                                            ['values']
+                                        .length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  // _changeColor(index);
+                                },
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: colorFromHex(
+                                        provider.productData[0]['configurable_options'][0]
+                                                ['values'][index]['swatch_data']
+                                            ['value']),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(),
+
               const SizedBox(
                 height: 18,
               ),
@@ -352,38 +356,65 @@ class _ProductDescriptionState extends State<ProductDescription> {
               const SizedBox(
                 height: 12,
               ),
-              HtmlExpansionTile(
-                title: 'Care & Maintance',
-                htmlContent: '''${product[0]['care']}''',
-              ),
-              Card(
-                color: chip2Color,
-                child: ExpansionTile(
-                  onExpansionChanged: _onExpansionChanged,
-                  trailing: _isExpanded
-                      ? Icon(Icons.remove) // Icon when expanded
-                      : Icon(Icons.add),
-                  title: Text('Dimension'),
-                  children: [
-                    SingleChildScrollView(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          product[0]['height'] == null
-                              ? Container()
-                              : Text('Height: ' + product[0]['height']),
-                          product[0]['diameter'] == null
-                              ? Container()
-                              : Text('Diameter: ' + product[0]['diameter']),
-                        ],
-                      ),
-                    ),
-                  ],
+              Padding(
+                padding: const EdgeInsets.all(5),
+                child: HtmlExpansionTile(
+                  title: 'Detail',
+                  htmlContent: '''${product[0]['detail']}''',
                 ),
               ),
-              HtmlExpansionTile(
-                title: 'Detail',
-                htmlContent: '''${product[0]['care']}''',
+              Padding(
+                padding: const EdgeInsets.all(5),
+                child: Card(
+                  color: chip2Color,
+                  child: ExpansionTile(
+                    onExpansionChanged: _onExpansionChanged,
+                    trailing: _isExpanded
+                        ? const Icon(Icons.remove) // Icon when expanded
+                        : const Icon(Icons.add),
+                    title: const Text(
+                      'Dimensions',
+                      style: TextStyle(color: headingColor),
+                    ),
+                    children: [
+                      SingleChildScrollView(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            product[0]['height'] == null
+                                ? Container()
+                                : Text('Height: ' + product[0]['height']),
+                            product[0]['diameter'] == null
+                                ? Container()
+                                : Text('Diameter: ' + product[0]['diameter']),
+                            product[0]['capacity'] == null
+                                ? Container()
+                                : Text('Capacity: ' + product[0]['capacity']),
+                            product[0]['width'] == null
+                                ? Container()
+                                : Text('Width: ' + product[0]['width']),
+                            product[0]['length'] == null
+                                ? Container()
+                                : Text('Length: ' + product[0]['length']),
+                            product[0]['overall'] == null
+                                ? Container()
+                                : Text('Overall: ' + product[0]['overall']),
+                            product[0]['depth'] == null
+                                ? Container()
+                                : Text('Depth: ' + product[0]['depth']),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(5),
+                child: HtmlExpansionTile(
+                  title: 'Care & Maintenance',
+                  htmlContent: '''${product[0]['care']}''',
+                ),
               ),
               const SizedBox(
                 height: 12,
@@ -438,15 +469,15 @@ class _HtmlExpansionTileState extends State<HtmlExpansionTile> {
       child: ExpansionTile(
         onExpansionChanged: _onExpansionChanged,
         trailing: _isExpanded
-            ? Icon(Icons.remove) // Icon when expanded
-            : Icon(Icons.add),
+            ? const Icon(Icons.remove) // Icon when expanded
+            : const Icon(Icons.add),
         title: Container(
             child: Text(widget.title,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.w500, color: headingColor))),
         children: [
           SingleChildScrollView(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Html(
               data: widget.htmlContent,
             ),
