@@ -76,7 +76,7 @@ class _MainLayoutState extends State<MainLayout> {
             ),
             onPressed: () {
               Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/signupscreen");
+                  .pushNamed("/samplepage");
             },
           ),
         ],

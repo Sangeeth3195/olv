@@ -105,8 +105,8 @@ class _SignFormState extends State<SignForm> {
   }
 
   Widget _buildSignInWithText() {
-    return Column(
-      children: const <Widget>[
+    return const Column(
+      children: <Widget>[
         Text(
           '- OR -',
           style: TextStyle(

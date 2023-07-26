@@ -52,6 +52,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
       print('id --> ${widget.product['id']}');
 
       print('id --> ${widget.product['id']}');
+
+      print(
+          'id --> ${widget.product['configurable_options'][0]['attribute_code']}');
     }
   }
 
@@ -138,7 +141,10 @@ class _ProductDescriptionState extends State<ProductDescription> {
               const SizedBox(
                 height: 18,
               ),
-              provider.productData[0]['__typename'] == "ConfigurableProduct"
+
+              provider.productData[0]['configurable_options'][0]['values'][0]
+                          ['attribute_code'] ==
+                      "size"
                   ? Row(
                       children: [
                         Padding(
@@ -156,7 +162,47 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                 "ConfigurableProduct"
                             ? Row(
                                 children: [
-                                  Chip(
+                                  SizedBox(
+                                    height: 50,
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: provider
+                                          .productData[0]
+                                              ['configurable_options'][0]
+                                              ['values']
+                                          .length,
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                            onTap: () {
+                                              // _changeColor(index);
+                                            },
+                                            child: Chip(
+                                              backgroundColor: chipColor,
+                                              label: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 16.0),
+                                                child: Text(
+                                                  "${provider.productData[0]['configurable_options'][0]['values'][index]['swatch_data']['value']}",
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(0.0),
+                                                // Adjust the border radius for rectangle shape
+                                                side: const BorderSide(
+                                                  color: omaColor,
+                                                ),
+                                              ),
+                                            ));
+                                      },
+                                    ),
+                                  ),
+
+                                  /* Chip(
                                     backgroundColor: chipColor,
                                     label: const Padding(
                                       padding: EdgeInsets.symmetric(
@@ -189,7 +235,107 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                       // Adjust the border radius for rectangle shape
                                       side: const BorderSide(color: omaColor),
                                     ),
+                                  ),*/
+                                  // Add more chips as needed
+                                ],
+                              )
+                            : Container(),
+                      ],
+                    )
+                  : Container(),
+
+              provider.productData[0]['__typename'] == "ConfigurableProduct"
+                  ? Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: getProportionateScreenWidth(10)),
+                          child: const Text('SIZE',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: headingColor)),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        provider.productData[0]['__typename'] ==
+                                "ConfigurableProduct"
+                            ? Row(
+                                children: [
+                                  SizedBox(
+                                    height: 50,
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: provider
+                                          .productData[0]
+                                              ['configurable_options'][0]
+                                              ['values']
+                                          .length,
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                            onTap: () {
+                                              // _changeColor(index);
+                                            },
+                                            child: Chip(
+                                              backgroundColor: chipColor,
+                                              label: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 16.0),
+                                                child: Text(
+                                                  "${provider.productData[0]['configurable_options'][0]['values'][index]['swatch_data']['value']}",
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(0.0),
+                                                // Adjust the border radius for rectangle shape
+                                                side: const BorderSide(
+                                                  color: omaColor,
+                                                ),
+                                              ),
+                                            ));
+                                      },
+                                    ),
                                   ),
+
+                                  /* Chip(
+                                    backgroundColor: chipColor,
+                                    label: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: Text(
+                                        '8.66 "',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0.0),
+                                      // Adjust the border radius for rectangle shape
+                                      side: const BorderSide(
+                                        color: omaColor,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Chip(
+                                    backgroundColor: chip2Color,
+                                    label: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: Text('4.57 "'),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0.0),
+                                      // Adjust the border radius for rectangle shape
+                                      side: const BorderSide(color: omaColor),
+                                    ),
+                                  ),*/
                                   // Add more chips as needed
                                 ],
                               )
@@ -348,6 +494,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 child: ElevatedButton(
                   onPressed: () {
                     // Button onPressed action
+                    graphQLService.create_cart_non_user();
+                    graphQLService.create_cart();
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(5),

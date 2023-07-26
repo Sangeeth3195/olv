@@ -672,11 +672,11 @@ class GraphQLService {
             mutation {
               createCustomerV2(
                 input: {
-                  firstname: '$firstname'
-                  lastname: '$lastname'
-                  email: '$email'
-                  password: '$password'
-                  is_subscribed: '$isSubcribed'
+                  firstname: "$firstname"
+                  lastname: "$lastname"
+                  email: "$email"
+                  password: "$password"
+                  is_subscribed: $isSubcribed
                 }
               ) {
                 customer {
@@ -693,6 +693,12 @@ class GraphQLService {
   Future<String> createuser(String firstname, String lastname, String email,
       String password, bool issub) async {
     try {
+
+      print(firstname);
+      print(lastname);
+      print(email);
+      print(password);
+      print(issub);
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(
@@ -702,7 +708,7 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {}
-
+      print(result.data?['createCustomerV2']['customer']);
       return "";
     } catch (e) {
       print(e);
@@ -978,11 +984,9 @@ class GraphQLService {
   /// Create Cart
   static String crt_cart() {
     return '''
-            {
-              customerCart{
-                id
+             mutation {
+                createEmptyCart
               }
-            }
         ''';
   }
 
@@ -990,13 +994,13 @@ class GraphQLService {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(get_cus_det()), // this
+          document: gql(crt_cart()), // this
         ),
       );
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['customerCart']['id']);
+        print(result.data?['customerCart']);
       }
 
       return "";
@@ -1009,11 +1013,9 @@ class GraphQLService {
   /// Create Cart Non logged In
   static String crt_cart_non_user() {
     return '''
-            {
-              customerCart{
-                id
-              }
-            }
+            mutation {
+            createEmptyCart
+          }
         ''';
   }
 
@@ -1027,9 +1029,8 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['customerCart']['id']);
+        print(result.data?['createEmptyCart']);
       }
-
       return "";
     } catch (e) {
       print(e);

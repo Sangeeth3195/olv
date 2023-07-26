@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/components/size_config.dart';
 
+import 'constants.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
   static String routeName = "/splash";
@@ -27,11 +29,12 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      backgroundColor: headingColor,
       body: Stack(
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: const BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: headingColor),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
