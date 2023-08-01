@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
@@ -27,6 +29,10 @@ class _SignFormState extends State<SignForm> {
   final List<String?> errors = [];
   GraphQLService graphQLService = GraphQLService();
 
+  Color left = Colors.black;
+  Color right = Colors.white;
+  late PageController _pageController;
+
   void addError({String? error}) {
     if (!errors.contains(error)) {
       setState(() {
@@ -47,6 +53,66 @@ class _SignFormState extends State<SignForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  Widget _buildMenuBar(BuildContext context) {
+    return Container(
+      width: 300.0,
+      height: 50.0,
+      decoration: const BoxDecoration(
+        color: Color(0x552B2B2B),
+        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+      ),
+      child: CustomPaint(
+        painter: BubbleIndicatorPainter(pageController: _pageController),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Expanded(
+              child: TextButton(
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                ),
+                onPressed: _onSignInButtonPress,
+                child: Text(
+                  'Existing',
+                  style: TextStyle(
+                      color: left,
+                      fontSize: 16.0,
+                      fontFamily: 'WorkSansSemiBold'),
+                ),
+              ),
+            ),
+            //Container(height: 33.0, width: 1.0, color: Colors.white),
+            Expanded(
+              child: TextButton(
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                ),
+                onPressed: _onSignUpButtonPress,
+                child: Text(
+                  'New',
+                  style: TextStyle(
+                      color: right,
+                      fontSize: 16.0,
+                      fontFamily: 'WorkSansSemiBold'),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _onSignInButtonPress() {
+    _pageController.animateToPage(0,
+        duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
+  }
+
+  void _onSignUpButtonPress() {
+    _pageController.animateToPage(1,
+        duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
   }
 
   @override
@@ -189,4 +255,53 @@ class _SignFormState extends State<SignForm> {
       ),
     );
   }
+}
+
+class BubbleIndicatorPainter extends CustomPainter {
+  BubbleIndicatorPainter(
+      {this.dxTarget = 125.0,
+        this.dxEntry = 25.0,
+        this.radius = 21.0,
+        this.dy = 25.0,
+        required this.pageController})
+      : super(repaint: pageController) {
+    painter = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+  }
+
+  late Paint painter;
+  final double dxTarget;
+  final double dxEntry;
+  final double radius;
+  final double dy;
+
+  final PageController pageController;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final ScrollPosition pos = pageController.position;
+    final double fullExtent =
+        pos.maxScrollExtent - pos.minScrollExtent + pos.viewportDimension;
+
+    final double pageOffset = pos.extentBefore / fullExtent;
+
+    final bool left2right = dxEntry < dxTarget;
+    final Offset entry = Offset(left2right ? dxEntry : dxTarget, dy);
+    final Offset target = Offset(left2right ? dxTarget : dxEntry, dy);
+
+    final Path path = Path();
+    path.addArc(
+        Rect.fromCircle(center: entry, radius: radius), 0.5 * pi, 1 * pi);
+    path.addRect(Rect.fromLTRB(entry.dx, dy - radius, target.dx, dy + radius));
+    path.addArc(
+        Rect.fromCircle(center: target, radius: radius), 1.5 * pi, 1 * pi);
+
+    canvas.translate(size.width * pageOffset, 0.0);
+    canvas.drawShadow(path, Colors.white, 3.0, true);
+    canvas.drawPath(path, painter);
+  }
+
+  @override
+  bool shouldRepaint(BubbleIndicatorPainter oldDelegate) => true;
 }

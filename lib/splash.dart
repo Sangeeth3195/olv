@@ -44,7 +44,7 @@ class SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image.asset('assets/omalogo.png', height: 220, width: 220),
+                    Image.asset('assets/logo_white.png', height: 200, width: 200),
                   ],
                 ),
               ),

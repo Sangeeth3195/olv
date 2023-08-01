@@ -23,126 +23,165 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: Container(
-        padding: const EdgeInsets.all(defaultPadding / 2),
+        padding: const EdgeInsets.all(2),
         decoration: const BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: bgColor,
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(defaultBorderRadius)),
-                  ),
-                  child: Image.network(
-                    image,
-                    height: 150,
-                  ),
-                ),
-                const SizedBox(height: defaultPadding / 2),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      // maxLines: 1,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: blackColor,
-                          height: 1.5,
-                          fontSize: 13),
+        child: Card(
+          elevation: 0,
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                      borderRadius: const BorderRadius.all(
+                          Radius.circular(defaultBorderRadius)),
                     ),
-                    const SizedBox(height: defaultPadding / 5),
-                    Text(
-                      '₹$price',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: headingColor,
-                          height: 1.2,
-                          fontSize: 13),
+                    child: Image.network(
+                      image,
+                      height: 150,
                     ),
-                    product['__typename'] == "ConfigurableProduct"
-                        ? Row(
-                            children: [
-                              SizedBox(
-                                height: 50,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: product['configurable_options'][0]
-                                                  ['values']
-                                              .length >
-                                          0
-                                      ? 2
-                                      : product['configurable_options'][0]
-                                          ['values'],
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        // _changeColor(index);
-                                      },
-                                      child: Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: colorFromHex(
-                                              product['configurable_options'][0]
-                                                      ['values'][index]
-                                                  ['swatch_data']['value']),
+                  ),
+                  const SizedBox(height: 2),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: blackColor,
+                              height: 1.5,
+                              fontSize: 12),
+                        ),
+                      ),
+                      const SizedBox(height: 0.0),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: blackColor,
+                              height: 1.5,
+                              fontSize: 13),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child: Text(
+                          '₹$price',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: headingColor,
+                              height: 1.2,
+                              fontSize: 13),
+                        ),
+                      ),
+
+                      const SizedBox(height: 5.0),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child: Text(
+                          'Clearance ₹356 - ₹446',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: headingColor,
+                              height: 1.2,
+                              fontSize: 12),
+                        ),
+                      ),
+
+                      product['__typename'] == "ConfigurableProduct"
+                          ? Row(
+                              children: [
+                                SizedBox(
+                                  height: 50,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: product['configurable_options']
+                                                    [0]['values']
+                                                .length >
+                                            0
+                                        ? 2
+                                        : product['configurable_options'][0]
+                                            ['values'],
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          // _changeColor(index);
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: colorFromHex(
+                                                product['configurable_options']
+                                                        [0]['values'][index]
+                                                    ['swatch_data']['value']),
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                              product['configurable_options'][0]['values']
-                                          .length >
-                                      2
-                                  ? const Text(
-                                      '+ More',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: headingColor,
-                                          height: 1.2,
-                                          fontSize: 13),
-                                    )
-                                  : Container(),
-                            ],
-                          )
-                        : Container(),
-                    const Text(
-                      "Add to Cart",
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          color: headingColor,
-                          height: 1.5,
-                          fontSize: 13),
+                                product['configurable_options'][0]['values']
+                                            .length >
+                                        2
+                                    ? const Text(
+                                        '+ More',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: headingColor,
+                                            height: 1.2,
+                                            fontSize: 13),
+                                      )
+                                    : Container(),
+                              ],
+                            )
+                          : Container(),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child: Text(
+                          "Add to Cart",
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: headingColor,
+                              height: 1.5,
+                              fontSize: 13),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              const Positioned(
+                  top: 0,
+                  right: 5,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
+                    child: Icon(
+                      Icons.favorite_border,
+                      color: blackColor,
+                      size: 22,
                     ),
-                  ],
-                )
-              ],
-            ),
-            const Positioned(
-                top: 0,
-                right: 5,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: headingColor,
-                  ),
-                )),
-          ],
+                  )),
+            ],
+          ),
         ),
       ),
     );

@@ -64,8 +64,11 @@ class _MainLayoutState extends State<MainLayout> {
             ),
             onPressed: () {
               getNavdata();
+            /*  Navigator.of(context, rootNavigator: true)
+                  .pushNamed("/signinscreen");*/
+
               Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/signinscreen");
+                  .pushNamed("/detailspage");
             },
           ),
           IconButton(

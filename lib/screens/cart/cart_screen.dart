@@ -12,7 +12,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Body(),
-      bottomNavigationBar: CheckoutCard(),
+      // bottomNavigationBar: CheckoutCard(),
     );
   }
 

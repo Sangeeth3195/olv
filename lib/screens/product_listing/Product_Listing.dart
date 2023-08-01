@@ -24,6 +24,7 @@ class _HomeScreenState extends State<ProductListing> {
   String _selectedOption = "Popularity";
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> pList = [];
+  int? _value = 1;
 
   final List<String> _options = [
     'Popularity',
@@ -53,15 +54,12 @@ class _HomeScreenState extends State<ProductListing> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2.8;
-    final double itemWidth = size.width / 2;
     return Scaffold(
       body: Consumer<MyProvider>(
         builder: (context, provider, _) {
           return Column(
             children: [
-              Container(
+              /*Container(
                 height: 70,
                 padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
@@ -73,49 +71,19 @@ class _HomeScreenState extends State<ProductListing> {
               ),
               const SizedBox(
                 height: 20,
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
-                child: SectionTitle(
-                  title: "New Arrival",
-                  pressSeeAll: () {},
-                ),
-              ),
+              ),*/
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 4, top: 10),
+                    Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 13, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        shape: BoxShape.rectangle,
-                        border: Border.all(color: headingColor),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(0.0),
-                        ),
-                      ),
-                      child: Row(
-                        children: const [
-                          Icon(
-                            FontAwesomeIcons.sliders,
-                            color: headingColor,
-                            size: 18.0,
-                          ),
-                          SizedBox(width: defaultPadding / 2),
-                          Text(
-                            "Filter",
-                            style: TextStyle(
-                                color: headingColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16),
-                          ),
-                        ],
+                          vertical: 1, horizontal: 10),
+                      child: SectionTitle(
+                        title: "New Arrival",
+                        pressSeeAll: () {},
                       ),
                     ),
                     Row(
@@ -123,52 +91,112 @@ class _HomeScreenState extends State<ProductListing> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Column(
-                          children: const [
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "Items",
-                              style: TextStyle(
-                                  color: headingColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        // <-- SEE HERE
+                                        topLeft: Radius.circular(25.0),
+                                        topRight: Radius.circular(25.0),
+                                      ),
+                                    ),
+                                    builder: (context) {
+                                      return const SizedBox(
+                                        height: 250,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[],
+                                        ),
+                                      );
+                                    });
+                              },
+                              // styling the button
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                padding: const EdgeInsets.all(5),
+                                // Button color
+                                backgroundColor: filter,
+                                // Splash color
+                                foregroundColor: Colors.cyan,
+                              ),
+                              // icon of the button
+                              child: const Icon(
+                                FontAwesomeIcons.arrowsUpDown,
+                                color: Colors.black,
+                                size: 20,
+                              ),
                             ),
                           ],
                         ),
-                        Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            shape: BoxShape.rectangle,
-                            border: Border.all(color: headingColor),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(0.0),
-                            ),
-                          ),
-                          margin: const EdgeInsets.only(left: 4, top: 10),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 1),
-                          child: DropdownButton<String>(
-                            underline: Container(),
-                            isExpanded: true,
-                            value: _selectedOption,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedOption = newValue!;
-                              });
-                            },
-                            items: _options
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: const TextStyle(fontSize: 14),
+                        ElevatedButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    // <-- SEE HERE
+                                    topLeft: Radius.circular(25.0),
+                                    topRight: Radius.circular(25.0),
+                                  ),
                                 ),
-                              );
-                            }).toList(),
+                                builder: (context) {
+                                  return SizedBox(
+                                    height: 200,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Wrap(
+                                          // list of length 3
+                                          children: List.generate(
+                                            _options.length,
+                                            (int index) {
+                                              // choice chip allow us to
+                                              // set its properties.
+                                              return ChoiceChip(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                label: Text(_options[index]),
+                                                // color of selected chip
+                                                selectedColor: Colors.green,
+                                                // selected chip value
+                                                selected: _value == index,
+                                                // onselected method
+                                                onSelected: (bool selected) {
+                                                  setState(() {
+                                                    _value =
+                                                        selected ? index : null;
+                                                  });
+                                                },
+                                              );
+                                            },
+                                          ).toList(),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
+                          },
+                          // styling the button
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: const EdgeInsets.all(5),
+                            // Button color
+                            backgroundColor: filter,
+                            // Splash color
+                            foregroundColor: Colors.cyan,
+                          ),
+                          // icon of the button
+                          child: const Icon(
+                            FontAwesomeIcons.filter,
+                            color: Colors.black,
+                            size: 20,
                           ),
                         ),
                       ],
@@ -179,15 +207,14 @@ class _HomeScreenState extends State<ProductListing> {
               Expanded(
                 child: GridView.extent(
                   primary: false,
-                  padding: const EdgeInsets.all(5),
-                  crossAxisSpacing: 0,
-                  mainAxisSpacing: 0,
-                  childAspectRatio: 0.6,
-                  maxCrossAxisExtent: 300.0,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(2),
+                  childAspectRatio: 0.60,
+                  maxCrossAxisExtent: 300,
                   children: List.generate(
                     provider.pList.length,
                     (index) => Padding(
-                      padding: const EdgeInsets.only(right: defaultPadding),
+                      padding: const EdgeInsets.all(3),
                       child: ProductCard(
                         title: provider.pList[index]['name'],
                         image: provider.pList[index]['small_image']['url'],
@@ -213,38 +240,49 @@ class _HomeScreenState extends State<ProductListing> {
                   ),
                 ),
               ),
+
+              /*Expanded(
+                child: GridView.builder(
+                    primary: false,
+                    itemCount: pList.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 15.0,
+                        mainAxisSpacing: 15.0,
+                        childAspectRatio: 2 / 3),
+                    padding: const EdgeInsets.all(2),
+                    itemBuilder:  (BuildContext ctx, i) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: defaultPadding),
+                        child: ProductCard(
+                          title: provider.pList[i]['name'],
+                          image: provider.pList[i]['small_image']['url'],
+                          price: provider.pList[i]['__typename'] ==
+                              "SimpleProduct"
+                              ? provider.pList[i]['price_range']
+                          ['minimum_price']['regular_price']['value']
+                              .toString()
+                              : "${provider.pList[i]['price_range']['minimum_price']['regular_price']['value']}"
+                              " - ${provider.pList[i]['price_range']['minimum_price']['regular_price']['value']}",
+                          product: provider.pList[i],
+                          bgColor: demo_product[0].colors[0],
+                          press: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailsScreen(
+                                      product: provider.pList[i]),
+                                ));
+                          },
+                        ),
+                      );
+                    }
+                ),
+              )*/
             ],
           );
         },
       ),
-      // body: SingleChildScrollView(
-      //   physics: const BouncingScrollPhysics(
-      //       parent: AlwaysScrollableScrollPhysics()),
-      //   padding: const EdgeInsets.all(defaultPadding),
-      //   child: Column(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children: [
-      //       // Text(
-      //       //   "Explore",
-      //       //   style: Theme.of(context)
-      //       //       .textTheme
-      //       //       .headline4!
-      //       //       .copyWith(fontWeight: FontWeight.w500, color: Colors.black),
-      //       // ),
-      //       // const Text(
-      //       //   "best Outfits for you",
-      //       //   style: TextStyle(fontSize: 18),
-      //       // ),
-      //       const Padding(
-      //         padding: EdgeInsets.symmetric(vertical: defaultPadding),
-      //         child: SearchForm(),
-      //       ),
-      //       const Categories(),
-      //       const NewArrivalProducts(),
-      //       const PopularProducts(),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

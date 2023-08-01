@@ -46,7 +46,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               color: Colors.white,
               child: ListView(
                 children: [
-                  Container(
+                /*  Container(
                     height: 70,
                     padding: const EdgeInsets.all(10),
                     decoration: const BoxDecoration(
@@ -58,7 +58,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                   const SizedBox(
                     height: 20,
-                  ),
+                  ),*/
                   ProductImages(product: provider.productData),
                   TopRoundedContainer(
                     color: Colors.white,
@@ -76,7 +76,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             );
 
           }else{
-           return CircularProgressIndicator();
+           return const CircularProgressIndicator();
           }
 
         },
