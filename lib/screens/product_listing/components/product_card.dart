@@ -114,7 +114,7 @@ class ProductCard extends StatelessWidget {
                                     itemCount: product['configurable_options']
                                                     [0]['values']
                                                 .length >
-                                            0
+                                            2
                                         ? 2
                                         : product['configurable_options'][0]
                                             ['values'],

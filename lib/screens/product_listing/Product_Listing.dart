@@ -27,10 +27,10 @@ class _HomeScreenState extends State<ProductListing> {
   int? _value = 1;
 
   final List<String> _options = [
-    'Popularity',
+    'Most Relevant',
     'Product Name',
-    'Lowest to Highest Price',
-    'Highest to Lowest Price',
+    'Low to high',
+    'High to low',
   ];
 
   @override
@@ -145,14 +145,75 @@ class _HomeScreenState extends State<ProductListing> {
                                   ),
                                 ),
                                 builder: (context) {
-                                  return SizedBox(
-                                    height: 200,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Wrap(
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      const Center(
+                                        child: SizedBox(
+                                            width: 100,
+                                            child: Divider(
+                                              thickness: 4.0,
+                                            )),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.end,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.only(right: 10),
+                                              width: 24,
+                                              height: 24,
+
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFFE6E6E6),
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons.close,
+                                                  color: Colors.black,
+                                                  size: 24 * 0.6,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 10),
+                                        child: Text(
+                                          'Sort By',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              color: blackColor,
+                                              height: 1.5,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
+                                        child: Text(
+                                          'Price',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              color: blackColor,
+                                              height: 1.5,
+                                              fontSize: 12),
+                                        ),
+                                      ),
+
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Wrap(
                                           // list of length 3
                                           children: List.generate(
                                             _options.length,
@@ -162,9 +223,15 @@ class _HomeScreenState extends State<ProductListing> {
                                               return ChoiceChip(
                                                 padding:
                                                     const EdgeInsets.all(8),
-                                                label: Text(_options[index]),
+                                                label: Text(_options[index],style:const TextStyle(
+                                                    fontWeight: FontWeight.w200,
+                                                    color: blackColor,
+                                                    height: 1,
+                                                    fontSize: 16)),
                                                 // color of selected chip
-                                                selectedColor: Colors.green,
+                                                selectedColor: chipColor,
+
+                                                 backgroundColor: Color(0xFFEFEFEF),
                                                 // selected chip value
                                                 selected: _value == index,
                                                 // onselected method
@@ -173,13 +240,37 @@ class _HomeScreenState extends State<ProductListing> {
                                                     _value =
                                                         selected ? index : null;
                                                   });
+                                                  print(_value);
                                                 },
                                               );
                                             },
                                           ).toList(),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+
+                                      SizedBox(height: 20,),
+                                      Container(
+                                        margin: EdgeInsets.all(10),
+
+                                        width:MediaQuery.of(context).size.width,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            // Define the action to perform when the button is pressed
+                                            print('Button Pressed');
+                                          },
+                                          child: Text('Apply'),
+                                          style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(16.0), // Set the corner radius here
+                                            ),
+                                            padding: EdgeInsets.all(16.0), // Optional: Set padding for the button
+                                            // Customize other properties like background color, elevation, etc.
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 20,),
+
+                                    ],
                                   );
                                 });
                           },

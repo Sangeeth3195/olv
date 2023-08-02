@@ -72,7 +72,7 @@ class GraphQLService {
     }
   }
 
-  Future<List<dynamic>> getproductlist({
+  Future<dynamic> getproductlist({
     required int limit,
     required int id,
   }) async {
@@ -179,16 +179,8 @@ class GraphQLService {
       if (result.hasException) {
         throw Exception(result.exception);
       } else {
-
         EasyLoading.dismiss();
-        List? res = result.data?['products']['items'];
-
-        if (res == null || res.isEmpty) {
-          return [];
-        }
-        print(res);
-
-        return res;
+        return result;
       }
     } catch (error) {
       return [];
