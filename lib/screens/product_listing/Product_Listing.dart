@@ -6,6 +6,7 @@ import 'package:omaliving/models/Product.dart';
 import 'package:omaliving/screens/details/details_screen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
+import '../../PDP_UI.dart';
 import 'components/product_card.dart';
 import 'components/search_form.dart';
 import 'components/section_title.dart';
@@ -38,6 +39,8 @@ class _HomeScreenState extends State<ProductListing> {
     // TODO: implement initState
     super.initState();
     getNavdata();
+
+
   }
 
   @override
@@ -209,7 +212,7 @@ class _HomeScreenState extends State<ProductListing> {
                   primary: false,
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(2),
-                  childAspectRatio: 0.60,
+                  childAspectRatio: 0.57,
                   maxCrossAxisExtent: 300,
                   children: List.generate(
                     provider.pList.length,
@@ -227,13 +230,24 @@ class _HomeScreenState extends State<ProductListing> {
                                 " - ${provider.pList[index]['price_range']['minimum_price']['regular_price']['value']}",
                         product: provider.pList[index],
                         bgColor: demo_product[0].colors[0],
+
+
+
                         press: () {
-                          Navigator.push(
+                          /*Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DetailsScreen(
                                     product: provider.pList[index]),
+                              ));*/
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailsPage(
+                                    product: provider.pList[index]),
                               ));
+
                         },
                       ),
                     ),

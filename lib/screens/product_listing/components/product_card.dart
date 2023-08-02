@@ -53,11 +53,10 @@ class ProductCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       Padding(
                         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(
-                          title,
+                          product['dynamicAttributes'][0]['attribute_value'].toString(),
                           style: const TextStyle(
                               fontWeight: FontWeight.normal,
                               color: blackColor,
@@ -78,6 +77,16 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10.0),
+
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child:
+                      product['getPriceRange'] == null
+                          ? Container( child: Text('null '))
+                          : Text('Height: ' + product['textAttributes'][0]['weight'].toString()),
+                      ),
+                      const SizedBox(height: 10.0),
+
                       Padding(
                         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(

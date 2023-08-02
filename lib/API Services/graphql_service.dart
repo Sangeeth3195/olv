@@ -157,6 +157,20 @@ class GraphQLService {
                             }
                   }
                         }
+                        getPriceRange{
+                            oldpricevalue  
+                            normalpricevalue
+                          }
+                          textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                       dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
                         url_key
                         small_image{
                             url
@@ -179,7 +193,6 @@ class GraphQLService {
       if (result.hasException) {
         throw Exception(result.exception);
       } else {
-
         EasyLoading.dismiss();
         List? res = result.data?['products']['items'];
 
@@ -693,7 +706,6 @@ class GraphQLService {
   Future<String> createuser(String firstname, String lastname, String email,
       String password, bool issub) async {
     try {
-
       print(firstname);
       print(lastname);
       print(email);

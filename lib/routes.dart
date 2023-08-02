@@ -47,6 +47,6 @@ final Map<String, WidgetBuilder> routes = {
 
   /// sample screens
   '/samplepage': (context) => const Samplepage(),
-  '/detailspage': (context) => DetailsPage(),
+  // '/detailspage': (context) => DetailsPage(id: 0),
 
 };
