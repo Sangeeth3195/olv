@@ -53,6 +53,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
       print('id --> ${widget.product['id']}');
 
+
+
       print(
           'id --> ${widget.product['configurable_options'][0]['attribute_code']}');
     }
@@ -343,9 +345,11 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ],
                     )
                   : Container(),
+
               const SizedBox(
                 height: 18,
               ),
+
               provider.productData[0]['__typename'] == "ConfigurableProduct"
                   ? Row(
                       children: [
@@ -407,9 +411,11 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ],
                     )
                   : Container(),
+
               const SizedBox(
                 height: 18,
               ),
+
               Row(
                 children: [
                   Padding(
@@ -557,9 +563,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: [
-                            product[0]['height'] == null
-                                ? Container()
-                                : Text('Height: ' + product[0]['height']),
+                              product[0]['height'] == null
+                                    ? Container()
+                                    : Text('Height: ' + product[0]['height']),
                             product[0]['diameter'] == null
                                 ? Container()
                                 : Text('Diameter: ' + product[0]['diameter']),

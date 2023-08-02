@@ -20,7 +20,7 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  GraphQLService graphQLService=GraphQLService();
+    GraphQLService graphQLService=GraphQLService();
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       body: Consumer<MyProvider>(
         builder: (context,provider,_){
           if(provider.productData != null){
-            return  Container(
+            return Container(
               color: Colors.white,
               child: ListView(
                 children: [

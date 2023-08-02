@@ -55,8 +55,10 @@ class _LoginPageState extends State<Samplepage>
                 tileMode: TileMode.clamp),
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+
             children: <Widget>[
+
               Text(
                 "Login Account",
                 style: TextStyle(
@@ -227,7 +229,7 @@ class CustomTheme {
   const CustomTheme();
 
   static const Color loginGradientStart = Color(0xFFFFFFFF);
-  static const Color loginGradientEnd = Color(0xFFf7418c);
+  static const Color loginGradientEnd = Color(0xFFFFFFFF);
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
 
@@ -275,13 +277,15 @@ class _SignInState extends State<SignIn> {
     return Container(
       padding: const EdgeInsets.only(top: 23.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+
         children: <Widget>[
           const Padding(
             padding: EdgeInsets.only(left: 0.0, right: 0.0),
             child: Text(
               'Phone Number',
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 16.0,
                   fontFamily: 'WorkSansMedium'),
             ),
@@ -303,8 +307,8 @@ class _SignInState extends State<SignIn> {
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                         colors: <Color>[
-                          Colors.white10,
-                          Colors.white,
+                          Colors.black12,
+                          Colors.black,
                         ],
                         begin: FractionalOffset(0.0, 0.0),
                         end: FractionalOffset(1.0, 1.0),
@@ -314,12 +318,14 @@ class _SignInState extends State<SignIn> {
                   width: 100.0,
                   height: 1.0,
                 ),
+
+
                 const Padding(
                   padding: EdgeInsets.only(left: 15.0, right: 15.0),
                   child: Text(
-                    'Or',
+                    'Or Sign in with',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 16.0,
                         fontFamily: 'WorkSansMedium'),
                   ),
@@ -328,8 +334,8 @@ class _SignInState extends State<SignIn> {
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                         colors: <Color>[
-                          Colors.white,
-                          Colors.white10,
+                          Colors.black,
+                          Colors.black12,
                         ],
                         begin: FractionalOffset(0.0, 0.0),
                         end: FractionalOffset(1.0, 1.0),
