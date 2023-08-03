@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 
@@ -19,7 +21,7 @@ class MyProvider extends ChangeNotifier {
     aggrecation=listData.data?['products']['aggregations'];
 
     dynamic dataFromAPi = await graphQLService.getproductlist(limit: 100, id: id);
-    print(dataFromAPi.data?['products']['aggregations']);
+    log(dataFromAPi.data!['products']['aggregations'].toString());
     List? res1 = dataFromAPi.data?['products']['items'];
     _data = res1!;
     aggrecation=dataFromAPi.data?['products']['aggregations'];
