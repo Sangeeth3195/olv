@@ -86,6 +86,10 @@ class GraphQLService {
                     products(
                     filter: {
                       category_id: {eq: "${id}"}
+                      material: {in: [] }
+                      color:{in: []}
+                      brands:{in:[]}
+                      oma_collection:{in:[]}
                       }
                       sort: {name: ASC}
                       pageSize:16

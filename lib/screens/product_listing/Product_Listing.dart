@@ -30,8 +30,8 @@ class _HomeScreenState extends State<ProductListing> {
   final List<String> _options = [
     'Most Relevant',
     'Product Name',
-    'Low to high',
-    'High to low',
+    'Lowest to Highest Price',
+    'Highest to Lowest Price',
   ];
 
   @override
@@ -39,8 +39,6 @@ class _HomeScreenState extends State<ProductListing> {
     // TODO: implement initState
     super.initState();
     getNavdata();
-
-
   }
 
   @override
@@ -164,22 +162,22 @@ class _HomeScreenState extends State<ProductListing> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.end,
+                                            CrossAxisAlignment.end,
                                         children: [
                                           GestureDetector(
                                             onTap: () {
                                               Navigator.of(context).pop();
                                             },
                                             child: Container(
-                                              margin: EdgeInsets.only(right: 10),
+                                              margin:
+                                                  const EdgeInsets.only(right: 10),
                                               width: 24,
                                               height: 24,
-
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color(0xFFE6E6E6),
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Center(
+                                              child: const Center(
                                                 child: Icon(
                                                   Icons.close,
                                                   color: Colors.black,
@@ -190,30 +188,30 @@ class _HomeScreenState extends State<ProductListing> {
                                           ),
                                         ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 10),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            15.0, 0, 0, 10),
                                         child: Text(
                                           'Sort By',
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               color: blackColor,
                                               height: 1.5,
                                               fontSize: 16),
                                         ),
                                       ),
-
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            15.0, 0, 0, 5),
                                         child: Text(
                                           'Price',
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               color: blackColor,
                                               height: 1.5,
                                               fontSize: 12),
                                         ),
                                       ),
-
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Wrap(
@@ -226,15 +224,18 @@ class _HomeScreenState extends State<ProductListing> {
                                               return ChoiceChip(
                                                 padding:
                                                     const EdgeInsets.all(8),
-                                                label: Text(_options[index],style:const TextStyle(
-                                                    fontWeight: FontWeight.w200,
-                                                    color: blackColor,
-                                                    height: 1,
-                                                    fontSize: 16)),
+                                                label: Text(_options[index],
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w200,
+                                                        color: blackColor,
+                                                        height: 1,
+                                                        fontSize: 16)),
                                                 // color of selected chip
                                                 selectedColor: chipColor,
 
-                                                 backgroundColor: Color(0xFFEFEFEF),
+                                                backgroundColor:
+                                                    const Color(0xFFEFEFEF),
                                                 // selected chip value
                                                 selected: _value == index,
                                                 // onselected method
@@ -250,29 +251,33 @@ class _HomeScreenState extends State<ProductListing> {
                                           ).toList(),
                                         ),
                                       ),
-
-                                      SizedBox(height: 20,),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
                                       Container(
-                                        margin: EdgeInsets.all(10),
-
-                                        width:MediaQuery.of(context).size.width,
+                                        margin: const EdgeInsets.all(10),
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         child: ElevatedButton(
                                           onPressed: () {
                                             // Define the action to perform when the button is pressed
                                             print('Button Pressed');
                                           },
-                                          child: Text('Apply'),
                                           style: ElevatedButton.styleFrom(
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(16.0), // Set the corner radius here
+                                              borderRadius: BorderRadius.circular(
+                                                  16.0), // Set the corner radius here
                                             ),
-                                            padding: EdgeInsets.all(16.0), // Optional: Set padding for the button
+                                            padding: const EdgeInsets.all(
+                                                16.0), // Optional: Set padding for the button
                                             // Customize other properties like background color, elevation, etc.
                                           ),
+                                          child: const Text('Apply'),
                                         ),
                                       ),
-                                      SizedBox(height: 20,),
-
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
                                     ],
                                   );
                                 });
@@ -321,9 +326,6 @@ class _HomeScreenState extends State<ProductListing> {
                                 " - ${provider.pList[index]['price_range']['minimum_price']['regular_price']['value']}",
                         product: provider.pList[index],
                         bgColor: demo_product[0].colors[0],
-
-
-
                         press: () {
                           /*Navigator.push(
                               context,
@@ -335,10 +337,9 @@ class _HomeScreenState extends State<ProductListing> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DetailsPage(
-                                    product: provider.pList[index]),
+                                builder: (context) =>
+                                    DetailsPage(product: provider.pList[index]),
                               ));
-
                         },
                       ),
                     ),

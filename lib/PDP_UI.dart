@@ -144,7 +144,7 @@ class _DetailsPageState extends State<DetailsPage>
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Theme.of(context).canvasColor,
-        appBar: AppBar(
+    /*    appBar: AppBar(
           title: const Center(
             child: Text(
               'Details',
@@ -159,7 +159,7 @@ class _DetailsPageState extends State<DetailsPage>
               onPressed: () {
                 Navigator.of(context).pop();
               }),
-        ),
+        ),*/
         body: Consumer<MyProvider>(
           builder: (context, provider, _) {
             if (provider.productData != null) {

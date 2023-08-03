@@ -82,12 +82,11 @@ class ProductCard extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child:
                       product['getPriceRange'] == null
-                          ? Container( child: Text('null '))
-                          : Text('Height: ' + product['textAttributes'][0]['weight'].toString()),
+                          ? Text(product['textAttributes'][0]['normalprice'].toString())
+                          : Text(product['getPriceRange'][0]['normalpricevalue'].toString()),
                       ),
-                      const SizedBox(height: 10.0),
 
-                      Padding(
+                      /*Padding(
                         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(
                           '₹$price',
@@ -97,24 +96,31 @@ class ProductCard extends StatelessWidget {
                               height: 1.2,
                               fontSize: 13),
                         ),
-                      ),
+                      ),*/
 
-                      const SizedBox(height: 5.0),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      const SizedBox(height: 10.0),
+
+                      product['textAttributes'][0]['specicalprice'].toString() == null ?
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(
-                          'Clearance ₹356 - ₹446',
-                          style: TextStyle(
+                          product['textAttributes'][0]['specicalprice'].toString(),
+                          style: const TextStyle(
                               fontWeight: FontWeight.normal,
                               color: headingColor,
                               height: 1.2,
                               fontSize: 12),
                         ),
-                      ),
+                      ) : Container(),
 
                       product['__typename'] == "ConfigurableProduct"
                           ? Row(
                               children: [
+
+                                product['configurable_options']
+                                [0]['values']
+                                    .length >
+                                    2 ?
                                 SizedBox(
                                   height: 50,
                                   child: ListView.builder(
@@ -147,7 +153,36 @@ class ProductCard extends StatelessWidget {
                                       );
                                     },
                                   ),
+                                ) : SizedBox(
+                                  height: 50,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: product['configurable_options']
+                                    [0]['values']
+                                        .length,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          // _changeColor(index);
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: colorFromHex(
+                                                product['configurable_options']
+                                                [0]['values'][index]
+                                                ['swatch_data']['value']),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
+
                                 product['configurable_options'][0]['values']
                                             .length >
                                         2
@@ -163,6 +198,8 @@ class ProductCard extends StatelessWidget {
                               ],
                             )
                           : Container(),
+
+
                       const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(
