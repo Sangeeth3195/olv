@@ -90,6 +90,7 @@ class GraphQLService {
                       color:{in: []}
                       brands:{in:[]}
                       oma_collection:{in:[]}
+                      oma_subclass:{in:[]}
                       }
                       sort: {name: ASC}
                       pageSize:16
@@ -240,6 +241,28 @@ class GraphQLService {
                         attribute_set_id
                         manufacturer
                         canonical_url
+                        price_range{
+                          minimum_price{
+                            regular_price{
+                              value
+                              currency
+                            }
+                          }
+                        }
+                        getPriceRange{
+                              oldpricevalue  
+                              normalpricevalue
+                            }
+                            textAttributes{
+                              weight
+                              normalprice
+                              specicalprice
+                        }
+                         dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                               attribute_code
+                              attribute_label
+                              attribute_value
+                        }
                         description {
                           html
                         }

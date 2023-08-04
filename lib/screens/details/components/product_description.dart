@@ -50,13 +50,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
     if (kDebugMode) {
       print('name --> ' + widget.product['name']);
       print('id --> ${widget.product['id']}');
-
-      print('id --> ${widget.product['id']}');
-
-
-
-      print(
-          'id --> ${widget.product['configurable_options'][0]['attribute_code']}');
     }
   }
 
@@ -103,8 +96,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         ? provider.productData[0]['price_range']
                                 ['minimum_price']['regular_price']['value']
                             .toString()
-                        : '₹' +
-                            "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}"
+                          : '₹' +
+                              "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}"
                                 " - " +
                             '₹' +
                             "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",

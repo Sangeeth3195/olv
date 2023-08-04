@@ -25,6 +25,7 @@ class _DetailsPageState extends State<DetailsPage>
   GraphQLService graphQLService = GraphQLService();
 
   int quantity = 0;
+  int selectedImage = 0;
 
   @override
   void initState() {
@@ -33,7 +34,6 @@ class _DetailsPageState extends State<DetailsPage>
     getNavdata();
 
     print('getPriceRange --> ${widget.product}');
-
   }
 
   void getNavdata() async {
@@ -144,7 +144,7 @@ class _DetailsPageState extends State<DetailsPage>
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Theme.of(context).canvasColor,
-    /*    appBar: AppBar(
+        /*    appBar: AppBar(
           title: const Center(
             child: Text(
               'Details',
@@ -168,65 +168,79 @@ class _DetailsPageState extends State<DetailsPage>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      const SizedBox(height: 10),
                       Card(
-                        color: Colors.white,
-                        elevation: 5,
-                        margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 2.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: CarouselSlider(
-                          options: CarouselOptions(
-                              initialPage: 0,
-                              reverse: false,
-                              autoPlay: true,
-                              enableInfiniteScroll: true,
-                              scrollDirection: Axis.horizontal,
-                              onPageChanged: (index, fn) {
-                                setState(() {
-                                  _current = index;
-                                });
-                              }),
-                          items: imgList.map((imgUrl) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 5.0),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).cardColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Image.network(
-                                    imgUrl,
-                                    fit: BoxFit.cover,
-                                  ),
-                                );
-                              },
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: map<Widget>(imgList, (index, url) {
-                          return Container(
-                            width: 18.0,
-                            height: 8.0,
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 5.0, horizontal: 4.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              // borderRadius: BorderRadius.circular(10.0),
-                              color: _current == index
-                                  ? Colors.black
-                                  : Colors.grey,
-                            ),
-                          );
-                        }),
-                      ),
+                          color: Colors.white,
+                          elevation: 5,
+                          margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 2.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(padding: EdgeInsets.fromLTRB(0.0,10,20,0),
+                                     child: Icon(Icons.favorite_border,size: 25.0,)),
+                                  ],
+                                ),
+                                CarouselSlider(
+                                  options: CarouselOptions(
+                                      initialPage: 0,
+                                      reverse: false,
+                                      autoPlay: true,
+                                      enableInfiniteScroll: true,
+                                      scrollDirection: Axis.horizontal,
+                                      onPageChanged: (index, fn) {
+                                        setState(() {
+                                          _current = index;
+                                        });
+                                      }),
+                                  items: imgList.map((imgUrl) {
+                                    return Builder(
+                                      builder: (BuildContext context) {
+                                        return Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 5.0),
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).cardColor,
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: Image.network(
+                                            provider.productData[0]['media_gallery'][selectedImage]['url'],
+                                            fit: BoxFit.cover,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }).toList(),
+                                ),
+                                const SizedBox(height: 15),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: map<Widget>(provider.productData[0]['media_gallery'], (index, url) {
+                                    return Container(
+                                      width: 18.0,
+                                      height: 8.0,
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 5.0, horizontal: 4.0),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        // borderRadius: BorderRadius.circular(10.0),
+                                        color: _current == index
+                                            ? Colors.black
+                                            : Colors.grey,
+                                      ),
+                                    );
+                                  }),
+                                ),
+                                const SizedBox(height: 15),
+                              ])),
                       Container(
                         padding:
                             const EdgeInsets.only(top: 20, right: 10, left: 10),
@@ -235,7 +249,7 @@ class _DetailsPageState extends State<DetailsPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                provider.productData[0]['name'],
+                                provider.productData[0]['dynamicAttributes'][0]['attribute_value'].toString(),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.black54,
@@ -274,25 +288,26 @@ class _DetailsPageState extends State<DetailsPage>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text.rich(
+                                  Text.rich(
                                     TextSpan(
                                       children: [
                                         TextSpan(
-                                            text: '₹ 2,595',
-                                            style: TextStyle(
+                                            text: '₹' +
+                                                "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
+                                            style: const TextStyle(
                                                 color: headingColor,
                                                 fontSize: 14)),
-                                        TextSpan(
+                                        const TextSpan(
                                             text: '    ',
                                             style:
                                                 TextStyle(color: headingColor)),
-                                        TextSpan(
+                                        /*const TextSpan(
                                           text: 'Clearance ₹ 1,298',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w600,
                                               color: headingColor,
                                               fontSize: 14),
-                                        ),
+                                        ),*/
                                       ],
                                     ),
                                   ),
@@ -305,7 +320,7 @@ class _DetailsPageState extends State<DetailsPage>
                                               BorderRadius.circular(25.0),
                                         ),
                                         child: SizedBox(
-                                          height: 32,
+                                          height: 35,
                                           width: 110,
                                           child: AnimatedSwitcher(
                                             duration: const Duration(
@@ -394,7 +409,8 @@ class _DetailsPageState extends State<DetailsPage>
                               ],
                             )
                           : Container(),
-                      provider.productData[0]['configurable_options'][0]
+
+                      /*provider.productData[0]['configurable_options'][0]
                                   ['values'][0]['attribute_code'] ==
                               "size"
                           ? Row(
@@ -465,8 +481,9 @@ class _DetailsPageState extends State<DetailsPage>
                                     : Container(),
                               ],
                             )
-                          : Container(),
-                      provider.productData[0]['__typename'] ==
+                          : Container(),*/
+
+                    /*  provider.productData[0]['__typename'] ==
                               "ConfigurableProduct"
                           ? Row(
                               children: [
@@ -537,12 +554,12 @@ class _DetailsPageState extends State<DetailsPage>
                                     : Container(),
                               ],
                             )
-                          : Container(),
+                          : Container(),*/
+
 
                       const SizedBox(
                         height: 10,
                       ),
-
                       const Padding(
                         padding: EdgeInsets.only(
                           left: 10.0,
@@ -605,7 +622,7 @@ class _DetailsPageState extends State<DetailsPage>
                                 child: Card(
                                   elevation: 1.0,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius: BorderRadius.circular(5.0),
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
@@ -696,10 +713,11 @@ class _DetailsPageState extends State<DetailsPage>
                       const SizedBox(height: 10.0),
                     ],
                   ),
+
                 ),
               );
             } else {
-              return const CircularProgressIndicator();
+              return Container();
             }
           },
         ));
@@ -750,11 +768,9 @@ class _DetailsPageState extends State<DetailsPage>
               HtmlWidget(
                 productData[0]['detail'],
               ),
-
               productData[0]['depth'] == null
                   ? Container()
                   : Text('Depth: ' + productData[0]['depth']),
-
               HtmlWidget(
                 productData[0]['care'],
               ),
