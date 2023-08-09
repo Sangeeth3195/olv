@@ -18,7 +18,7 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        const Duration(seconds: 4),
+        const Duration(seconds: 3),
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -44,7 +44,8 @@ class SplashScreenState extends State<SplashScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image.asset('assets/logo_white.png', height: 200, width: 200),
+                    Image.asset('assets/logo_white.png',
+                        height: 200, width: 200),
                   ],
                 ),
               ),

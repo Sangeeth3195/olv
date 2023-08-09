@@ -23,6 +23,7 @@ class GraphQLService {
                   children_count
                   children {
                     id
+                    include_in_menu
                     position
                     image
                     level
@@ -222,7 +223,6 @@ class GraphQLService {
                     products(filter: { sku: { eq: "${id}" } }) {
                       items {
                         id
-                        care
                         detail
                         length
                         width

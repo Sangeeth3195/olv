@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
@@ -30,16 +31,16 @@ class _HomeScreenState extends State<ProductListing> {
   List<String> materialOptions = []; // Placeholder for the fetched data
   List<String> materialSelectedOptions = [];
 
-  int? _materialvalue=0;
+  int? _materialvalue = 0;
 
-  int? _collectionvalue=0;
-  int? _aggregationOptionValue=0;
-  int? _countryOptionValue=0;
-  int? _fragranceOptionValue=0;
-  int? _seasonOptionValue=0;
-  int? _subclassOptionValue=0;
+  int? _collectionvalue = 0;
+  int? _aggregationOptionValue = 0;
+  int? _countryOptionValue = 0;
+  int? _fragranceOptionValue = 0;
+  int? _seasonOptionValue = 0;
+  int? _subclassOptionValue = 0;
 
-  var selectedColor=0;
+  var selectedColor = 0;
 
   bool materialisOptionSelected(String option) {
     return materialSelectedOptions.contains(option);
@@ -54,6 +55,7 @@ class _HomeScreenState extends State<ProductListing> {
       }
     });
   }
+
   final List<String> _options = [
     'Most Relevant',
     'Product Name',
@@ -66,8 +68,6 @@ class _HomeScreenState extends State<ProductListing> {
     // TODO: implement initState
     super.initState();
     getNavdata();
-
-
   }
 
   @override
@@ -125,7 +125,6 @@ class _HomeScreenState extends State<ProductListing> {
                             ElevatedButton(
                               onPressed: () {
                                 showModalBottomSheet(
-
                                     context: context,
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
@@ -135,419 +134,584 @@ class _HomeScreenState extends State<ProductListing> {
                                       ),
                                     ),
                                     builder: (context) {
-                                      return StatefulBuilder(
-                                          builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
-
-                                            return   SingleChildScrollView(
-                                              child: Column(
-                                                crossAxisAlignment:
+                                      return StatefulBuilder(builder: (BuildContext
+                                              context,
+                                          StateSetter
+                                              setState /*You can rename this!*/) {
+                                        return SingleChildScrollView(
+                                          child: Column(
+                                            crossAxisAlignment:
                                                 CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  const Center(
-                                                    child: SizedBox(
-                                                        width: 100,
-                                                        child: Divider(
-                                                          thickness: 4.0,
-                                                        )),
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              const Center(
+                                                child: SizedBox(
+                                                    width: 100,
+                                                    child: Divider(
+                                                      thickness: 4.0,
+                                                    )),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
                                                     MainAxisAlignment.end,
-                                                    crossAxisAlignment:
+                                                crossAxisAlignment:
                                                     CrossAxisAlignment.end,
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Navigator.of(context).pop();
-                                                        },
-                                                        child: Container(
-                                                          margin: EdgeInsets.only(right: 10),
-                                                          width: 24,
-                                                          height: 24,
-
-                                                          decoration: BoxDecoration(
-                                                            color: Color(0xFFE6E6E6),
-                                                            shape: BoxShape.circle,
-                                                          ),
-                                                          child: Center(
-                                                            child: Icon(
-                                                              Icons.close,
-                                                              color: Colors.black,
-                                                              size: 24 * 0.6,
-                                                            ),
-                                                          ),
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 10),
+                                                      width: 24,
+                                                      height: 24,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        color:
+                                                            Color(0xFFE6E6E6),
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: const Center(
+                                                        child: Icon(
+                                                          Icons.close,
+                                                          color: Colors.black,
+                                                          size: 24 * 0.6,
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 10),
-                                                    child: Text(
-                                                      'Filter By',
-                                                      style: const TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          color: blackColor,
-                                                          height: 1.5,
-                                                          fontSize: 16),
                                                     ),
                                                   ),
-
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
-                                                    child: Text(
-                                                      'Price',
-                                                      style: const TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          color: blackColor,
-                                                          height: 1.5,
-                                                          fontSize: 12),
-                                                    ),
-                                                  ),
-
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Wrap(
-                                                      // list of length 3
-                                                      children: List.generate(
-                                                        provider.aggrecation[0]['options'].length,
-                                                            (int index) {
-                                                          // choice chip allow us to
-                                                          // set its properties.
-                                                          return ChoiceChip(
-                                                            padding:
-                                                            const EdgeInsets.all(8),
-                                                            label: Text(provider.aggrecation[0]['options'][index]['label'],style:const TextStyle(
-                                                                fontWeight: FontWeight.w200,
-                                                                color: blackColor,
-                                                                height: 1,
-                                                                fontSize: 16)),
-                                                            // color of selected chip
-                                                            selectedColor: chipColor,
-
-                                                            backgroundColor: Color(0xFFEFEFEF),
-                                                            // selected chip value
-                                                            selected: _pricevalue == index,
-                                                            // onselected method
-                                                            onSelected: (bool selected) {
-                                                              setState(() {
-                                                                _pricevalue =
-                                                                selected ? index : null;
-                                                              });
-                                                              print(_pricevalue);
-                                                            },
-                                                          );
-                                                        },
-                                                      ).toList(),
-                                                    ),
-                                                  ),
-
-                                                  SizedBox(height: 20,),
-                                                  //
-                                                  // Padding(
-                                                  //   padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
-                                                  //   child: Text(
-                                                  //     'Color',
-                                                  //     style: const TextStyle(
-                                                  //         fontWeight: FontWeight.w700,
-                                                  //         color: blackColor,
-                                                  //         height: 1.5,
-                                                  //         fontSize: 12),
-                                                  //   ),
-                                                  // ),
-                                                  // ListView.builder(
-                                                  //   itemCount: provider.aggrecation[1]['options'].length,
-                                                  //   itemBuilder: (context, index) {
-                                                  //     final color = provider.aggrecation[1]['options'][index]['swapvalue'];
-                                                  //     return GestureDetector(
-                                                  //       onTap: () {
-                                                  //         setState(() {
-                                                  //           selectedColor = color;
-                                                  //         });
-                                                  //       },
-                                                  //       child: Container(
-                                                  //         height: 80,
-                                                  //         color: color,
-                                                  //         child: Center(
-                                                  //           child: Text(
-                                                  //             color == selectedColor ? 'Selected' : 'Tap to Select',
-                                                  //             style: TextStyle(color: Colors.white, fontSize: 20),
-                                                  //           ),
-                                                  //         ),
-                                                  //       ),
-                                                  //     );
-                                                  //   },
-                                                  // ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
-                                                    child: Text(
-                                                      'Material',
-                                                      style: const TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          color: blackColor,
-                                                          height: 1.5,
-                                                          fontSize: 12),
-                                                    ),
-                                                  ),
-
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Wrap(
-                                                      // list of length 3
-                                                      children: List.generate(
-                                                        provider.aggrecation[2]['options'].length,
-                                                            (int index) {
-                                                          // choice chip allow us to
-                                                          // set its properties.
-                                                          return ChoiceChip(
-                                                            padding:
-                                                            const EdgeInsets.all(8),
-                                                            label: Text(provider.aggrecation[2]['options'][index]['label'],style:const TextStyle(
-                                                                fontWeight: FontWeight.w200,
-                                                                color: blackColor,
-                                                                height: 1,
-                                                                fontSize: 16)),
-                                                            // color of selected chip
-                                                            selectedColor: chipColor,
-
-                                                            backgroundColor: Color(0xFFEFEFEF),
-                                                            // selected chip value
-                                                            selected: _materialvalue == index,
-                                                            // onselected method
-                                                            onSelected: (bool selected) {
-                                                              setState(() {
-                                                                _materialvalue =
-                                                                selected ? index : null;
-                                                              });
-                                                              print(_materialvalue);
-                                                            },
-                                                          );
-                                                        },
-                                                      ).toList(),
-                                                    ),
-                                                  ),
-
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
-                                                    child: Text(
-                                                      'Collection',
-                                                      style: const TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          color: blackColor,
-                                                          height: 1.5,
-                                                          fontSize: 12),
-                                                    ),
-                                                  ),
-
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Wrap(
-                                                      // list of length 3
-                                                      children: List.generate(
-                                                        provider.aggrecation[3]['options'].length,
-                                                            (int index) {
-                                                          // choice chip allow us to
-                                                          // set its properties.
-                                                          return ChoiceChip(
-                                                            padding:
-                                                            const EdgeInsets.all(8),
-                                                            label: Text(provider.aggrecation[3]['options'][index]['label'],style:const TextStyle(
-                                                                fontWeight: FontWeight.w200,
-                                                                color: blackColor,
-                                                                height: 1,
-                                                                fontSize: 16)),
-                                                            // color of selected chip
-                                                            selectedColor: chipColor,
-
-                                                            backgroundColor: Color(0xFFEFEFEF),
-                                                            // selected chip value
-                                                            selected: _collectionvalue == index,
-                                                            // onselected method
-                                                            onSelected: (bool selected) {
-                                                              setState(() {
-                                                                _collectionvalue =
-                                                                selected ? index : null;
-                                                              });
-                                                              print(_collectionvalue);
-                                                            },
-                                                          );
-                                                        },
-                                                      ).toList(),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 20,),
-
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
-                                                    child: Text(
-                                                      'Collection',
-                                                      style: const TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          color: blackColor,
-                                                          height: 1.5,
-                                                          fontSize: 12),
-                                                    ),
-                                                  ),
-
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Wrap(
-                                                      // list of length 3
-                                                      children: List.generate(
-                                                        provider.aggrecation[3]['options'].length,
-                                                            (int index) {
-                                                          // choice chip allow us to
-                                                          // set its properties.
-                                                          return ChoiceChip(
-                                                            padding:
-                                                            const EdgeInsets.all(8),
-                                                            label: Text(provider.aggrecation[3]['options'][index]['label'],style:const TextStyle(
-                                                                fontWeight: FontWeight.w200,
-                                                                color: blackColor,
-                                                                height: 1,
-                                                                fontSize: 16)),
-                                                            // color of selected chip
-                                                            selectedColor: chipColor,
-
-                                                            backgroundColor: Color(0xFFEFEFEF),
-                                                            // selected chip value
-                                                            selected: _collectionvalue == index,
-                                                            // onselected method
-                                                            onSelected: (bool selected) {
-                                                              setState(() {
-                                                                _collectionvalue =
-                                                                selected ? index : null;
-                                                              });
-                                                              print(_collectionvalue);
-                                                            },
-                                                          );
-                                                        },
-                                                      ).toList(),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
-                                                    child: Text(
-                                                      'Type',
-                                                      style: const TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          color: blackColor,
-                                                          height: 1.5,
-                                                          fontSize: 12),
-                                                    ),
-                                                  ),
-
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Wrap(
-                                                      // list of length 3
-                                                      children: List.generate(
-                                                        provider.aggrecation[7]['options'].length,
-                                                            (int index) {
-                                                          // choice chip allow us to
-                                                          // set its properties.
-                                                          return ChoiceChip(
-                                                            padding:
-                                                            const EdgeInsets.all(8),
-                                                            label: Text(provider.aggrecation[7]['options'][index]['label'],style:const TextStyle(
-                                                                fontWeight: FontWeight.w200,
-                                                                color: blackColor,
-                                                                height: 1,
-                                                                fontSize: 16)),
-                                                            // color of selected chip
-                                                            selectedColor: chipColor,
-
-                                                            backgroundColor: Color(0xFFEFEFEF),
-                                                            // selected chip value
-                                                            selected: _countryOptionValue == index,
-                                                            // onselected method
-                                                            onSelected: (bool selected) {
-                                                              setState(() {
-                                                                _countryOptionValue =
-                                                                selected ? index : null;
-                                                              });
-                                                              print(_countryOptionValue);
-                                                            },
-                                                          );
-                                                        },
-                                                      ).toList(),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
-                                                    child: Text(
-                                                      'Brands',
-                                                      style: const TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          color: blackColor,
-                                                          height: 1.5,
-                                                          fontSize: 12),
-                                                    ),
-                                                  ),
-
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Wrap(
-                                                      // list of length 3
-                                                      children: List.generate(
-                                                        provider.aggrecation[8]['options'].length,
-                                                            (int index) {
-                                                          // choice chip allow us to
-                                                          // set its properties.
-                                                          return ChoiceChip(
-                                                            padding:
-                                                            const EdgeInsets.all(8),
-                                                            label: Text(provider.aggrecation[8]['options'][index]['label'],style:const TextStyle(
-                                                                fontWeight: FontWeight.w200,
-                                                                color: blackColor,
-                                                                height: 1,
-                                                                fontSize: 16)),
-                                                            // color of selected chip
-                                                            selectedColor: chipColor,
-
-                                                            backgroundColor: Color(0xFFEFEFEF),
-                                                            // selected chip value
-                                                            selected: _countryOptionValue == index,
-                                                            // onselected method
-                                                            onSelected: (bool selected) {
-                                                              setState(() {
-                                                                _countryOptionValue =
-                                                                selected ? index : null;
-                                                              });
-                                                              print(_countryOptionValue);
-                                                            },
-                                                          );
-                                                        },
-                                                      ).toList(),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.all(10),
-
-                                                    width:MediaQuery.of(context).size.width,
-                                                    child: ElevatedButton(
-                                                      onPressed: () {
-                                                        // Define the action to perform when the button is pressed
-                                                        print('Button Pressed');
-                                                      },
-                                                      child: Text('Apply'),
-                                                      style: ElevatedButton.styleFrom(
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(16.0), // Set the corner radius here
-                                                        ),
-                                                        padding: EdgeInsets.all(16.0), // Optional: Set padding for the button
-                                                        // Customize other properties like background color, elevation, etc.
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 20,),
-
                                                 ],
                                               ),
-                                            );
-                                          }
+                                              const Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    15.0, 0, 0, 10),
+                                                child: Text(
+                                                  'Filter By',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: blackColor,
+                                                      height: 1.5,
+                                                      fontSize: 16),
+                                                ),
+                                              ),
 
-                                      );
+                                              const Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    15.0, 0, 0, 5),
+                                                child: Text(
+                                                  'Price',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: blackColor,
+                                                      height: 1.5,
+                                                      fontSize: 12),
+                                                ),
+                                              ),
+
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Wrap(
+                                                  // list of length 3
+                                                  children: List.generate(
+                                                    provider
+                                                        .aggrecation[0]
+                                                            ['options']
+                                                        .length,
+                                                    (int index) {
+                                                      // choice chip allow us to
+                                                      // set its properties.
+                                                      return ChoiceChip(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        label: Text(
+                                                            provider.aggrecation[
+                                                                        0]
+                                                                    ['options']
+                                                                [
+                                                                index]['label'],
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w200,
+                                                                color:
+                                                                    blackColor,
+                                                                height: 1,
+                                                                fontSize: 16)),
+                                                        // color of selected chip
+                                                        selectedColor:
+                                                            chipColor,
+
+                                                        backgroundColor:
+                                                            const Color(
+                                                                0xFFEFEFEF),
+                                                        // selected chip value
+                                                        selected: _pricevalue ==
+                                                            index,
+                                                        // onselected method
+                                                        onSelected:
+                                                            (bool selected) {
+                                                          setState(() {
+                                                            _pricevalue =
+                                                                selected
+                                                                    ? index
+                                                                    : null;
+                                                          });
+                                                          print(_pricevalue);
+                                                        },
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                ),
+                                              ),
+
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              //
+                                              // Padding(
+                                              //   padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
+                                              //   child: Text(
+                                              //     'Color',
+                                              //     style: const TextStyle(
+                                              //         fontWeight: FontWeight.w700,
+                                              //         color: blackColor,
+                                              //         height: 1.5,
+                                              //         fontSize: 12),
+                                              //   ),
+                                              // ),
+                                              // ListView.builder(
+                                              //   itemCount: provider.aggrecation[1]['options'].length,
+                                              //   itemBuilder: (context, index) {
+                                              //     final color = provider.aggrecation[1]['options'][index]['swapvalue'];
+                                              //     return GestureDetector(
+                                              //       onTap: () {
+                                              //         setState(() {
+                                              //           selectedColor = color;
+                                              //         });
+                                              //       },
+                                              //       child: Container(
+                                              //         height: 80,
+                                              //         color: color,
+                                              //         child: Center(
+                                              //           child: Text(
+                                              //             color == selectedColor ? 'Selected' : 'Tap to Select',
+                                              //             style: TextStyle(color: Colors.white, fontSize: 20),
+                                              //           ),
+                                              //         ),
+                                              //       ),
+                                              //     );
+                                              //   },
+                                              // ),
+                                              const Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    15.0, 0, 0, 5),
+                                                child: Text(
+                                                  'Material',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: blackColor,
+                                                      height: 1.5,
+                                                      fontSize: 12),
+                                                ),
+                                              ),
+
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Wrap(
+                                                  // list of length 3
+                                                  children: List.generate(
+                                                    provider
+                                                        .aggrecation[2]
+                                                            ['options']
+                                                        .length,
+                                                    (int index) {
+                                                      // choice chip allow us to
+                                                      // set its properties.
+                                                      return ChoiceChip(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        label: Text(
+                                                            provider.aggrecation[
+                                                                        2]
+                                                                    ['options']
+                                                                [
+                                                                index]['label'],
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w200,
+                                                                color:
+                                                                    blackColor,
+                                                                height: 1,
+                                                                fontSize: 16)),
+                                                        // color of selected chip
+                                                        selectedColor:
+                                                            chipColor,
+
+                                                        backgroundColor:
+                                                            const Color(
+                                                                0xFFEFEFEF),
+                                                        // selected chip value
+                                                        selected:
+                                                            _materialvalue ==
+                                                                index,
+                                                        // onselected method
+                                                        onSelected:
+                                                            (bool selected) {
+                                                          setState(() {
+                                                            _materialvalue =
+                                                                selected
+                                                                    ? index
+                                                                    : null;
+                                                          });
+                                                          print(_materialvalue);
+                                                        },
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                ),
+                                              ),
+
+                                              const Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    15.0, 0, 0, 5),
+                                                child: Text(
+                                                  'Collection',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: blackColor,
+                                                      height: 1.5,
+                                                      fontSize: 12),
+                                                ),
+                                              ),
+
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Wrap(
+                                                  // list of length 3
+                                                  children: List.generate(
+                                                    provider
+                                                        .aggrecation[3]
+                                                            ['options']
+                                                        .length,
+                                                    (int index) {
+                                                      // choice chip allow us to
+                                                      // set its properties.
+                                                      return ChoiceChip(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        label: Text(
+                                                            provider.aggrecation[
+                                                                        3]
+                                                                    ['options']
+                                                                [
+                                                                index]['label'],
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w200,
+                                                                color:
+                                                                    blackColor,
+                                                                height: 1,
+                                                                fontSize: 16)),
+                                                        // color of selected chip
+                                                        selectedColor:
+                                                            chipColor,
+
+                                                        backgroundColor:
+                                                            const Color(
+                                                                0xFFEFEFEF),
+                                                        // selected chip value
+                                                        selected:
+                                                            _collectionvalue ==
+                                                                index,
+                                                        // onselected method
+                                                        onSelected:
+                                                            (bool selected) {
+                                                          setState(() {
+                                                            _collectionvalue =
+                                                                selected
+                                                                    ? index
+                                                                    : null;
+                                                          });
+                                                          print(
+                                                              _collectionvalue);
+                                                        },
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+
+                                              const Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    15.0, 0, 0, 5),
+                                                child: Text(
+                                                  'Collection',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: blackColor,
+                                                      height: 1.5,
+                                                      fontSize: 12),
+                                                ),
+                                              ),
+
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Wrap(
+                                                  // list of length 3
+                                                  children: List.generate(
+                                                    provider
+                                                        .aggrecation[3]
+                                                            ['options']
+                                                        .length,
+                                                    (int index) {
+                                                      // choice chip allow us to
+                                                      // set its properties.
+                                                      return ChoiceChip(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        label: Text(
+                                                            provider.aggrecation[
+                                                                        3]
+                                                                    ['options']
+                                                                [
+                                                                index]['label'],
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w200,
+                                                                color:
+                                                                    blackColor,
+                                                                height: 1,
+                                                                fontSize: 16)),
+                                                        // color of selected chip
+                                                        selectedColor:
+                                                            chipColor,
+
+                                                        backgroundColor:
+                                                            const Color(
+                                                                0xFFEFEFEF),
+                                                        // selected chip value
+                                                        selected:
+                                                            _collectionvalue ==
+                                                                index,
+                                                        // onselected method
+                                                        onSelected:
+                                                            (bool selected) {
+                                                          setState(() {
+                                                            _collectionvalue =
+                                                                selected
+                                                                    ? index
+                                                                    : null;
+                                                          });
+                                                          print(
+                                                              _collectionvalue);
+                                                        },
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                ),
+                                              ),
+                                              const Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    15.0, 0, 0, 5),
+                                                child: Text(
+                                                  'Type',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: blackColor,
+                                                      height: 1.5,
+                                                      fontSize: 12),
+                                                ),
+                                              ),
+
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Wrap(
+                                                  // list of length 3
+                                                  children: List.generate(
+                                                    provider
+                                                        .aggrecation[7]
+                                                            ['options']
+                                                        .length,
+                                                    (int index) {
+                                                      // choice chip allow us to
+                                                      // set its properties.
+                                                      return ChoiceChip(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        label: Text(
+                                                            provider.aggrecation[
+                                                                        7]
+                                                                    ['options']
+                                                                [
+                                                                index]['label'],
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w200,
+                                                                color:
+                                                                    blackColor,
+                                                                height: 1,
+                                                                fontSize: 16)),
+                                                        // color of selected chip
+                                                        selectedColor:
+                                                            chipColor,
+
+                                                        backgroundColor:
+                                                            const Color(
+                                                                0xFFEFEFEF),
+                                                        // selected chip value
+                                                        selected:
+                                                            _countryOptionValue ==
+                                                                index,
+                                                        // onselected method
+                                                        onSelected:
+                                                            (bool selected) {
+                                                          setState(() {
+                                                            _countryOptionValue =
+                                                                selected
+                                                                    ? index
+                                                                    : null;
+                                                          });
+                                                          print(
+                                                              _countryOptionValue);
+                                                        },
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                ),
+                                              ),
+                                              const Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    15.0, 0, 0, 5),
+                                                child: Text(
+                                                  'Brands',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: blackColor,
+                                                      height: 1.5,
+                                                      fontSize: 12),
+                                                ),
+                                              ),
+
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Wrap(
+                                                  // list of length 3
+                                                  children: List.generate(
+                                                    provider
+                                                        .aggrecation[8]
+                                                            ['options']
+                                                        .length,
+                                                    (int index) {
+                                                      // choice chip allow us to
+                                                      // set its properties.
+                                                      return ChoiceChip(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        label: Text(
+                                                            provider.aggrecation[
+                                                                        8]
+                                                                    ['options']
+                                                                [
+                                                                index]['label'],
+                                                            style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w200,
+                                                                color:
+                                                                    blackColor,
+                                                                height: 1,
+                                                                fontSize: 16)),
+                                                        // color of selected chip
+                                                        selectedColor:
+                                                            chipColor,
+
+                                                        backgroundColor:
+                                                            const Color(
+                                                                0xFFEFEFEF),
+                                                        // selected chip value
+                                                        selected:
+                                                            _countryOptionValue ==
+                                                                index,
+                                                        // onselected method
+                                                        onSelected:
+                                                            (bool selected) {
+                                                          setState(() {
+                                                            _countryOptionValue =
+                                                                selected
+                                                                    ? index
+                                                                    : null;
+                                                          });
+                                                          print(
+                                                              _countryOptionValue);
+                                                        },
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.all(10),
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    // Define the action to perform when the button is pressed
+                                                    print('Button Pressed');
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16.0), // Set the corner radius here
+                                                    ),
+                                                    padding: const EdgeInsets
+                                                            .all(
+                                                        16.0), // Optional: Set padding for the button
+                                                    // Customize other properties like background color, elevation, etc.
+                                                  ),
+                                                  child: const Text('Apply'),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      });
                                     });
                               },
                               // styling the button
@@ -560,11 +724,10 @@ class _HomeScreenState extends State<ProductListing> {
                                 foregroundColor: Colors.cyan,
                               ),
                               // icon of the button
-                              child: const Icon(
-                                FontAwesomeIcons.arrowsUpDown,
-                                color: Colors.black,
-                                size: 20,
-                              ),
+                              child: SvgPicture.asset("assets/icons/sort.svg",
+                                  color: Colors.black),
+                              // color: Colors.black,
+                              // size: 20,
                             ),
                           ],
                         ),
@@ -580,12 +743,13 @@ class _HomeScreenState extends State<ProductListing> {
                                   ),
                                 ),
                                 builder: (context) {
-                                  return StatefulBuilder(
-                                  builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
-
-                                    return   Column(
+                                  return StatefulBuilder(builder: (BuildContext
+                                          context,
+                                      StateSetter
+                                          setState /*You can rename this!*/) {
+                                    return Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         const Center(
@@ -597,24 +761,24 @@ class _HomeScreenState extends State<ProductListing> {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                              MainAxisAlignment.end,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                              CrossAxisAlignment.end,
                                           children: [
                                             GestureDetector(
                                               onTap: () {
                                                 Navigator.of(context).pop();
                                               },
                                               child: Container(
-                                                margin: EdgeInsets.only(right: 10),
+                                                margin: const EdgeInsets.only(
+                                                    right: 10),
                                                 width: 24,
                                                 height: 24,
-
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   color: Color(0xFFE6E6E6),
                                                   shape: BoxShape.circle,
                                                 ),
-                                                child: Center(
+                                                child: const Center(
                                                   child: Icon(
                                                     Icons.close,
                                                     color: Colors.black,
@@ -625,11 +789,12 @@ class _HomeScreenState extends State<ProductListing> {
                                             ),
                                           ],
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 10),
+                                        const Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              15.0, 0, 0, 10),
                                           child: Text(
                                             'Sort By',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 color: blackColor,
                                                 height: 1.5,
@@ -637,11 +802,12 @@ class _HomeScreenState extends State<ProductListing> {
                                           ),
                                         ),
 
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 5),
+                                        const Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              15.0, 0, 0, 5),
                                           child: Text(
                                             'Price',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 color: blackColor,
                                                 height: 1.5,
@@ -649,35 +815,38 @@ class _HomeScreenState extends State<ProductListing> {
                                           ),
                                         ),
 
-
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Wrap(
                                             // list of length 3
                                             children: List.generate(
                                               _options.length,
-                                                  (int index) {
+                                              (int index) {
                                                 // choice chip allow us to
                                                 // set its properties.
                                                 return ChoiceChip(
                                                   padding:
-                                                  const EdgeInsets.all(8),
-                                                  label: Text(_options[index],style:const TextStyle(
-                                                      fontWeight: FontWeight.w200,
-                                                      color: blackColor,
-                                                      height: 1,
-                                                      fontSize: 16)),
+                                                      const EdgeInsets.all(8),
+                                                  label: Text(_options[index],
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w200,
+                                                          color: blackColor,
+                                                          height: 1,
+                                                          fontSize: 16)),
                                                   // color of selected chip
                                                   selectedColor: chipColor,
 
-                                                  backgroundColor: Color(0xFFEFEFEF),
+                                                  backgroundColor:
+                                                      const Color(0xFFEFEFEF),
                                                   // selected chip value
                                                   selected: _value == index,
                                                   // onselected method
                                                   onSelected: (bool selected) {
                                                     setState(() {
-                                                      _value =
-                                                      selected ? index : null;
+                                                      _value = selected
+                                                          ? index
+                                                          : null;
                                                     });
                                                     print(_value);
                                                     provider.sort(_value!);
@@ -689,7 +858,9 @@ class _HomeScreenState extends State<ProductListing> {
                                           ),
                                         ),
 
-                                        SizedBox(height: 20,),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
                                         // Container(
                                         //   margin: EdgeInsets.all(10),
                                         //
@@ -709,13 +880,12 @@ class _HomeScreenState extends State<ProductListing> {
                                         //     ),
                                         //   ),
                                         // ),
-                                        SizedBox(height: 20,),
-
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
                                       ],
                                     );
-                                  }
-
-                                  );
+                                  });
                                 });
                           },
                           // styling the button
@@ -728,11 +898,8 @@ class _HomeScreenState extends State<ProductListing> {
                             foregroundColor: Colors.cyan,
                           ),
                           // icon of the button
-                          child: const Icon(
-                            FontAwesomeIcons.filter,
-                            color: Colors.black,
-                            size: 20,
-                          ),
+                          child:  SvgPicture.asset("assets/icons/filter.svg",
+                              color: Colors.black),
                         ),
                       ],
                     ),
@@ -753,19 +920,15 @@ class _HomeScreenState extends State<ProductListing> {
                       child: ProductCard(
                         title: provider.items[index].name,
                         image: provider.items[index].smallImage.url,
-                        price: provider.items[index].typename ==
-                                "SimpleProduct"
-                            ? provider.items[index].priceRange.minimumPrice.regularPrice
-                        .value
+                        price: provider.items[index].typename == "SimpleProduct"
+                            ? provider.items[index].priceRange.minimumPrice
+                                .regularPrice.value
                                 .toString()
                             : "${provider.items[index].priceRange.minimumPrice.regularPrice.value}"
                                 " - ${provider.items[index].priceRange.minimumPrice.regularPrice.value}",
                         product: provider.items[index],
                         bgColor: demo_product[0].colors[0],
                         item: provider.items[index],
-
-
-
                         press: () {
                           /*Navigator.push(
                               context,
@@ -777,10 +940,9 @@ class _HomeScreenState extends State<ProductListing> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DetailsPage(
-                                    product: provider.pList[index]),
+                                builder: (context) =>
+                                    DetailsPage(product: provider.pList[index]),
                               ));
-
                         },
                       ),
                     ),

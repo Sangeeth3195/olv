@@ -33,7 +33,7 @@ final Map<String, WidgetBuilder> routes = {
   HomeScreen.routeName: (context) => const HomeScreen(),
 
   '/productlisting': (context) => const ProductListing(id: 0),
-  '/signupscreen': (context) => SignUpScreen(),
+  '/signupscreen': (context) => const SignUpScreen(),
   '/signinscreen': (context) => const SignInScreen(),
   '/webview': (context) => const Webview(),
   '/addaddress': (context) => const AddAddress(),
@@ -46,7 +46,7 @@ final Map<String, WidgetBuilder> routes = {
   '/settings': (context) => const Settings(),
 
   /// sample screens
-  '/samplepage': (context) => const Samplepage(),
+  '/loginpage': (context) => const Samplepage(),
   // '/detailspage': (context) => DetailsPage(id: 0),
 
 };
