@@ -1,6 +1,7 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:omaliving/models/ProductListJson.dart';
 
 import '../models/categoryList.dart';
 import 'graphql_config.dart';
@@ -190,7 +191,7 @@ class GraphQLService {
                   }
             """),
           variables: {
-            'limit': limit,
+            'limit': 10,
           },
         ),
       );
@@ -199,6 +200,7 @@ class GraphQLService {
         throw Exception(result.exception);
       } else {
         EasyLoading.dismiss();
+
         return result;
       }
     } catch (error) {

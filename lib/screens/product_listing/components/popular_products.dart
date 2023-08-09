@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:omaliving/models/Product.dart';
+import 'package:omaliving/models/ProductListJson.dart';
 
 import '../../../constants.dart';
 import 'product_card.dart';

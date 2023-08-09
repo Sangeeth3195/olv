@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:omaliving/models/ProductListJson.dart';
 
 import '../../../constants.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   const ProductCard({
     Key? key,
     required this.image,
@@ -11,17 +12,25 @@ class ProductCard extends StatelessWidget {
     required this.press,
     required this.bgColor,
     this.product,
+     this.item,
   }) : super(key: key);
   final String image, title;
   final VoidCallback press;
   final String price;
   final Color bgColor;
   final dynamic product;
+  final Item? item;
 
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  int _selected=0;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: press,
+      onTap: widget.press,
       child: Container(
         padding: const EdgeInsets.all(2),
         decoration: const BoxDecoration(
@@ -39,12 +48,12 @@ class ProductCard extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: bgColor,
+                      color: widget.bgColor,
                       borderRadius: const BorderRadius.all(
                           Radius.circular(defaultBorderRadius)),
                     ),
                     child: Image.network(
-                      image,
+                      widget.item!.smallImage.url,
                       height: 150,
                     ),
                   ),
@@ -56,7 +65,7 @@ class ProductCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(
-                          product['dynamicAttributes'][0]['attribute_value'].toString(),
+                          widget.item!.dynamicAttributes[0].attributeValue.toString(),
                           style: const TextStyle(
                               fontWeight: FontWeight.normal,
                               color: blackColor,
@@ -68,7 +77,7 @@ class ProductCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(
-                          title,
+                          widget.title,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: blackColor,
@@ -81,9 +90,9 @@ class ProductCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child:
-                      product['getPriceRange'] == null
-                          ? Text(product['textAttributes'][0]['normalprice'].toString())
-                          : Text(product['getPriceRange'][0]['normalpricevalue'].toString()),
+                      widget.item!.getPriceRange.length==0
+                          ? Text(widget.item!.textAttributes[0].normalprice.toString())
+                          : Text(widget.item!.getPriceRange[0].normalpricevalue.toString()),
                       ),
 
                       /*Padding(
@@ -100,11 +109,11 @@ class ProductCard extends StatelessWidget {
 
                       const SizedBox(height: 10.0),
 
-                      product['textAttributes'][0]['specicalprice'].toString() == null ?
+                      widget.item!.textAttributes[0].specicalprice.toString() == null ?
                       Padding(
                         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(
-                          product['textAttributes'][0]['specicalprice'].toString(),
+                          widget.item!.textAttributes[0].specicalprice.toString(),
                           style: const TextStyle(
                               fontWeight: FontWeight.normal,
                               color: headingColor,
@@ -113,12 +122,11 @@ class ProductCard extends StatelessWidget {
                         ),
                       ) : Container(),
 
-                      product['__typename'] == "ConfigurableProduct"
+                      widget.item!.typename == "ConfigurableProduct"
                           ? Row(
                               children: [
 
-                                product['configurable_options']
-                                [0]['values']
+                                widget.item!.configurableOptions[0].values
                                     .length >
                                     2 ?
                                 SizedBox(
@@ -126,28 +134,26 @@ class ProductCard extends StatelessWidget {
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: product['configurable_options']
-                                                    [0]['values']
+                                    itemCount: widget.item!.configurableOptions[0].values
                                                 .length >
                                             2
                                         ? 2
-                                        : product['configurable_options'][0]
-                                            ['values'],
+                                        : widget.item!.configurableOptions[0].values.length,
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () {
-                                          // _changeColor(index);
+                                          _changeColor(index);
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.symmetric(
                                               horizontal: 5),
                                           padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
+                                            border: Border.all(color: _selected==index?Colors.red:Colors.transparent, width: 2.0), // Using BorderSide with BoxDecoration
+
                                             shape: BoxShape.circle,
                                             color: colorFromHex(
-                                                product['configurable_options']
-                                                        [0]['values'][index]
-                                                    ['swatch_data']['value']),
+                                                widget.item!.configurableOptions[0].values[index].swatchData.value),
                                           ),
                                         ),
                                       );
@@ -158,13 +164,12 @@ class ProductCard extends StatelessWidget {
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: product['configurable_options']
-                                    [0]['values']
+                                    itemCount: widget.item!.configurableOptions[0].values
                                         .length,
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () {
-                                          // _changeColor(index);
+                                          _changeColor(index);
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.symmetric(
@@ -172,10 +177,9 @@ class ProductCard extends StatelessWidget {
                                           padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
+                                            border: Border.all(color: _selected==index?Colors.red:Colors.transparent, width: 2.0), // Using BorderSide with BoxDecoration
                                             color: colorFromHex(
-                                                product['configurable_options']
-                                                [0]['values'][index]
-                                                ['swatch_data']['value']),
+                                                widget.item!.configurableOptions[0].values[index].swatchData.value),
                                           ),
                                         ),
                                       );
@@ -183,7 +187,7 @@ class ProductCard extends StatelessWidget {
                                   ),
                                 ),
 
-                                product['configurable_options'][0]['values']
+                                widget.item!.configurableOptions[0].values
                                             .length >
                                         2
                                     ? const Text(
@@ -233,6 +237,12 @@ class ProductCard extends StatelessWidget {
     );
   }
 
+  void _changeColor(int index) {
+setState(() {
+  _selected=index;
+});
+  }
+
   Color colorFromHex(String hexColor) {
     // Remove the '#' character from the hex color code, if present.
     if (hexColor.startsWith('#')) {
@@ -249,3 +259,4 @@ class ProductCard extends StatelessWidget {
     return Color(int.parse('FF$hexColor', radix: 16));
   }
 }
+
