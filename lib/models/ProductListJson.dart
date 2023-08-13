@@ -113,12 +113,14 @@ class Option {
   String label;
   String value;
   int count;
+  List<String> selected;
 
   Option({
     required this.typename,
     required this.label,
     required this.value,
     required this.count,
+    required this.selected,
   });
 
   factory Option.fromJson(Map<String, dynamic> json) => Option(
@@ -126,6 +128,7 @@ class Option {
     label: json["label"],
     value: json["value"],
     count: json["count"],
+    selected: []
   );
 
   Map<String, dynamic> toJson() => {
@@ -269,7 +272,7 @@ class Value {
     typename: json["__typename"],
     valueIndex: json["value_index"],
     label: json["label"],
-    swatchData: SwatchData.fromJson(json["swatch_data"] ?? ""),
+    swatchData: SwatchData.fromJson(json["swatch_data"]),
   );
 
   Map<String, dynamic> toJson() => {
