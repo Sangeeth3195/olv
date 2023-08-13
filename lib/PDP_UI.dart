@@ -223,7 +223,7 @@ class _DetailsPageState extends State<DetailsPage>
                                 const SizedBox(height: 15),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: map<Widget>(provider.productData[0]['media_gallery'], (index, url) {
+                                  children: map<Widget>(imgList, (index, url) {
                                     return Container(
                                       width: 18.0,
                                       height: 8.0,
@@ -556,7 +556,6 @@ class _DetailsPageState extends State<DetailsPage>
                             )
                           : Container(),*/
 
-
                       const SizedBox(
                         height: 10,
                       ),
@@ -761,19 +760,19 @@ class _DetailsPageState extends State<DetailsPage>
         const SizedBox(height: 10.0),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-          height: 40.0,
+          height: 100.0,
           child: TabBarView(
             controller: tabController,
             children: <Widget>[
               HtmlWidget(
-                productData[0]['detail'],
+                productData[0]['detail'].toString(),
               ),
               productData[0]['depth'] == null
                   ? Container()
-                  : Text('Depth: ' + productData[0]['depth']),
-              HtmlWidget(
-                productData[0]['care'],
-              ),
+                  : Text('Depth: ' + productData[0]['depth'].toString()),
+              // HtmlWidget(
+              //   productData[0]['care'],
+              // ),
             ],
           ),
         ),

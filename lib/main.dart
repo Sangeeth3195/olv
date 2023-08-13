@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/routes.dart';
@@ -7,9 +8,15 @@ import 'package:omaliving/splash.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    systemNavigationBarColor: headingColor, // navigation bar color
+    statusBarColor: headingColor, // status bar color
+  ));
   runApp( ChangeNotifierProvider(
       create: (context) => MyProvider(),
-      child: MyApp()));
+      child: const MyApp()));
+  configLoading();
+
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +25,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       debugShowCheckedModeBanner:false,
       theme: ThemeData(
         fontFamily: 'Gotham',
@@ -38,7 +44,6 @@ void configLoading() {
     ..displayDuration = const Duration(milliseconds: 2000)
     ..indicatorType = EasyLoadingIndicatorType.circle
     ..maskType = EasyLoadingMaskType.black
-    ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 45.0
     ..radius = 10.0
     ..indicatorColor = headingColor

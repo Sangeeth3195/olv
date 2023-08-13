@@ -25,8 +25,12 @@ dependencies:
   flutter_image_slideshow: ^0.1.6
   persistent_bottom_nav_bar: ^5.0.2
   provider: ^6.0.5
+  sign_button: ^2.0.4
+  chewie: ^1.7.0
+  audioplayers: ^5.0.0
   carousel_slider: ^4.2.1
   flutter_html: 3.0.0-beta.2
+
 
 dev_dependencies:
   flutter_test:
@@ -38,6 +42,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - videos/
     - assets/
     - assets/icons/
     - assets/images/

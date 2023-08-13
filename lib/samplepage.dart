@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'components/size_config.dart';
+import 'package:omaliving/constants.dart';
+import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
 
 class Samplepage extends StatefulWidget {
   const Samplepage({super.key});
@@ -33,94 +33,91 @@ class _LoginPageState extends State<Samplepage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-      physics: const ClampingScrollPhysics(),
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: <Color>[
-                  CustomTheme.loginGradientStart,
-                  CustomTheme.loginGradientEnd
-                ],
-                begin: FractionalOffset(0.0, 0.0),
-                end: FractionalOffset(1.0, 1.0),
-                stops: <double>[0.0, 1.0],
-                tileMode: TileMode.clamp),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-
-            children: <Widget>[
-
-              Text(
-                "Login Account",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: getProportionateScreenWidth(25),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20.0),
-              const Text(
-                "Hello, welcome back to your account",
-                textAlign: TextAlign.center,
-                textScaleFactor: 1.2,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: _buildMenuBar(context),
-              ),
-              Expanded(
-                flex: 2,
-                child: PageView(
-                  controller: _pageController,
-                  physics: const ClampingScrollPhysics(),
-                  onPageChanged: (int i) {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    if (i == 0) {
-                      setState(() {
-                        right = Colors.white;
-                        left = Colors.black;
-                      });
-                    } else if (i == 1) {
-                      setState(() {
-                        right = Colors.black;
-                        left = Colors.white;
-                      });
-                    }
-                  },
+    return SafeArea(
+        child: SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 70.0, 10.0, 0),
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    ConstrainedBox(
-                      constraints: const BoxConstraints.expand(),
-                      child: const SignIn(),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                      child: Text(
+                        "Login Account",
+                        textScaleFactor: 1.0,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints.expand(),
-                      child: const SignUp(),
+                    const SizedBox(height: 12.0),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                      child: Text(
+                        "Hello, welcome back to your account",
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 1.0,
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black45,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 20.0, left: 10.0, right: 10.0),
+                      child: _buildMenuBar(context),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: PageView(
+                        controller: _pageController,
+                        physics: const ClampingScrollPhysics(),
+                        onPageChanged: (int i) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          if (i == 0) {
+                            setState(() {
+                              right = Colors.white;
+                              left = Colors.black;
+                            });
+                          } else if (i == 1) {
+                            setState(() {
+                              right = Colors.black;
+                              left = Colors.white;
+                            });
+                          }
+                        },
+                        children: <Widget>[
+                          ConstrainedBox(
+                            constraints: const BoxConstraints.expand(),
+                            child: const SignIn(),
+                          ),
+                         /* ConstrainedBox(
+                            constraints: const BoxConstraints.expand(),
+                            child: const SignUp(),
+                          ),*/
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    ));
+            )));
   }
 
   Widget _buildMenuBar(BuildContext context) {
     return Container(
-      width: 300.0,
+      width: MediaQuery.of(context).size.width,
       height: 50.0,
       decoration: const BoxDecoration(
-        color: Color(0x552B2B2B),
+        color: Colors.black26,
         borderRadius: BorderRadius.all(Radius.circular(25.0)),
       ),
       child: CustomPaint(
@@ -137,14 +134,15 @@ class _LoginPageState extends State<Samplepage>
                 child: Text(
                   'Email',
                   style: TextStyle(
-                      color: left,
-                      fontSize: 16.0,
-                      fontFamily: 'WorkSansSemiBold'),
+                    color: left,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14.0,
+                  ),
                 ),
               ),
             ),
             //Container(height: 33.0, width: 1.0, color: Colors.white),
-            Expanded(
+          /*  Expanded(
               child: TextButton(
                 style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
@@ -153,12 +151,13 @@ class _LoginPageState extends State<Samplepage>
                 child: Text(
                   'Phone Number',
                   style: TextStyle(
-                      color: right,
-                      fontSize: 16.0,
-                      fontFamily: 'WorkSansSemiBold'),
+                    color: right,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-            ),
+            ),*/
           ],
         ),
       ),
@@ -178,9 +177,9 @@ class _LoginPageState extends State<Samplepage>
 
 class BubbleIndicatorPainter extends CustomPainter {
   BubbleIndicatorPainter(
-      {this.dxTarget = 125.0,
+      {this.dxTarget = 345.0,
       this.dxEntry = 25.0,
-      this.radius = 21.0,
+      this.radius = 20.0,
       this.dy = 25.0,
       required this.pageController})
       : super(repaint: pageController) {
@@ -251,11 +250,11 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
+  bool passwordVisible = false;
 
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
-
-  bool _obscureTextPassword = true;
+  bool? remember = false;
 
   @override
   void dispose() {
@@ -264,9 +263,22 @@ class _SignInState extends State<SignIn> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    passwordVisible = true;
+  }
+
   final emailField = TextField(
     obscureText: false,
+    textInputAction: TextInputAction.next,
+    style: const TextStyle(fontSize: 14.0, color: Colors.black),
     decoration: InputDecoration(
+        suffixIcon: const Icon(
+          Icons.email_outlined,
+          color: Colors.grey,
+          size: 22.0,
+        ),
         contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
         hintText: "Email",
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
@@ -278,16 +290,16 @@ class _SignInState extends State<SignIn> {
       padding: const EdgeInsets.only(top: 23.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Padding(
-            padding: EdgeInsets.only(left: 0.0, right: 0.0),
+            padding: EdgeInsets.only(left: 15.0, right: 0.0),
             child: Text(
-              'Phone Number',
+              'Email',
               style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16.0,
-                  fontFamily: 'WorkSansMedium'),
+                color: Colors.black,
+                fontSize: 16.0,
+              ),
             ),
           ),
           const SizedBox(
@@ -295,8 +307,126 @@ class _SignInState extends State<SignIn> {
           ),
           Padding(
             padding: const EdgeInsets.only(
-                top: 10.0, right: 20.0, bottom: 20.0, left: 20.0),
+                top: 0.0, right: 10.0, bottom: 20.0, left: 10.0),
             child: emailField,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 15.0, right: 0.0),
+            child: Text(
+              'Password',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16.0,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 10.0, right: 10.0, bottom: 5.0, left: 10.0),
+            child: TextField(
+              obscureText: passwordVisible,
+              style: const TextStyle(fontSize: 14.0, color: Colors.black),
+              textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.visiblePassword,
+              decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      passwordVisible ? Icons.visibility : Icons.visibility_off,
+                      size: 22.0,
+                    ),
+                    onPressed: () {
+                      setState(
+                        () {
+                          passwordVisible = !passwordVisible;
+                        },
+                      );
+                    },
+                  ),
+                  contentPadding:
+                      const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                  hintText: "Password",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0))),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Row(
+              children: [
+                Checkbox(
+                  value: remember,
+                  activeColor: priceColor,
+                  onChanged: (value) {
+                    setState(() {
+                      remember = value;
+                    });
+                  },
+                ),
+                const Text(
+                  'Remember me',
+                  style: TextStyle(fontSize: 14.0),
+                ),
+                const Spacer(),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                      context, ForgotPasswordScreen.routeName),
+                  child: const Text(
+                    'Forgot Password?',
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                )
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 15.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(45),
+                backgroundColor: themecolor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(55)),
+              ),
+              onPressed: () {},
+              child: const Text('Login'),
+            ),
+          ),
+          const SizedBox(
+            height: 40.0,
+          ),
+          Center(
+            child: Padding(
+                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      const TextSpan(text: 'Don’t have an account? '),
+
+                      TextSpan(
+                        text: 'Create an Account',
+                        recognizer: TapGestureRecognizer()..onTap = () {
+                          // Navigator.of(context, rootNavigator: true)
+                          //     .pushNamed("/signupscreen");
+
+                          Navigator.of(context).pushNamedAndRemoveUntil('/signupscreen', (Route<dynamic> route) => false);
+
+                        },
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: headingColor,
+                            fontSize: 14.0),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+          const SizedBox(
+            height: 35.0,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
@@ -318,16 +448,15 @@ class _SignInState extends State<SignIn> {
                   width: 100.0,
                   height: 1.0,
                 ),
-
-
                 const Padding(
                   padding: EdgeInsets.only(left: 15.0, right: 15.0),
                   child: Text(
                     'Or Sign in with',
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        fontFamily: 'WorkSansMedium'),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.0,
+                    ),
                   ),
                 ),
                 Container(
@@ -348,80 +477,75 @@ class _SignInState extends State<SignIn> {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, right: 40.0),
-                child: GestureDetector(
-                  onTap: () => CustomSnackBar(
-                      context, const Text('Facebook button pressed')),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.blue),
-                    child: const Center(
-                      child: Text(
-                        "Facebook",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: GestureDetector(
-                  onTap: () => CustomSnackBar(
-                      context, const Text('Google button pressed')),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.white),
-                    child: const Center(
-                      child: Text(
-                        "Google",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
           const SizedBox(
-            height: 25.0,
+            height: 40.0,
           ),
-          const Padding(
-              padding: EdgeInsets.only(left: 15.0, right: 15.0),
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(text: 'Not registered yet? '),
-                    TextSpan(
-                      text: 'Create an Account',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  // Place `Expanded` inside `Row`
+                  child: SizedBox(
+                    height: 50, // <-- Your height
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.save,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        'Facebook',
+                        style: TextStyle(fontSize: 15.0, color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color(0xFF345288),
+                        textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontStyle: FontStyle.normal),
+                        shape: const StadiumBorder(),
+                      ),
+                      onPressed: () {}, // Every button need a callback
                     ),
-                  ],
+                  ),
                 ),
-              )),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                Expanded(
+                  // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
+                  child: SizedBox(
+                    height: 50, // <-- Your height
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.save,
+                        color: Colors.black,
+                      ),
+                      label: const Text(
+                        'Google',
+                        style: TextStyle(fontSize: 15.0, color: Colors.black),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        side: const BorderSide(color: Colors.grey, width: 1.5),
+                        textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontStyle: FontStyle.normal),
+                        shape: const StadiumBorder(),
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
-  }
-
-  void _toggleSignInButton() {
-    CustomSnackBar(context, const Text('Login button pressed'));
-  }
-
-  void _toggleLogin() {
-    setState(() {
-      _obscureTextPassword = !_obscureTextPassword;
-    });
   }
 }
 
@@ -447,6 +571,15 @@ class _SignUpState extends State<SignUp> {
   TextEditingController signupConfirmPasswordController =
       TextEditingController();
 
+  final emailField = TextField(
+    style: const TextStyle(fontSize: 12.0),
+    obscureText: false,
+    decoration: InputDecoration(
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+        hintText: "Enter Your Mobile Number",
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+  );
+
   @override
   void dispose() {
     focusNodePassword.dispose();
@@ -460,11 +593,178 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 23.0),
-      child: const Column(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Stack(
-            alignment: Alignment.topCenter,
-            children: <Widget>[],
+          const Padding(
+            padding: EdgeInsets.only(left: 15.0, right: 0.0),
+            child: Text(
+              'Phone Number',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15.0,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 10.0, right: 15.0, bottom: 35.0, left: 15.0),
+            child: emailField,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 0.0, right: 15.0, bottom: 0.0, left: 15.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(45),
+                backgroundColor: themecolor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(55)),
+              ),
+              onPressed: () {},
+              child: const Text('Request OTP'),
+            ),
+          ),
+          const SizedBox(
+            height: 35.0,
+          ),
+          const Center(
+            child: Padding(
+                padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(text: 'Don’t have an account? '),
+                      TextSpan(
+                        text: 'Create an Account',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: headingColor,
+                            fontSize: 14.0),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+          const SizedBox(
+            height: 35.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: <Color>[
+                          Colors.black12,
+                          Colors.black,
+                        ],
+                        begin: FractionalOffset(0.0, 0.0),
+                        end: FractionalOffset(1.0, 1.0),
+                        stops: <double>[0.0, 1.0],
+                        tileMode: TileMode.clamp),
+                  ),
+                  width: 100.0,
+                  height: 1.0,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Text(
+                    'Or Sign in with',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: <Color>[
+                          Colors.black,
+                          Colors.black12,
+                        ],
+                        begin: FractionalOffset(0.0, 0.0),
+                        end: FractionalOffset(1.0, 1.0),
+                        stops: <double>[0.0, 1.0],
+                        tileMode: TileMode.clamp),
+                  ),
+                  width: 100.0,
+                  height: 1.0,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 40.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  // Place `Expanded` inside `Row`
+                  child: SizedBox(
+                    height: 50, // <-- Your height
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.save,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        'Facebook',
+                        style: TextStyle(fontSize: 15.0, color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color(0xFF345288),
+                        textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontStyle: FontStyle.normal),
+                        shape: const StadiumBorder(),
+                      ),
+                      onPressed: () {}, // Every button need a callback
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                Expanded(
+                  // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
+                  child: SizedBox(
+                    height: 50, // <-- Your height
+                    child: ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.save,
+                        color: Colors.black,
+                      ),
+                      label: const Text(
+                        'Google',
+                        style: TextStyle(fontSize: 15.0, color: Colors.black),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        side: const BorderSide(color: Colors.grey, width: 1.5),
+                        textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontStyle: FontStyle.normal),
+                        shape: const StadiumBorder(),
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

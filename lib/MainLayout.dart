@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
@@ -45,33 +46,71 @@ class _MainLayoutState extends State<MainLayout> {
   // Create a key
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Color(0xFFFFF1E0), // navigation bar color
+      statusBarColor: Color(0xFFFFF1E0), // status bar color
+    ));
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         iconTheme: const IconThemeData(color: chipColor),
-        backgroundColor: omaColor,
-        title: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: Center(
+        backgroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            IconButton(
+              icon: const Icon(
+                Icons.location_on_outlined,
+                size: 22,
+                color: Colors.black,
+              ),
+              onPressed: () {},
+            ),
+            const Text(
+              'Chennai',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ), /*Center(
             child: Image.asset('assets/omalogo.png', height: 50, width: 100),
-          ),
+          ),*/
+          ],
         ),
         actions: [
           IconButton(
             icon: const Icon(
-              Icons.person,
-              size: 28,
-              color: headingColor,
+              Icons.favorite_border,
+              color: blackColor,
+              size: 26,
             ),
             onPressed: () {
               getNavdata();
-            /*  Navigator.of(context, rootNavigator: true)
+              /*  Navigator.of(context, rootNavigator: true)
                   .pushNamed("/signinscreen");*/
 
               Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/detailspage");
+                  .pushNamed("/signupscreen");
             },
           ),
-          IconButton(
+          const SizedBox(
+            width: 12,
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+            child: CircleAvatar(
+              backgroundColor: Colors.black,
+              radius: 15,
+              child: CircleAvatar(
+                radius: 25,
+                backgroundImage: NetworkImage(
+                    'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
+              ),
+            ),
+          ),
+
+          /*IconButton(
             icon: const FaIcon(
               Icons.shopping_bag_sharp,
               size: 28,
@@ -79,9 +118,9 @@ class _MainLayoutState extends State<MainLayout> {
             ),
             onPressed: () {
               Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/samplepage");
+                  .pushNamed("/loginpage");
             },
-          ),
+          ),*/
         ],
       ),
       body: PersistentTabView(
@@ -105,7 +144,7 @@ class _MainLayoutState extends State<MainLayout> {
         popActionScreens: PopActionScreensType.all,
         hideNavigationBar: false,
         navBarStyle:
-            NavBarStyle.style12, // Choose the nav bar style with this property.
+            NavBarStyle.simple, // Choose the nav bar style with this property.
       ),
       drawer: Drawer(
         backgroundColor: navBackground,
@@ -115,11 +154,12 @@ class _MainLayoutState extends State<MainLayout> {
           children: [
             AppBar(
               backgroundColor: navBackground,
+              elevation: 0,
               leading: IconButton(
                 icon: const Icon(
                   Icons.close,
                   size: 28,
-                  color: headingColor,
+                  color: Colors.black,
                 ),
                 onPressed: () {
                   Navigator.pop(context); // Close the navigation drawer
@@ -127,31 +167,49 @@ class _MainLayoutState extends State<MainLayout> {
               ),
               title: Padding(
                 padding: const EdgeInsets.all(2.0),
-                child: Center(
+                child:
+                    Container(), /*Center(
                   child:
                       Image.asset('assets/omalogo.png', height: 50, width: 100),
-                ),
+                ),*/
               ),
               actions: [
                 IconButton(
                   icon: const Icon(
-                    Icons.person,
-                    size: 28,
-                    color: headingColor,
+                    Icons.favorite_border,
+                    color: blackColor,
+                    size: 26,
                   ),
                   onPressed: () {
                     getNavdata();
                     // Navigator.pushNamed(context, Settings.routeName);
                   },
                 ),
-                IconButton(
+
+                const SizedBox(
+                  width: 12,
+                ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.black,
+                    radius: 15,
+                    child: CircleAvatar(
+                      radius: 25,
+                      backgroundImage: NetworkImage(
+                          'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
+                    ),
+                  ),
+                ),
+
+                /*IconButton(
                   icon: const FaIcon(
                     Icons.shopping_bag_sharp,
                     size: 28,
                     color: headingColor,
                   ),
                   onPressed: () {},
-                ),
+                ),*/
               ],
             ),
             ListView.separated(
@@ -170,122 +228,131 @@ class _MainLayoutState extends State<MainLayout> {
                     dividerColor:
                         Colors.transparent, // Set divider color to transparent
                   ),
-                  child: ExpansionTile(
-                    trailing: navHeaderList[index]['children'].length == 0
-                        ? Container(
-                            width: 10,
-                          )
-                        : const Icon(Icons.keyboard_arrow_down),
-                    title: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        catId = navHeaderList[index]['id'];
-                        print('item_id --> $catId');
-                        final myProvider =
-                            Provider.of<MyProvider>(context, listen: false);
-                        myProvider.updateData(catId);
-                        _controller.jumpToTab(1);
-                      },
-                      child: Text(
-                        navHeaderList[index]['name'],
-                        style: const TextStyle(
-                            color: navTextColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w800,
-                            fontStyle: FontStyle.normal),
-                      ),
-                    ),
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 0),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: navHeaderList[index]['children']
-                              .length, // Replace with the actual number of items
-                          itemBuilder: (BuildContext context, int itemIndex) {
-                            return ExpansionTile(
-                              trailing: navHeaderList[index]['children']
-                                              [itemIndex]['children']
-                                          .length ==
-                                      0
-                                  ? Container(
-                                      width: 10,
-                                    )
-                                  : const Icon(Icons.keyboard_arrow_down),
-                              initiallyExpanded: true,
-                              title: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                  print('item_id --> $catId');
-                                  catId = navHeaderList[index]['children']
-                                      [itemIndex]['id'];
-                                  final myProvider = Provider.of<MyProvider>(
-                                      context,
-                                      listen: false);
-                                  myProvider.updateData(catId);
-                                  _controller.jumpToTab(1);
-                                  // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
-                                },
-                                child: Text(
-                                  navHeaderList[index]['children'][itemIndex]
-                                      ['name'],
-                                  style: const TextStyle(
-                                      color: navTextColor,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w700,
-                                      fontStyle: FontStyle.normal),
-                                ),
-                              ),
-                              children: <Widget>[
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const ClampingScrollPhysics(),
-                                  itemCount: navHeaderList[index]['children']
-                                          [itemIndex]['children']
-                                      .length, // Replace with the actual number of items
-                                  itemBuilder:
-                                      (BuildContext context, int subitemIndex) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 0),
-                                      child: ListTile(
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                          catId = navHeaderList[index]
-                                                  ['children'][itemIndex]
-                                              ['children'][subitemIndex]['id'];
-                                          final myProvider =
-                                              Provider.of<MyProvider>(context,
-                                                  listen: false);
-                                          myProvider.updateData(catId);
-                                          _controller.jumpToTab(1);
-
-                                          // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
-                                        },
-                                        title: Text(
-                                          navHeaderList[index]['children']
-                                                      [itemIndex]['children']
-                                                  [subitemIndex]['name']
-                                              .toString(),
-                                          style: const TextStyle(
-                                              color: navTextColor,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              fontStyle: FontStyle.normal),
-                                        ),
+                  child: navHeaderList[index]['include_in_menu'] == 1
+                      ? ExpansionTile(
+                          trailing: navHeaderList[index]['children'].length == 0
+                              ? Container(
+                                  width: 10,
+                                )
+                              : const Icon(Icons.keyboard_arrow_down),
+                          title: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              catId = navHeaderList[index]['id'];
+                              print('item_id --> $catId');
+                              final myProvider = Provider.of<MyProvider>(
+                                  context,
+                                  listen: false);
+                              myProvider.updateData(catId);
+                              _controller.jumpToTab(1);
+                            },
+                            child: Text(
+                              navHeaderList[index]['name'],
+                              style: const TextStyle(
+                                  color: navTextColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w800,
+                                  fontStyle: FontStyle.normal),
+                            ),
+                          ),
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 0),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const ClampingScrollPhysics(),
+                                itemCount: navHeaderList[index]['children']
+                                    .length, // Replace with the actual number of items
+                                itemBuilder:
+                                    (BuildContext context, int itemIndex) {
+                                  return ExpansionTile(
+                                    trailing: navHeaderList[index]['children']
+                                                    [itemIndex]['children']
+                                                .length ==
+                                            0
+                                        ? Container(
+                                            width: 10,
+                                          )
+                                        : const Icon(Icons.keyboard_arrow_down),
+                                    initiallyExpanded: true,
+                                    title: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                        print('item_id --> $catId');
+                                        catId = navHeaderList[index]['children']
+                                            [itemIndex]['id'];
+                                        final myProvider =
+                                            Provider.of<MyProvider>(context,
+                                                listen: false);
+                                        myProvider.updateData(catId);
+                                        _controller.jumpToTab(1);
+                                        // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
+                                      },
+                                      child: Text(
+                                        navHeaderList[index]['children']
+                                            [itemIndex]['name'],
+                                        style: const TextStyle(
+                                            color: navTextColor,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w700,
+                                            fontStyle: FontStyle.normal),
                                       ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                                    ),
+                                    children: <Widget>[
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const ClampingScrollPhysics(),
+                                        itemCount: navHeaderList[index]
+                                                    ['children'][itemIndex]
+                                                ['children']
+                                            .length, // Replace with the actual number of items
+                                        itemBuilder: (BuildContext context,
+                                            int subitemIndex) {
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 0),
+                                            child: ListTile(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                                catId = navHeaderList[index]
+                                                            ['children']
+                                                        [itemIndex]['children']
+                                                    [subitemIndex]['id'];
+                                                final myProvider =
+                                                    Provider.of<MyProvider>(
+                                                        context,
+                                                        listen: false);
+                                                myProvider.updateData(catId);
+                                                _controller.jumpToTab(1);
+
+                                                // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
+                                              },
+                                              title: Text(
+                                                navHeaderList[index]['children']
+                                                                [itemIndex]
+                                                            ['children']
+                                                        [subitemIndex]['name']
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    color: navTextColor,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle:
+                                                        FontStyle.normal),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(),
                 );
               },
             ),
@@ -309,35 +376,40 @@ class _MainLayoutState extends State<MainLayout> {
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(FontAwesomeIcons.house),
-        iconSize: 22.0,
+        iconSize: 20.0,
         title: ("Home"),
+        textStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
         activeColorPrimary: headingColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(FontAwesomeIcons.search),
-        iconSize: 22.0,
-        title: ("Search"),
+        icon: const Icon(FontAwesomeIcons.compass),
+        iconSize: 20.0,
+        textStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
+        title: ("Discover"),
         activeColorPrimary: headingColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(FontAwesomeIcons.heart),
-        iconSize: 22.0,
+        iconSize: 20.0,
         title: ("WishList"),
+        textStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
         activeColorPrimary: headingColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(FontAwesomeIcons.cartPlus),
-        iconSize: 22.0,
+        iconSize: 20.0,
+        textStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
         title: ("Cart"),
         activeColorPrimary: headingColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(FontAwesomeIcons.user),
-        iconSize: 22.0,
+        iconSize: 20.0,
+        textStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
         title: ("Profile"),
         activeColorPrimary: headingColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
@@ -351,18 +423,18 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
-      child: Drawer(
+      child: const Drawer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             DrawerHeader(
-              decoration: const BoxDecoration(color: Colors.red),
+              decoration: BoxDecoration(color: Colors.red),
               child: Padding(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const <Widget>[
+                  children: <Widget>[
                     SizedBox(
                       width: 70,
                       height: 70,
@@ -396,26 +468,26 @@ class MyDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            const ListTile(
+            ListTile(
               leading: Icon(Icons.home),
               title: Text('Home'),
             ),
-            const ListTile(
+            ListTile(
               leading: Icon(Icons.person),
               title: Text('Profile'),
             ),
-            const ListTile(
+            ListTile(
               leading: Icon(Icons.phone),
               title: Text('Phone'),
             ),
-            const ListTile(
+            ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
             ),
-            const Divider(
+            Divider(
               height: 1,
             ),
-            const ListTile(
+            ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),
             ),

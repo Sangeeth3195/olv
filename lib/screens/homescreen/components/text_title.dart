@@ -12,24 +12,31 @@ class TextTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return
+      Center(
+      child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+      Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 10.0, 10),
+        child: Text(
           title,
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                color: headingColor,
-                fontWeight: FontWeight.w500,
+          style: const TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
         ),
-        TextButton(
+        ),
+        /*TextButton(
           onPressed: pressSeeAll,
           child: const Text(
             "See All",
             style: TextStyle(color: headingColor),
           ),
-        )
+        )*/
       ],
+    ),
     );
   }
 }
