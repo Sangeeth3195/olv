@@ -22,7 +22,7 @@ class _BodyState extends State<Body> {
         child: ListView.builder(
           itemCount: demoCarts.length,
           itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             child: CartCard(cart: demoCarts[index]),
           ),
         ));

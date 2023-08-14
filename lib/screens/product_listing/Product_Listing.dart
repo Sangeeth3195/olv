@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
@@ -29,10 +30,7 @@ class _HomeScreenState extends State<ProductListing> {
   List<dynamic> pList = [];
   int? _value = 0;
 
-
   var selectedColor = 0;
-
-
 
   final List<String> _options = [
     'Most Relevant',
@@ -59,9 +57,10 @@ class _HomeScreenState extends State<ProductListing> {
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updateData(widget.id);
   }
+
   void filterData(Map<String, dynamic> filter) async {
     final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateDataWithFilter(widget.id,filter);
+    myProvider.updateDataWithFilter(widget.id, filter);
   }
 
   @override
@@ -107,7 +106,7 @@ class _HomeScreenState extends State<ProductListing> {
                             ElevatedButton(
                               onPressed: () {
                                 showModalBottomSheet(
-                                  isScrollControlled: true,
+                                    isScrollControlled: true,
                                     context: context,
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
@@ -119,33 +118,47 @@ class _HomeScreenState extends State<ProductListing> {
                                     builder: (context) {
                                       return FractionallySizedBox(
                                         heightFactor: 0.8,
-                                        child: StatefulBuilder(builder: (BuildContext
-                                                context,
-                                            StateSetter
-                                                setState /*You can rename this!*/) {
+                                        child: StatefulBuilder(builder:
+                                            (BuildContext context,
+                                                StateSetter
+                                                    setState /*You can rename this!*/) {
                                           return SingleChildScrollView(
                                             child: Column(
                                               children: [
                                                 SizedBox(
-                                                  height:MediaQuery.of(context).size.height/1.75,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      1.75,
                                                   child: ListView.builder(
                                                     shrinkWrap: true,
                                                     physics:
                                                         const ClampingScrollPhysics(),
-                                                    itemCount:
-                                                        provider.aggregationList.length,
+                                                    itemCount: provider
+                                                        .aggregationList.length,
                                                     // Replace with the actual number of items
-                                                    itemBuilder: (BuildContext context,
-                                                        int subitemIndex) {
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int subitemIndex) {
                                                       return Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          SizedBox(height: 20,),
+                                                          const SizedBox(
+                                                            height: 20,
+                                                          ),
                                                           Padding(
                                                             padding:
-                                                                const EdgeInsets.fromLTRB(
-                                                                    15.0, 0, 0, 5),
+                                                                const EdgeInsets
+                                                                        .fromLTRB(
+                                                                    15.0,
+                                                                    0,
+                                                                    0,
+                                                                    5),
                                                             child: Text(
                                                               provider
                                                                   .aggregationList[
@@ -153,20 +166,26 @@ class _HomeScreenState extends State<ProductListing> {
                                                                   .label,
                                                               style: const TextStyle(
                                                                   fontWeight:
-                                                                      FontWeight.w700,
-                                                                  color: blackColor,
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  color:
+                                                                      blackColor,
                                                                   height: 1.5,
                                                                   fontSize: 12),
                                                             ),
                                                           ),
                                                           Padding(
                                                             padding:
-                                                                const EdgeInsets.all(8.0),
+                                                                const EdgeInsets
+                                                                    .all(8.0),
                                                             child: Wrap(
                                                               // list of length 3
-                                                              children: List.generate(
+                                                              children:
+                                                                  List.generate(
                                                                 provider
-                                                                    .aggregationList[subitemIndex].options
+                                                                    .aggregationList[
+                                                                        subitemIndex]
+                                                                    .options
                                                                     .length,
                                                                 (int index) {
                                                                   // choice chip allow us to
@@ -176,16 +195,19 @@ class _HomeScreenState extends State<ProductListing> {
                                                                         const EdgeInsets
                                                                             .all(8),
                                                                     label: Text(
-                                                                        provider.aggregationList[
-                                                                                        subitemIndex].options
-                                                                                [index].label,
+                                                                        provider
+                                                                            .aggregationList[
+                                                                                subitemIndex]
+                                                                            .options[
+                                                                                index]
+                                                                            .label,
                                                                         style: const TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight
-                                                                                    .w200,
+                                                                            fontWeight: FontWeight
+                                                                                .w200,
                                                                             color:
                                                                                 blackColor,
-                                                                            height: 1,
+                                                                            height:
+                                                                                1,
                                                                             fontSize:
                                                                                 16)),
                                                                     // color of selected chip
@@ -193,32 +215,39 @@ class _HomeScreenState extends State<ProductListing> {
                                                                         chipColor,
 
                                                                     backgroundColor:
-                                                                        Color(0xFFEFEFEF),
+                                                                        const Color(
+                                                                            0xFFEFEFEF),
                                                                     // selected chip value
-                                                                    selected:
-                                                                    provider.aggregationList[
-                                                                    subitemIndex].selected.contains(provider.aggregationList[
-                                                                    subitemIndex].options
-                                                                    [index].value),
+                                                                    selected: provider
+                                                                        .aggregationList[
+                                                                            subitemIndex]
+                                                                        .selected
+                                                                        .contains(provider
+                                                                            .aggregationList[subitemIndex]
+                                                                            .options[index]
+                                                                            .value),
                                                                     // onselected method
                                                                     onSelected:
-                                                                        (bool selected) {
-                                                                      setState(() {
-                                                                        if(selected){
-                                                                          provider.aggregationList[
-                                                                          subitemIndex].selected.add(provider.aggregationList[
-                                                                          subitemIndex].options
-                                                                          [index].value);
-                                                                        }else{
-                                                                          provider.aggregationList[
-                                                                          subitemIndex].selected.remove(provider.aggregationList[
-                                                                          subitemIndex].options
-                                                                          [index].value);
+                                                                        (bool
+                                                                            selected) {
+                                                                      setState(
+                                                                          () {
+                                                                        if (selected) {
+                                                                          provider
+                                                                              .aggregationList[subitemIndex]
+                                                                              .selected
+                                                                              .add(provider.aggregationList[subitemIndex].options[index].value);
+                                                                        } else {
+                                                                          provider
+                                                                              .aggregationList[subitemIndex]
+                                                                              .selected
+                                                                              .remove(provider.aggregationList[subitemIndex].options[index].value);
                                                                         }
                                                                       });
-                                                                      print(
-                                                                          provider.aggregationList[
-                                                                          subitemIndex].selected);
+                                                                      print(provider
+                                                                          .aggregationList[
+                                                                              subitemIndex]
+                                                                          .selected);
                                                                     },
                                                                   );
                                                                 },
@@ -231,29 +260,53 @@ class _HomeScreenState extends State<ProductListing> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.all(10),
-
-                                                  width:MediaQuery.of(context).size.width,
+                                                  margin:
+                                                      const EdgeInsets.all(10),
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
                                                   child: ElevatedButton(
                                                     onPressed: () {
-                                                      Map<String, dynamic> myMap = {
-                                                      };
+                                                      Map<String, dynamic>
+                                                          myMap = {};
 
-                                                      for(int i=0;i<provider.aggregationList.length;i++){
-                                                        myMap[provider.aggregationList[i].label]= "{in: "+provider.aggregationList[i].selected.toString()+"}";
+                                                      for (int i = 0;
+                                                          i <
+                                                              provider
+                                                                  .aggregationList
+                                                                  .length;
+                                                          i++) {
+                                                        myMap[
+                                                            provider
+                                                                .aggregationList[
+                                                                    i]
+                                                                .label] = "{in: " +
+                                                            provider
+                                                                .aggregationList[
+                                                                    i]
+                                                                .selected
+                                                                .toString() +
+                                                            "}";
                                                       }
 
                                                       log(myMap.toString());
                                                       filterData(myMap);
-                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context)
+                                                          .pop();
                                                       // Define the action to perform when the button is pressed
                                                     },
-                                                    child: Text('Apply'),
-                                                    style: ElevatedButton.styleFrom(
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(16.0), // Set the corner radius here
+                                                    child: const Text('Apply'),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                16.0), // Set the corner radius here
                                                       ),
-                                                      padding: EdgeInsets.all(16.0), // Optional: Set padding for the button
+                                                      padding: const EdgeInsets
+                                                              .all(
+                                                          16.0), // Optional: Set padding for the button
                                                       // Customize other properties like background color, elevation, etc.
                                                     ),
                                                   ),
@@ -275,11 +328,7 @@ class _HomeScreenState extends State<ProductListing> {
                                 foregroundColor: Colors.cyan,
                               ),
                               // icon of the button
-                              child: const Icon(
-                                FontAwesomeIcons.arrowsUpDown,
-                                color: Colors.black,
-                                size: 20,
-                              ),
+                              child: SvgPicture.asset("assets/icons/sort.svg",),
                             ),
                           ],
                         ),
@@ -322,15 +371,15 @@ class _HomeScreenState extends State<ProductListing> {
                                                 Navigator.of(context).pop();
                                               },
                                               child: Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 10),
+                                                margin: const EdgeInsets.only(
+                                                    right: 10),
                                                 width: 24,
                                                 height: 24,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   color: Color(0xFFE6E6E6),
                                                   shape: BoxShape.circle,
                                                 ),
-                                                child: Center(
+                                                child: const Center(
                                                   child: Icon(
                                                     Icons.close,
                                                     color: Colors.black,
@@ -341,12 +390,12 @@ class _HomeScreenState extends State<ProductListing> {
                                             ),
                                           ],
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
+                                        const Padding(
+                                          padding: EdgeInsets.fromLTRB(
                                               15.0, 0, 0, 10),
                                           child: Text(
                                             'Sort By',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 color: blackColor,
                                                 height: 1.5,
@@ -354,12 +403,12 @@ class _HomeScreenState extends State<ProductListing> {
                                           ),
                                         ),
 
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
+                                        const Padding(
+                                          padding: EdgeInsets.fromLTRB(
                                               15.0, 0, 0, 5),
                                           child: Text(
                                             'Price',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 color: blackColor,
                                                 height: 1.5,
@@ -390,7 +439,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                   selectedColor: chipColor,
 
                                                   backgroundColor:
-                                                      Color(0xFFEFEFEF),
+                                                      const Color(0xFFEFEFEF),
                                                   // selected chip value
                                                   selected: _value == index,
                                                   // onselected method
@@ -410,7 +459,7 @@ class _HomeScreenState extends State<ProductListing> {
                                           ),
                                         ),
 
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         // Container(
@@ -432,7 +481,7 @@ class _HomeScreenState extends State<ProductListing> {
                                         //     ),
                                         //   ),
                                         // ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                       ],
@@ -450,11 +499,7 @@ class _HomeScreenState extends State<ProductListing> {
                             foregroundColor: Colors.cyan,
                           ),
                           // icon of the button
-                          child: const Icon(
-                            FontAwesomeIcons.filter,
-                            color: Colors.black,
-                            size: 20,
-                          ),
+                          child: SvgPicture.asset("assets/icons/filter.svg",),
                         ),
                       ],
                     ),

@@ -50,97 +50,145 @@ class CartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 85,
-          child: AspectRatio(
-            aspectRatio: 0.95,
-            child: Container(
-              padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF5F6F9),
-                borderRadius: BorderRadius.circular(5),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 5),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 100,
+            child: AspectRatio(
+              aspectRatio: 0.80,
+              child: Container(
+                padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F6F9),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Image.network(
+                    'https://www.omaliving.com/media/catalog/product/cache/0141941aeb4901c5334e6ba10ea3844d/I/T/ITEM-007993_3_1.png'),
               ),
-              child: Image.asset(cart.product.images[0]),
             ),
           ),
-        ),
-        const SizedBox(width: 15),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  cart.product.title,
-                  style: const TextStyle(color: Colors.black, fontSize: 16),
-                  maxLines: 2,
-                ),
-                Row(
-                  children: [
-                    Card(
-                      color: Colors.grey[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
-                      child: SizedBox(
-                        height: 32,
-                        width: 115,
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 500),
-                          child: showWidget(1),
-                        ),
-                      ),
-                    ),
-                    // InkWell(child: Icon(Icons.remove)),
-                    // Text('1'),
-                    // InkWell(child: Icon(Icons.add)),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text.rich(
-              TextSpan(
-                text: "\₹${cart.product.price}",
-                style: const TextStyle(
-                    fontWeight: FontWeight.w600, color: kPrimaryColor),
-                // children: [
-                //   TextSpan(
-                //       text: " x${cart.numOfItem}",
-                //       style: Theme.of(context).textTheme.bodyText1),
-                // ],
-              ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-          ],
-        )
-      ],
+          Expanded(
+            child: buildProductInfo(),
+          ),
+        ],
+      ),
     );
   }
-}
 
-
-class Test extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final PageController controller = PageController(initialPage: 0);
-
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Center(
-          child: ElevatedButton(
-            child: Text('BottomSheet'),
-            onPressed: () {
-
-            },
+  Padding buildProductInfo() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Text(
+            'Scheffera potted plant',
+            style: TextStyle(
+                fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
           ),
-        ),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            children: <Widget>[
+              const Expanded(
+                // Place `Expanded` inside `Row`
+                child: SizedBox(
+                  height: 15, // <-- Your height
+                  child: Text(
+                    '₹ 1,298',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 15.0,
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(5))),
+                  child: SizedBox(
+                    height: 30, // <-- Your height
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: Row(children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 20,
+                            height: 20,
+                            child: const Text('-'),
+                          ),
+                        ),
+                        Container(
+                          width: 20,
+                          alignment: Alignment.center,
+                          child: const Text('2'),
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 20,
+                            height: 20,
+                            child: const Text('+'),
+                          ),
+                        ),
+                      ]),
+                    ),
+                  )),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Row(
+            children: <Widget>[
+              Expanded(
+                // Place `Expanded` inside `Row`
+                child: Row(
+                  children: [
+                    Text(
+                      'Move to wishlist |',
+                      style: TextStyle(color: headingColor, fontSize: 13),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_outlined,
+                      size: 14,
+                      color: headingColor,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 10.0,
+                height: 0,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.delete_outline,
+                    size: 18,
+                    color: headingColor,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'Remove',
+                    style: TextStyle(color: headingColor, fontSize: 13,fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

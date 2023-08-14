@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:omaliving/models/ProductListJson.dart';
 
@@ -906,9 +907,13 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
-        print(result.exception?.graphqlErrors[0].message);
+        print('---' + result.exception!.graphqlErrors[0].message);
+        Fluttertoast.showToast(msg: 'result.exception!.graphqlErrors[0].message.toString()');
+
       } else if (result.data != null) {
         print(result.data?['generateCustomerToken']['token']);
+        Fluttertoast.showToast(msg: result.data?['generateCustomerToken']['token']);
+
       }
 
       return "";
