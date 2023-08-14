@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/models/ProductListJson.dart';
 
@@ -27,6 +28,29 @@ class MyProvider extends ChangeNotifier {
 
     dynamic dataFromAPi =
         await graphQLService.getproductlist(limit: 100, id: id);
+    List? res1 = dataFromAPi.data?['products']['items'];
+    _data = res1!;
+    aggrecation = dataFromAPi.data?['products']['aggregations'];
+    final List<dynamic> postList =
+        dataFromAPi.data?['products']['aggregations'];
+    aggregationList =
+        postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
+    final List<dynamic> itemList = dataFromAPi.data?['products']['items'];
+    items = itemList.map((postJson) => Item.fromJson(postJson)).toList();
+    oldItems = itemList.map((postJson) => Item.fromJson(postJson)).toList();
+
+    notifyListeners();
+  }
+  void updateDataWithFilter(int id,Map<String, dynamic> filter) async {
+    EasyLoading.dismiss();
+    dynamic listData = await graphQLService.getproductlistBySorting(limit: 100, id: id,hashMap: filter);
+    print(listData.data?['products']['aggregations']);
+    List? res = listData.data?['products']['items'];
+    pList = res!;
+    aggrecation = listData.data?['products']['aggregations'];
+
+    dynamic dataFromAPi =
+        await graphQLService.getproductlistBySorting(limit: 100, id: id,hashMap: filter);
     List? res1 = dataFromAPi.data?['products']['items'];
     _data = res1!;
     aggrecation = dataFromAPi.data?['products']['aggregations'];

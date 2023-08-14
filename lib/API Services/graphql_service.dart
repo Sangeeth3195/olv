@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -94,6 +96,136 @@ class GraphQLService {
                       oma_collection:{in:[]}
                       oma_subclass:{in:[]}
                       }
+                      sort: {name: ASC}
+                      pageSize:16
+                      ) {
+                      aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
+                        attribute_code
+                        count
+                        label
+                        options {
+                          label
+                          value
+                          count
+                        }
+                      }
+                      items {
+                        id
+                        name
+                        __typename
+                        sku
+                        price_range {
+                          minimum_price {
+                            regular_price {
+                              value
+                              currency
+                            }
+                          }
+                        }
+                        ... on ConfigurableProduct {
+                            configurable_options {
+                            id
+                            attribute_id
+                            label
+                            position
+                            use_default
+                            attribute_code
+                            values {
+                              value_index
+                              label
+                              swatch_data{
+                                value
+                              }
+                            }
+                            product_id
+                          }
+                        variants {
+                            product {
+                              id
+                              name
+                              sku
+                              attribute_set_id
+                              ... on PhysicalProductInterface {
+                                weight
+                              }
+                              price_range{
+                                minimum_price{
+                                  regular_price{
+                                    value
+                                    currency
+                                  }
+                                }
+                              }
+                              
+                            }
+                            attributes {
+                              uid
+                              label
+                              code
+                              value_index
+                            }
+                  }
+                        }
+                        getPriceRange{
+                            oldpricevalue  
+                            normalpricevalue
+                          }
+                          textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                       dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
+                        url_key
+                        small_image{
+                            url
+                            label
+                        }
+                      }
+                      total_count
+                      page_info {
+                        page_size
+                      }
+                    }
+                  }
+            """),
+          variables: {
+            'limit': 10,
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        EasyLoading.dismiss();
+
+        return result;
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+  Future<dynamic> getproductlistBySorting({
+    required int limit,
+    required int id,
+    required Map<String, dynamic> hashMap,
+  }) async {
+    try {
+      EasyLoading.show(status: 'loading...');
+
+      // hashMap['category_id']= "{eq: $id}";
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                    products(
+                    filter: ${json.encode(hashMap)}
                       sort: {name: ASC}
                       pageSize:16
                       ) {

@@ -82,6 +82,8 @@ class Aggregation {
   int count;
   String label;
   List<Option> options;
+  List<String> selected;
+
 
   Aggregation({
     required this.typename,
@@ -89,6 +91,7 @@ class Aggregation {
     required this.count,
     required this.label,
     required this.options,
+    required this.selected,
   });
 
   factory Aggregation.fromJson(Map<String, dynamic> json) => Aggregation(
@@ -97,6 +100,8 @@ class Aggregation {
     count: json["count"],
     label: json["label"],
     options: List<Option>.from(json["options"].map((x) => Option.fromJson(x))),
+      selected: []
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -105,6 +110,8 @@ class Aggregation {
     "count": count,
     "label": label,
     "options": List<dynamic>.from(options.map((x) => x.toJson())),
+    "selected": selected,
+
   };
 }
 
@@ -113,14 +120,12 @@ class Option {
   String label;
   String value;
   int count;
-  List<String> selected;
 
   Option({
     required this.typename,
     required this.label,
     required this.value,
     required this.count,
-    required this.selected,
   });
 
   factory Option.fromJson(Map<String, dynamic> json) => Option(
@@ -128,7 +133,6 @@ class Option {
     label: json["label"],
     value: json["value"],
     count: json["count"],
-    selected: []
   );
 
   Map<String, dynamic> toJson() => {

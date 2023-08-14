@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
@@ -57,6 +59,10 @@ class _HomeScreenState extends State<ProductListing> {
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updateData(widget.id);
   }
+  void filterData(Map<String, dynamic> filter) async {
+    final myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.updateDataWithFilter(widget.id,filter);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +107,7 @@ class _HomeScreenState extends State<ProductListing> {
                             ElevatedButton(
                               onPressed: () {
                                 showModalBottomSheet(
+                                  isScrollControlled: true,
                                     context: context,
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
@@ -110,116 +117,152 @@ class _HomeScreenState extends State<ProductListing> {
                                       ),
                                     ),
                                     builder: (context) {
-                                      return StatefulBuilder(builder: (BuildContext
-                                              context,
-                                          StateSetter
-                                              setState /*You can rename this!*/) {
-                                        return ListView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const ClampingScrollPhysics(),
-                                          itemCount:
-                                              provider.aggregationList.length,
-                                          // Replace with the actual number of items
-                                          itemBuilder: (BuildContext context,
-                                              int subitemIndex) {
-                                            return Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                      return FractionallySizedBox(
+                                        heightFactor: 0.8,
+                                        child: StatefulBuilder(builder: (BuildContext
+                                                context,
+                                            StateSetter
+                                                setState /*You can rename this!*/) {
+                                          return SingleChildScrollView(
+                                            child: Column(
                                               children: [
-                                                SizedBox(height: 20,),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          15.0, 0, 0, 5),
-                                                  child: Text(
-                                                    provider
-                                                        .aggregationList[
-                                                            subitemIndex]
-                                                        .label,
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        color: blackColor,
-                                                        height: 1.5,
-                                                        fontSize: 12),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Wrap(
-                                                    // list of length 3
-                                                    children: List.generate(
-                                                      provider
-                                                          .aggregationList[subitemIndex].options
-                                                          .length,
-                                                      (int index) {
-                                                        // choice chip allow us to
-                                                        // set its properties.
-                                                        return InputChip(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8),
-                                                          label: Text(
-                                                              provider.aggregationList[
-                                                                              subitemIndex].options
-                                                                      [index].label,
+                                                SizedBox(
+                                                  height:MediaQuery.of(context).size.height/1.75,
+                                                  child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    physics:
+                                                        const ClampingScrollPhysics(),
+                                                    itemCount:
+                                                        provider.aggregationList.length,
+                                                    // Replace with the actual number of items
+                                                    itemBuilder: (BuildContext context,
+                                                        int subitemIndex) {
+                                                      return Column(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          SizedBox(height: 20,),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets.fromLTRB(
+                                                                    15.0, 0, 0, 5),
+                                                            child: Text(
+                                                              provider
+                                                                  .aggregationList[
+                                                                      subitemIndex]
+                                                                  .label,
                                                               style: const TextStyle(
                                                                   fontWeight:
-                                                                      FontWeight
-                                                                          .w200,
-                                                                  color:
-                                                                      blackColor,
-                                                                  height: 1,
-                                                                  fontSize:
-                                                                      16)),
-                                                          // color of selected chip
-                                                          selectedColor:
-                                                              chipColor,
+                                                                      FontWeight.w700,
+                                                                  color: blackColor,
+                                                                  height: 1.5,
+                                                                  fontSize: 12),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets.all(8.0),
+                                                            child: Wrap(
+                                                              // list of length 3
+                                                              children: List.generate(
+                                                                provider
+                                                                    .aggregationList[subitemIndex].options
+                                                                    .length,
+                                                                (int index) {
+                                                                  // choice chip allow us to
+                                                                  // set its properties.
+                                                                  return InputChip(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(8),
+                                                                    label: Text(
+                                                                        provider.aggregationList[
+                                                                                        subitemIndex].options
+                                                                                [index].label,
+                                                                        style: const TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight
+                                                                                    .w200,
+                                                                            color:
+                                                                                blackColor,
+                                                                            height: 1,
+                                                                            fontSize:
+                                                                                16)),
+                                                                    // color of selected chip
+                                                                    selectedColor:
+                                                                        chipColor,
 
-                                                          backgroundColor:
-                                                              Color(0xFFEFEFEF),
-                                                          // selected chip value
-                                                          selected:
-                                                          provider.aggregationList[
-                                                          subitemIndex].options
-                                                          [index].selected.contains(provider.aggregationList[
-                                                          subitemIndex].options
-                                                          [index].value),
-                                                          // onselected method
-                                                          onSelected:
-                                                              (bool selected) {
-                                                            setState(() {
-                                                              if(selected){
-                                                                provider.aggregationList[
-                                                                subitemIndex].options
-                                                                [index].selected.add(provider.aggregationList[
-                                                                subitemIndex].options
-                                                                [index].value);
-                                                              }else{
-                                                                provider.aggregationList[
-                                                                subitemIndex].options
-                                                                [index].selected.remove(provider.aggregationList[
-                                                                subitemIndex].options
-                                                                [index].value);
-                                                              }
-                                                            });
-                                                            print(
-                                                                provider.aggregationList[
-                                                                subitemIndex].options
-                                                                [index].selected);
-                                                          },
-                                                        );
-                                                      },
-                                                    ).toList(),
+                                                                    backgroundColor:
+                                                                        Color(0xFFEFEFEF),
+                                                                    // selected chip value
+                                                                    selected:
+                                                                    provider.aggregationList[
+                                                                    subitemIndex].selected.contains(provider.aggregationList[
+                                                                    subitemIndex].options
+                                                                    [index].value),
+                                                                    // onselected method
+                                                                    onSelected:
+                                                                        (bool selected) {
+                                                                      setState(() {
+                                                                        if(selected){
+                                                                          provider.aggregationList[
+                                                                          subitemIndex].selected.add(provider.aggregationList[
+                                                                          subitemIndex].options
+                                                                          [index].value);
+                                                                        }else{
+                                                                          provider.aggregationList[
+                                                                          subitemIndex].selected.remove(provider.aggregationList[
+                                                                          subitemIndex].options
+                                                                          [index].value);
+                                                                        }
+                                                                      });
+                                                                      print(
+                                                                          provider.aggregationList[
+                                                                          subitemIndex].selected);
+                                                                    },
+                                                                  );
+                                                                },
+                                                              ).toList(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
                                                   ),
                                                 ),
+                                                Container(
+                                                  margin: EdgeInsets.all(10),
+
+                                                  width:MediaQuery.of(context).size.width,
+                                                  child: ElevatedButton(
+                                                    onPressed: () {
+                                                      Map<String, dynamic> myMap = {
+                                                      };
+
+                                                      for(int i=0;i<provider.aggregationList.length;i++){
+                                                        myMap[provider.aggregationList[i].label]= "{in: "+provider.aggregationList[i].selected.toString()+"}";
+                                                      }
+
+                                                      log(myMap.toString());
+                                                      filterData(myMap);
+                                                      Navigator.of(context).pop();
+                                                      // Define the action to perform when the button is pressed
+                                                    },
+                                                    child: Text('Apply'),
+                                                    style: ElevatedButton.styleFrom(
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(16.0), // Set the corner radius here
+                                                      ),
+                                                      padding: EdgeInsets.all(16.0), // Optional: Set padding for the button
+                                                      // Customize other properties like background color, elevation, etc.
+                                                    ),
+                                                  ),
+                                                )
                                               ],
-                                            );
-                                          },
-                                        );
-                                      });
+                                            ),
+                                          );
+                                        }),
+                                      );
                                     });
                               },
                               // styling the button
