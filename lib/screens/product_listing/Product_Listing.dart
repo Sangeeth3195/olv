@@ -240,7 +240,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                       };
 
                                                       for(int i=0;i<provider.aggregationList.length;i++){
-                                                        myMap[provider.aggregationList[i].label]= "{in: "+provider.aggregationList[i].selected.toString()+"}";
+                                                        myMap[provider.aggregationList[i].attributeCode]= "{in: "+provider.aggregationList[i].selected.toString()+"}";
                                                       }
 
                                                       log(myMap.toString());

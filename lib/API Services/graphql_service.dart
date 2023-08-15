@@ -218,14 +218,18 @@ class GraphQLService {
     try {
       EasyLoading.show(status: 'loading...');
 
-      // hashMap['category_id']= "{eq: $id}";
+      hashMap['category_id']= "{eq: $id}";
+      var jsonObj=hashMap;
       QueryResult result = await client.query(
         QueryOptions(
           fetchPolicy: FetchPolicy.noCache,
+          onComplete: (data){
+            print(data);
+          },
           document: gql("""
            query Query {
                     products(
-                    filter: ${json.encode(hashMap)}
+                    filter: $jsonObj
                       sort: {name: ASC}
                       pageSize:16
                       ) {
@@ -330,6 +334,7 @@ class GraphQLService {
       );
 
       if (result.hasException) {
+        print(result.exception);
         throw Exception(result.exception);
       } else {
         EasyLoading.dismiss();
@@ -337,6 +342,7 @@ class GraphQLService {
         return result;
       }
     } catch (error) {
+      print("testing errors"+error.toString());
       return [];
     }
   }
