@@ -95,7 +95,7 @@ class _HomeScreenState extends State<ProductListing> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 1, horizontal: 10),
                       child: SectionTitle(
-                        title: "New Arrival",
+                        title: provider.title,
                         pressSeeAll: () {},
                       ),
                     ),

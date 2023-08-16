@@ -19,6 +19,13 @@ class MyProvider extends ChangeNotifier {
   List<Item> items = [];
   List<Item> oldItems = [];
 
+  String title="New Arrival";
+
+  void updateHeader(String header){
+    title=header;
+    notifyListeners();
+  }
+
   void updateData(int id) async {
     dynamic listData = await graphQLService.getproductlist(limit: 100, id: id);
     print(listData.data?['products']['aggregations']);
