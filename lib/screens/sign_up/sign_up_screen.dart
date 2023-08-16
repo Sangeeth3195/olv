@@ -494,9 +494,10 @@ class _SignInState extends State<SignIn> {
                   child: SizedBox(
                     height: 50, // <-- Your height
                     child: ElevatedButton.icon(
-                      icon: const Icon(
-                        Icons.save,
-                        color: Colors.white,
+                      icon: IconButton(
+                        icon: Image.asset('assets/icons/facebook.png'),
+                        iconSize: 0,
+                        onPressed: () {},
                       ),
                       label: const Text(
                         'Facebook',
@@ -522,9 +523,10 @@ class _SignInState extends State<SignIn> {
                   child: SizedBox(
                     height: 50, // <-- Your height
                     child: ElevatedButton.icon(
-                      icon: const Icon(
-                        Icons.save,
-                        color: Colors.black,
+                      icon: IconButton(
+                        icon: Image.asset('assets/icons/google.png'),
+                        iconSize: 0,
+                        onPressed: () {},
                       ),
                       label: const Text(
                         'Google',
@@ -532,7 +534,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white,
-                        side: const BorderSide(color: Colors.grey, width: 1.5),
+                        side: const BorderSide(color: Colors.grey, width: 1.0),
                         textStyle: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,

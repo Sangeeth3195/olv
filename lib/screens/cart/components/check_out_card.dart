@@ -15,7 +15,7 @@ class CheckoutCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: getProportionateScreenWidth(15),
-        horizontal: getProportionateScreenWidth(30),
+        horizontal: getProportionateScreenWidth(10),
       ),
       // height: 174,
       decoration: BoxDecoration(
@@ -37,51 +37,167 @@ class CheckoutCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  height: getProportionateScreenWidth(40),
-                  width: getProportionateScreenWidth(40),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F6F9),
-                    borderRadius: BorderRadius.circular(5),
+                Text(
+                  "Apply Coupon code",
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    decoration: TextDecoration.underline,
                   ),
-                  child: SvgPicture.asset("assets/icons/receipt.svg"),
                 ),
-                const Spacer(),
-                const Text("Add voucher code"),
-                const SizedBox(width: 10),
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: kTextColor,
-                )
+              ],
+            ),
+            const SizedBox(
+              height: 18.0,
+            ),
+            const Row(
+              children: [
+                Text("Enter coupon code"),
+                SizedBox(width: 10),
               ],
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            const Row(
               children: [
-                const Text.rich(
-                  TextSpan(
-                    text: "Total:\n",
-                    children: [
-                      TextSpan(
-                        text: "\₹337.15",
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    ],
+                Text(
+                  "Payment Summary",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const Row(
+              children: <Widget>[
+                Expanded(
+                  // Place `Expanded` inside `Row`
+                  child: SizedBox(
+                    height: 15, // <-- Your height
+                    child: Text(
+                      'Subtotal',
+                      style: TextStyle(color: Colors.black),
+                    ),
                   ),
                 ),
                 SizedBox(
-                  width: getProportionateScreenWidth(190),
-                  child: DefaultButton(
-                    text: "Check Out",
-                    press: () {},
+                  height: 30, // <-- Your height
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Row(children: [
+                      Text(
+                        '₹ 1,298',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ]),
                   ),
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const Row(
+              children: <Widget>[
+                Expanded(
+                  // Place `Expanded` inside `Row`
+                  child: SizedBox(
+                    height: 15, // <-- Your height
+                    child: Text(
+                      'Standard Shipping',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30, // <-- Your height
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Row(children: [
+                      Text(
+                        '₹ 500',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ]),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const Row(
+              children: <Widget>[
+                Expanded(
+                  // Place `Expanded` inside `Row`
+                  child: SizedBox(
+                    height: 15, // <-- Your height
+                    child: Text(
+                      'Discount',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30, // <-- Your height
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Row(children: [
+                      Text(
+                        '- ₹ 200',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ]),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Container(
+              color: const Color(0xFFFFF2E1),
+              height: 50,
+              child: const Padding(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      // Place `Expanded` inside `Row`
+                      child: SizedBox(
+                        height: 15, // <-- Your height
+                        child: Text(
+                          'Order Total',
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30, // <-- Your height
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: Row(children: [
+                          Text(
+                            '₹ 1,598',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              child: DefaultButton(
+                text: "Continue to Checkout",
+                press: () {},
+              ),
             ),
           ],
         ),

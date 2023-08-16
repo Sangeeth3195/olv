@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../API Services/graphql_service.dart';
 import '../../../components/custom_surfix_icon.dart';
@@ -17,25 +17,64 @@ class Body extends StatelessWidget {
       width: double.infinity,
       child: SingleChildScrollView(
         child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          padding: const EdgeInsets.fromLTRB(10.0, 70.0, 10.0, 0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: SizeConfig.screenHeight * 0.04),
-              Text(
-                "Forgot Password",
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(28),
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+              Center(
+                child: Image.asset('assets/images/forgotpassword.png',
+                    height: 200, width: 200),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15.0, 20.0, 10.0, 0),
+                child: Text(
+                  "Forgot Password",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(20),
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              SizedBox(height: SizeConfig.screenHeight * 0.04),
-              const Text(
-                "Please enter your email and we will send \nyou a link to return to your account",
-                textAlign: TextAlign.center,
+              const SizedBox(
+                height: 5,
               ),
-              SizedBox(height: SizeConfig.screenHeight * 0.07),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15.0, 0.0, 10.0, 0),
+                child: Text(
+                  "Please enter your email and we will send you a link to return to your account",
+                  textAlign: TextAlign.start,
+
+                  style: TextStyle(
+                    height: 1.5,
+                    fontSize: getProportionateScreenWidth(12),
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15.0, 0.0, 10.0, 0),
+          child:
+              Text(
+                "Email",
+                textAlign: TextAlign.start,
+
+                style: TextStyle(
+                  height: 1.5,
+                  fontSize: getProportionateScreenWidth(12),
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
               const ForgotPassForm(),
             ],
           ),
@@ -57,6 +96,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
   List<String> errors = [];
   String? email;
   GraphQLService graphQLService = GraphQLService();
+  TextEditingController loginEmailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,62 +104,52 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            onSaved: (newValue) => email = newValue,
-            onChanged: (value) {
-              if (value.isNotEmpty && errors.contains(kEmailNullError)) {
-                setState(() {
-                  errors.remove(kEmailNullError);
-                });
-              } else if (emailValidatorRegExp.hasMatch(value) &&
-                  errors.contains(kInvalidEmailError)) {
-                setState(() {
-                  errors.remove(kInvalidEmailError);
-                });
-              }
-              return;
-            },
-            validator: (value) {
-              if (value!.isEmpty && !errors.contains(kEmailNullError)) {
-                setState(() {
-                  errors.add(kEmailNullError);
-                });
-              } else if (!emailValidatorRegExp.hasMatch(value) &&
-                  !errors.contains(kInvalidEmailError)) {
-                setState(() {
-                  errors.add(kInvalidEmailError);
-                });
-              }
-              return null;
-            },
-            decoration: const InputDecoration(
-              labelText: "Email",
-              hintText: "Enter your email",
-              // If  you are using latest version of flutter then lable text and hint text shown like this
-              // if you r using flutter less then 1.20.* then maybe this is not working properly
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: priceColor, width: 1.0),
-              ),
-
-              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 0.0, right: 10.0, bottom: 20.0, left: 10.0),
+            child: TextFormField(
+              controller: loginEmailController,
+              obscureText: false,
+              textInputAction: TextInputAction.next,
+              validator: (val) {
+                if (val!.isEmpty) return 'This is a required field.';
+                return null;
+              },
+              style: const TextStyle(fontSize: 14.0, color: Colors.black),
+              decoration: InputDecoration(
+                  suffixIcon: const Icon(
+                    Icons.email_outlined,
+                    color: Colors.grey,
+                    size: 22.0,
+                  ),
+                  contentPadding:
+                      const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                  hintText: "Email",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0))),
             ),
           ),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          FormError(errors: errors),
-          SizedBox(height: SizeConfig.screenHeight * 0.02),
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState!.validate()) {
-                // Do what you want to do
-                graphQLService.resetpassword(
-                    'maideen.i@gmail.com');
-              }
-            },
+          SizedBox(height: SizeConfig.screenHeight * 0.01),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(45),
+                backgroundColor: themecolor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(55)),
+              ),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  graphQLService.resetpassword('sangeeth@gmail.com');
+                }
+              },
+              child: const Text('Submit'),
+            ),
           ),
-          SizedBox(height: SizeConfig.screenHeight * 0.05),
+          SizedBox(height: SizeConfig.screenHeight * 0.02),
           const NoAccountText(),
         ],
       ),

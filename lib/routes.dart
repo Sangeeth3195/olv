@@ -18,7 +18,6 @@ import 'package:omaliving/screens/sign_in/sign_in_screen.dart';
 import 'package:omaliving/screens/webview/WebView.dart';
 import 'package:omaliving/screens/wishlist/wishlist.dart';
 import 'package:omaliving/splash.dart';
-import 'PDP_UI.dart';
 import 'screens/sign_up/sign_up_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {

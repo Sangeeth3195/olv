@@ -26,6 +26,8 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> navHeaderList = [];
+  late DateTime currentBackPressTime;
+
   int catId = 10071;
   @override
   void initState() {
@@ -41,6 +43,17 @@ class _MainLayoutState extends State<MainLayout> {
 
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
+
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      // Fluttertoast.showToast(msg: exit_warning);
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   // Create a key
@@ -61,7 +74,7 @@ class _MainLayoutState extends State<MainLayout> {
             IconButton(
               icon: const Icon(
                 Icons.location_on_outlined,
-                size: 22,
+                size: 24,
                 color: Colors.black,
               ),
               onPressed: () {},
@@ -69,13 +82,11 @@ class _MainLayoutState extends State<MainLayout> {
             const Text(
               'Chennai',
               style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
                 color: Colors.black,
               ),
-            ), /*Center(
-            child: Image.asset('assets/omalogo.png', height: 50, width: 100),
-          ),*/
+            ),
           ],
         ),
         actions: [
@@ -87,19 +98,21 @@ class _MainLayoutState extends State<MainLayout> {
             ),
             onPressed: () {
               getNavdata();
-              /*  Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/signinscreen");*/
-
               Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/signupscreen");
+                  .pushNamed("/cartPage");
             },
           ),
           const SizedBox(
             width: 12,
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-            child: CircleAvatar(
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+            child: GestureDetector(
+            onTap: (){
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed("/signupscreen");
+            },
+            child: const CircleAvatar(
               backgroundColor: Colors.black,
               radius: 15,
               child: CircleAvatar(
@@ -107,6 +120,7 @@ class _MainLayoutState extends State<MainLayout> {
                 backgroundImage: NetworkImage(
                     'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
               ),
+            ),
             ),
           ),
 
@@ -325,9 +339,7 @@ class _MainLayoutState extends State<MainLayout> {
                                                         listen: false);
                                                 myProvider.updateData(catId);
                                                 _controller.jumpToTab(1);
-
-                                                // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
-                                              },
+                                                },
                                               title: Text(
                                                 navHeaderList[index]['children']
                                                                 [itemIndex]
