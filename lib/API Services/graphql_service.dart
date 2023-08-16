@@ -1,11 +1,16 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/models/ProductListJson.dart';
+import 'package:omaliving/screens/homescreen/homescreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../MainLayout.dart';
 import '../models/categoryList.dart';
 import 'graphql_config.dart';
 
@@ -211,6 +216,7 @@ class GraphQLService {
       return [];
     }
   }
+
   Future<dynamic> getproductlistBySorting({
     required int limit,
     required int id,
@@ -219,12 +225,12 @@ class GraphQLService {
     try {
       EasyLoading.show(status: 'loading...');
 
-      hashMap['category_id']= "{eq: $id}";
-      var jsonObj=hashMap;
+      hashMap['category_id'] = "{eq: $id}";
+      var jsonObj = hashMap;
       QueryResult result = await client.query(
         QueryOptions(
           fetchPolicy: FetchPolicy.noCache,
-          onComplete: (data){
+          onComplete: (data) {
             print(data);
           },
           document: gql("""
@@ -343,7 +349,7 @@ class GraphQLService {
         return result;
       }
     } catch (error) {
-      print("testing errors"+error.toString());
+      print("testing errors" + error.toString());
       return [];
     }
   }
@@ -565,6 +571,18 @@ class GraphQLService {
                           id
                           name
                           sku
+                          getPriceRange{
+                              oldpricevalue  
+                              normalpricevalue
+                            }
+                           price_range{
+                                minimum_price{
+                                  regular_price{
+                                    value
+                                    currency
+                                  }
+                                }
+                              }
                         }
                         upsell_products {
                           id
@@ -839,6 +857,53 @@ class GraphQLService {
     }
   }
 
+  /// Wishlist
+  Future<List<dynamic>> getWishlist() async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                  wishlist {
+                    items_count
+                    name
+                    sharing_code
+                    updated_at
+                    items {
+                      id
+                      qty
+                      description
+                      added_at
+                      product {
+                        sku
+                        name
+                      }
+                    }
+                  }
+              }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        print(result.exception);
+        throw Exception(result.exception);
+
+      } else {
+        List? res = result.data?['wishlist']['items'];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+        return res;
+      }
+    } catch (error) {
+      print(error);
+      return [];
+    }
+  }
+
   /// create new user
   static String new_user(String firstname, String lastname, String email,
       String password, bool isSubcribed) {
@@ -864,11 +929,10 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> createuser(String firstname, String lastname, String email,
-      String password, bool issub) async {
+  Future<String> createuser(
+      String firstname, String email, String password, bool issub) async {
     try {
       print(firstname);
-      print(lastname);
       print(email);
       print(password);
       print(issub);
@@ -880,6 +944,8 @@ class GraphQLService {
       );
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
+        Fluttertoast.showToast(
+            msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {}
       print(result.data?['createCustomerV2']['customer']);
       return "";
@@ -903,7 +969,7 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> Login(String email, password) async {
+  Future<String> Login(String email, password, BuildContext context) async {
     try {
       GraphQLConfig graphQLConfig = GraphQLConfig();
       GraphQLClient client = graphQLConfig.clientToQuery();
@@ -914,12 +980,17 @@ class GraphQLService {
       );
       if (result.hasException) {
         print('---' + result.exception!.graphqlErrors[0].message);
-        Fluttertoast.showToast(msg: 'result.exception!.graphqlErrors[0].message.toString()');
-
+        Fluttertoast.showToast(
+            msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
         print(result.data?['generateCustomerToken']['token']);
-        Fluttertoast.showToast(msg: result.data?['generateCustomerToken']['token']);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString(
+            'token', result.data?['generateCustomerToken']['token']);
 
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainLayout()));
+        Fluttertoast.showToast(msg: 'Login successfully');
       }
 
       return "";
@@ -940,7 +1011,7 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> resetpassword(String email) async {
+  Future<String> resetpassword(String email, BuildContext context) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -949,7 +1020,16 @@ class GraphQLService {
       );
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
-      } else if (result.data != null) {}
+        Fluttertoast.showToast(
+            msg: result.exception!.graphqlErrors[0].message.toString());
+      } else if (result.data != null) {
+        print(result.data?['requestPasswordResetEmail']);
+        if (result.data?['requestPasswordResetEmail'] == true) {
+          Fluttertoast.showToast(msg: 'msg');
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const LoginPage()));
+        } else {}
+      }
       return "";
     } catch (e) {
       print(e);

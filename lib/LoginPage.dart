@@ -8,14 +8,14 @@ import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
 
 import 'API Services/graphql_service.dart';
 
-class Samplepage extends StatefulWidget {
-  const Samplepage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<Samplepage>
+class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   late PageController _pageController;
 
@@ -417,7 +417,7 @@ class _SignInState extends State<SignIn> {
                     graphQLService.Login(
                         loginEmailController.text.toString(),
                         loginPasswordController.text
-                            .toString()); //'maideen.i@gmail.com', 'Magento@123'
+                            .toString(),context); //'maideen.i@gmail.com', 'Magento@123'
                   }
                 },
                 child: const Text('Login'),

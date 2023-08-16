@@ -154,7 +154,7 @@ class _SignFormState extends State<SignForm> {
             text: 'Login',
             press: () {
 
-              graphQLService.Login('maideen.i@gmail.com', 'Magento@123');
+              graphQLService.Login('maideen.i@gmail.com', 'Magento@123',context);
 
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();

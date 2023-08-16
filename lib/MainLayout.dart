@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
+import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
@@ -49,7 +51,7 @@ class _MainLayoutState extends State<MainLayout> {
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      // Fluttertoast.showToast(msg: exit_warning);
+      Fluttertoast.showToast(msg: 'exit_warning');
       return Future.value(false);
     }
     return Future.value(true);
@@ -97,9 +99,8 @@ class _MainLayoutState extends State<MainLayout> {
               size: 26,
             ),
             onPressed: () {
-              getNavdata();
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/cartPage");
+              /*getNavdata();*/
+              _controller.jumpToTab(2);
             },
           ),
           const SizedBox(
@@ -109,8 +110,13 @@ class _MainLayoutState extends State<MainLayout> {
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: GestureDetector(
             onTap: (){
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/signupscreen");
+
+
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
             },
             child: const CircleAvatar(
               backgroundColor: Colors.black,
@@ -160,6 +166,7 @@ class _MainLayoutState extends State<MainLayout> {
         navBarStyle:
             NavBarStyle.simple, // Choose the nav bar style with this property.
       ),
+
       drawer: Drawer(
         backgroundColor: navBackground,
         width:
@@ -196,6 +203,8 @@ class _MainLayoutState extends State<MainLayout> {
                   ),
                   onPressed: () {
                     getNavdata();
+                    _controller.jumpToTab(3);
+                    Navigator.of(context).pop();
                     // Navigator.pushNamed(context, Settings.routeName);
                   },
                 ),
@@ -329,6 +338,8 @@ class _MainLayoutState extends State<MainLayout> {
                                             child: ListTile(
                                               onTap: () {
                                                 Navigator.of(context).pop();
+
+                                                print('item_id --> $catId');
                                                 catId = navHeaderList[index]
                                                             ['children']
                                                         [itemIndex]['children']

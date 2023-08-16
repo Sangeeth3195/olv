@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../API Services/graphql_service.dart';
 import '../../../components/size_config.dart';
 import '../../../constants.dart';
 import '../../../models/Cart.dart';
@@ -14,6 +15,9 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  GraphQLService graphQLService = GraphQLService();
+  List<dynamic> wishList = [];
+
   final List<String> imageList = [
     "https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI002927_3.png",
     "https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI004463_4.png",
@@ -21,9 +25,23 @@ class _BodyState extends State<Body> {
     "https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI001805_3_1.png",
     "https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI002244_4_1.png",
     "https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI002839_2.png"
-    "https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI004463_4.png",
+        "https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI004463_4.png",
     "https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI004463_4.png",
   ];
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getwishlistdata();
+  }
+
+  void getwishlistdata() async {
+    wishList = await graphQLService.getWishlist();
+    setState(() {});
+
+    print('wishList --> ' + wishList.length.toString());
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +80,7 @@ class _BodyState extends State<Body> {
                   color: Color(0xFFF4597D),
                   size: 24,
                 ),
-                onPressed: () {
-
-                },
+                onPressed: () {},
               ),
             ),
             Image(
@@ -86,11 +102,13 @@ class _BodyState extends State<Body> {
           alignment: Alignment.topLeft,
           child: const Text(
             "Scheffera potted plant",
-            style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             textAlign: TextAlign.start,
           ),
         ),
-        const SizedBox(height: 15,),
+        const SizedBox(
+          height: 15,
+        ),
         const Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

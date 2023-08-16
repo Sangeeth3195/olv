@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
-import 'package:omaliving/screens/reset_password/reset_password.dart';
 
 import '../../../API Services/graphql_service.dart';
-import '../../../components/custom_surfix_icon.dart';
-import '../../../components/form_error.dart';
 import '../../../components/no_account_text.dart';
 import '../../../constants.dart';
-import '../../../components/default_button.dart';
 import '../../../components/size_config.dart';
 
 class Body extends StatelessWidget {
@@ -25,13 +20,13 @@ class Body extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Image.asset('assets/images/forgotpassword.png',
+                child: Image.asset('assets/images/resetpassword.png',
                     height: 200, width: 200),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15.0, 20.0, 10.0, 0),
                 child: Text(
-                  "Forgot Password",
+                  "Reset Password",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(20),
                     color: Colors.black,
@@ -61,7 +56,7 @@ class Body extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(15.0, 0.0, 10.0, 0),
                 child: Text(
-                  "Email",
+                  "New Password",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     height: 1.5,
@@ -95,20 +90,24 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
   List<String> errors = [];
   String? email;
   GraphQLService graphQLService = GraphQLService();
-  TextEditingController loginEmailController = TextEditingController();
+  TextEditingController newpasswordController = TextEditingController();
+  TextEditingController confrmnewpasswordController = TextEditingController();
+  bool _obscureText1 = true;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(
                 top: 0.0, right: 10.0, bottom: 20.0, left: 10.0),
             child: TextFormField(
-              controller: loginEmailController,
-              obscureText: false,
+              controller: newpasswordController,
+              obscureText: _obscureText,
               textInputAction: TextInputAction.next,
               validator: (val) {
                 if (val!.isEmpty) return 'This is a required field.';
@@ -116,19 +115,69 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
               },
               style: const TextStyle(fontSize: 14.0, color: Colors.black),
               decoration: InputDecoration(
-                  suffixIcon: const Icon(
-                    Icons.email_outlined,
-                    color: Colors.grey,
-                    size: 22.0,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
                   ),
                   contentPadding:
                       const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
-                  hintText: "Email",
+                  hintText: "New Password",
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(32.0))),
             ),
           ),
-          SizedBox(height: SizeConfig.screenHeight * 0.01),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 0.0, 5.0, 0),
+            child: Text(
+              "Confirm Password",
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                height: 1.5,
+                fontSize: getProportionateScreenWidth(12),
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 5.0, right: 10.0, bottom: 20.0, left: 10.0),
+            child: TextFormField(
+              controller: confrmnewpasswordController,
+              obscureText: _obscureText1,
+              textInputAction: TextInputAction.next,
+              validator: (val) {
+                if (val!.isEmpty) return 'Password field is Empty';
+                if (val != newpasswordController.text) {
+                  return 'Confirm Password not matching';
+                }
+                return null;
+              },
+              style: const TextStyle(fontSize: 14.0, color: Colors.black),
+              decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText1 ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText1 = !_obscureText1;
+                      });
+                    },
+                  ),
+                  contentPadding:
+                      const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                  hintText: "Confirm New Password",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32.0))),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(
                 top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
@@ -142,37 +191,13 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  graphQLService.resetpassword(loginEmailController.text.toString(),context);
+                  graphQLService.resetpassword('sangeeth@gmail.com',context);
                 }
               },
               child: const Text('Submit'),
             ),
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.02),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Don’t have an account? ",
-                style: TextStyle(fontSize: getProportionateScreenWidth(14)),
-              ),
-              GestureDetector(
-                onTap: (){
-                  /*Navigator.of(context, rootNavigator: true).pushNamed("/signupscreen");*/
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ResetPassword()),
-                  );
-                },
-                child: Text(
-                  "Sign Up",
-                  style: TextStyle(
-                      fontSize: getProportionateScreenWidth(14),
-                      color: kPrimaryColor),
-                ),
-              ),
-            ],
-          )
         ],
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:omaliving/samplepage.dart';
+import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/screens/Information/information.dart';
 import 'package:omaliving/screens/account/Account.dart';
 import 'package:omaliving/screens/add_address/add_address.dart';
@@ -45,7 +45,7 @@ final Map<String, WidgetBuilder> routes = {
   '/settings': (context) => const Settings(),
 
   /// sample screens
-  '/loginpage': (context) => const Samplepage(),
+  '/loginpage': (context) => const LoginPage(),
   // '/detailspage': (context) => DetailsPage(id: 0),
 
 };

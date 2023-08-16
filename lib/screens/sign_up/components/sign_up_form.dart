@@ -54,7 +54,7 @@ class _SignUpFormState extends State<SignUpForm> {
             text: "Create an account",
             press: () {
               graphQLService.createuser(
-                  "maideen", "i", "maideen.i@gmail.com", "12345@@DF6789", true);
+                  "maideen", "maideen.i@gmail.com", "12345@@DF6789", true);
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
               }

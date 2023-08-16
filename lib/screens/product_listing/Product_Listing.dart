@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
@@ -141,7 +142,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
-                                                          SizedBox(height: 20,),
+                                                          const SizedBox(height: 20,),
                                                           Padding(
                                                             padding:
                                                                 const EdgeInsets.fromLTRB(
@@ -193,7 +194,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                                         chipColor,
 
                                                                     backgroundColor:
-                                                                        Color(0xFFEFEFEF),
+                                                                        const Color(0xFFEFEFEF),
                                                                     // selected chip value
                                                                     selected:
                                                                     provider.aggregationList[
@@ -231,7 +232,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.all(10),
+                                                  margin: const EdgeInsets.all(10),
 
                                                   width:MediaQuery.of(context).size.width,
                                                   child: ElevatedButton(
@@ -248,14 +249,14 @@ class _HomeScreenState extends State<ProductListing> {
                                                       Navigator.of(context).pop();
                                                       // Define the action to perform when the button is pressed
                                                     },
-                                                    child: Text('Apply'),
                                                     style: ElevatedButton.styleFrom(
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius: BorderRadius.circular(16.0), // Set the corner radius here
                                                       ),
-                                                      padding: EdgeInsets.all(16.0), // Optional: Set padding for the button
+                                                      padding: const EdgeInsets.all(16.0), // Optional: Set padding for the button
                                                       // Customize other properties like background color, elevation, etc.
                                                     ),
+                                                    child: const Text('Apply'),
                                                   ),
                                                 )
                                               ],
@@ -275,10 +276,8 @@ class _HomeScreenState extends State<ProductListing> {
                                 foregroundColor: Colors.cyan,
                               ),
                               // icon of the button
-                              child: const Icon(
-                                FontAwesomeIcons.arrowsUpDown,
-                                color: Colors.black,
-                                size: 20,
+                              child: SvgPicture.asset(
+                                "assets/icons/sort.svg",
                               ),
                             ),
                           ],
@@ -323,14 +322,14 @@ class _HomeScreenState extends State<ProductListing> {
                                               },
                                               child: Container(
                                                 margin:
-                                                    EdgeInsets.only(right: 10),
+                                                    const EdgeInsets.only(right: 10),
                                                 width: 24,
                                                 height: 24,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   color: Color(0xFFE6E6E6),
                                                   shape: BoxShape.circle,
                                                 ),
-                                                child: Center(
+                                                child: const Center(
                                                   child: Icon(
                                                     Icons.close,
                                                     color: Colors.black,
@@ -341,12 +340,12 @@ class _HomeScreenState extends State<ProductListing> {
                                             ),
                                           ],
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
+                                        const Padding(
+                                          padding: EdgeInsets.fromLTRB(
                                               15.0, 0, 0, 10),
                                           child: Text(
                                             'Sort By',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 color: blackColor,
                                                 height: 1.5,
@@ -354,12 +353,12 @@ class _HomeScreenState extends State<ProductListing> {
                                           ),
                                         ),
 
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
+                                        const Padding(
+                                          padding: EdgeInsets.fromLTRB(
                                               15.0, 0, 0, 5),
                                           child: Text(
                                             'Price',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 color: blackColor,
                                                 height: 1.5,
@@ -390,7 +389,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                   selectedColor: chipColor,
 
                                                   backgroundColor:
-                                                      Color(0xFFEFEFEF),
+                                                      const Color(0xFFEFEFEF),
                                                   // selected chip value
                                                   selected: _value == index,
                                                   // onselected method
@@ -410,7 +409,7 @@ class _HomeScreenState extends State<ProductListing> {
                                           ),
                                         ),
 
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         // Container(
@@ -432,7 +431,7 @@ class _HomeScreenState extends State<ProductListing> {
                                         //     ),
                                         //   ),
                                         // ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                       ],
@@ -450,10 +449,8 @@ class _HomeScreenState extends State<ProductListing> {
                             foregroundColor: Colors.cyan,
                           ),
                           // icon of the button
-                          child: const Icon(
-                            FontAwesomeIcons.filter,
-                            color: Colors.black,
-                            size: 20,
+                          child: SvgPicture.asset(
+                            "assets/icons/filter.svg",
                           ),
                         ),
                       ],

@@ -5,11 +5,13 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/details/components/product_description.dart';
+import 'package:omaliving/screens/product_listing/components/product_card.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
 import 'API Services/graphql_service.dart';
 import 'components/size_config.dart';
+import 'models/Product.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({Key? key, required this.product}) : super(key: key);
@@ -182,8 +184,13 @@ class _DetailsPageState extends State<DetailsPage>
                                 const Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Padding(padding: EdgeInsets.fromLTRB(0.0,10,20,0),
-                                     child: Icon(Icons.favorite_border,size: 25.0,)),
+                                    Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(0.0, 10, 20, 0),
+                                        child: Icon(
+                                          Icons.favorite_border,
+                                          size: 25.0,
+                                        )),
                                   ],
                                 ),
                                 CarouselSlider(
@@ -212,7 +219,9 @@ class _DetailsPageState extends State<DetailsPage>
                                                 BorderRadius.circular(5),
                                           ),
                                           child: Image.network(
-                                            provider.productData[0]['media_gallery'][selectedImage]['url'],
+                                            provider.productData[0]
+                                                    ['media_gallery']
+                                                [selectedImage]['url'],
                                             fit: BoxFit.cover,
                                           ),
                                         );
@@ -249,7 +258,9 @@ class _DetailsPageState extends State<DetailsPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                provider.productData[0]['dynamicAttributes'][0]['attribute_value'].toString(),
+                                provider.productData[0]['dynamicAttributes'][0]
+                                        ['attribute_value']
+                                    .toString(),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.black54,
@@ -483,7 +494,7 @@ class _DetailsPageState extends State<DetailsPage>
                             )
                           : Container(),*/
 
-                    /*  provider.productData[0]['__typename'] ==
+                      /*  provider.productData[0]['__typename'] ==
                               "ConfigurableProduct"
                           ? Row(
                               children: [
@@ -610,6 +621,51 @@ class _DetailsPageState extends State<DetailsPage>
                       const SizedBox(
                         height: 8,
                       ),
+
+                     /* Expanded(
+                        child: GridView.extent(
+                          primary: false,
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.all(2),
+                          childAspectRatio: 0.60,
+                          maxCrossAxisExtent: 300,
+                          children: List.generate(
+                            provider.items.length,
+                                (index) => Padding(
+                              padding: const EdgeInsets.all(3),
+                              child: ProductCard(
+                                title: provider.items[index].name,
+                                image: provider.items[index].smallImage.url,
+                                price: provider.items[index].typename == "SimpleProduct"
+                                    ? provider.items[index].priceRange.minimumPrice
+                                    .regularPrice.value
+                                    .toString()
+                                    : "${provider.items[index].priceRange.minimumPrice.regularPrice.value}"
+                                    " - ${provider.items[index].priceRange.minimumPrice.regularPrice.value}",
+                                product: provider.items[index],
+                                bgColor: demo_product[0].colors[0],
+                                item: provider.items[index],
+                                press: () {
+                                  *//*Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailsScreen(
+                                    product: provider.items[index]),
+                              ));*//*
+
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailsPage(product: provider.pList[index]),
+                                      ));
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),*/
+
                       GFItemsCarousel(
                         rowCount: 2,
                         children: imageList.map(
@@ -712,7 +768,6 @@ class _DetailsPageState extends State<DetailsPage>
                       const SizedBox(height: 10.0),
                     ],
                   ),
-
                 ),
               );
             } else {
@@ -760,19 +815,28 @@ class _DetailsPageState extends State<DetailsPage>
         const SizedBox(height: 10.0),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-          height: 100.0,
+          height: 120.0,
           child: TabBarView(
             controller: tabController,
             children: <Widget>[
-              HtmlWidget(
-                productData[0]['detail'].toString(),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: HtmlWidget(
+                  productData[0]['detail'].toString(),
+                ),
               ),
-              productData[0]['depth'] == null
-                  ? Container()
-                  : Text('Depth: ' + productData[0]['depth'].toString()),
-              // HtmlWidget(
-              //   productData[0]['care'],
-              // ),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: productData[0]['depth'] == null
+                    ? Container()
+                    : Text('Depth: ${productData[0]['depth']}'),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: HtmlWidget(
+                  productData[0]['care'].toString(),
+                ),
+              ),
             ],
           ),
         ),

@@ -20,6 +20,8 @@ import 'package:omaliving/constants.dart';
 import 'package:sign_button/constants.dart';
 import 'package:sign_button/create_button.dart';
 
+import '../../API Services/graphql_service.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -49,40 +51,42 @@ class _LoginPageState extends State<SignUpScreen>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child:SizedBox(
+        child: SizedBox(
             width: double.infinity,
-            child:
-            Padding(
+            child: Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 70.0, 10.0, 0),
               child: GestureDetector(
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
                 },
-                child:Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const Padding(
-                padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),child: Text(
-                      "Create a new account",
-                      textScaleFactor: 1.0,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold,
+                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                      child: Text(
+                        "Create a new account",
+                        textScaleFactor: 1.0,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
                     ),
                     const SizedBox(height: 10.0),
                     const Padding(
-                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),child: Text(
-                      "If you have an account, sign in with your email address.",
-                      textAlign: TextAlign.center,
-                      textScaleFactor: 0.9,
-                      style: TextStyle(fontSize: 14.0, color: Colors.black),
-                    ),
+                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                      child: Text(
+                        "If you have an account, sign in with your email address.",
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 0.9,
+                        style: TextStyle(fontSize: 14.0, color: Colors.black),
+                      ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20.0,left: 10.0,right: 10.0),
+                      padding: const EdgeInsets.only(
+                          top: 20.0, left: 10.0, right: 10.0),
                       child: _buildMenuBar(context),
                     ),
                     Expanded(
@@ -119,8 +123,7 @@ class _LoginPageState extends State<SignUpScreen>
                   ],
                 ),
               ),
-            ))
-    );
+            )));
   }
 
   Widget _buildMenuBar(BuildContext context) {
@@ -151,22 +154,6 @@ class _LoginPageState extends State<SignUpScreen>
                 ),
               ),
             ),
-            //Container(height: 33.0, width: 1.0, color: Colors.white),
-         /*   Expanded(
-              child: TextButton(
-                style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                ),
-                onPressed: _onSignUpButtonPress,
-                child: Text(
-                  'Phone Number',
-                  style: TextStyle(
-                    color: right,
-                    fontSize: 14.0,
-                  ),
-                ),
-              ),
-            ),*/
           ],
         ),
       ),
@@ -187,10 +174,10 @@ class _LoginPageState extends State<SignUpScreen>
 class BubbleIndicatorPainter extends CustomPainter {
   BubbleIndicatorPainter(
       {this.dxTarget = 345.0,
-        this.dxEntry = 25.0,
-        this.radius = 20.0,
-        this.dy = 25.0,
-        required this.pageController})
+      this.dxEntry = 25.0,
+      this.radius = 20.0,
+      this.dy = 25.0,
+      required this.pageController})
       : super(repaint: pageController) {
     painter = Paint()
       ..color = CustomTheme.white
@@ -257,11 +244,14 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  TextEditingController loginfullnameController = TextEditingController();
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
 
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
+  GraphQLService graphQLService = GraphQLService();
+  final _formKey = GlobalKey<FormState>();
 
   bool passwordVisible = false;
 
@@ -272,285 +262,324 @@ class _SignInState extends State<SignIn> {
     super.dispose();
   }
 
-  final fullname = TextField(
-    obscureText: false,
-    textInputAction: TextInputAction.next,
-    style: const TextStyle(fontSize: 14.0, color: Colors.black),
-    decoration: InputDecoration(
-        suffixIcon: const Icon(
-          Icons.person,
-          color: Colors.grey,
-          size: 22.0,
-        ),
-        contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
-        hintText: "Email",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-  );
-
-  final emailField = TextField(
-    obscureText: false,
-    textInputAction: TextInputAction.next,
-    style: const TextStyle(fontSize: 14.0, color: Colors.black),
-    decoration: InputDecoration(
-        suffixIcon: const Icon(
-          Icons.email_outlined,
-          color: Colors.grey,
-          size: 22.0,
-        ),
-        contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
-        hintText: "Email",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-  );
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 23.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.only(left: 15.0, right: 0.0),
-            child: Text(
-              'Full Name',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16.0,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 5.0, right: 10.0, bottom: 20.0, left: 10.0),
-            child: fullname,
-          ),
-
-          const Padding(
-            padding: EdgeInsets.only(left: 15.0, right: 0.0),
-            child: Text(
-              'Email',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16.0,),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 5.0, right: 10.0, bottom: 20.0, left: 10.0),
-            child: emailField,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 15.0, right: 0.0),
-            child: Text(
-              'Password',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16.0,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 10.0, right: 10.0, bottom: 5.0, left: 10.0),
-            child: TextField(
-              obscureText: passwordVisible,
-              style: const TextStyle(fontSize: 14.0, color: Colors.black),
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.visiblePassword,
-              decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      passwordVisible ? Icons.visibility : Icons.visibility_off,
-                      size: 22.0,
-                    ),
-                    onPressed: () {
-                      setState(
-                            () {
-                          passwordVisible = !passwordVisible;
-                        },
-                      );
-                    },
+    return Form(
+        key: _formKey,
+        child: Container(
+          padding: const EdgeInsets.only(top: 23.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.only(left: 15.0, right: 0.0),
+                child: Text(
+                  'Full Name',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
                   ),
-                  contentPadding:
-                  const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
-                  hintText: "Password",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0))),
-            ),
-          ),
-
-          const SizedBox(
-            height: 15.0,
-          ),
-          /* DefaultButton(
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5.0, right: 10.0, bottom: 20.0, left: 10.0),
+                child: TextFormField(
+                  obscureText: false,
+                  controller: loginfullnameController,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'This is a required field.';
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      suffixIcon: const Icon(
+                        Icons.person,
+                        color: Colors.grey,
+                        size: 22.0,
+                      ),
+                      contentPadding:
+                          const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                      hintText: "Name",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(32.0))),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 15.0, right: 0.0),
+                child: Text(
+                  'Email',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5.0, right: 10.0, bottom: 20.0, left: 10.0),
+                child: TextFormField(
+                  obscureText: false,
+                  controller: loginEmailController,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'This is a required field.';
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      suffixIcon: const Icon(
+                        Icons.email_outlined,
+                        color: Colors.grey,
+                        size: 22.0,
+                      ),
+                      contentPadding:
+                          const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                      hintText: "Email",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(32.0))),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 15.0, right: 0.0),
+                child: Text(
+                  'Password',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 10.0, right: 10.0, bottom: 5.0, left: 10.0),
+                child: TextFormField(
+                  obscureText: passwordVisible,
+                  controller: loginPasswordController,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'This is a required field.';
+                    }
+                    return null;
+                  },
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          size: 22.0,
+                        ),
+                        onPressed: () {
+                          setState(
+                            () {
+                              passwordVisible = !passwordVisible;
+                            },
+                          );
+                        },
+                      ),
+                      contentPadding:
+                          const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                      hintText: "Password",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(32.0))),
+                ),
+              ),
+              const SizedBox(
+                height: 15.0,
+              ),
+              /* DefaultButton(
             text: 'Login',
             press: () {},
           ),*/
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 0.0, right: 15.0, bottom: 0.0, left: 15.0),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(45),
-                backgroundColor: themecolor,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(55)),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 0.0, right: 15.0, bottom: 0.0, left: 15.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(45),
+                    backgroundColor: themecolor,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(55)),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      graphQLService.createuser(
+                          loginfullnameController.text.toString(),
+                          loginEmailController.text.toString(),
+                          loginPasswordController.text.toString(),
+                          true);
+                    }
+                  },
+                  child: const Text('Register Now'),
+                ),
               ),
-              onPressed: () {},
-              child: const Text('Register Now'),
-            ),
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          Center(
-          child: Padding(
-              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    const TextSpan(text: 'Already have an account? ', style: TextStyle(fontWeight: FontWeight.w600,color: Colors.black)),
-                    TextSpan(
-                      text: 'Log In',
-                      recognizer: TapGestureRecognizer()..onTap = () {
-                        Navigator.of(context, rootNavigator: true)
-                            .pushNamed("/loginpage");
-                      },
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: headingColor,
-                          fontSize: 14.0),
+              const SizedBox(
+                height: 20.0,
+              ),
+              Center(
+                child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          const TextSpan(
+                              text: 'Already have an account? ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black)),
+                          TextSpan(
+                            text: 'Log In',
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pushNamed("/loginpage");
+                              },
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: headingColor,
+                                fontSize: 14.0),
+                          ),
+                        ],
+                      ),
+                    )),
+              ),
+              const SizedBox(
+                height: 35.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: <Color>[
+                              Colors.black12,
+                              Colors.black,
+                            ],
+                            begin: FractionalOffset(0.0, 0.0),
+                            end: FractionalOffset(1.0, 1.0),
+                            stops: <double>[0.0, 1.0],
+                            tileMode: TileMode.clamp),
+                      ),
+                      width: 100.0,
+                      height: 1.0,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: Text(
+                        'Or Sign up with',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: <Color>[
+                              Colors.black,
+                              Colors.black12,
+                            ],
+                            begin: FractionalOffset(0.0, 0.0),
+                            end: FractionalOffset(1.0, 1.0),
+                            stops: <double>[0.0, 1.0],
+                            tileMode: TileMode.clamp),
+                      ),
+                      width: 100.0,
+                      height: 1.0,
                     ),
                   ],
                 ),
-              )),
-          ),
-          const SizedBox(
-            height: 35.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: <Color>[
-                          Colors.black12,
-                          Colors.black,
-                        ],
-                        begin: FractionalOffset(0.0, 0.0),
-                        end: FractionalOffset(1.0, 1.0),
-                        stops: <double>[0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                  ),
-                  width: 100.0,
-                  height: 1.0,
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                  child: Text(
-                    'Or Sign up with',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.0,
+              ),
+              const SizedBox(
+                height: 40.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      // Place `Expanded` inside `Row`
+                      child: SizedBox(
+                        height: 50, // <-- Your height
+                        child: ElevatedButton.icon(
+                          icon: IconButton(
+                            icon: Image.asset('assets/icons/facebook.png'),
+                            iconSize: 0,
+                            onPressed: () {},
+                          ),
+                          label: const Text(
+                            'Facebook',
+                            style:
+                                TextStyle(fontSize: 15.0, color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: const Color(0xFF345288),
+                            textStyle: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontStyle: FontStyle.normal),
+                            shape: const StadiumBorder(),
+                          ),
+                          onPressed: () {}, // Every button need a callback
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: <Color>[
-                          Colors.black,
-                          Colors.black12,
-                        ],
-                        begin: FractionalOffset(0.0, 0.0),
-                        end: FractionalOffset(1.0, 1.0),
-                        stops: <double>[0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                  ),
-                  width: 100.0,
-                  height: 1.0,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 40.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Expanded(
-                  // Place `Expanded` inside `Row`
-                  child: SizedBox(
-                    height: 50, // <-- Your height
-                    child: ElevatedButton.icon(
-                      icon: IconButton(
-                        icon: Image.asset('assets/icons/facebook.png'),
-                        iconSize: 0,
-                        onPressed: () {},
-                      ),
-                      label: const Text(
-                        'Facebook',
-                        style: TextStyle(fontSize: 15.0, color: Colors.white),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFF345288),
-                        textStyle: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontStyle: FontStyle.normal),
-                        shape: const StadiumBorder(),
-                      ),
-                      onPressed: () {}, // Every button need a callback
+                    const SizedBox(
+                      width: 10.0,
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10.0,
-                ),
-                Expanded(
-                  // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
-                  child: SizedBox(
-                    height: 50, // <-- Your height
-                    child: ElevatedButton.icon(
-                      icon: IconButton(
-                        icon: Image.asset('assets/icons/google.png'),
-                        iconSize: 0,
-                        onPressed: () {},
+                    Expanded(
+                      // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
+                      child: SizedBox(
+                        height: 50, // <-- Your height
+                        child: ElevatedButton.icon(
+                          icon: IconButton(
+                            icon: Image.asset('assets/icons/google.png'),
+                            iconSize: 0,
+                            onPressed: () {},
+                          ),
+                          label: const Text(
+                            'Google',
+                            style:
+                                TextStyle(fontSize: 15.0, color: Colors.black),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            side: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            textStyle: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontStyle: FontStyle.normal),
+                            shape: const StadiumBorder(),
+                          ),
+                          onPressed: () {},
+                        ),
                       ),
-                      label: const Text(
-                        'Google',
-                        style: TextStyle(fontSize: 15.0, color: Colors.black),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        side: const BorderSide(color: Colors.grey, width: 1.0),
-                        textStyle: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontStyle: FontStyle.normal),
-                        shape: const StadiumBorder(),
-                      ),
-                      onPressed: () {},
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
@@ -574,7 +603,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController signupNameController = TextEditingController();
   TextEditingController signupPasswordController = TextEditingController();
   TextEditingController signupConfirmPasswordController =
-  TextEditingController();
+      TextEditingController();
 
   final emailField = TextField(
     obscureText: false,
