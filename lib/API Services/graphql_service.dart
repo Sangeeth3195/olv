@@ -1026,6 +1026,7 @@ class GraphQLService {
         print(result.data?['requestPasswordResetEmail']);
         if (result.data?['requestPasswordResetEmail'] == true) {
           Fluttertoast.showToast(msg: 'msg');
+          print(result.exception?.graphqlErrors[0].message);
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const LoginPage()));
         } else {}

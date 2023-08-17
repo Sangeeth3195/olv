@@ -39,7 +39,7 @@ class _BodyState extends State<Body> {
     wishList = await graphQLService.getWishlist();
     setState(() {});
 
-    print('wishList --> ' + wishList.length.toString());
+    print('wishList --> ${wishList.length}');
 
   }
 
@@ -54,7 +54,7 @@ class _BodyState extends State<Body> {
         itemBuilder: (context, position) {
           return gridItem(context, position);
         },
-        itemCount: imageList.length,
+        itemCount: wishList.length,
       ),
     );
   }

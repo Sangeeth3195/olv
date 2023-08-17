@@ -11,7 +11,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
   GraphQLService graphQLService = GraphQLService();
 
   @override
@@ -22,11 +21,8 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-
-
-
-
+    return Scaffold(
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context, rootNavigator: true).pushNamed("/addaddress");
@@ -35,6 +31,5 @@ class _BodyState extends State<Body> {
         child: const Icon(Icons.add),
       ),
     );
-
   }
 }

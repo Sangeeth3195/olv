@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:omaliving/screens/order_success/OrderSuccess.dart';
 import 'package:omaliving/screens/settings/components/settings_menu.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../order_summary/ordersummary.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -12,7 +15,7 @@ class Body extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 0),
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 5),
           SettingsMenu(
             text: "About Us",
             icon: Icons.person_outline,
@@ -58,7 +61,16 @@ class Body extends StatelessWidget {
           SettingsMenu(
             text: "Logout",
             icon: Icons.logout_rounded,
-            press: () {},
+            press: () {
+              /*  Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => const OrderSuccess()));*/
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => const Ordersummary()));
+            },
           ),
           const SizedBox(
             height: 10.0,
@@ -71,6 +83,15 @@ class Body extends StatelessWidget {
       ),
     );
   }
+
+  /*_launchURLBrowser(String _url) async {
+    final url = _url;
+    if (await canLaunch(url)) {
+      await launch(url, forceSafariVC: true, forceWebView: true);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }*/
 
   _launchURLBrowser(String _url) async {
     final url = Uri.parse(_url);

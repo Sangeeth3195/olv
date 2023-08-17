@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../constants.dart';
+
 class Body extends StatefulWidget {
   const Body({super.key});
 
@@ -9,219 +11,296 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         child: Form(
+          key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 5,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'MarkPlace_FirstName',
-                    hintText: 'MarkPlace_FirstName',
-                    //icon: Icon(Icons.person),
-                    isDense: true,
-                  ),
-                  validator: (val) {
-                    if (val!.isEmpty) {
-                      return 'MarkPlace_FirstNameV';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'MarkPlace_LastName',
-                    hintText: 'MarkPlace_LastName',
-                    //icon: Icon(Icons.person),
-                    isDense: true,
-                  ),
-                  validator: (val) {
-                    if (val!.isEmpty) {
-                      return 'MarkPlace_LastNameV';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'MarkPlace_Email',
-                    hintText: 'MarkPlace_Email',
-                    //icon: Icon(Icons.person),
-                    isDense: true,
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                child: Text(
+                  'First Name',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
               Padding(
                 padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
                 child: TextFormField(
-                  maxLength: 10,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'MarkPlace_ContactNo',
-                    hintText: 'MarkPlace_ContactNo',
-                    //icon: Icon(Icons.person),
-                    isDense: true,
-                  ),
+                  obscureText: false,
+                  textInputAction: TextInputAction.next,
                   validator: (val) {
-                    String patttern = r'(^[0-9]*$)';
-                    RegExp regExp = RegExp(patttern);
-                    if (val!.isEmpty) {
-                      return 'MarkPlace_mobileV';
-                    } else if (val.length != 10) {
-                      return 'MarkPlace_MobileCV1';
-                    } else if (!regExp.hasMatch(val)) {
-                      return 'MarkPlace_MobileCV1';
-                    }
+                    if (val!.isEmpty) return 'This is a required field.';
                     return null;
                   },
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0.0-9.9]')),
-                  ],
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      contentPadding:
+                          const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      hintText: "Email",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
               const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                child: Text(
+                  'Last Name',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
+                child: TextFormField(
+                  obscureText: false,
+                  textInputAction: TextInputAction.next,
+                  validator: (val) {
+                    if (val!.isEmpty) return 'This is a required field.';
+                    return null;
+                  },
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      contentPadding:
+                      const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      hintText: "Last Name",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                child: Text(
+                  'Phone Number',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
+                child: TextFormField(
+                  obscureText: false,
+                  keyboardType: TextInputType.phone,
+                  textInputAction: TextInputAction.next,
+                  validator: (val) {
+                    if (val!.isEmpty) return 'This is a required field.';
+                    return null;
+                  },
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      contentPadding:
+                      const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      hintText: "Phone Number",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                child: Text(
+                  'GST Number',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
+                child: TextFormField(
+                  obscureText: false,
+                  textInputAction: TextInputAction.next,
+
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      contentPadding:
+                      const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      hintText: "GST Number",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                child: Text(
+                  'Street Address',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              const Padding(
                 padding: EdgeInsets.only(left: 5, right: 5, top: 0),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'MarkPlace_Address',
-                    hintText: 'MarkPlace_Address',
-                    //icon: Icon(Icons.person),
-                    isDense: true,
-                  ),
+                  obscureText: false,
+                  textInputAction: TextInputAction.next,
                   validator: (val) {
-                    if (val!.isEmpty) {
-                      return 'MarkPlace_AddressV';
-                    }
+                    if (val!.isEmpty) return 'This is a required field.';
                     return null;
                   },
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      contentPadding:
+                      const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      hintText: "Address",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                child: Text(
+                  'City',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
                 child: TextFormField(
-                  maxLength: 6,
-                  // keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'MarkPlace_PinCode',
-                    hintText: 'MarkPlace_PinCode',
-                    //icon: Icon(Icons.person),
-                    isDense: true,
-                  ),
+                  obscureText: false,
+                  textInputAction: TextInputAction.next,
                   validator: (val) {
-                    String patttern = r'(^[0-9]*$)';
-                    RegExp regExp = RegExp(patttern);
-                    if (val!.isEmpty) {
-                      return 'MarkPlace_PincodeV';
-                    } else if (val.length != 6) {
-                      return 'MarkPlace_PinCV';
-                    } else if (!regExp.hasMatch(val)) {
-                      return 'MarkPlace_PinCV1';
-                    }
+                    if (val!.isEmpty) return 'This is a required field.';
                     return null;
                   },
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0.0-9.9]')),
-                  ],
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      contentPadding:
+                      const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      hintText: "City",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                child: Text(
+                  'State',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
-                child: TextFormField(
-                  maxLength: 6,
-                  // keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'MarkPlace_PinCode',
-                    hintText: 'MarkPlace_PinCode',
-                    //icon: Icon(Icons.person),
-                    isDense: true,
-                  ),
+                child:TextFormField(
+                  obscureText: false,
+                  textInputAction: TextInputAction.next,
                   validator: (val) {
-                    String patttern = r'(^[0-9]*$)';
-                    RegExp regExp = RegExp(patttern);
-                    if (val!.isEmpty) {
-                      return 'MarkPlace_PincodeV';
-                    } else if (val.length != 6) {
-                      return 'MarkPlace_PinCV';
-                    } else if (!regExp.hasMatch(val)) {
-                      return 'MarkPlace_PinCV1';
-                    }
+                    if (val!.isEmpty) return 'This is a required field.';
                     return null;
                   },
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0.0-9.9]')),
-                  ],
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      contentPadding:
+                      const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      hintText: "State",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                child: Text(
+                  'Zip/Postal Code',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Country',
-                    hintText: 'India',
-                    //icon: Icon(Icons.person),
-                    isDense: true,
-                  ),
+                  obscureText: false,
+                  textInputAction: TextInputAction.next,
                   validator: (val) {
-                    String patttern = r'(^[0-9]*$)';
-                    RegExp regExp = RegExp(patttern);
-                    if (val!.isEmpty) {
-                      return 'MarkPlace_PincodeV';
-                    } else if (val.length != 6) {
-                      return 'MarkPlace_PinCV';
-                    } else if (!regExp.hasMatch(val)) {
-                      return 'MarkPlace_PinCV1';
-                    }
+                    if (val!.isEmpty) return 'This is a required field.';
                     return null;
                   },
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0.0-9.9]')),
-                  ],
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      contentPadding:
+                      const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      hintText: "Zip/Postal code",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 0.0),
+                child: Text(
+                  'Country',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
+                child: TextFormField(
+                  obscureText: false,
+                  textInputAction: TextInputAction.next,
+                  validator: (val) {
+                    if (val!.isEmpty) return 'This is a required field.';
+                    return null;
+                  },
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      contentPadding:
+                      const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      hintText: "Country",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
                 ),
               ),
               const SizedBox(
@@ -233,8 +312,20 @@ class _BodyState extends State<Body> {
                   width: double.infinity,
                   height: 45,
                   child: ElevatedButton(
-                    onPressed: () async {},
-                    child: const Text('SAVE',style: TextStyle(fontSize: 18),),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(45),
+                      backgroundColor: themecolor,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(55)),
+                    ),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {}
+                    },
+                    child: const Text(
+                      'Save Address',
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ),
                 ),
               ),

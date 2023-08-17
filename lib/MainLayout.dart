@@ -17,6 +17,7 @@ import 'package:omaliving/screens/settings/settings.dart';
 import 'package:omaliving/screens/wishlist/wishlist.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainLayout extends StatefulWidget {
   MainLayout({super.key});
@@ -31,16 +32,23 @@ class _MainLayoutState extends State<MainLayout> {
   late DateTime currentBackPressTime;
 
   int catId = 10071;
+  String token = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getNavdata();
+    getuserdata();
   }
 
   void getNavdata() async {
     navHeaderList = await graphQLService.getCategory(limit: 100);
     setState(() {});
+  }
+
+  void getuserdata() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? '';
   }
 
   final PersistentTabController _controller =
@@ -109,24 +117,24 @@ class _MainLayoutState extends State<MainLayout> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: GestureDetector(
-            onTap: (){
-
-
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginPage()),
-              );
-            },
-            child: const CircleAvatar(
-              backgroundColor: Colors.black,
-              radius: 15,
-              child: CircleAvatar(
-                radius: 25,
-                backgroundImage: NetworkImage(
-                    'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
+              onTap: () {
+                token.isEmpty
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
+                      )
+                    :  _controller.jumpToTab(4);
+              },
+              child: const CircleAvatar(
+                backgroundColor: Colors.black,
+                radius: 15,
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundImage: NetworkImage(
+                      'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
+                ),
               ),
-            ),
             ),
           ),
 
@@ -166,7 +174,6 @@ class _MainLayoutState extends State<MainLayout> {
         navBarStyle:
             NavBarStyle.simple, // Choose the nav bar style with this property.
       ),
-
       drawer: Drawer(
         backgroundColor: navBackground,
         width:
@@ -208,7 +215,6 @@ class _MainLayoutState extends State<MainLayout> {
                     // Navigator.pushNamed(context, Settings.routeName);
                   },
                 ),
-
                 const SizedBox(
                   width: 12,
                 ),
@@ -267,7 +273,8 @@ class _MainLayoutState extends State<MainLayout> {
                                   context,
                                   listen: false);
                               myProvider.updateData(catId);
-                              myProvider.updateHeader(navHeaderList[index]['name']);
+                              myProvider
+                                  .updateHeader(navHeaderList[index]['name']);
                               _controller.jumpToTab(1);
                             },
                             child: Text(
@@ -310,8 +317,9 @@ class _MainLayoutState extends State<MainLayout> {
                                             Provider.of<MyProvider>(context,
                                                 listen: false);
                                         myProvider.updateData(catId);
-                                        myProvider.updateHeader(                                        navHeaderList[index]['children']
-                                        [itemIndex]['name']);
+                                        myProvider.updateHeader(
+                                            navHeaderList[index]['children']
+                                                [itemIndex]['name']);
                                         _controller.jumpToTab(1);
                                         // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
                                       },
@@ -352,13 +360,15 @@ class _MainLayoutState extends State<MainLayout> {
                                                         context,
                                                         listen: false);
                                                 myProvider.updateData(catId);
-                                                myProvider.updateHeader(navHeaderList[index]['children']
-                                                [itemIndex]
-                                                ['children']
-                                                [subitemIndex]['name']
-                                                    .toString());
+                                                myProvider.updateHeader(
+                                                    navHeaderList[index][
+                                                                        'children']
+                                                                    [itemIndex]
+                                                                ['children'][
+                                                            subitemIndex]['name']
+                                                        .toString());
                                                 _controller.jumpToTab(1);
-                                                },
+                                              },
                                               title: Text(
                                                 navHeaderList[index]['children']
                                                                 [itemIndex]
