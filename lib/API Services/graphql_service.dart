@@ -571,6 +571,22 @@ class GraphQLService {
                           id
                           name
                           sku
+                          media_gallery {
+                                url
+                                label
+                                position
+                                disabled
+                                ... on ProductVideo {
+                                  video_content {
+                                    media_type
+                                    video_provider
+                                    video_url
+                                    video_title
+                                    video_description
+                                    video_metadata
+                                  }
+                                }
+                              }
                           getPriceRange{
                               oldpricevalue  
                               normalpricevalue
