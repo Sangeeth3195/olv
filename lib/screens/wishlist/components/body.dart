@@ -52,16 +52,21 @@ class _BodyState extends State<Body> {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 0.75),
         itemBuilder: (context, position) {
-          return gridItem(context, position);
+          return gridItem(context, position,wishList[position]);
         },
         itemCount: wishList.length,
       ),
     );
   }
 
-  gridItem(BuildContext context, int position) {
+  gridItem(BuildContext context, int position, wishList) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+
+        // print(wishList.product[0]['media_gallery'][0]);
+        print(wishList);
+
+      },
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white,

@@ -218,15 +218,26 @@ class _MainLayoutState extends State<MainLayout> {
                 const SizedBox(
                   width: 12,
                 ),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.black,
-                    radius: 15,
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundImage: NetworkImage(
-                          'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  child: GestureDetector(
+                    onTap: () {
+                      token.isEmpty
+                          ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
+                      )
+                          :  _controller.jumpToTab(4);
+                    },
+                    child: const CircleAvatar(
+                      backgroundColor: Colors.black,
+                      radius: 15,
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundImage: NetworkImage(
+                            'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
+                      ),
                     ),
                   ),
                 ),

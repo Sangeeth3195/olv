@@ -90,7 +90,7 @@ class _ProductCardState extends State<ProductCard> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child:
-                      widget.item!.getPriceRange.length==0
+                      widget.item!.getPriceRange.isEmpty
                           ? Text(widget.item!.textAttributes[0].normalprice.toString())
                           : Text(widget.item!.getPriceRange[0].normalpricevalue.toString()),
                       ),
@@ -171,13 +171,15 @@ class _ProductCardState extends State<ProductCard> {
                                         onTap: () {
                                           _changeColor(index);
                                         },
-                                        child: Container(
+                                        child:
+
+                                        Container(
                                           margin: const EdgeInsets.symmetric(
                                               horizontal: 5),
                                           padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            border: Border.all(color: _selected==index?Colors.red:Colors.transparent, width: 2.0), // Using BorderSide with BoxDecoration
+                                            border: Border.all(color: _selected==index?Colors.brown:Colors.transparent, width: 3.0), // Using BorderSide with BoxDecoration
                                             color: colorFromHex(
                                                 widget.item!.configurableOptions[0].values[index].swatchData.value),
                                           ),

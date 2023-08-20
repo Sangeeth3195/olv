@@ -865,22 +865,38 @@ class GraphQLService {
           fetchPolicy: FetchPolicy.noCache,
           document: gql("""
            query Query {
-                  wishlist {
-                    items_count
-                    name
-                    sharing_code
-                    updated_at
-                    items {
-                      id
-                      qty
-                      description
-                      added_at
-                      product {
-                        sku
-                        name
+                wishlist {
+                  items_count
+                  name
+                  sharing_code
+                  updated_at
+                  items {
+                    id
+                    qty
+                    description
+                    added_at
+                    product {
+                      sku
+                      name
+                      media_gallery {
+                      url
+                      label
+                      position
+                      disabled
+                      ... on ProductVideo {
+                        video_content {
+                          media_type
+                          video_provider
+                          video_url
+                          video_title
+                          video_description
+                          video_metadata
+                        }
                       }
                     }
+                    }
                   }
+                }
               }
             """),
         ),
@@ -889,7 +905,6 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception);
         throw Exception(result.exception);
-
       } else {
         List? res = result.data?['wishlist']['items'];
 
