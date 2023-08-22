@@ -8,6 +8,7 @@ import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
+import 'package:omaliving/screens/discover/discovers.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 import 'package:omaliving/screens/product_listing/components/search_form.dart';
@@ -90,7 +91,7 @@ class _MainLayoutState extends State<MainLayout> {
               onPressed: () {},
             ),
             const Text(
-              'Chennai',
+              'Gurugram',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -124,7 +125,7 @@ class _MainLayoutState extends State<MainLayout> {
                         MaterialPageRoute(
                             builder: (context) => const LoginPage()),
                       )
-                    :  _controller.jumpToTab(4);
+                    : _controller.jumpToTab(4);
               },
               child: const CircleAvatar(
                 backgroundColor: Colors.black,
@@ -224,11 +225,11 @@ class _MainLayoutState extends State<MainLayout> {
                     onTap: () {
                       token.isEmpty
                           ? Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()),
-                      )
-                          :  _controller.jumpToTab(4);
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
+                            )
+                          : _controller.jumpToTab(4);
                     },
                     child: const CircleAvatar(
                       backgroundColor: Colors.black,
@@ -420,7 +421,7 @@ class _MainLayoutState extends State<MainLayout> {
       ProductListing(id: catId),
       const Wishlist(),
       const CartScreen(),
-      const ProfileScreen()
+      const Discover() //ProfileScreen
     ];
   }
 

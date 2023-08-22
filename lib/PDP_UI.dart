@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -181,17 +183,24 @@ class _DetailsPageState extends State<DetailsPage>
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0.0, 10, 20, 0),
-                                        child: Icon(
-                                          Icons.favorite_border,
-                                          size: 25.0,
-                                        )),
-                                  ],
+                                GestureDetector(
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              0.0, 10, 20, 0),
+                                          child: Icon(
+                                            Icons.favorite_border,
+                                            size: 25.0,
+                                          )),
+                                    ],
+                                  ),
+                                  onTap: (){
+                                    if (kDebugMode) {
+                                      print('clicked');
+                                    }
+                                  },
                                 ),
                                 CarouselSlider(
                                   options: CarouselOptions(
@@ -220,8 +229,7 @@ class _DetailsPageState extends State<DetailsPage>
                                           ),
                                           child: Image.network(
                                             provider.productData[0]
-                                                    ['media_gallery']
-                                                [selectedImage]['url'],
+                                                ['media_gallery'][0]['url'],
                                             fit: BoxFit.cover,
                                           ),
                                         );
@@ -622,7 +630,7 @@ class _DetailsPageState extends State<DetailsPage>
                         height: 8,
                       ),
 
-                     /* Expanded(
+                      /* Expanded(
                         child: GridView.extent(
                           primary: false,
                           shrinkWrap: true,
@@ -646,12 +654,12 @@ class _DetailsPageState extends State<DetailsPage>
                                 bgColor: demo_product[0].colors[0],
                                 item: provider.items[index],
                                 press: () {
-                                  *//*Navigator.push(
+                                  */ /*Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DetailsScreen(
                                     product: provider.items[index]),
-                              ));*//*
+                              ));*/ /*
 
                                   Navigator.push(
                                       context,
@@ -825,15 +833,62 @@ class _DetailsPageState extends State<DetailsPage>
                   productData[0]['detail'].toString(),
                 ),
               ),
-              SingleChildScrollView(
+              /* SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: productData[0]['depth'] == null
                     ? Container()
-                    : Text('Depth: ${productData[0]['depth']}'),
+                    : */ /*Text('Depth: ${productData[0]['depth']}'),*/ /*
+                Text('Height: ' + product[0]['height']),
+                productData[0]['diameter'] == null
+                    ? Container()
+                    : Text('Diameter: ' + product[0]['diameter']),
+                product[0]['capacity'] == null
+                    ? Container()
+                    : Text('Capacity: ' + product[0]['capacity']),
+                product[0]['width'] == null
+                    ? Container()
+                    : Text('Width: ' + product[0]['width']),
+                product[0]['length'] == null
+                    ? Container()
+                    : Text('Length: ' + product[0]['length']),
+                product[0]['overall'] == null
+                    ? Container()
+                    : Text('Overall: ' + product[0]['overall']),
+                product[0]['depth'] == null
+                    ? Container()
+                    : Text('Depth: ' + product[0]['depth']),
+              ),*/
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    productData[0]['height'] == null
+                        ? Container()
+                        : Text('Height: ' + productData[0]['height']),
+                    productData[0]['diameter'] == null
+                        ? Container()
+                        : Text('Diameter: ' + productData[0]['diameter']),
+                    productData[0]['capacity'] == null
+                        ? Container()
+                        : Text('Capacity: ' + productData[0]['capacity']),
+                    productData[0]['width'] == null
+                        ? Container()
+                        : Text('Width: ' + productData[0]['width']),
+                    productData[0]['length'] == null
+                        ? Container()
+                        : Text('Length: ' + productData[0]['length']),
+                    productData[0]['overall'] == null
+                        ? Container()
+                        : Text('Overall: ' + productData[0]['overall']),
+                    productData[0]['depth'] == null
+                        ? Container()
+                        : Text('Depth: ' + productData[0]['depth']),
+                  ],
+                ),
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: HtmlWidget(
+                child: Text(
                   productData[0]['care'].toString(),
                 ),
               ),
