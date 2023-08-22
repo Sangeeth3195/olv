@@ -247,18 +247,25 @@ setState(() {
 
   Color colorFromHex(String hexColor) {
     // Remove the '#' character from the hex color code, if present.
-    if (hexColor.startsWith('#')) {
-      hexColor = hexColor.substring(1);
+
+    try{
+      if (hexColor.startsWith('#')) {
+        hexColor = hexColor.substring(1);
+      }
+
+      // Check if the hex color code is valid.
+      if (hexColor.length != 6) {
+        throw const FormatException(
+            "Invalid hex color code. It should be 6 characters long (excluding the '#').");
+      }
+
+      // Parse the hexadecimal values and construct the Color object.
+      return Color(int.parse('FF$hexColor', radix: 16));
+    }catch (e){
+      return Color(0xFFFFFFFF);
+
     }
 
-    // Check if the hex color code is valid.
-    if (hexColor.length != 6) {
-      throw const FormatException(
-          "Invalid hex color code. It should be 6 characters long (excluding the '#').");
-    }
-
-    // Parse the hexadecimal values and construct the Color object.
-    return Color(int.parse('FF$hexColor', radix: 16));
   }
 }
 

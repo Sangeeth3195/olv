@@ -22,18 +22,23 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
     GraphQLService graphQLService=GraphQLService();
 
+   MyProvider? myProvider;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+     myProvider = Provider.of<MyProvider>(context, listen: false);
+
     getNavdata();
   }
   void getNavdata() async {
 
     print('sku ->' + widget.product['sku'].toString());
 
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateProductDescriptionData(widget.product['sku'].toString());
+    myProvider!.updateProductDescriptionData(widget.product['sku'].toString());
+
+    myProvider!.updateHeaderScreen(true);
   }
 
   @override

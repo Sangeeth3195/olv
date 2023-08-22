@@ -21,8 +21,15 @@ class MyProvider extends ChangeNotifier {
 
   String title="New Arrival";
 
+  bool isDetailScreen=false;
+
   void updateHeader(String header){
     title=header;
+    notifyListeners();
+  }
+
+  void updateHeaderScreen(bool value){
+    isDetailScreen=value;
     notifyListeners();
   }
 
@@ -96,6 +103,7 @@ class MyProvider extends ChangeNotifier {
   void updateProductDescriptionData(String id) async {
     productData =
         await graphQLService.getproductdescription(limit: 100, id: id);
+
     notifyListeners();
   }
 }
