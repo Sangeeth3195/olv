@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -7,7 +8,9 @@ import 'package:omaliving/screens/provider/provider.dart';
 import 'package:omaliving/splash.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: headingColor, // navigation bar color
     statusBarColor: headingColor, // status bar color

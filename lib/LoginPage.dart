@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
 
@@ -261,6 +262,7 @@ class _SignInState extends State<SignIn> {
 
   GraphQLService graphQLService = GraphQLService();
   final _formKey = GlobalKey<FormState>();
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
   @override
   void dispose() {
@@ -275,6 +277,15 @@ class _SignInState extends State<SignIn> {
     passwordVisible = true;
   }
 
+  void _handleSignIn() async {
+    try {
+      GoogleSignInAccount? googleSignInAccount= await _googleSignIn.signIn();
+      print(googleSignInAccount!.email);
+      // User signed in, you can proceed with the app logic
+    } catch (error) {
+      print('Error signing in: $error');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -548,7 +559,9 @@ class _SignInState extends State<SignIn> {
                         icon: IconButton(
                           icon: Image.asset('assets/icons/google.png'),
                           iconSize: 0,
-                          onPressed: () {},
+                          onPressed: () {
+                              _handleSignIn();
+                          },
                         ),
                         label: const Text(
                           'Google',

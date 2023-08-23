@@ -31,6 +31,10 @@ dependencies:
   audioplayers: ^5.0.0
   carousel_slider: ^4.2.1
   flutter_html: 3.0.0-beta.2
+  firebase_core: ^2.15.1
+  firebase_auth: ^4.7.3
+  google_sign_in: ^6.1.4
+
 
 dev_dependencies:
   flutter_test:
