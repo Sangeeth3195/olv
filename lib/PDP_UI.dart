@@ -53,18 +53,25 @@ class _DetailsPageState extends State<DetailsPage>
 
   Color colorFromHex(String hexColor) {
     // Remove the '#' character from the hex color code, if present.
-    if (hexColor.startsWith('#')) {
-      hexColor = hexColor.substring(1);
+
+    try{
+      if (hexColor.startsWith('#')) {
+        hexColor = hexColor.substring(1);
+      }
+
+      // Check if the hex color code is valid.
+      if (hexColor.length != 6) {
+        throw const FormatException(
+            "Invalid hex color code. It should be 6 characters long (excluding the '#').");
+      }
+
+      // Parse the hexadecimal values and construct the Color object.
+      return Color(int.parse('FF$hexColor', radix: 16));
+    }catch (e){
+      return Color(0xFFFFFFFF);
+
     }
 
-    // Check if the hex color code is valid.
-    if (hexColor.length != 6) {
-      throw const FormatException(
-          "Invalid hex color code. It should be 6 characters long (excluding the '#').");
-    }
-
-    // Parse the hexadecimal values and construct the Color object.
-    return Color(int.parse('FF$hexColor', radix: 16));
   }
 
   Widget showWidget(int qty) {
@@ -151,6 +158,24 @@ class _DetailsPageState extends State<DetailsPage>
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
+     persistentFooterButtons: [
+       ElevatedButton(
+         onPressed: () {
+           // Add your button press logic here
+         },
+         style: ElevatedButton.styleFrom(
+           primary: Colors.blue, // Button background color
+           shape: RoundedRectangleBorder(
+             borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
+           ),
+         ),
+         child: Container(
+           margin: EdgeInsets.all(10),
+             width: MediaQuery.of(context).size.width,
+             child: Center(child: Text('Add to cart'))),
+       )
+
+     ],
         backgroundColor: Theme.of(context).canvasColor,
         /*    appBar: AppBar(
           title: const Center(
@@ -171,12 +196,13 @@ class _DetailsPageState extends State<DetailsPage>
         body: Consumer<MyProvider>(
           builder: (context, provider, _) {
             imgList.clear();
-            for(int i=0;i<provider.productData[0]
-            ['media_gallery'].length;i++){
-              imgList.add(provider.productData[0]
-              ['media_gallery'][i]);
-            }
             if (provider.productData != null) {
+              for(int i=0;i<provider.productData[0]
+              ['media_gallery'].length;i++){
+                imgList.add(provider.productData[0]
+                ['media_gallery'][i]);
+              }
+
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
