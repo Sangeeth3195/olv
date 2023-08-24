@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
+import 'package:omaliving/screens/sign_up/sign_up_screen.dart';
 
 import 'API Services/graphql_service.dart';
 
@@ -56,7 +58,7 @@ class _LoginPageState extends State<LoginPage>
                         textScaleFactor: 1.0,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 25.0,
+                          fontSize: 24.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -69,7 +71,7 @@ class _LoginPageState extends State<LoginPage>
                         textAlign: TextAlign.center,
                         textScaleFactor: 1.0,
                         style: TextStyle(
-                            fontSize: 14.0,
+                            fontSize: 13.0,
                             color: Colors.black45,
                             fontWeight: FontWeight.w600),
                       ),
@@ -262,7 +264,9 @@ class _SignInState extends State<SignIn> {
 
   GraphQLService graphQLService = GraphQLService();
   final _formKey = GlobalKey<FormState>();
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+  late GoogleSignInAccount _userObj;
+  GoogleSignIn _googleSignIn1 = GoogleSignIn();
 
   @override
   void dispose() {
@@ -279,8 +283,18 @@ class _SignInState extends State<SignIn> {
 
   void _handleSignIn() async {
     try {
-      GoogleSignInAccount? googleSignInAccount= await _googleSignIn.signIn();
-      print(googleSignInAccount!.email);
+
+      _googleSignIn.signIn().then((userData) {
+        setState(() {
+          // _isLoggedIn = true;
+          _userObj = userData!;
+        });
+      }).catchError((e) {
+        print(e);
+      });
+
+      Fluttertoast.showToast(msg: _userObj.email);
+      Fluttertoast.showToast(msg: _userObj.displayName.toString());
       // User signed in, you can proceed with the app logic
     } catch (error) {
       print('Error signing in: $error');
@@ -302,7 +316,7 @@ class _SignInState extends State<SignIn> {
                 'Email',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 16.0,
+                  fontSize: 15.0,
                 ),
               ),
             ),
@@ -340,7 +354,7 @@ class _SignInState extends State<SignIn> {
                 'Password',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 16.0,
+                  fontSize: 15.0,
                 ),
               ),
             ),
@@ -386,7 +400,7 @@ class _SignInState extends State<SignIn> {
                 children: [
                   Checkbox(
                     value: remember,
-                    activeColor: priceColor,
+                    activeColor: headingColor,
                     onChanged: (value) {
                       setState(() {
                         remember = value;
@@ -395,7 +409,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   const Text(
                     'Remember me',
-                    style: TextStyle(fontSize: 14.0),
+                    style: TextStyle(fontSize: 13.0),
                   ),
                   const Spacer(),
                   GestureDetector(
@@ -403,7 +417,7 @@ class _SignInState extends State<SignIn> {
                         context, ForgotPasswordScreen.routeName),
                     child: const Text(
                       'Forgot Password?',
-                      style: TextStyle(fontSize: 14.0),
+                      style: TextStyle(fontSize: 13.0),
                     ),
                   )
                 ],
@@ -448,21 +462,26 @@ class _SignInState extends State<SignIn> {
                           text: 'Create an Account',
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
+                              /*Navigator.of(context).pushNamedAndRemoveUntil(
                                   '/signupscreen',
-                                  (Route<dynamic> route) => false);
+                                  (Route<dynamic> route) => false);*/
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignUpScreen()),
+                              );
                             },
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: headingColor,
-                              fontSize: 14.0),
+                              fontSize: 13.0),
                         ),
                       ],
                     ),
                   )),
             ),
             const SizedBox(
-              height: 35.0,
+              height: 30.0,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
@@ -490,8 +509,8 @@ class _SignInState extends State<SignIn> {
                       'Or Sign in with',
                       style: TextStyle(
                         color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13.0,
                       ),
                     ),
                   ),
@@ -528,7 +547,7 @@ class _SignInState extends State<SignIn> {
                       height: 50, // <-- Your height
                       child: ElevatedButton.icon(
                         icon: IconButton(
-                          icon: Image.asset('assets/icons/facebook.png'),
+                          icon: Image.asset('assets/icons/facebook.png',height: 20,),
                           iconSize: 0,
                           onPressed: () {},
                         ),
@@ -540,7 +559,7 @@ class _SignInState extends State<SignIn> {
                           primary: const Color(0xFF345288),
                           textStyle: const TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 15,
                               fontStyle: FontStyle.normal),
                           shape: const StadiumBorder(),
                         ),
@@ -573,7 +592,7 @@ class _SignInState extends State<SignIn> {
                               const BorderSide(color: Colors.grey, width: 1.0),
                           textStyle: const TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 15,
                               fontStyle: FontStyle.normal),
                           shape: const StadiumBorder(),
                         ),

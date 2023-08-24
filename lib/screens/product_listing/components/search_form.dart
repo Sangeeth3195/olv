@@ -39,29 +39,43 @@ class SearchForm extends StatelessWidget {
             focusedBorder: outlineInputBorder,
             errorBorder: outlineInputBorder,
             suffixIcon: SizedBox(
-              width: 100,
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      print('mic button pressed');
-                    },
-                    icon: const Icon(Icons.mic,color: Colors.black,),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      print('search button pressed');
-                    },
-                    /*icon: SvgPicture.asset(
+              width: 50,
+              child:
+              IconButton(
+                onPressed: () {
+                  print('search button pressed');
+                },
+                /*icon: SvgPicture.asset(
                       "assets/icons/Search.svg",
                       color: Colors.black,
                       height: 20,
                       width: 20,
                     ),*/
+                icon: const Icon(Icons.search,color: Colors.black,),
+              ),
+
+              /*Row(
+                children: [
+                 *//* IconButton(
+                    onPressed: () {
+                      print('mic button pressed');
+                    },
+                    icon: const Icon(Icons.mic,color: Colors.black,),
+                  ),*//*
+                  IconButton(
+                    onPressed: () {
+                      print('search button pressed');
+                    },
+                    *//*icon: SvgPicture.asset(
+                      "assets/icons/Search.svg",
+                      color: Colors.black,
+                      height: 20,
+                      width: 20,
+                    ),*//*
                     icon: const Icon(Icons.search,color: Colors.black,),
                   ),
                 ],
-              ),
+              ),*/
             ),
 
             /*Padding(

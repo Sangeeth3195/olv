@@ -13,8 +13,10 @@ class CartScreen extends StatelessWidget {
     return const Scaffold(
       backgroundColor: Colors.white,
       body: Body(),
-      bottomNavigationBar: CheckoutCard(),
+        bottomNavigationBar: CheckoutCard(),
     );
   }
 
 }
+
+

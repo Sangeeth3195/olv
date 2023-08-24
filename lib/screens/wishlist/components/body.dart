@@ -52,9 +52,9 @@ class _BodyState extends State<Body> {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 0.75),
         itemBuilder: (context, position) {
-          return gridItem(context, position,wishList[position]);
+          return gridItem(context, position,imageList[position]);
         },
-        itemCount: wishList.length,
+        itemCount: imageList.length,
       ),
     );
   }
@@ -90,7 +90,7 @@ class _BodyState extends State<Body> {
             ),
             Image(
               image: NetworkImage(imageList[position]),
-              height: 150,
+              height: 120,
               fit: BoxFit.cover,
             ),
             gridBottomView()
@@ -107,7 +107,7 @@ class _BodyState extends State<Body> {
           alignment: Alignment.topLeft,
           child: const Text(
             "Scheffera potted plant",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
             textAlign: TextAlign.start,
           ),
         ),

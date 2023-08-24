@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:omaliving/screens/order_summary/ordersummary.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../components/default_button.dart';
 import '../../components/size_config.dart';
 import '../../constants.dart';
-import '../cart/components/check_out_card.dart';
 import 'components/body.dart';
 
-class Checkout extends StatelessWidget {
-  static String routeName = "/checkout";
+class Orderdetails extends StatelessWidget {
 
-  const Checkout({super.key});
+  const Orderdetails({super.key});
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Body(),
-      bottomNavigationBar: CheckoutCard(),
     );
   }
 }
@@ -82,14 +78,12 @@ class CheckoutCard extends StatelessWidget {
                         shape: const StadiumBorder(),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Ordersummary()),
-                        );
+
+                        Fluttertoast.showToast(msg: 'msg');
+
                       },
                       child: const Text(
-                        'Continue',
+                        'Continue to payment',
                         style: TextStyle(fontSize: 15.0, color: Colors.white),
                       ),
                     ),

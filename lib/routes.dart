@@ -8,7 +8,6 @@ import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/checkout/Checkout.dart';
 import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
-import 'package:omaliving/screens/my_orders/my_orders.dart';
 import 'package:omaliving/screens/newsletter/news_letter.dart';
 import 'package:omaliving/screens/order_summary/ordersummary.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
@@ -25,7 +24,6 @@ final Map<String, WidgetBuilder> routes = {
   ForgotPasswordScreen.routeName: (context) => const ForgotPasswordScreen(),
   ProductListing.routeName: (context) =>  const ProductListing(id:10071),
   ProfileScreen.routeName: (context) => const ProfileScreen(),
-  MyOrders.routeName: (context) => const MyOrders(),
   Webview.routeName: (context) => const Webview(),
   Ordersummary.routeName: (context) => const Ordersummary(),
   Checkout.routeName: (context) => const Checkout(),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,12 +11,26 @@ import 'package:omaliving/splash.dart';
 import 'package:provider/provider.dart';
 
 void main() async{
+  try {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  if (Platform.isIOS) {
+    // await Firebase.initializeApp(
+    //   options: DefaultFirebaseOptions.currentPlatform,
+    // );
+  } else {
+    await Firebase.initializeApp();
+  }
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: headingColor, // navigation bar color
     statusBarColor: headingColor, // status bar color
   ));
+  } catch (e) {
+    print(e);
+  }
+
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp]
+  );
   runApp( ChangeNotifierProvider(
       create: (context) => MyProvider(),
       child: const MyApp()));

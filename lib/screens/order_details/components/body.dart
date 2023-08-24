@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/address/address.dart';
 
 import '../../../components/size_config.dart';
+import '../../my_orders/Myorders.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -11,13 +13,7 @@ class Body extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
-enum Fruit { apple, banana }
-
 class _BodyState extends State<Body> {
-  Fruit? _fruit = Fruit.apple;
-
-  final List<String> items = List<String>.generate(5, (i) => '$i');
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -34,31 +30,23 @@ class _BodyState extends State<Body> {
                   TextStyle(color: headingColor, fontWeight: FontWeight.bold),
             ),
           ),
-          /*const Text(
-            'Delivery',
-            style: TextStyle(color: headingColor, fontWeight: FontWeight.bold),
-          ),
-          const Text(
-            'Delivery to Home',
-            style: TextStyle(color: headingColor, fontWeight: FontWeight.bold),
-          ),*/
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   "Delivering to Home",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.black, fontSize: 12),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 8,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: Text(
                         "653 Nostrand Ave.\nBrooklyn, NY 11216",
                         style: TextStyle(
@@ -68,31 +56,6 @@ class _BodyState extends State<Body> {
                             fontWeight: FontWeight.w500),
                       ),
                     ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Address()),
-                        );
-                      },
-                      child: const Row(
-                        children: [
-                          Text(
-                            'Change Address |',
-                            style: TextStyle(color: headingColor, fontSize: 13),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_outlined,
-                            size: 13,
-                            color: headingColor,
-                          ),
-                        ],
-                      ),
-                    )
                   ],
                 ),
               ],
@@ -336,6 +299,33 @@ class _BodyState extends State<Body> {
             ),
           ),
           const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: InkWell(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyOrders()),
+                );
+              },
+              child: Container(
+                //width: 100.0,
+                height: 45.0,
+                decoration: BoxDecoration(
+                  color: headingColor,
+                  border: Border.all(color: Colors.white, width: 2.0),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                child: const Center(
+                  child: Text(
+                    'Continue Shopping',
+                    style: TextStyle(fontSize: 14.0, color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

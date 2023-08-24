@@ -134,7 +134,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                 top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(45),
+                minimumSize: const Size.fromHeight(50),
                 backgroundColor: themecolor,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -159,10 +159,10 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
               GestureDetector(
                 onTap: (){
                   /*Navigator.of(context, rootNavigator: true).pushNamed("/signupscreen");*/
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ResetPassword()),
-                  );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ResetPassword()),
+                    );
                 },
                 child: Text(
                   "Sign Up",

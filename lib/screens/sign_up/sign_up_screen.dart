@@ -69,7 +69,7 @@ class _LoginPageState extends State<SignUpScreen>
                         textScaleFactor: 1.0,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 25.0,
+                          fontSize: 24.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -81,7 +81,10 @@ class _LoginPageState extends State<SignUpScreen>
                         "If you have an account, sign in with your email address.",
                         textAlign: TextAlign.center,
                         textScaleFactor: 0.9,
-                        style: TextStyle(fontSize: 14.0, color: Colors.black),
+                        style: TextStyle(
+                            fontSize: 13.0,
+                            color: Colors.black45,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
                     Padding(
@@ -278,7 +281,7 @@ class _SignInState extends State<SignIn> {
                   'Full Name',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 15.0,
                   ),
                 ),
               ),
@@ -315,7 +318,7 @@ class _SignInState extends State<SignIn> {
                   'Email',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 15.0,
                   ),
                 ),
               ),
@@ -352,7 +355,7 @@ class _SignInState extends State<SignIn> {
                   'Password',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 15.0,
                   ),
                 ),
               ),
@@ -425,7 +428,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               const SizedBox(
-                height: 20.0,
+                height: 30.0,
               ),
               Center(
                 child: Padding(
@@ -436,7 +439,7 @@ class _SignInState extends State<SignIn> {
                           const TextSpan(
                               text: 'Already have an account? ',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
                                   color: Colors.black)),
                           TextSpan(
                             text: 'Log In',
@@ -446,16 +449,16 @@ class _SignInState extends State<SignIn> {
                                     .pushNamed("/loginpage");
                               },
                             style: const TextStyle(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.bold,
                                 color: headingColor,
-                                fontSize: 14.0),
+                                fontSize: 13.0),
                           ),
                         ],
                       ),
                     )),
               ),
               const SizedBox(
-                height: 35.0,
+                height: 30.0,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
@@ -482,9 +485,9 @@ class _SignInState extends State<SignIn> {
                       child: Text(
                         'Or Sign up with',
                         style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13.0,
                         ),
                       ),
                     ),
@@ -521,7 +524,7 @@ class _SignInState extends State<SignIn> {
                         height: 50, // <-- Your height
                         child: ElevatedButton.icon(
                           icon: IconButton(
-                            icon: Image.asset('assets/icons/facebook.png'),
+                            icon: Image.asset('assets/icons/facebook.png',height: 20,),
                             iconSize: 0,
                             onPressed: () {},
                           ),
