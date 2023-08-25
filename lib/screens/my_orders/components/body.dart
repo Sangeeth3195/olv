@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../components/size_config.dart';
 import '../../../constants.dart';
 
 class Body extends StatefulWidget {
@@ -67,7 +66,9 @@ class _BodyState extends State<Body> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -75,7 +76,7 @@ class _BodyState extends State<Body> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Order ID: 000000933",
+                              "Order Status: Delivered",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -83,11 +84,12 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -95,7 +97,7 @@ class _BodyState extends State<Body> {
                         children: [
                           const Expanded(
                             child: Text(
-                              "Order ID: 000000933",
+                              "26 June 2023",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -109,17 +111,18 @@ class _BodyState extends State<Body> {
                           OutlinedButton(
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(width: 1.0, color: headingColor),
+                              side: const BorderSide(
+                                  width: 1.0, color: headingColor),
                               shape: const StadiumBorder(),
                             ),
-                            child: const Text('Button'),
+                            child: const Text('View Order'),
                           )
-
-
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -138,8 +141,6 @@ class _BodyState extends State<Body> {
                           const SizedBox(
                             width: 4,
                           ),
-
-
                           MaterialButton(
                             color: headingColor,
                             shape: RoundedRectangleBorder(
@@ -151,8 +152,6 @@ class _BodyState extends State<Body> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-
-
                           const SizedBox(
                             width: 4,
                           ),
@@ -175,7 +174,9 @@ class _BodyState extends State<Body> {
               ),
             ),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: SizedBox(
@@ -216,7 +217,9 @@ class _BodyState extends State<Body> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -224,7 +227,7 @@ class _BodyState extends State<Body> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Order ID: 000000933",
+                              "Order Status: Delivered",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -232,11 +235,12 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -244,7 +248,7 @@ class _BodyState extends State<Body> {
                         children: [
                           const Expanded(
                             child: Text(
-                              "Order ID: 000000933",
+                              "26 June 2023",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -258,17 +262,18 @@ class _BodyState extends State<Body> {
                           OutlinedButton(
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(width: 1.0, color: headingColor),
+                              side: const BorderSide(
+                                  width: 1.0, color: headingColor),
                               shape: const StadiumBorder(),
                             ),
-                            child: const Text('Button'),
+                            child: const Text('View Order'),
                           )
-
-
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -287,8 +292,6 @@ class _BodyState extends State<Body> {
                           const SizedBox(
                             width: 4,
                           ),
-
-
                           MaterialButton(
                             color: headingColor,
                             shape: RoundedRectangleBorder(
@@ -300,8 +303,6 @@ class _BodyState extends State<Body> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-
-
                           const SizedBox(
                             width: 4,
                           ),
@@ -324,7 +325,9 @@ class _BodyState extends State<Body> {
               ),
             ),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: SizedBox(
@@ -365,7 +368,9 @@ class _BodyState extends State<Body> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -373,7 +378,7 @@ class _BodyState extends State<Body> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Order ID: 000000933",
+                              "Order Status: Delivered",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -381,11 +386,12 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -393,7 +399,7 @@ class _BodyState extends State<Body> {
                         children: [
                           const Expanded(
                             child: Text(
-                              "Order ID: 000000933",
+                              "26 June 20233",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -407,17 +413,18 @@ class _BodyState extends State<Body> {
                           OutlinedButton(
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(width: 1.0, color: headingColor),
+                              side: const BorderSide(
+                                  width: 1.0, color: headingColor),
                               shape: const StadiumBorder(),
                             ),
-                            child: const Text('Button'),
+                            child: const Text('View Order'),
                           )
-
-
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -436,8 +443,6 @@ class _BodyState extends State<Body> {
                           const SizedBox(
                             width: 4,
                           ),
-
-
                           MaterialButton(
                             color: headingColor,
                             shape: RoundedRectangleBorder(
@@ -449,8 +454,6 @@ class _BodyState extends State<Body> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-
-
                           const SizedBox(
                             width: 4,
                           ),
@@ -473,7 +476,9 @@ class _BodyState extends State<Body> {
               ),
             ),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: SizedBox(
@@ -514,7 +519,9 @@ class _BodyState extends State<Body> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -522,7 +529,7 @@ class _BodyState extends State<Body> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Order ID: 000000933",
+                              "Order Status: Delivered",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -530,11 +537,12 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -542,7 +550,7 @@ class _BodyState extends State<Body> {
                         children: [
                           const Expanded(
                             child: Text(
-                              "Order ID: 000000933",
+                              "26 June 2023",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -556,17 +564,18 @@ class _BodyState extends State<Body> {
                           OutlinedButton(
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(width: 1.0, color: headingColor),
+                              side: const BorderSide(
+                                  width: 1.0, color: headingColor),
                               shape: const StadiumBorder(),
                             ),
-                            child: const Text('Button'),
+                            child: const Text('View Order'),
                           )
-
-
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -585,8 +594,6 @@ class _BodyState extends State<Body> {
                           const SizedBox(
                             width: 4,
                           ),
-
-
                           MaterialButton(
                             color: headingColor,
                             shape: RoundedRectangleBorder(
@@ -598,8 +605,6 @@ class _BodyState extends State<Body> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-
-
                           const SizedBox(
                             width: 4,
                           ),
@@ -622,7 +627,9 @@ class _BodyState extends State<Body> {
               ),
             ),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: SizedBox(
@@ -663,7 +670,9 @@ class _BodyState extends State<Body> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -671,7 +680,7 @@ class _BodyState extends State<Body> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Order ID: 000000933",
+                              "Order Status: Delivered",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -679,11 +688,12 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -691,7 +701,7 @@ class _BodyState extends State<Body> {
                         children: [
                           const Expanded(
                             child: Text(
-                              "Order ID: 000000933",
+                              "26 June 2023",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -705,17 +715,18 @@ class _BodyState extends State<Body> {
                           OutlinedButton(
                             onPressed: () {},
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(width: 1.0, color: headingColor),
+                              side: const BorderSide(
+                                  width: 1.0, color: headingColor),
                               shape: const StadiumBorder(),
                             ),
-                            child: const Text('Button'),
+                            child: const Text('View Order'),
                           )
-
-
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
@@ -734,8 +745,6 @@ class _BodyState extends State<Body> {
                           const SizedBox(
                             width: 4,
                           ),
-
-
                           MaterialButton(
                             color: headingColor,
                             shape: RoundedRectangleBorder(
@@ -747,8 +756,6 @@ class _BodyState extends State<Body> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-
-
                           const SizedBox(
                             width: 4,
                           ),
@@ -771,7 +778,6 @@ class _BodyState extends State<Body> {
               ),
             ),
           ),
-
         ],
       ),
     );

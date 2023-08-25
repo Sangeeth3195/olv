@@ -1482,4 +1482,66 @@ class GraphQLService {
       return "";
     }
   }
+
+  /// Get Customer Details & Address List
+  Future<List<dynamic>> getcustomeraddresslist({
+    required int limit,
+  }) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                    customer {
+                      firstname
+                      lastname
+                      suffix
+                      email
+                      wishlists{
+                          id
+                      }
+                      addresses {
+                          id
+                        firstname
+                        lastname
+                        street
+                        city
+                        region {
+                          region_code
+                          region
+                        }
+                        postcode
+                        country_code
+                        telephone
+                        default_shipping
+                        default_billing
+                      }
+                    }
+                  }
+            """),
+          variables: {
+            'limit': limit,
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        List? res = result.data?['categoryList'];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+        print(res.first['children']);
+
+        return res.first['children'];
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+
 }

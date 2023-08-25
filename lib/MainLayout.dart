@@ -418,10 +418,10 @@ class _MainLayoutState extends State<MainLayout> {
   List<Widget> _buildScreens() {
     return [
       const HomeScreen(),
-      ProductListing(id: catId),
+      const Discover(), //ProductListing (id: catId)
       const Wishlist(),
       const CartScreen(),
-      const Discover() //ProfileScreen
+      const ProfileScreen() //Discover
     ];
   }
 

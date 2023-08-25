@@ -45,16 +45,15 @@ class _DetailsPageState extends State<DetailsPage>
       print('sku ->${widget.product['sku']}');
     }
 
-     myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider!.updateProductDescriptionData(widget.product['sku'].toString());
     myProvider!.updateHeaderScreen(true);
-
   }
 
   Color colorFromHex(String hexColor) {
     // Remove the '#' character from the hex color code, if present.
 
-    try{
+    try {
       if (hexColor.startsWith('#')) {
         hexColor = hexColor.substring(1);
       }
@@ -67,11 +66,9 @@ class _DetailsPageState extends State<DetailsPage>
 
       // Parse the hexadecimal values and construct the Color object.
       return Color(int.parse('FF$hexColor', radix: 16));
-    }catch (e){
-      return Color(0xFFFFFFFF);
-
+    } catch (e) {
+      return const Color(0xFFFFFFFF);
     }
-
   }
 
   Widget showWidget(int qty) {
@@ -158,49 +155,37 @@ class _DetailsPageState extends State<DetailsPage>
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
-     persistentFooterButtons: [
-       ElevatedButton(
-         onPressed: () {
-           // Add your button press logic here
-         },
-         style: ElevatedButton.styleFrom(
-           primary: Colors.blue, // Button background color
-           shape: RoundedRectangleBorder(
-             borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
-           ),
-         ),
-         child: Container(
-           margin: EdgeInsets.all(10),
-             width: MediaQuery.of(context).size.width,
-             child: Center(child: Text('Add to cart'))),
-       )
-
-     ],
+        persistentFooterButtons: [
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Container(
+                  color: Colors.transparent,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Add your button press logic here
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: headingColor, // Button background color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            25.0), // Adjust the radius as needed
+                      ),
+                    ),
+                    child: Container(
+                        margin: const EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width,
+                        child: const Center(child: Text('Add to cart'))),
+                  )))
+        ],
         backgroundColor: Theme.of(context).canvasColor,
-        /*    appBar: AppBar(
-          title: const Center(
-            child: Text(
-              'Details',
-              style: TextStyle(fontSize: 24, color: headingColor),
-            ),
-          ),
-          elevation: 0,
-          backgroundColor: Theme.of(context).canvasColor,
-          leading: IconButton(
-              icon: Icon(Icons.arrow_back,
-                  color: Theme.of(context).iconTheme.color),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-        ),*/
         body: Consumer<MyProvider>(
           builder: (context, provider, _) {
             imgList.clear();
             if (provider.productData != null) {
-              for(int i=0;i<provider.productData[0]
-              ['media_gallery'].length;i++){
-                imgList.add(provider.productData[0]
-                ['media_gallery'][i]);
+              for (int i = 0;
+                  i < provider.productData[0]['media_gallery'].length;
+                  i++) {
+                imgList.add(provider.productData[0]['media_gallery'][i]);
               }
 
               return SingleChildScrollView(
@@ -223,15 +208,15 @@ class _DetailsPageState extends State<DetailsPage>
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            0.0, 10, 20, 0),
+                                        padding:
+                                            EdgeInsets.fromLTRB(0.0, 10, 20, 0),
                                         child: Icon(
                                           Icons.favorite_border,
                                           size: 25.0,
                                         )),
                                   ],
                                 ),
-                                onTap: (){
+                                onTap: () {
                                   if (kDebugMode) {
                                     print('clicked');
                                   }
@@ -311,8 +296,7 @@ class _DetailsPageState extends State<DetailsPage>
                             ),
                             const SizedBox(height: 5),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   provider.productData[0]['name'],
@@ -325,8 +309,7 @@ class _DetailsPageState extends State<DetailsPage>
                             ),
                             const SizedBox(height: 10),
                             const Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   'Limited time offer',
@@ -339,8 +322,7 @@ class _DetailsPageState extends State<DetailsPage>
                             ),
                             const SizedBox(height: 0),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text.rich(
                                   TextSpan(
@@ -377,8 +359,8 @@ class _DetailsPageState extends State<DetailsPage>
                                         height: 35,
                                         width: 110,
                                         child: AnimatedSwitcher(
-                                          duration: const Duration(
-                                              milliseconds: 500),
+                                          duration:
+                                              const Duration(milliseconds: 500),
                                           child: showWidget(quantity),
                                         ),
                                       ),
@@ -419,8 +401,8 @@ class _DetailsPageState extends State<DetailsPage>
                                             scrollDirection: Axis.horizontal,
                                             itemCount: provider
                                                 .productData[0]
-                                                    ['configurable_options']
-                                                    [0]['values']
+                                                    ['configurable_options'][0]
+                                                    ['values']
                                                 .length,
                                             itemBuilder: (context, index) {
                                               return GestureDetector(
@@ -428,27 +410,24 @@ class _DetailsPageState extends State<DetailsPage>
                                                   // _changeColor(index);
                                                   print('color code --> ' +
                                                       provider.productData[0][
-                                                                  'configurable_options'][0]
+                                                                  'configurable_options']
                                                               [
-                                                              'values'][index]
+                                                              0]['values'][index]
                                                           [
                                                           'swatch_data']['value']);
                                                 },
                                                 child: Container(
                                                   margin: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 5),
+                                                      .symmetric(horizontal: 5),
                                                   padding:
-                                                      const EdgeInsets.all(
-                                                          10),
+                                                      const EdgeInsets.all(10),
                                                   decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
                                                     color: colorFromHex(provider
                                                                     .productData[0]
                                                                 [
                                                                 'configurable_options']
-                                                            [
-                                                            0]['values'][index]
+                                                            [0]['values'][index]
                                                         [
                                                         'swatch_data']['value']),
                                                   ),
@@ -632,8 +611,7 @@ class _DetailsPageState extends State<DetailsPage>
                         right: getProportionateScreenWidth(10),
                       ),
                       child: Text(
-                          provider.productData[0]['short_description']
-                              ['html'],
+                          provider.productData[0]['short_description']['html'],
                           style: const TextStyle(
                               fontWeight: FontWeight.normal,
                               color: blackColor,
@@ -646,8 +624,8 @@ class _DetailsPageState extends State<DetailsPage>
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: getProportionateScreenWidth(10)),
-                      child: _buildDetailsAndMaterialWidgets(
-                          provider.productData),
+                      child:
+                          _buildDetailsAndMaterialWidgets(provider.productData),
                     ),
                     const SizedBox(
                       height: 15,
@@ -714,42 +692,51 @@ class _DetailsPageState extends State<DetailsPage>
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount: provider.productData[0]['related_products'].length,
+                        itemCount:
+                            provider.productData[0]['related_products'].length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             width: 200,
                             // color: colors[index],
-                            margin: EdgeInsets.all(8.0),
-                            child:         Card(
+                            margin: const EdgeInsets.all(8.0),
+                            child: Card(
                               elevation: 0,
                               child: Stack(
                                 children: [
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         width: double.infinity,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           color: Color(0xFFF4F2EE),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(defaultBorderRadius)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(
+                                                  defaultBorderRadius)),
                                         ),
                                         child: Image.network(
-                                          provider.productData[0]['related_products'][index]['media_gallery'][0]['url'].toString(),
+                                          provider.productData[0]
+                                                  ['related_products'][index]
+                                                  ['media_gallery'][0]['url']
+                                              .toString(),
                                           height: 150,
                                         ),
                                       ),
                                       const SizedBox(height: 2),
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                          const Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                5.0, 0, 0, 0),
                                             child: Text(
                                               '',
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                   fontWeight: FontWeight.normal,
                                                   color: blackColor,
                                                   height: 1.5,
@@ -758,9 +745,12 @@ class _DetailsPageState extends State<DetailsPage>
                                           ),
                                           const SizedBox(height: 0.0),
                                           Padding(
-                                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                5.0, 0, 0, 0),
                                             child: Text(
-                                              provider.productData[0]['related_products'][index]['name'],
+                                              provider.productData[0]
+                                                      ['related_products']
+                                                  [index]['name'],
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: blackColor,
@@ -791,9 +781,15 @@ class _DetailsPageState extends State<DetailsPage>
                                           const SizedBox(height: 10.0),
 
                                           Padding(
-                                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                5.0, 0, 0, 0),
                                             child: Text(
-                                                provider.productData[0]['related_products'][index]['price_range']['minimum_price']['regular_price']['value'].toString(),
+                                              provider.productData[0]
+                                                      ['related_products']
+                                                      [index]['price_range']
+                                                      ['minimum_price']
+                                                      ['regular_price']['value']
+                                                  .toString(),
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.normal,
                                                   color: headingColor,
@@ -801,9 +797,6 @@ class _DetailsPageState extends State<DetailsPage>
                                                   fontSize: 12),
                                             ),
                                           ),
-
-
-
                                         ],
                                       )
                                     ],
@@ -812,7 +805,8 @@ class _DetailsPageState extends State<DetailsPage>
                                       top: 0,
                                       right: 5,
                                       child: Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 2.0, vertical: 6),
                                         child: Icon(
                                           Icons.favorite_border,
                                           color: blackColor,
@@ -985,31 +979,6 @@ class _DetailsPageState extends State<DetailsPage>
                   productData[0]['detail'].toString(),
                 ),
               ),
-              /* SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: productData[0]['depth'] == null
-                    ? Container()
-                    : */ /*Text('Depth: ${productData[0]['depth']}'),*/ /*
-                Text('Height: ' + product[0]['height']),
-                productData[0]['diameter'] == null
-                    ? Container()
-                    : Text('Diameter: ' + product[0]['diameter']),
-                product[0]['capacity'] == null
-                    ? Container()
-                    : Text('Capacity: ' + product[0]['capacity']),
-                product[0]['width'] == null
-                    ? Container()
-                    : Text('Width: ' + product[0]['width']),
-                product[0]['length'] == null
-                    ? Container()
-                    : Text('Length: ' + product[0]['length']),
-                product[0]['overall'] == null
-                    ? Container()
-                    : Text('Overall: ' + product[0]['overall']),
-                product[0]['depth'] == null
-                    ? Container()
-                    : Text('Depth: ' + product[0]['depth']),
-              ),*/
               SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
