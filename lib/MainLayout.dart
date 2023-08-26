@@ -289,7 +289,7 @@ class _MainLayoutState extends State<MainLayout> {
                               myProvider.updateData(catId);
                               myProvider
                                   .updateHeader(navHeaderList[index]['name']);
-                              _controller.jumpToTab(1);
+                              _controller.jumpToTab(0);
                             },
                             child: Text(
                               navHeaderList[index]['name'],
@@ -334,7 +334,7 @@ class _MainLayoutState extends State<MainLayout> {
                                         myProvider.updateHeader(
                                             navHeaderList[index]['children']
                                                 [itemIndex]['name']);
-                                        _controller.jumpToTab(1);
+                                        _controller.jumpToTab(0);
                                         // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
                                       },
                                       child: Text(
@@ -381,7 +381,7 @@ class _MainLayoutState extends State<MainLayout> {
                                                                 ['children'][
                                                             subitemIndex]['name']
                                                         .toString());
-                                                _controller.jumpToTab(1);
+                                                _controller.jumpToTab(0);
                                               },
                                               title: Text(
                                                 navHeaderList[index]['children']
