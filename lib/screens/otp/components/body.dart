@@ -19,14 +19,30 @@ class Body extends StatelessWidget {
       width: double.infinity,
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 0),
+          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: Image.asset('assets/images/otp.png',
-                    height: 200, width: 200),
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15.0, 0.0, 10.0, 0),
+                child: Text(
+                  "OTP",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(20),
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15.0, 50.0, 10.0, 0),
+                child: Center(
+                  child: Image.asset('assets/images/otp.png',
+                      height: 200, width: 200),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15.0, 20.0, 10.0, 0),
@@ -40,7 +56,7 @@ class Body extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 5,
+                height: 8,
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15.0, 0.0, 10.0, 0),
@@ -49,7 +65,7 @@ class Body extends StatelessWidget {
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     height: 1.5,
-                    fontSize: getProportionateScreenWidth(12),
+                    fontSize: getProportionateScreenWidth(13),
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                   ),
@@ -61,18 +77,26 @@ class Body extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(15.0, 0.0, 10.0, 0),
                 child: Text(
-                  "Email",
+                  "+919000000000",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     height: 1.5,
-                    fontSize: getProportionateScreenWidth(12),
+                    fontSize: getProportionateScreenWidth(15),
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
               ),
               const SizedBox(
-                height: 5,
+                height: 20,
+              ),
+              buildTimer(),
+              const SizedBox(
+                height: 15,
+              ),
+              const OtpForm(),
+              const SizedBox(
+                height: 20,
               ),
               const ForgotPassForm(),
             ],
@@ -81,6 +105,23 @@ class Body extends StatelessWidget {
       ),
     );
   }
+}
+
+  Row buildTimer() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("This code will expired in "),
+        TweenAnimationBuilder(
+          tween: Tween(begin: 30.0, end: 0.0),
+          duration: const Duration(seconds: 30),
+          builder: (_, dynamic value, child) => Text(
+            "00:${value.toInt()}",
+            style: const TextStyle(color: kPrimaryColor),
+          ),
+        ),
+      ],
+    );
 }
 
 class ForgotPassForm extends StatefulWidget {
@@ -103,32 +144,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
       key: _formKey,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 0.0, right: 10.0, bottom: 20.0, left: 10.0),
-            child: TextFormField(
-              controller: loginEmailController,
-              obscureText: false,
-              textInputAction: TextInputAction.next,
-              validator: (val) {
-                if (val!.isEmpty) return 'This is a required field.';
-                return null;
-              },
-              style: const TextStyle(fontSize: 14.0, color: Colors.black),
-              decoration: InputDecoration(
-                  suffixIcon: const Icon(
-                    Icons.email_outlined,
-                    color: Colors.grey,
-                    size: 22.0,
-                  ),
-                  contentPadding:
-                      const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
-                  hintText: "Email",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0))),
-            ),
-          ),
-          SizedBox(height: SizeConfig.screenHeight * 0.01),
+
           Padding(
             padding: const EdgeInsets.only(
                 top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
@@ -148,31 +164,115 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
               child: const Text('Submit'),
             ),
           ),
-          SizedBox(height: SizeConfig.screenHeight * 0.02),
+
+        ],
+      ),
+    );
+  }
+}
+
+class OtpForm extends StatefulWidget {
+  const OtpForm({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _OtpFormState createState() => _OtpFormState();
+}
+
+class _OtpFormState extends State<OtpForm> {
+  FocusNode? pin2FocusNode;
+  FocusNode? pin3FocusNode;
+  FocusNode? pin4FocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    pin2FocusNode = FocusNode();
+    pin3FocusNode = FocusNode();
+    pin4FocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pin2FocusNode!.dispose();
+    pin3FocusNode!.dispose();
+    pin4FocusNode!.dispose();
+  }
+
+  void nextField(String value, FocusNode? focusNode) {
+    if (value.length == 1) {
+      focusNode!.requestFocus();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      child: Column(
+        children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Don’t have an account? ",
-                style: TextStyle(fontSize: getProportionateScreenWidth(14)),
+              SizedBox(
+                width: getProportionateScreenWidth(60),
+                child: TextFormField(
+                  autofocus: true,
+                  obscureText: true,
+                  style: const TextStyle(fontSize: 24),
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: otpInputDecoration,
+                  onChanged: (value) {
+                    nextField(value, pin2FocusNode);
+                  },
+                ),
               ),
-              GestureDetector(
-                onTap: (){
-                  /*Navigator.of(context, rootNavigator: true).pushNamed("/signupscreen");*/
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const ResetPassword()),
-                    );
-                },
-                child: Text(
-                  "Sign Up",
-                  style: TextStyle(
-                      fontSize: getProportionateScreenWidth(14),
-                      color: kPrimaryColor),
+              SizedBox(
+                width: getProportionateScreenWidth(60),
+                child: TextFormField(
+                  focusNode: pin2FocusNode,
+                  obscureText: true,
+                  style: const TextStyle(fontSize: 24),
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: otpInputDecoration,
+                  onChanged: (value) => nextField(value, pin3FocusNode),
+                ),
+              ),
+              SizedBox(
+                width: getProportionateScreenWidth(60),
+                child: TextFormField(
+                  focusNode: pin3FocusNode,
+                  obscureText: true,
+                  style: const TextStyle(fontSize: 24),
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: otpInputDecoration,
+                  onChanged: (value) => nextField(value, pin4FocusNode),
+                ),
+              ),
+              SizedBox(
+                width: getProportionateScreenWidth(60),
+                child: TextFormField(
+                  focusNode: pin4FocusNode,
+                  obscureText: true,
+                  style: const TextStyle(fontSize: 24),
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  decoration: otpInputDecoration,
+                  onChanged: (value) {
+                    if (value.length == 1) {
+                      pin4FocusNode!.unfocus();
+                      // Then you need to check is the code is correct or not
+                    }
+                  },
                 ),
               ),
             ],
-          )
+          ),
+
         ],
       ),
     );

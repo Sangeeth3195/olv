@@ -10,10 +10,12 @@ import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/discover/discovers.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
+import 'package:omaliving/screens/otp/OTP.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 import 'package:omaliving/screens/product_listing/components/search_form.dart';
 import 'package:omaliving/screens/profile/profile_screen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
+import 'package:omaliving/screens/recent_order/recentorder.dart';
 import 'package:omaliving/screens/settings/settings.dart';
 import 'package:omaliving/screens/wishlist/wishlist.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -421,7 +423,7 @@ class _MainLayoutState extends State<MainLayout> {
       const Discover(), //ProductListing (id: catId)
       const Wishlist(),
       const CartScreen(),
-      const ProfileScreen() //Discover
+      const OTP() //Discover
     ];
   }
 
