@@ -9,6 +9,8 @@ class MyProvider extends ChangeNotifier {
   List<dynamic> _data = [];
   List<dynamic> aggrecation = [];
 
+  var navBar=false;
+
   List<dynamic> get data => _data;
 
   GraphQLService graphQLService = GraphQLService();
@@ -22,6 +24,7 @@ class MyProvider extends ChangeNotifier {
   String title="New Arrival";
 
   bool isDetailScreen=false;
+  bool isproduct=false;
 
   void updateHeader(String header){
     title=header;

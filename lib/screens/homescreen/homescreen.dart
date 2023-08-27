@@ -3,8 +3,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:omaliving/screens/provider/provider.dart';
+import 'package:provider/provider.dart';
 
+import '../address/address.dart';
 import 'components/body.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,6 +16,15 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+
+  static void moveToProduct(BuildContext? selectedContext) {
+    Navigator.push(
+      selectedContext!!,
+      MaterialPageRoute(
+          builder: (context) => const Address()),
+    );
+
+  }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -33,9 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: Body(),
+    return Consumer<MyProvider>(
+      builder: (context, provider, _) {
+        if(provider.isproduct){
+          return ProductListing(id: 100017);
+        }
+        return Body();
+      },
+
+
     );
   }
 }
