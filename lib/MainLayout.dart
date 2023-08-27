@@ -995,7 +995,7 @@ final wishKey = GlobalKey<NavigatorState>();
 final cartKey = GlobalKey<NavigatorState>();
 final profileKey = GlobalKey<NavigatorState>();
 final NavbarNotifier _navbarNotifier = NavbarNotifier();
-List<Color> colors = [mediumPurple, Colors.orange, Colors.teal, Colors.teal, Colors.teal];
+List<Color> colors = [themecolor,themecolor,themecolor,themecolor,themecolor];
 const Color mediumPurple = Color.fromRGBO(79, 0, 241, 1.0);
 const String placeHolderText =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
@@ -1010,7 +1010,7 @@ class NavBarHandler extends StatefulWidget {
 
 class _NavBarHandlerState extends State<NavBarHandler>
     with SingleTickerProviderStateMixin {
-  final _buildBody = const <Widget>[const HomeScreen(),
+  final _buildBody = const <Widget>[const HomeMenu(),
     const CartScreen(), //ProductListing (id: catId)
     const Wishlist(),
     const CartScreen(),
@@ -1319,7 +1319,7 @@ class _AnimatedNavBarState extends State<AnimatedNavBar>
                 selectedItemColor: Colors.white,
                 items: widget.menuItems
                     .map((MenuItem menuItem) => BottomNavigationBarItem(
-                  backgroundColor: colors[widget.model.index],
+                  backgroundColor: themecolor,
                   icon: Icon(menuItem.iconData),
                   label: menuItem.text,
                 ))
