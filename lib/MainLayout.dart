@@ -292,6 +292,11 @@ NextScreen(),
                     title: GestureDetector(
                       onTap: () {
                         Navigator.of(context).pop();
+                        homeKey.currentState!.pushNamed(ProductListing.routeName);
+                        // navigate(context, ProductListing.routeName,
+                        //     isRootNavigator: false,
+                        //     arguments: {'id': '1'});
+
                         catId = navHeaderList[index]['id'];
                         print('item_id --> $catId');
                         final myProvider = Provider.of<MyProvider>(
@@ -1010,7 +1015,7 @@ class NavBarHandler extends StatefulWidget {
 
 class _NavBarHandlerState extends State<NavBarHandler>
     with SingleTickerProviderStateMixin {
-  final _buildBody = const <Widget>[const HomeMenu(),
+  final _buildBody = const <Widget>[const HomeScreen(),
     const CartScreen(), //ProductListing (id: catId)
     const Wishlist(),
     const CartScreen(),
@@ -1018,16 +1023,43 @@ class _NavBarHandlerState extends State<NavBarHandler>
 
   late List<BottomNavigationBarItem> _bottomList = <BottomNavigationBarItem>[];
 
+
+  List<BottomNavigationBarItem> _navBarsItems() {
+    return [
+      BottomNavigationBarItem(
+        icon: const Icon(FontAwesomeIcons.house),
+        label: ("Home"),
+      ),
+      BottomNavigationBarItem(
+        icon: const Icon(FontAwesomeIcons.compass),
+        label: ("Discover"),
+      ),
+      BottomNavigationBarItem(
+        icon: const Icon(FontAwesomeIcons.heart),
+        label: ("WishList"),
+      ),
+      BottomNavigationBarItem(
+        icon: const Icon(FontAwesomeIcons.cartPlus),
+        label: ("Cart"),
+      ),
+      BottomNavigationBarItem(
+        icon: const Icon(FontAwesomeIcons.user),
+        label: ("Profile"),
+      ),
+    ];
+  }
+
   final menuItemlist = const <MenuItem>[
-    MenuItem(Icons.home, 'Home'),
-    MenuItem(Icons.shopping_basket, 'Products'),
-    MenuItem(Icons.person, 'Me'),
-    MenuItem(Icons.person, 'Me'),
-    MenuItem(Icons.person, 'Me'),
+    MenuItem(FontAwesomeIcons.house, 'Home'),
+    MenuItem(FontAwesomeIcons.compass, 'Discover'),
+    MenuItem(FontAwesomeIcons.heart, 'WishList'),
+    MenuItem(FontAwesomeIcons.cartPlus, 'Cart'),
+    MenuItem(FontAwesomeIcons.user, 'Profile'),
   ];
 
   late Animation<double> fadeAnimation;
   late AnimationController _controller;
+  var token;
   @override
   void initState() {
     super.initState();
@@ -1046,6 +1078,7 @@ class _NavBarHandlerState extends State<NavBarHandler>
           label: menuItemlist[index].text,
         )).toList();
     _controller.forward();
+    getuserdata();
   }
 
   void showSnackBar() {
@@ -1063,6 +1096,12 @@ class _NavBarHandlerState extends State<NavBarHandler>
   void hideSnackBar() {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
   }
+
+  void getuserdata() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? '';
+  }
+
 
   @override
   void dispose() {
@@ -1113,14 +1152,27 @@ class _NavBarHandlerState extends State<NavBarHandler>
                     child: AnimatedNavBar(
                         model: _navbarNotifier,
                         onItemTapped: (x) {
-                          // User pressed  on the same tab twice
-                          if (_navbarNotifier.index == x) {
-                            _navbarNotifier.popAllRoutes(x);
-                          } else {
-                            _navbarNotifier.index = x;
-                            _controller.reset();
-                            _controller.forward();
+
+                          if((x==3||x==4||x==2) && token.isEmpty){
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
+                            );
+                          }else{
+                            if (_navbarNotifier.index == x) {
+                              _navbarNotifier.popAllRoutes(x);
+                            } else {
+                              _navbarNotifier.index = x;
+                              _controller.reset();
+                              _controller.forward();
+                            }
+
                           }
+
+
+                          // User pressed  on the same tab twice
                         },
                         menuItems: menuItemlist),
                   ),

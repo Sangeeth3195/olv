@@ -18,7 +18,7 @@ class ProductListing extends StatefulWidget {
   final int id;
 
   const ProductListing({Key? key, required this.id}) : super(key: key);
-  static String routeName = "/home_screen";
+  static const String routeName = "/home_screen";
 
   @override
   State<ProductListing> createState() => _HomeScreenState();

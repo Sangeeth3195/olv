@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/screens/settings/settings.dart';
 
-import 'profile_menu.dart';
+import 'profile_menu.dart' as pmenu;
 import 'profile_pic.dart';
 
 class Body extends StatelessWidget {
@@ -14,56 +15,60 @@ class Body extends StatelessWidget {
         children: [
           const ProfilePic(),
           const SizedBox(height: 20),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "Account",
             icon: Icons.person_outline,
             press: () => {
-              Navigator.of(context, rootNavigator: true).pushNamed("/account"),
+              navigate(context, '/account',
+                  isRootNavigator: false,
+                  arguments: {'id': '1'})
+
+              // Navigator.of(context, rootNavigator: true).pushNamed("/account"),
             },
           ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "My Orders",
             icon: Icons.shopping_basket,
             press: () {
               Navigator.of(context, rootNavigator: true).pushNamed("/myorders");
             },
           ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "Address",
             icon: Icons.add_business_outlined,
             press: () {
               Navigator.of(context, rootNavigator: true).pushNamed("/address");
             },
           ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "Information",
             icon: Icons.info_sharp,
             press: () {
               Navigator.of(context, rootNavigator: true).pushNamed("/information");
             },
           ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "Cart",
             icon: Icons.shopping_cart,
             press: () {
               Navigator.of(context, rootNavigator: true).pushNamed("/CartScreen");
             },
           ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "My Wishlist",
             icon: FontAwesomeIcons.heart,
             press: () {
               Navigator.of(context, rootNavigator: true).pushNamed("/wishlist");
             },
           ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "Newsletter",
             icon: Icons.email_sharp,
             press: () {
               Navigator.of(context, rootNavigator: true).pushNamed("/newsletter");
             },
           ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "Settings",
             icon: Icons.settings,
             press: () {

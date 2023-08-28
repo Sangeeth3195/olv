@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/routes.dart';
 import 'package:omaliving/screens/provider/provider.dart';
@@ -31,9 +32,20 @@ void main() async{
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp]
   );
-  runApp( ChangeNotifierProvider(
-      create: (context) => MyProvider(),
-      child: const MyApp()));
+  runApp( MultiProvider(
+    providers:[
+      // Provider<MyProvider>(create: (_) => MyProvider()),
+      // Provider<NavbarNotifier>(create: (_) => NavbarNotifier()),
+
+      ChangeNotifierProvider(
+          create: (context) => MyProvider(),
+         ),
+      ChangeNotifierProvider(
+          create: (context) => NavbarNotifier(),
+         ),
+    ],
+      child: const MyApp()
+  ));
   configLoading();
 
 }
