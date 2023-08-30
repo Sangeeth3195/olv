@@ -24,7 +24,7 @@ dependencies:
   shared_preferences: ^2.2.0
   font_awesome_flutter: ^10.4.0
   flutter_image_slideshow: ^0.1.6
-  persistent_bottom_nav_bar: ^5.0.2
+  persistent_bottom_nav_bar: ^4.0.2
   provider: ^6.0.5
   sign_button: ^2.0.4
   chewie: ^1.7.0

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:omaliving/screens/my_orders/Myorders.dart';
-import 'package:omaliving/screens/reset_password/reset_password.dart';
+import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/screens/settings/settings.dart';
 
-import '../../../constants.dart';
-import 'profile_menu.dart';
+import 'profile_menu.dart' as pmenu;
 import 'profile_pic.dart';
 
 class Body extends StatelessWidget {
@@ -15,103 +13,62 @@ class Body extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
-          const ListTile(
-            leading: CircleAvatar(
-              radius: 40,
-              backgroundImage: NetworkImage(
-                  'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
-            ),
-            title: Text(
-              //TODO: take from profile info
-              'Matilda Brown',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            subtitle: Text(
-              //TODO: take from profile info
-              'matildabrown@gmail.com',
-              style: TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.w500),
-
-            ),
-          ),
+          const ProfilePic(),
           const SizedBox(height: 20),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "Account",
             icon: Icons.person_outline,
             press: () => {
-              Navigator.of(context, rootNavigator: true).pushNamed("/account"),
+              navigate(context, '/account',
+                  isRootNavigator: false,
+                  arguments: {'id': '1'})
+
+              // Navigator.of(context, rootNavigator: true).pushNamed("/account"),
             },
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
-            child: Divider(
-              color: Colors.grey,
-              thickness: 0.3,
-            ),
-          ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "My Orders",
             icon: Icons.shopping_basket,
             press: () {
               Navigator.of(context, rootNavigator: true).pushNamed("/myorders");
             },
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
-            child: Divider(
-              color: Colors.grey,
-              thickness: 0.3,
-            ),
-          ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "Address",
             icon: Icons.add_business_outlined,
             press: () {
               Navigator.of(context, rootNavigator: true).pushNamed("/address");
             },
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
-            child: Divider(
-              color: Colors.grey,
-              thickness: 0.3,
-            ),
-          ),
-          ProfileMenu(
-            text: "Change Password",
-            icon: Icons.password,
+          pmenu.ProfileMenu(
+            text: "Information",
+            icon: Icons.info_sharp,
             press: () {
-
-              Navigator.of(context, rootNavigator: true).pushNamed("/resetpassword");
-
+              Navigator.of(context, rootNavigator: true).pushNamed("/information");
             },
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
-            child: Divider(
-              color: Colors.grey,
-              thickness: 0.3,
-            ),
+          pmenu.ProfileMenu(
+            text: "Cart",
+            icon: Icons.shopping_cart,
+            press: () {
+              Navigator.of(context, rootNavigator: true).pushNamed("/CartScreen");
+            },
           ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
+            text: "My Wishlist",
+            icon: FontAwesomeIcons.heart,
+            press: () {
+              Navigator.of(context, rootNavigator: true).pushNamed("/wishlist");
+            },
+          ),
+          pmenu.ProfileMenu(
             text: "Newsletter",
             icon: Icons.email_sharp,
             press: () {
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/newsletter");
+              Navigator.of(context, rootNavigator: true).pushNamed("/newsletter");
             },
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
-            child: Divider(
-              color: Colors.grey,
-              thickness: 0.3,
-            ),
-          ),
-          ProfileMenu(
+          pmenu.ProfileMenu(
             text: "Settings",
             icon: Icons.settings,
             press: () {

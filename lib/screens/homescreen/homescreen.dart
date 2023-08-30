@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
+import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:omaliving/screens/provider/provider.dart';
+import 'package:provider/provider.dart';
 
+import '../address/address.dart';
 import 'components/body.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,14 +17,61 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+
+  static void moveToProduct(BuildContext? selectedContext) {
+    homeKey.currentState!.pushNamed(ProductListing.routeName);
+  }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+          colorScheme:
+          Theme.of(context).colorScheme.copyWith(primary: themecolor)),
+      child: Navigator(
+          key: homeKey,
+          initialRoute: '/',
+          onGenerateRoute: (RouteSettings settings) {
+            WidgetBuilder builder;
+            switch (settings.name) {
+              case '/':
+                builder = (BuildContext _) => const HomeScreenBody();
+                break;
+              case ProductListing.routeName:
+                builder = (BuildContext _) {
+                  // final id = (settings.arguments as Map)['id'];
+                  return ProductListing(id: 345453);
+                };
+                break;
+              default:
+                builder = (BuildContext _) => const HomeScreenBody();
+            }
+            return MaterialPageRoute(builder: builder, settings: settings);
+          }),
+    );
+
+  }
+
+
+
+}
+
+class HomeScreenBody extends StatefulWidget {
+  const HomeScreenBody({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreenBody> createState() => _HomeScreenBodyState();
+}
+
+class _HomeScreenBodyState extends State<HomeScreenBody> {
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> navHeaderList = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getNavdata();
   }
@@ -30,12 +80,13 @@ class _HomeScreenState extends State<HomeScreen> {
     navHeaderList = await graphQLService.getCategory(limit: 100);
     setState(() {});
   }
-
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: Body(),
+    return Consumer<MyProvider>(
+      builder: (context, provider, _) {
+        return Body();
+      },
     );
   }
 }
+

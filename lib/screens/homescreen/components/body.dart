@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
+import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/screens/homescreen/components/text_title.dart';
+import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 import '../../product_listing/components/search_form.dart';
 
 class Body extends StatefulWidget {
@@ -70,44 +72,59 @@ class _BodyState extends State<Body> {
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
-        child: const SearchForm(),
+        child: GestureDetector(
+          onTap: (){
+            navigate(context, ProductList.route,
+                isRootNavigator: false,
+                arguments: {'id': '1'});
+          },
+
+            child: const SearchForm()),
       ),
 
-      Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-          child: Container(
-            height: 175.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-              child: ImageSlideshow(
-                indicatorColor: Colors.white,
-                onPageChanged: (value) {
-                  debugPrint('Page changed: $value');
-                },
-                autoPlayInterval: 3000,
-                isLoop: true,
-                children: [
-                  Image.asset(
-                    'assets/images/salebanner.png',
-                    fit: BoxFit.cover,
-                  ),
-                  Image.asset(
-                    'assets/images/Homepage1.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                  Image.asset(
-                    'assets/images/homepage2.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                  Image.asset(
-                    'assets/images/bannerdesktop3.jpeg',
-                    fit: BoxFit.cover,
-                  ),
-                ],
+      GestureDetector(
+        onTap: (){
+          navigate(context, ProductListing.routeName,
+              isRootNavigator: false,
+              arguments: {'id': '1'});
+
+        },
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+            child: Container(
+              height: 175.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                child: ImageSlideshow(
+                  indicatorColor: Colors.white,
+                  onPageChanged: (value) {
+                    debugPrint('Page changed: $value');
+                  },
+                  autoPlayInterval: 3000,
+                  isLoop: true,
+                  children: [
+                    Image.asset(
+                      'assets/images/salebanner.png',
+                      fit: BoxFit.cover,
+                    ),
+                    Image.asset(
+                      'assets/images/Homepage1.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                    Image.asset(
+                      'assets/images/homepage2.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                    Image.asset(
+                      'assets/images/bannerdesktop3.jpeg',
+                      fit: BoxFit.cover,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
