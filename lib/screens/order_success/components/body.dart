@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../constants.dart';
 
@@ -14,17 +15,21 @@ class Body extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SvgPicture.asset(
-              "assets/icons/filter.svg",
+            Lottie.asset("assets/animation_llup0q68.json", repeat: false),
+            const SizedBox(
+              height: 0,
+            ),
+            const Text(
+              'Your order has been Successfully Placed',
+              style: TextStyle(fontSize: 15),
             ),
             const SizedBox(
               height: 25,
             ),
-            const Text('Your order has been Successfully Placed'),
-            const SizedBox(
-              height: 10,
+            const Text(
+              'Order ID: OMA000000933',
+              style: TextStyle(fontSize: 13),
             ),
-            const Text('Order ID: OMA000000933'),
             const SizedBox(
               height: 20,
             ),
@@ -33,17 +38,21 @@ class Body extends StatelessWidget {
               top: 100,
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
+                    top: 0.0, right: 15.0, bottom: 0.0, left: 15.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(45),
-                    backgroundColor: themecolor,
-                    foregroundColor: Colors.white,
+                    backgroundColor: headingColor,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(55)),
+                        borderRadius: BorderRadius.circular(25)),
                   ),
-                  onPressed: () {},
-                  child: const Text('View Order Details'),
+                  onPressed: () {
+
+                  },
+                  child: const Text(
+                    'View Order Details',
+                    style: TextStyle(fontSize: 14),
+                  ),
                 ),
               ),
             ),

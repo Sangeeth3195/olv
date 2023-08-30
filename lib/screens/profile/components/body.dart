@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:omaliving/screens/my_orders/Myorders.dart';
+import 'package:omaliving/screens/reset_password/reset_password.dart';
 import 'package:omaliving/screens/settings/settings.dart';
 
+import '../../../constants.dart';
 import 'profile_menu.dart';
 import 'profile_pic.dart';
 
@@ -12,7 +15,28 @@ class Body extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
-          const ProfilePic(),
+          const ListTile(
+            leading: CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(
+                  'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
+            ),
+            title: Text(
+              //TODO: take from profile info
+              'Matilda Brown',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            subtitle: Text(
+              //TODO: take from profile info
+              'matildabrown@gmail.com',
+              style: TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.w500),
+
+            ),
+          ),
           const SizedBox(height: 20),
           ProfileMenu(
             text: "Account",
@@ -21,12 +45,26 @@ class Body extends StatelessWidget {
               Navigator.of(context, rootNavigator: true).pushNamed("/account"),
             },
           ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
+            child: Divider(
+              color: Colors.grey,
+              thickness: 0.3,
+            ),
+          ),
           ProfileMenu(
             text: "My Orders",
             icon: Icons.shopping_basket,
             press: () {
               Navigator.of(context, rootNavigator: true).pushNamed("/myorders");
             },
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
+            child: Divider(
+              color: Colors.grey,
+              thickness: 0.3,
+            ),
           ),
           ProfileMenu(
             text: "Address",
@@ -35,33 +73,43 @@ class Body extends StatelessWidget {
               Navigator.of(context, rootNavigator: true).pushNamed("/address");
             },
           ),
-          ProfileMenu(
-            text: "Information",
-            icon: Icons.info_sharp,
-            press: () {
-              Navigator.of(context, rootNavigator: true).pushNamed("/information");
-            },
+          const Padding(
+            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
+            child: Divider(
+              color: Colors.grey,
+              thickness: 0.3,
+            ),
           ),
           ProfileMenu(
-            text: "Cart",
-            icon: Icons.shopping_cart,
+            text: "Change Password",
+            icon: Icons.password,
             press: () {
-              Navigator.of(context, rootNavigator: true).pushNamed("/CartScreen");
+
+              Navigator.of(context, rootNavigator: true).pushNamed("/resetpassword");
+
             },
           ),
-          ProfileMenu(
-            text: "My Wishlist",
-            icon: FontAwesomeIcons.heart,
-            press: () {
-              Navigator.of(context, rootNavigator: true).pushNamed("/wishlist");
-            },
+          const Padding(
+            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
+            child: Divider(
+              color: Colors.grey,
+              thickness: 0.3,
+            ),
           ),
           ProfileMenu(
             text: "Newsletter",
             icon: Icons.email_sharp,
             press: () {
-              Navigator.of(context, rootNavigator: true).pushNamed("/newsletter");
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed("/newsletter");
             },
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
+            child: Divider(
+              color: Colors.grey,
+              thickness: 0.3,
+            ),
           ),
           ProfileMenu(
             text: "Settings",

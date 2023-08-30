@@ -8,10 +8,12 @@ import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/checkout/Checkout.dart';
 import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
+import 'package:omaliving/screens/my_orders/Myorders.dart';
 import 'package:omaliving/screens/newsletter/news_letter.dart';
 import 'package:omaliving/screens/order_summary/ordersummary.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 import 'package:omaliving/screens/profile/profile_screen.dart';
+import 'package:omaliving/screens/reset_password/reset_password.dart';
 import 'package:omaliving/screens/settings/settings.dart';
 import 'package:omaliving/screens/sign_in/sign_in_screen.dart';
 import 'package:omaliving/screens/webview/WebView.dart';
@@ -24,7 +26,6 @@ final Map<String, WidgetBuilder> routes = {
   ForgotPasswordScreen.routeName: (context) => const ForgotPasswordScreen(),
   ProductListing.routeName: (context) =>  const ProductListing(id:10071),
   ProfileScreen.routeName: (context) => const ProfileScreen(),
-  Webview.routeName: (context) => const Webview(),
   Ordersummary.routeName: (context) => const Ordersummary(),
   Checkout.routeName: (context) => const Checkout(),
   HomeScreen.routeName: (context) => const HomeScreen(),
@@ -32,18 +33,15 @@ final Map<String, WidgetBuilder> routes = {
   '/productlisting': (context) => const ProductListing(id: 0),
   '/signupscreen': (context) => const SignUpScreen(),
   '/signinscreen': (context) => const SignInScreen(),
-  '/webview': (context) => const Webview(),
   '/addaddress': (context) => const AddAddress(),
+  '/myorders': (context) => const MyOrders(),
   '/account': (context) => const Account(),
   '/wishlist': (context) => const Wishlist(),
   '/CartScreen': (context) => const CartScreen(),
   '/information': (context) => const Information(),
   '/address': (context) => const Address(),
   '/newsletter': (context) => const Newsletter(),
+  '/resetpassword': (context) => const ResetPassword(),
   '/settings': (context) => const Settings(),
-
-  /// sample screens
-  '/loginpage': (context) => const LoginPage(),
-  // '/detailspage': (context) => DetailsPage(id: 0),
 
 };

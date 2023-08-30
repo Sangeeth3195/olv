@@ -8,11 +8,11 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+          /* const Padding(
             padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
             child: Text(
               "My Recent Orders",
@@ -23,18 +23,8 @@ class Body extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
           ),
-          const SizedBox(height: 15,),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
-            child: Text(
-              "Items Ordered",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 13,
-                  height: 1.5,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
+          const SizedBox(height: 5,),*/
+
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: Row(
@@ -45,24 +35,34 @@ class Body extends StatelessWidget {
                     "Order ID: 000000933",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 13,
+                        fontSize: 14,
                         height: 1.5,
                         fontWeight: FontWeight.w500),
                   ),
                 ),
-                const SizedBox(
-                  width: 4,
-                ),
                 OutlinedButton(
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(
-                        width: 1.0, color: headingColor),
+                    side: const BorderSide(width: 1.0, color: headingColor),
                     shape: const StadiumBorder(),
                   ),
                   child: const Text('Print Order'),
                 )
               ],
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
+            child: Text(
+              "Items Ordered",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  height: 1.5,
+                  fontWeight: FontWeight.w500),
             ),
           ),
           const SizedBox(
@@ -77,17 +77,36 @@ class Body extends StatelessWidget {
               ),
               child: DataTable(
                 columns: const [
-                  DataColumn(label: Text('Product Name',style: TextStyle(fontSize: 13),)),
-                  DataColumn(label: Text('Qty',style: TextStyle(fontSize: 13),)),
-                  DataColumn(label: Text('Amount',style: TextStyle(fontSize: 13),)),
+                  DataColumn(
+                      label: Text(
+                    'Product Name',
+                    style: TextStyle(fontSize: 13),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Qty',
+                    style: TextStyle(fontSize: 13),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'Amount',
+                    style: TextStyle(fontSize: 13),
+                  )),
                 ],
                 rows: const [
                   DataRow(cells: [
-                    DataCell(Text('Scheffera potted plant',style: TextStyle(fontSize: 13),)),
                     DataCell(Text(
-                      '4',style: TextStyle(fontSize: 13),
+                      'Scheffera potted plant',
+                      style: TextStyle(fontSize: 13),
                     )),
-                    DataCell(Text('₹ 1,598',style: TextStyle(fontSize: 13),)),
+                    DataCell(Text(
+                      '4',
+                      style: TextStyle(fontSize: 13),
+                    )),
+                    DataCell(Text(
+                      '₹ 1,598',
+                      style: TextStyle(fontSize: 13),
+                    )),
                   ]),
                 ],
               ),
@@ -245,7 +264,156 @@ class Body extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 30),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
+            child: Row(
+              children: [
+                Text(
+                  "Order Information",
+                  style: TextStyle(
+                      fontSize: 17,
+                      color: headingColor,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                      decorationColor: headingColor),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        'Shipping Address',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Row(
+                        children: [
+                          Text(
+                            'Shipping Method',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        "653 Nostrand Ave.\nBrooklyn, NY 11216",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            height: 1.5,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Row(
+                        children: [
+                          Text(
+                            'Standard Shipping',
+                            style: TextStyle(color: Colors.black, fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        'Billing Address',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Row(
+                        children: [
+                          Text(
+                            'Payment Method',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        "653 Nostrand Ave.\nBrooklyn, NY 11216",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            height: 1.5,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Row(
+                        children: [
+                          Text(
+                            'Razorpay',
+                            style: TextStyle(color: Colors.black, fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

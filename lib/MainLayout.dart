@@ -10,6 +10,7 @@ import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/discover/discovers.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
+import 'package:omaliving/screens/order_details/orderdetails.dart';
 import 'package:omaliving/screens/otp/OTP.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 import 'package:omaliving/screens/product_listing/components/search_form.dart';
@@ -21,6 +22,8 @@ import 'package:omaliving/screens/wishlist/wishlist.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'demo/demo.dart';
 
 class MainLayout extends StatefulWidget {
   MainLayout({super.key});
@@ -60,7 +63,7 @@ class _MainLayoutState extends State<MainLayout> {
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+        now.difference(currentBackPressTime) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
       Fluttertoast.showToast(msg: 'exit_warning');
       return Future.value(false);
@@ -82,24 +85,21 @@ class _MainLayoutState extends State<MainLayout> {
         iconTheme: const IconThemeData(color: chipColor),
         backgroundColor: Colors.white,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              icon: const Icon(
-                Icons.location_on_outlined,
-                size: 24,
-                color: Colors.black,
-              ),
-              onPressed: () {},
+            Image.asset(
+              'assets/omalogo.png',
+              height: 25,
+              color: headingColor,
             ),
-            const Text(
+            /*const Text(
               'Gurugram',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color: Colors.black,
               ),
-            ),
+            ),*/
           ],
         ),
         actions: [
@@ -107,7 +107,18 @@ class _MainLayoutState extends State<MainLayout> {
             icon: const Icon(
               Icons.favorite_border,
               color: blackColor,
-              size: 26,
+              size: 22,
+            ),
+            onPressed: () {
+              /*getNavdata();*/
+              _controller.jumpToTab(2);
+            },
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.notifications,
+              color: blackColor,
+              size: 22,
             ),
             onPressed: () {
               /*getNavdata();*/
@@ -289,7 +300,7 @@ class _MainLayoutState extends State<MainLayout> {
                               myProvider.updateData(catId);
                               myProvider
                                   .updateHeader(navHeaderList[index]['name']);
-                              _controller.jumpToTab(0);
+                              _controller.jumpToTab(1);
                             },
                             child: Text(
                               navHeaderList[index]['name'],
@@ -334,7 +345,7 @@ class _MainLayoutState extends State<MainLayout> {
                                         myProvider.updateHeader(
                                             navHeaderList[index]['children']
                                                 [itemIndex]['name']);
-                                        _controller.jumpToTab(0);
+                                        _controller.jumpToTab(1);
                                         // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
                                       },
                                       child: Text(
@@ -381,7 +392,7 @@ class _MainLayoutState extends State<MainLayout> {
                                                                 ['children'][
                                                             subitemIndex]['name']
                                                         .toString());
-                                                _controller.jumpToTab(0);
+                                                _controller.jumpToTab(1);
                                               },
                                               title: Text(
                                                 navHeaderList[index]['children']
@@ -420,10 +431,10 @@ class _MainLayoutState extends State<MainLayout> {
   List<Widget> _buildScreens() {
     return [
       const HomeScreen(),
-      const Discover(), //ProductListing (id: catId)
+      ProductListing(id: catId), //ProductListing (id: catId)
       const Wishlist(),
       const CartScreen(),
-      const OTP() //Discover
+      const ProfileScreen() //Discover
     ];
   }
 

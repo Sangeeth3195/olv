@@ -1,26 +1,13 @@
-/*import 'package:flutter/material.dart';
-
-import 'components/body.dart';
-
-class SignUpScreen extends StatelessWidget {
-  static String routeName = "/sign_up";
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Body(),
-    );
-  }
-}*/
-
 import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/constants.dart';
-import 'package:sign_button/constants.dart';
-import 'package:sign_button/create_button.dart';
 
 import '../../API Services/graphql_service.dart';
+
+const double borderRadius = 25.0;
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -33,8 +20,7 @@ class _LoginPageState extends State<SignUpScreen>
     with SingleTickerProviderStateMixin {
   late PageController _pageController;
 
-  Color left = Colors.black;
-  Color right = Colors.white;
+  int activePageIndex = 0;
 
   @override
   void dispose() {
@@ -50,80 +36,78 @@ class _LoginPageState extends State<SignUpScreen>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: SizedBox(
-            width: double.infinity,
+    return Scaffold(
+        body: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 70.0, 10.0, 0),
               child: GestureDetector(
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
                 },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                      child: Text(
-                        "Create a new account",
-                        textScaleFactor: 1.0,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                        child: Text(
+                          "Create a new account",
+                          textScaleFactor: 1.0,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                      child: Text(
-                        "If you have an account, sign in with your email address.",
-                        textAlign: TextAlign.center,
-                        textScaleFactor: 0.9,
-                        style: TextStyle(
-                            fontSize: 13.0,
-                            color: Colors.black45,
-                            fontWeight: FontWeight.w600),
+                      const SizedBox(height: 10.0),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                        child: Text(
+                          "If you have an account, sign in with your email address.",
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 0.9,
+                          style: TextStyle(
+                              fontSize: 13.0,
+                              color: Colors.black45,
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 20.0, left: 10.0, right: 10.0),
-                      child: _buildMenuBar(context),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: PageView(
-                        controller: _pageController,
-                        physics: const ClampingScrollPhysics(),
-                        onPageChanged: (int i) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          if (i == 0) {
-                            setState(() {
-                              right = Colors.white;
-                              left = Colors.black;
-                            });
-                          } else if (i == 1) {
-                            setState(() {
-                              right = Colors.black;
-                              left = Colors.white;
-                            });
-                          }
-                        },
-                        children: <Widget>[
-                          ConstrainedBox(
-                            constraints: const BoxConstraints.expand(),
-                            child: const SignIn(),
-                          ),
-                          /*ConstrainedBox(
-                            constraints: const BoxConstraints.expand(),
-                            child: const SignUp(),
-                          ),*/
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20.0, left: 10.0, right: 10.0),
+                        child: _buildMenuBar(context),
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        flex: 2,
+                        child: PageView(
+                          controller: _pageController,
+                          physics: const ClampingScrollPhysics(),
+                          onPageChanged: (int i) {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            setState(() {
+                              activePageIndex = i;
+                            });
+                          },
+                          children: <Widget>[
+                            ConstrainedBox(
+                              constraints: const BoxConstraints.expand(),
+                              child: const SignIn(),
+                            ),
+                            /* ConstrainedBox(
+                      constraints: const BoxConstraints.expand(),
+                      child: const Center(
+                        child: Text("Buy Now"),
+                      ),
+                    ),*/
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )));
@@ -132,35 +116,80 @@ class _LoginPageState extends State<SignUpScreen>
   Widget _buildMenuBar(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 50.0,
+      height: 55.0,
       decoration: const BoxDecoration(
         color: Color(0x552B2B2B),
         borderRadius: BorderRadius.all(Radius.circular(25.0)),
       ),
-      child: CustomPaint(
-        painter: BubbleIndicatorPainter(pageController: _pageController),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                ),
-                onPressed: _onSignInButtonPress,
-                child: Text(
-                  'Email',
-                  style: TextStyle(
-                    color: left,
-                    fontSize: 14.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Expanded(
+            child: Ink(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black12, width: 5.0),
+                // color: Colors.indigo[900],
+                borderRadius:
+                    const BorderRadius.all(Radius.circular(borderRadius)),
+              ),
+              child: InkWell(
+                borderRadius:
+                    const BorderRadius.all(Radius.circular(borderRadius)),
+                onTap: _onPlaceBidButtonPress,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  alignment: Alignment.center,
+                  decoration: (activePageIndex == 0)
+                      ? const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        )
+                      : null,
+                  child: Text(
+                    'Email',
+                    style: (activePageIndex == 0)
+                        ? const TextStyle(color: Colors.grey)
+                        : const TextStyle(color: Colors.grey),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          /*  Expanded(
+            child: InkWell(
+              borderRadius: const BorderRadius.all(Radius.circular(borderRadius)),
+              onTap: _onBuyNowButtonPress,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                alignment: Alignment.center,
+                decoration: (activePageIndex == 1)
+                    ? const BoxDecoration(
+                        color: Colors.green,
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(borderRadius)),
+                      )
+                    : null,
+                child: Text(
+                  "Buy Now",
+                  style: (activePageIndex == 1)
+                      ? const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)
+                      : const TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ),*/
+        ],
       ),
     );
+  }
+
+  void _onPlaceBidButtonPress() {
+    _pageController.animateToPage(0,
+        duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
   }
 
   void _onSignInButtonPress() {
@@ -172,71 +201,6 @@ class _LoginPageState extends State<SignUpScreen>
     _pageController.animateToPage(1,
         duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
   }
-}
-
-class BubbleIndicatorPainter extends CustomPainter {
-  BubbleIndicatorPainter(
-      {this.dxTarget = 345.0,
-      this.dxEntry = 25.0,
-      this.radius = 20.0,
-      this.dy = 25.0,
-      required this.pageController})
-      : super(repaint: pageController) {
-    painter = Paint()
-      ..color = CustomTheme.white
-      ..style = PaintingStyle.fill;
-  }
-
-  late Paint painter;
-  final double dxTarget;
-  final double dxEntry;
-  final double radius;
-  final double dy;
-
-  final PageController pageController;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final ScrollPosition pos = pageController.position;
-    final double fullExtent =
-        pos.maxScrollExtent - pos.minScrollExtent + pos.viewportDimension;
-
-    final double pageOffset = pos.extentBefore / fullExtent;
-
-    final bool left2right = dxEntry < dxTarget;
-    final Offset entry = Offset(left2right ? dxEntry : dxTarget, dy);
-    final Offset target = Offset(left2right ? dxTarget : dxEntry, dy);
-
-    final Path path = Path();
-    path.addArc(
-        Rect.fromCircle(center: entry, radius: radius), 0.5 * pi, 1 * pi);
-    path.addRect(Rect.fromLTRB(entry.dx, dy - radius, target.dx, dy + radius));
-    path.addArc(
-        Rect.fromCircle(center: target, radius: radius), 1.5 * pi, 1 * pi);
-
-    canvas.translate(size.width * pageOffset, 0.0);
-    canvas.drawShadow(path, CustomTheme.loginGradientStart, 3.0, true);
-    canvas.drawPath(path, painter);
-  }
-
-  @override
-  bool shouldRepaint(BubbleIndicatorPainter oldDelegate) => true;
-}
-
-class CustomTheme {
-  const CustomTheme();
-
-  static const Color loginGradientStart = Color(0xFFFFFFFF);
-  static const Color loginGradientEnd = Color(0xFFFFFFFF);
-  static const Color white = Color(0xFFFFFFFF);
-  static const Color black = Color(0xFF000000);
-
-  static const LinearGradient primaryGradient = LinearGradient(
-    colors: <Color>[loginGradientStart, loginGradientEnd],
-    stops: <double>[0.0, 1.0],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  );
 }
 
 class SignIn extends StatefulWidget {
@@ -445,8 +409,13 @@ class _SignInState extends State<SignIn> {
                             text: 'Log In',
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.of(context, rootNavigator: true)
-                                    .pushNamed("/loginpage");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()),
+                                );
+                                /*Navigator.of(context, rootNavigator: true)
+                                    .pushNamed("/loginpage");*/
                               },
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -524,7 +493,10 @@ class _SignInState extends State<SignIn> {
                         height: 50, // <-- Your height
                         child: ElevatedButton.icon(
                           icon: IconButton(
-                            icon: Image.asset('assets/icons/facebook.png',height: 20,),
+                            icon: Image.asset(
+                              'assets/icons/facebook.png',
+                              height: 20,
+                            ),
                             iconSize: 0,
                             onPressed: () {},
                           ),

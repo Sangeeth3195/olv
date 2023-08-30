@@ -349,7 +349,7 @@ class GraphQLService {
         return result;
       }
     } catch (error) {
-      print("testing errors" + error.toString());
+      print("testing errors$error");
       return [];
     }
   }
@@ -1010,7 +1010,7 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
-        print('---' + result.exception!.graphqlErrors[0].message);
+        print('---${result.exception!.graphqlErrors[0].message}');
         Fluttertoast.showToast(
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
@@ -1021,6 +1021,7 @@ class GraphQLService {
 
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MainLayout()));
+
         Fluttertoast.showToast(msg: 'Login successfully');
       }
 
@@ -1520,9 +1521,6 @@ class GraphQLService {
                     }
                   }
             """),
-          variables: {
-            'limit': limit,
-          },
         ),
       );
 
@@ -1534,9 +1532,210 @@ class GraphQLService {
         if (res == null || res.isEmpty) {
           return [];
         }
-        print(res.first['children']);
 
         return res.first['children'];
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  /// Get Order Details
+  Future<List<dynamic>> getorderdetails({
+    required int limit,
+  }) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                  customer {
+                    orders(pageSize: 200) {
+                      items {
+                        id
+                        order_number
+                        status
+                        shipping_method
+                        payment_methods {
+                          name
+                        }
+                        shipping_address {
+                          firstname
+                          lastname
+                          street
+                          city
+                          telephone
+                          region
+                          postcode
+                        }
+                        billing_address {
+                          firstname
+                          lastname
+                          street
+                          city
+                          telephone
+                          region
+                          postcode
+                        }
+                
+                        items {
+                          product_name
+                          product_type
+                          product_sku
+                          product_sale_price {
+                            value
+                            currency
+                          }
+                          quantity_ordered
+                        }
+                        order_date
+                        total {
+                          total_shipping {
+                            value
+                            currency
+                          }
+                          subtotal {
+                            value
+                            currency
+                          }
+                          grand_total {
+                            value
+                            currency
+                          }
+                        }
+                        status
+                      }
+                    }
+                  }
+                }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        List? res = result.data?[''];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+
+        return res.first[''];
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  /// Get Region
+  Future<List<dynamic>> getregion() async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                countries {
+                  id
+                  two_letter_abbreviation
+                  three_letter_abbreviation
+                  full_name_locale
+                  full_name_english
+                  available_regions {
+                    id
+                    code
+                    name
+                  }
+                }
+              }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        List? res = result.data?[''];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+
+        return res.first[''];
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  /// Revoke Customer Token
+  Future<List<dynamic>> revokeuser() async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           mutation {
+              revokeCustomerToken {
+                result
+              }
+            }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        List? res = result.data?[''];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+
+        return res.first[''];
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  /// Custom Web view
+  Future<List<dynamic>> getcustomwebview(String value) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                  cmsPage(identifier: "$value") {
+                    identifier
+                    url_key
+                    title
+                    content
+                    content_heading
+                    page_layout
+                    meta_title
+                    meta_description
+                    meta_keywords
+                  }
+                }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        List? res = result.data?[''];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+
+        return res.first[''];
       }
     } catch (error) {
       return [];

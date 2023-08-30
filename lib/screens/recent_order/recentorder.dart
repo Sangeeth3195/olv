@@ -6,8 +6,15 @@ class RecentOrders extends StatelessWidget {
   const RecentOrders({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Body(),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black,size: 20),
+        title: const Text('Orders',style: TextStyle(color: Colors.black,fontSize: 16),),
+      ),
+      body: const Body(),
     );
   }
 }

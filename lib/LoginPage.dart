@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,9 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   late PageController _pageController;
-
-  Color left = Colors.black;
-  Color right = Colors.white;
+  int activePageIndex = 0;
 
   @override
   void dispose() {
@@ -39,80 +38,76 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: SizedBox(
-            width: double.infinity,
+    return Scaffold(
+        body: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 70.0, 10.0, 0),
               child: GestureDetector(
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
                 },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                      child: Text(
-                        "Login Account",
-                        textScaleFactor: 1.0,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                        child: Text(
+                          "Login Account",
+                          textScaleFactor: 1.0,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 12.0),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                      child: Text(
-                        "Hello, welcome back to your account",
-                        textAlign: TextAlign.center,
-                        textScaleFactor: 1.0,
-                        style: TextStyle(
-                            fontSize: 13.0,
-                            color: Colors.black45,
-                            fontWeight: FontWeight.w600),
+                      const SizedBox(height: 12.0),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                        child: Text(
+                          "Hello, welcome back to your account",
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 1.0,
+                          style: TextStyle(
+                              fontSize: 13.0,
+                              color: Colors.black45,
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 20.0, left: 10.0, right: 10.0),
-                      child: _buildMenuBar(context),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: PageView(
-                        controller: _pageController,
-                        physics: const ClampingScrollPhysics(),
-                        onPageChanged: (int i) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          if (i == 0) {
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20.0, left: 10.0, right: 10.0),
+                        child: _buildMenuBar(context),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: PageView(
+                          controller: _pageController,
+                          physics: const ClampingScrollPhysics(),
+                          onPageChanged: (int i) {
+                            FocusScope.of(context).requestFocus(FocusNode());
                             setState(() {
-                              right = Colors.white;
-                              left = Colors.black;
+                              activePageIndex = i;
                             });
-                          } else if (i == 1) {
-                            setState(() {
-                              right = Colors.black;
-                              left = Colors.white;
-                            });
-                          }
-                        },
-                        children: <Widget>[
-                          ConstrainedBox(
-                            constraints: const BoxConstraints.expand(),
-                            child: const SignIn(),
-                          ),
-                          /* ConstrainedBox(
+                          },
+                          children: <Widget>[
+                            ConstrainedBox(
+                              constraints: const BoxConstraints.expand(),
+                              child: const SignIn(),
+                            ),
+                            /* ConstrainedBox(
                             constraints: const BoxConstraints.expand(),
                             child: const SignUp(),
                           ),*/
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             )));
@@ -137,10 +132,10 @@ class _LoginPageState extends State<LoginPage>
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                 ),
                 onPressed: _onSignInButtonPress,
-                child: Text(
+                child: const Text(
                   'Email',
                   style: TextStyle(
-                    color: left,
+                    color: Colors.black,
                     fontWeight: FontWeight.w500,
                     fontSize: 14.0,
                   ),
@@ -266,7 +261,7 @@ class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   late GoogleSignInAccount _userObj;
-  GoogleSignIn _googleSignIn1 = GoogleSignIn();
+  final GoogleSignIn _googleSignIn1 = GoogleSignIn();
 
   @override
   void dispose() {
@@ -281,10 +276,21 @@ class _SignInState extends State<SignIn> {
     passwordVisible = true;
   }
 
+  static const _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  final Random _rnd = Random();
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
   void _handleSignIn() async {
     try {
+      getRandomString(10).toString();
+      if (kDebugMode) {
+        print(getRandomString(10).toString());
+      }
 
-      _googleSignIn.signIn().then((userData) {
+      /*_googleSignIn.signIn().then((userData) {
         setState(() {
           // _isLoggedIn = true;
           _userObj = userData!;
@@ -295,11 +301,20 @@ class _SignInState extends State<SignIn> {
 
       Fluttertoast.showToast(msg: _userObj.email);
       Fluttertoast.showToast(msg: _userObj.displayName.toString());
+
+      graphQLService.Login(
+          _userObj.email.toString(),
+          getRandomString(10).toString(),
+          context);*/
+
       // User signed in, you can proceed with the app logic
     } catch (error) {
-      print('Error signing in: $error');
+      if (kDebugMode) {
+        print('Error signing in: $error');
+      }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -441,8 +456,8 @@ class _SignInState extends State<SignIn> {
                   if (_formKey.currentState!.validate()) {
                     graphQLService.Login(
                         loginEmailController.text.toString(),
-                        loginPasswordController.text
-                            .toString(),context); //'maideen.i@gmail.com', 'Magento@123'
+                        loginPasswordController.text.toString(),
+                        context); //'maideen.i@gmail.com', 'Magento@123'
                   }
                 },
                 child: const Text('Login'),
@@ -546,10 +561,9 @@ class _SignInState extends State<SignIn> {
                     child: SizedBox(
                       height: 50, // <-- Your height
                       child: ElevatedButton.icon(
-                        icon: IconButton(
-                          icon: Image.asset('assets/icons/facebook.png',height: 20,),
-                          iconSize: 0,
-                          onPressed: () {},
+                        icon: Image.asset(
+                          'assets/icons/facebook.png',
+                          height: 20,
                         ),
                         label: const Text(
                           'Facebook',
@@ -574,14 +588,13 @@ class _SignInState extends State<SignIn> {
                     // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
                     child: SizedBox(
                       height: 50, // <-- Your height
+                      child:
+                      GestureDetector(
+                      onTap: (){
+                       // _handleSignIn();
+                      },
                       child: ElevatedButton.icon(
-                        icon: IconButton(
-                          icon: Image.asset('assets/icons/google.png'),
-                          iconSize: 0,
-                          onPressed: () {
-                              _handleSignIn();
-                          },
-                        ),
+                        icon: Image.asset('assets/icons/google.png'),
                         label: const Text(
                           'Google',
                           style: TextStyle(fontSize: 15.0, color: Colors.black),
@@ -596,7 +609,10 @@ class _SignInState extends State<SignIn> {
                               fontStyle: FontStyle.normal),
                           shape: const StadiumBorder(),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          _handleSignIn();
+                        },
+                      ),
                       ),
                     ),
                   ),

@@ -32,7 +32,7 @@ class _BodyState extends State<Body> {
                   'First Name',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -55,7 +55,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
@@ -63,7 +63,7 @@ class _BodyState extends State<Body> {
                   'Last Name',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -86,7 +86,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
@@ -94,7 +94,7 @@ class _BodyState extends State<Body> {
                   'Phone Number',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -118,7 +118,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
@@ -126,7 +126,7 @@ class _BodyState extends State<Body> {
                   'GST Number',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -146,7 +146,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
@@ -154,7 +154,7 @@ class _BodyState extends State<Body> {
                   'Street Address',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -180,7 +180,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
@@ -188,7 +188,7 @@ class _BodyState extends State<Body> {
                   'City',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -211,7 +211,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
@@ -219,7 +219,7 @@ class _BodyState extends State<Body> {
                   'State',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -242,7 +242,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
@@ -250,7 +250,7 @@ class _BodyState extends State<Body> {
                   'Zip/Postal Code',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -273,7 +273,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
@@ -281,7 +281,7 @@ class _BodyState extends State<Body> {
                   'Country',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                   ),
                 ),
               ),
@@ -304,7 +304,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
@@ -320,11 +320,13 @@ class _BodyState extends State<Body> {
                           borderRadius: BorderRadius.circular(55)),
                     ),
                     onPressed: () async {
-                      if (_formKey.currentState!.validate()) {}
+                      if (_formKey.currentState!.validate()) {
+
+                      }
                     },
                     child: const Text(
                       'Save Address',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                 ),

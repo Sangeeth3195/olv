@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/components/size_config.dart';
 
+import 'demo/btm.dart';
 import 'constants.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,8 +23,9 @@ class SplashScreenState extends State<SplashScreen> {
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => MainLayout())));
+                builder: (BuildContext context) => MainLayout()))); // BottomNavbar
   }
+
 
   @override
   Widget build(BuildContext context) {

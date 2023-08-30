@@ -14,10 +14,10 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
               Row(
@@ -34,7 +34,7 @@ class _BodyState extends State<Body> {
                     'Subscribe to Promotional Emails',
                     style: TextStyle(fontSize: 14.0),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
 
                 ],
               ),

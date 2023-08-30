@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omaliving/screens/recent_order/recentorder.dart';
 
 import '../../../constants.dart';
 
@@ -13,27 +14,28 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+          const SizedBox(height: 0),
+          /*const Padding(
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
             child: Text(
               'Delivery',
               style:
                   TextStyle(color: headingColor, fontWeight: FontWeight.bold),
             ),
-          ),
+          ),*/
+          const SizedBox(height: 0),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: SizedBox(
-              height: 200,
+              height: 170,
               child: Card(
                 color: const Color(0xFFFCF6FD),
                 borderOnForeground: true,
-                elevation: 5,
+                elevation: 2,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -90,12 +92,12 @@ class _BodyState extends State<Body> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Expanded(
+                          Expanded(
                             child: Text(
                               "26 June 2023",
                               style: TextStyle(
@@ -105,7 +107,7 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          const SizedBox(
+                          /*const SizedBox(
                             width: 4,
                           ),
                           OutlinedButton(
@@ -116,7 +118,7 @@ class _BodyState extends State<Body> {
                               shape: const StadiumBorder(),
                             ),
                             child: const Text('View Order'),
-                          )
+                          )*/
                         ],
                       ),
                     ),
@@ -130,7 +132,7 @@ class _BodyState extends State<Body> {
                         children: [
                           const Expanded(
                             child: Text(
-                              "10:00am | Home delivery",
+                              "Ship To : Mohamed Maideen",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -149,23 +151,36 @@ class _BodyState extends State<Body> {
                             onPressed: () {},
                             child: const Text(
                               "Reorder",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.white,fontSize: 13),
                             ),
                           ),
                           const SizedBox(
                             width: 4,
                           ),
-                          MaterialButton(
+                          /* MaterialButton(
                             color: headingColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
                             onPressed: () {},
                             child: const Text(
-                              "Track Order",
+                              "View Order",
                               style: TextStyle(color: Colors.white),
                             ),
-                          ),
+                          ),*/
+                          OutlinedButton(
+                            onPressed: () {
+
+                              Navigator.push(
+                                  context, MaterialPageRoute(builder: (context) => RecentOrders()));
+                            },
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                  width: 1.0, color: headingColor),
+                              shape: const StadiumBorder(),
+                            ),
+                            child: const Text('View Order',style: TextStyle(color: headingColor,fontSize: 13),),
+                          )
                         ],
                       ),
                     ),
@@ -178,13 +193,13 @@ class _BodyState extends State<Body> {
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: SizedBox(
-              height: 200,
+              height: 170,
               child: Card(
                 color: const Color(0xFFFCF6FD),
                 borderOnForeground: true,
-                elevation: 5,
+                elevation: 2,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -241,12 +256,12 @@ class _BodyState extends State<Body> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Expanded(
+                          Expanded(
                             child: Text(
                               "26 June 2023",
                               style: TextStyle(
@@ -256,7 +271,7 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          const SizedBox(
+                          /*const SizedBox(
                             width: 4,
                           ),
                           OutlinedButton(
@@ -267,7 +282,7 @@ class _BodyState extends State<Body> {
                               shape: const StadiumBorder(),
                             ),
                             child: const Text('View Order'),
-                          )
+                          )*/
                         ],
                       ),
                     ),
@@ -281,7 +296,7 @@ class _BodyState extends State<Body> {
                         children: [
                           const Expanded(
                             child: Text(
-                              "10:00am | Home delivery",
+                              "Ship To : Mohamed Maideen",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -300,23 +315,32 @@ class _BodyState extends State<Body> {
                             onPressed: () {},
                             child: const Text(
                               "Reorder",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.white,fontSize: 13),
                             ),
                           ),
                           const SizedBox(
                             width: 4,
                           ),
-                          MaterialButton(
+                          /* MaterialButton(
                             color: headingColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
                             onPressed: () {},
                             child: const Text(
-                              "Track Order",
+                              "View Order",
                               style: TextStyle(color: Colors.white),
                             ),
-                          ),
+                          ),*/
+                          OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                  width: 1.0, color: headingColor),
+                              shape: const StadiumBorder(),
+                            ),
+                            child: const Text('View Order',style: TextStyle(color: headingColor,fontSize: 13),),
+                          )
                         ],
                       ),
                     ),
@@ -329,13 +353,13 @@ class _BodyState extends State<Body> {
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: SizedBox(
-              height: 200,
+              height: 170,
               child: Card(
                 color: const Color(0xFFFCF6FD),
                 borderOnForeground: true,
-                elevation: 5,
+                elevation: 2,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -392,14 +416,14 @@ class _BodyState extends State<Body> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Expanded(
+                          Expanded(
                             child: Text(
-                              "26 June 20233",
+                              "26 June 2023",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -407,7 +431,7 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          const SizedBox(
+                          /*const SizedBox(
                             width: 4,
                           ),
                           OutlinedButton(
@@ -418,7 +442,7 @@ class _BodyState extends State<Body> {
                               shape: const StadiumBorder(),
                             ),
                             child: const Text('View Order'),
-                          )
+                          )*/
                         ],
                       ),
                     ),
@@ -432,7 +456,7 @@ class _BodyState extends State<Body> {
                         children: [
                           const Expanded(
                             child: Text(
-                              "10:00am | Home delivery",
+                              "Ship To : Mohamed Maideen",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -451,23 +475,32 @@ class _BodyState extends State<Body> {
                             onPressed: () {},
                             child: const Text(
                               "Reorder",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.white,fontSize: 13),
                             ),
                           ),
                           const SizedBox(
                             width: 4,
                           ),
-                          MaterialButton(
+                          /* MaterialButton(
                             color: headingColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
                             onPressed: () {},
                             child: const Text(
-                              "Track Order",
+                              "View Order",
                               style: TextStyle(color: Colors.white),
                             ),
-                          ),
+                          ),*/
+                          OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                  width: 1.0, color: headingColor),
+                              shape: const StadiumBorder(),
+                            ),
+                            child: const Text('View Order',style: TextStyle(color: headingColor,fontSize: 13),),
+                          )
                         ],
                       ),
                     ),
@@ -480,13 +513,13 @@ class _BodyState extends State<Body> {
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: SizedBox(
-              height: 200,
+              height: 170,
               child: Card(
                 color: const Color(0xFFFCF6FD),
                 borderOnForeground: true,
-                elevation: 5,
+                elevation: 2,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -543,12 +576,12 @@ class _BodyState extends State<Body> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Expanded(
+                          Expanded(
                             child: Text(
                               "26 June 2023",
                               style: TextStyle(
@@ -558,7 +591,7 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          const SizedBox(
+                          /*const SizedBox(
                             width: 4,
                           ),
                           OutlinedButton(
@@ -569,7 +602,7 @@ class _BodyState extends State<Body> {
                               shape: const StadiumBorder(),
                             ),
                             child: const Text('View Order'),
-                          )
+                          )*/
                         ],
                       ),
                     ),
@@ -583,7 +616,7 @@ class _BodyState extends State<Body> {
                         children: [
                           const Expanded(
                             child: Text(
-                              "10:00am | Home delivery",
+                              "Ship To : Mohamed Maideen",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -602,23 +635,32 @@ class _BodyState extends State<Body> {
                             onPressed: () {},
                             child: const Text(
                               "Reorder",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.white,fontSize: 13),
                             ),
                           ),
                           const SizedBox(
                             width: 4,
                           ),
-                          MaterialButton(
+                          /* MaterialButton(
                             color: headingColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
                             onPressed: () {},
                             child: const Text(
-                              "Track Order",
+                              "View Order",
                               style: TextStyle(color: Colors.white),
                             ),
-                          ),
+                          ),*/
+                          OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                  width: 1.0, color: headingColor),
+                              shape: const StadiumBorder(),
+                            ),
+                            child: const Text('View Order',style: TextStyle(color: headingColor,fontSize: 13),),
+                          )
                         ],
                       ),
                     ),
@@ -631,13 +673,13 @@ class _BodyState extends State<Body> {
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: SizedBox(
-              height: 200,
+              height: 170,
               child: Card(
                 color: const Color(0xFFFCF6FD),
                 borderOnForeground: true,
-                elevation: 5,
+                elevation: 2,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -694,12 +736,12 @@ class _BodyState extends State<Body> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Expanded(
+                          Expanded(
                             child: Text(
                               "26 June 2023",
                               style: TextStyle(
@@ -709,7 +751,7 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          const SizedBox(
+                          /*const SizedBox(
                             width: 4,
                           ),
                           OutlinedButton(
@@ -720,7 +762,7 @@ class _BodyState extends State<Body> {
                               shape: const StadiumBorder(),
                             ),
                             child: const Text('View Order'),
-                          )
+                          )*/
                         ],
                       ),
                     ),
@@ -734,7 +776,7 @@ class _BodyState extends State<Body> {
                         children: [
                           const Expanded(
                             child: Text(
-                              "10:00am | Home delivery",
+                              "Ship To : Mohamed Maideen",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -753,23 +795,32 @@ class _BodyState extends State<Body> {
                             onPressed: () {},
                             child: const Text(
                               "Reorder",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.white,fontSize: 13),
                             ),
                           ),
                           const SizedBox(
                             width: 4,
                           ),
-                          MaterialButton(
+                          /* MaterialButton(
                             color: headingColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
                             onPressed: () {},
                             child: const Text(
-                              "Track Order",
+                              "View Order",
                               style: TextStyle(color: Colors.white),
                             ),
-                          ),
+                          ),*/
+                          OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                  width: 1.0, color: headingColor),
+                              shape: const StadiumBorder(),
+                            ),
+                            child: const Text('View Order',style: TextStyle(color: headingColor,fontSize: 13),),
+                          )
                         ],
                       ),
                     ),
