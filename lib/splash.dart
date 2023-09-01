@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/components/size_config.dart';
+import 'package:omaliving/screens/settings/settings.dart';
+import 'package:omaliving/screens/wishlist/wishlist.dart';
 
 import 'demo/btm.dart';
 import 'constants.dart';
@@ -23,9 +25,9 @@ class SplashScreenState extends State<SplashScreen> {
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => MainLayout()))); // BottomNavbar
+                builder: (BuildContext context) =>
+                    Settings()))); // BottomNavbar
   }
-
 
   @override
   Widget build(BuildContext context) {

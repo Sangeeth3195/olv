@@ -4,12 +4,20 @@ import 'package:omaliving/screens/order_success/OrderSuccess.dart';
 import 'package:omaliving/screens/settings/components/settings_menu.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../API Services/graphql_service.dart';
 import '../../order_summary/ordersummary.dart';
 import '../../webview/WebView.dart';
 import '../../webview/WebViewGQL.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({super.key});
+
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  GraphQLService graphQLService = GraphQLService();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +33,8 @@ class Body extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebViewGraphql())),
+                      builder: (context) => const CommonWebViewGraphql(
+                          url: 'about-us', title: 'About Us'))),
             },
           ),
           const Padding(
@@ -42,9 +51,8 @@ class Body extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebView(
-                          url: "https://www.omaliving.com/a-life-of-beauty",
-                          title: "A Life of Beauty")));
+                      builder: (context) => const CommonWebViewGraphql(
+                          url: 'a-life-of-beauty', title: 'A Life of Beauty')));
             },
           ),
           const Padding(
@@ -61,9 +69,9 @@ class Body extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebView(
-                          url: "https://www.omaliving.com/shipping-payment",
-                          title: "Shipping & Payment")));
+                      builder: (context) => const CommonWebViewGraphql(
+                          url: 'shipping-payment',
+                          title: 'Shipping & Payment')));
             },
           ),
           const Padding(
@@ -80,9 +88,9 @@ class Body extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebView(
-                          url: "https://www.omaliving.com/returns-exchanges",
-                          title: "Returns & Exchanges")));
+                      builder: (context) => const CommonWebViewGraphql(
+                          url: 'returns-exchanges',
+                          title: 'Returns & Exchanges')));
             },
           ),
           const Padding(
@@ -99,9 +107,8 @@ class Body extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebView(
-                          url: "https://www.omaliving.com/terms-of-use",
-                          title: "Terms of Use")));
+                      builder: (context) => const CommonWebViewGraphql(
+                          url: 'terms-of-use', title: 'Terms of Use')));
             },
           ),
           const Padding(
@@ -118,9 +125,8 @@ class Body extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebView(
-                          url: "https://www.omaliving.com/privacy-policy",
-                          title: "Privacy Policy")));
+                      builder: (context) => const CommonWebViewGraphql(
+                          url: 'privacy-policy', title: 'Privacy Policy')));
             },
           ),
           const Padding(
@@ -133,7 +139,7 @@ class Body extends StatelessWidget {
           SettingsMenu(
             text: "Logout",
             icon: Icons.logout_rounded,
-            press: () {
+            press: () async {
               Navigator.push(
                   context,
                   MaterialPageRoute(

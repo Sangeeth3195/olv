@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -1070,67 +1071,6 @@ class GraphQLService {
     }
   }
 
-  /// subscribe newsletter
-  static String sub_email(String email) {
-    return '''
-            mutation {
-                subscribeEmailToNewsletter(
-                  email: "$email"
-                ) {
-                  status
-                }
-              }
-        ''';
-  }
-
-  Future<String> subscribe_email(String email) async {
-    try {
-      QueryResult result = await client.mutate(
-        MutationOptions(
-          document: gql(sub_email(email)),
-        ),
-      );
-      if (result.hasException) {
-        print(result.exception?.graphqlErrors[0].message);
-      } else if (result.data != null) {
-        //  parse your response here and return
-        // var data = User.fromJson(result.data["register"]);
-      }
-      return "";
-    } catch (e) {
-      print(e);
-      return "";
-    }
-  }
-
-  /// revoke Customer Token
-  static String rev_cus_token() {
-    return '''
-            mutation {
-              revokeCustomerToken {
-                result
-              }
-            }
-        ''';
-  }
-
-  Future<String> revokeCustomerToken() async {
-    try {
-      QueryResult result = await client.mutate(
-        MutationOptions(
-          document: gql(rev_cus_token()),
-        ),
-      );
-      if (result.hasException) {
-        print(result.exception?.graphqlErrors[0].message);
-      } else if (result.data != null) {}
-      return "";
-    } catch (e) {
-      print(e);
-      return "";
-    }
-  }
-
   /// Add Customer address
   static String add_cus_add(String firstname, String lastname, String email,
       String password, bool isSubcribed) {
@@ -1671,7 +1611,7 @@ class GraphQLService {
   }
 
   /// Revoke Customer Token
-  Future<List<dynamic>> revokeuser() async {
+  Future<String> revokeuser() async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -1687,23 +1627,21 @@ class GraphQLService {
       );
 
       if (result.hasException) {
-        throw Exception(result.exception);
-      } else {
-        List? res = result.data?[''];
-
-        if (res == null || res.isEmpty) {
-          return [];
+        if (kDebugMode) {
+          print(result.exception?.graphqlErrors[0].message);
         }
-
-        return res.first[''];
+      } else if (result.data != null) {}
+      return "";
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
       }
-    } catch (error) {
-      return [];
+      return "";
     }
   }
 
   /// Custom Web view
-  Future<List<dynamic>> getcustomwebview(String value) async {
+  Future<Object> getcustomwebview(String value) async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -1729,18 +1667,71 @@ class GraphQLService {
       if (result.hasException) {
         throw Exception(result.exception);
       } else {
-        List? res = result.data?[''];
-
-        if (res == null || res.isEmpty) {
-          return [];
-        }
-
-        return res.first[''];
+        return result;
       }
     } catch (error) {
       return [];
     }
   }
 
+  /// subscribe to news letter
+  static String sub_email(String email) {
+    return '''
+            mutation {
+                subscribeEmailToNewsletter(
+                  email: "$email"
+                ) {
+                  status
+                }
+              }
+        ''';
+  }
 
+  Future<String> subscribenewsletter(String email) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(sub_email(email)),
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        //  parse your response here and return
+        // var data = User.fromJson(result.data["register"]);
+      }
+      return "";
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return "";
+    }
+  }
+
+  /// Unsubscribe to news letter
+  Future<Object> unsubscribenewsletter(String value) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           mutation {
+              unsubscribeEmailToNewsletter(email: "$value") {
+                status
+              }
+            }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        return result;
+      }
+    } catch (error) {
+      return [];
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -40,7 +41,6 @@ class _BodyState extends State<Body> {
     setState(() {});
 
     print('wishList --> ${wishList.length}');
-
   }
 
   @override
@@ -52,14 +52,14 @@ class _BodyState extends State<Body> {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 0.75),
         itemBuilder: (context, position) {
-          return gridItem(context, position,imageList[position]);
+          return gridItem(context, position, imageList[position]);
         },
         itemCount: imageList.length,
       ),
     );
   }
 
- /* gridItem(BuildContext context, int position, wishList) {
+  /* gridItem(BuildContext context, int position, wishList) {
     return GestureDetector(
       onTap: () {
 
@@ -103,50 +103,67 @@ class _BodyState extends State<Body> {
   gridItem(BuildContext context, int position, wishList) {
     return GestureDetector(
       onTap: () {
-
         // print(wishList.product[0]['media_gallery'][0]);
-        print(wishList);
-
+        if (kDebugMode) {
+          print(wishList);
+        }
       },
       child: Padding(
-        padding: EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5.0),
         child: InkResponse(
-            onTap: () {
-
-            },
+            onTap: () {},
             child: Material(
               child: Container(
-                  height: 380.0,
-                  padding: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(5.0),
+                  decoration: const BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                       boxShadow: [
                         BoxShadow(color: Colors.black12, blurRadius: 8.0)
                       ]),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Container(
-                        height: 120.0,
-                        child: Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  child: Image(
-                                    image: NetworkImage(imageList[position]),
-                                    fit: BoxFit.contain,
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(5.0),
+                          decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Color(0xFFF6F7F9),
+                              shape: BoxShape.rectangle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black12, blurRadius: 8.0)
+                              ]),
+                          child: SizedBox(
+                            height: 150.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Image(
+                                      image: NetworkImage(imageList[position]),
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Icon(
-                                Icons.favorite_border,
-                                size: 20.0,
-                              ),
-                              /*Container(
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (kDebugMode) {
+                                        print('click');
+                                      }
+                                    },
+                                    child: const Icon(
+                                      Icons.favorite,
+                                      color: Color(0xFFF4597D),
+                                      size: 22.0,
+                                    ),
+                                  ),
+                                  /*Container(
                                 child: item.fav
                                     ? Icon(
                                   Icons.favorite,
@@ -158,17 +175,19 @@ class _BodyState extends State<Body> {
                                   size: 20.0,
                                 ),
                               )*/
-                            ],
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10.0,
+                      const SizedBox(
+                        height: 15.0,
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 10.0),
                         child: Text(
-                          "{item.name'}",
+                          'ZENITH Chandelier',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 15.0,
@@ -177,7 +196,10 @@ class _BodyState extends State<Body> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Padding(
+                      const SizedBox(
+                        height: 15.0,
+                      ),
+                      const Padding(
                         padding: EdgeInsets.only(left: 10.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -185,7 +207,7 @@ class _BodyState extends State<Body> {
                             Padding(
                               padding: EdgeInsets.only(right: 10.0),
                               child: Text(
-                                "\$${'8525'}",
+                                '₹ 2,595',
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                             )
