@@ -18,6 +18,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   GraphQLService graphQLService = GraphQLService();
+  dynamic revokeloggedinuser = [];
 
   @override
   Widget build(BuildContext context) {
@@ -140,10 +141,15 @@ class _BodyState extends State<Body> {
             text: "Logout",
             icon: Icons.logout_rounded,
             press: () async {
-              Navigator.push(
+
+
+              revokeloggedinuser = await graphQLService.revokeuser();
+
+
+              /* Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => const OrderSuccess()));
+                      builder: (BuildContext context) => const OrderSuccess()));*/
             },
           ),
           const SizedBox(

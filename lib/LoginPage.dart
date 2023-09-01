@@ -457,7 +457,7 @@ class _SignInState extends State<SignIn> {
                     graphQLService.Login(
                         loginEmailController.text.toString(),
                         loginPasswordController.text.toString(),
-                        context); //'maideen.i@gmail.com', 'Magento@123'
+                        context);
                   }
                 },
                 child: const Text('Login'),

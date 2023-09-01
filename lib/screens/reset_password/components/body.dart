@@ -5,8 +5,16 @@ import '../../../components/no_account_text.dart';
 import '../../../constants.dart';
 import '../../../components/size_config.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({super.key});
+
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+
+  GraphQLService graphQLService = GraphQLService();
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +191,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                 top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(45),
+                minimumSize: const Size.fromHeight(50),
                 backgroundColor: themecolor,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -191,7 +199,11 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  graphQLService.resetpassword('sangeeth@gmail.com',context);
+
+                  print(confrmnewpasswordController.text);
+
+                  graphQLService.resetpassword(confrmnewpasswordController.text.toString(),context);
+
                 }
               },
               child: const Text('Submit'),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:omaliving/components/default_button.dart';
 
+import '../../../API Services/graphql_service.dart';
+
 class Body extends StatefulWidget {
   const Body({super.key});
 
@@ -9,7 +11,10 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  bool value = false;
+
+  GraphQLService graphQLService = GraphQLService();
+
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +28,12 @@ class _BodyState extends State<Body> {
               Row(
                 children: <Widget>[
                   Checkbox(
-                    value: value,
-                    onChanged: (value) {
+                    checkColor: Colors.white,
+                    value: isChecked,
+                    onChanged: (bool? value) {
                       setState(() {
-                        value = value;
+                        isChecked = value!;
+                        print(isChecked);
                       });
                     },
                   ),
@@ -45,6 +52,9 @@ class _BodyState extends State<Body> {
                   text: 'Save',
                   press: () {
 
+                    print(isChecked);
+
+                    graphQLService.subscribenewsletter('');
 
                   },
                 ),
@@ -56,4 +66,13 @@ class _BodyState extends State<Body> {
       ), //Card
     );
   }
+
+  void checkBoxCallBack(bool? checkBoxState) {
+    if (checkBoxState != null) {
+      setState(() {
+        isChecked = checkBoxState ?? true;
+      });
+    }
+  }
+
 }
