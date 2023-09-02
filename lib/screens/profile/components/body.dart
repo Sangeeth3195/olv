@@ -13,7 +13,7 @@ class Body extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
-          const ProfilePic(),
+          // const ProfilePic(),
           const SizedBox(height: 20),
           pmenu.ProfileMenu(
             text: "Account",

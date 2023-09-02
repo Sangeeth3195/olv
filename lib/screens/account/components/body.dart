@@ -1,6 +1,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:omaliving/models/CustomerModel.dart';
 
 import '../../../API Services/graphql_service.dart';
 import '../../../constants.dart';
@@ -20,6 +22,7 @@ class _BodyState extends State<Body> {
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  CustomerModel customerModel = CustomerModel();
 
   @override
   void initState() {
@@ -29,9 +32,20 @@ class _BodyState extends State<Body> {
   }
 
   void getuserdata() async {
-    navHeaderList = await graphQLService.getcustomeraddresslist(limit: 100);
-    setState(() {});
+    // navHeaderList = await graphQLService.getcustomeraddresslist(limit: 100);
+    // setState(() {});
+    customerModel = await graphQLService.get_customer_details();
+
+    print(customerModel.customer?.addresses?.length);
+    setState(() {
+
+      _firstnameController.text=customerModel.customer?.firstname??'';
+      _lastnameController.text=customerModel.customer?.lastname??'';
+      _emailController.text=customerModel.customer?.email??'';
+    });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +56,14 @@ class _BodyState extends State<Body> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ListTile(
+             ListTile(
               leading: CircleAvatar(
                 radius: 40,
                 backgroundImage: NetworkImage(
                     'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
               ),
               title: Text(
-                //TODO: take from profile info
-                'Matilda Brown',
+                customerModel?.customer?.firstname??'',
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
@@ -58,7 +71,7 @@ class _BodyState extends State<Body> {
               ),
               subtitle: Text(
                 //TODO: take from profile info
-                'matildabrown@gmail.com',
+                customerModel?.customer?.email??'',
                 style:
                     TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
               ),
@@ -165,10 +178,25 @@ class _BodyState extends State<Body> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: InkWell(
-                onTap: () {
+                onTap: () async{
                   if (_formKey.currentState!.validate()) {
                     /*graphQLService.Login(loginEmailController.text.toString(),
                         loginPasswordController.text.toString(), context);*/
+
+                    if (_formKey.currentState!.validate()) {
+                      String result;
+
+                      result= await  graphQLService.update_customer_details_api(firstname: _firstnameController.text, lastname: _lastnameController.text, email: _emailController.text, isSubscribed: false);
+
+                      if(result=="200"){
+                        Navigator.of(context).pop();
+                        Fluttertoast.showToast(msg: "Address Added Successfully");
+                      }else{
+                        Fluttertoast.showToast(msg: "Address Added Failed");
+
+                      }
+                    }
+
                   }
                 },
                 child: Container(

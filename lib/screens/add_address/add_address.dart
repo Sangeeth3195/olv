@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../models/CustomerModel.dart';
 import 'components/body.dart';
 
 class AddAddress extends StatelessWidget {
   static String routeName = "/addaddress";
 
   const AddAddress({super.key});
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +22,7 @@ class AddAddress extends StatelessWidget {
           style: TextStyle(color: Colors.black,fontSize: 16),
         ),
       ),
-      body: const Body(),
+      body:  Body( arguments: ModalRoute.of(context)!.settings.arguments as Address?,),
     );
   }
 }

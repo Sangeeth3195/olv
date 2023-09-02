@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:omaliving/constants.dart';
+import 'package:omaliving/models/CustomerModel.dart';
 
 import '../../../API Services/graphql_service.dart';
 
@@ -13,26 +14,42 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   GraphQLService graphQLService = GraphQLService();
 
+  CustomerModel customerModel = CustomerModel();
+
   @override
   void initState() {
     super.initState();
-    graphQLService.get_customer_details();
+    getData();
+  }
+
+  void getData() async {
+    customerModel = await graphQLService.get_customer_details();
+
+    print(customerModel.customer?.addresses?.length);
+    setState(() {
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView(
-        padding: const EdgeInsets.all(10),
-        children: const <Widget>[
-          ListTile(
+      body: ListView.builder(
+        itemCount: customerModel.customer?.addresses?.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            onTap: (){
+              Navigator.of(context, rootNavigator: true).pushNamed("/addaddress",arguments: customerModel.customer?.addresses?[index]).then((value) => ({
+                getData()
+              }));
+            },
             title: Text(
-              'Home',
+              customerModel.customer?.addresses?[index].firstname??'',
               style: TextStyle(fontSize: 14),
             ),
             subtitle: Text(
-              '#123, Lorem Ipsum, Mumbai',
+              customerModel.customer?.addresses?[index].street?.first??'',
               style: TextStyle(fontSize: 13),
             ),
             trailing: SizedBox(
@@ -54,68 +71,8 @@ class _BodyState extends State<Body> {
                 ),
               ),
             ),
-          ),
-          Divider(),
-          ListTile(
-            title: Text(
-              'Home',
-              style: TextStyle(fontSize: 14),
-            ),
-            subtitle: Text(
-              '#123, Lorem Ipsum, Mumbai',
-              style: TextStyle(fontSize: 13),
-            ),
-            trailing: SizedBox(
-              width: 46,
-              child: Expanded(
-                // Place `Expanded` inside `Row`
-                child: Row(
-                  children: [
-                    Text(
-                      'Edit |',
-                      style: TextStyle(color: Colors.black, fontSize: 12),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_outlined,
-                      size: 14,
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Divider(),
-          ListTile(
-            title: Text(
-              'Home',
-              style: TextStyle(fontSize: 14),
-            ),
-            subtitle: Text(
-              '#123, Lorem Ipsum, Mumbai',
-              style: TextStyle(fontSize: 13),
-            ),
-            trailing: SizedBox(
-              width: 46,
-              child: Expanded(
-                // Place `Expanded` inside `Row`
-                child: Row(
-                  children: [
-                    Text(
-                      'Edit |',
-                      style: TextStyle(color: Colors.black, fontSize: 12),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_outlined,
-                      size: 14,
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -24,6 +24,7 @@ class _LoginPageState extends State<LoginPage>
   late PageController _pageController;
   int activePageIndex = 0;
 
+
   @override
   void dispose() {
     _pageController.dispose();
@@ -249,8 +250,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  TextEditingController loginEmailController = TextEditingController();
-  TextEditingController loginPasswordController = TextEditingController();
+  TextEditingController loginEmailController = TextEditingController(text: 'testsk3195@gmail.com');
+  TextEditingController loginPasswordController = TextEditingController(text: 'Letmesee@2023');
   bool passwordVisible = false;
 
   final FocusNode focusNodeEmail = FocusNode();

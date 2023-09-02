@@ -26,6 +26,8 @@ class MyProvider extends ChangeNotifier {
   bool isDetailScreen=false;
   bool isproduct=false;
 
+
+
   void updateHeader(String header){
     title=header;
     notifyListeners();
