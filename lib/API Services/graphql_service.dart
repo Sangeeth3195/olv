@@ -1404,6 +1404,9 @@ class GraphQLService {
                 lastname
                 suffix
                 email
+                wishlists{
+                    id
+                }
                 addresses {
                     id
                   firstname
@@ -1419,6 +1422,43 @@ class GraphQLService {
                   telephone
                   default_shipping
                   default_billing
+                }
+                 wishlist {
+                  items_count
+                  sharing_code
+                  updated_at
+                  items {
+                    id
+                    qty
+                    description
+                    added_at
+                    product {
+                      sku
+                      name
+                      ... on BundleProduct {
+                        sku
+                        dynamic_sku
+                      }
+                      ... on ConfigurableProduct {
+                        sku
+                        configurable_options {
+                          id
+                          attribute_id_v2
+                          attribute_code
+                          label
+                          __typename
+                          use_default
+                          values {
+                            store_label
+                            swatch_data {
+                              value
+                            }
+                            use_default_value
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
