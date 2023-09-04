@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:omaliving/models/CustomerModel.dart';
 
 import '../../../API Services/graphql_service.dart';
 import '../../../components/size_config.dart';
@@ -18,6 +19,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> wishList = [];
+  CustomerModel customerModel = CustomerModel();
+
 
   final List<String> imageList = [
     "https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI002927_3.png",
@@ -33,11 +36,23 @@ class _BodyState extends State<Body> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getwishlistdata();
+    // getwishlistdata();
+    getuserdata();
+
+  }
+  void getuserdata() async {
+    // navHeaderList = await graphQLService.getcustomeraddresslist(limit: 100);
+    // setState(() {});
+    customerModel = await graphQLService.get_customer_details();
+
+    print(customerModel.customer?.addresses?.length);
+    setState(() {
+    });
   }
 
   void getwishlistdata() async {
-    wishList = await graphQLService.getWishlist();
+    // wishList = await graphQLService.getWishlist();
+
     setState(() {});
 
     print('wishList --> ${wishList.length}');
@@ -46,16 +61,16 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return (customerModel.customer==null||customerModel.customer!.wishlist==null|| customerModel.customer!.wishlist!.items==null)?Center(child: CircularProgressIndicator()):Container(
       color: Colors.grey.shade100,
-      margin: const EdgeInsets.only(bottom: 5, left: 5, right: 5, top: 5),
+      margin: const EdgeInsets.only(bottom: 55, left: 5, right: 5, top: 5),
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 0.75),
         itemBuilder: (context, position) {
-          return gridItem(context, position, imageList[position]);
+          return gridItem(context, position, customerModel.customer!.wishlist!.items![position]);
         },
-        itemCount: imageList.length,
+        itemCount: customerModel.customer!.wishlist!.items!.length,
       ),
     );
   }
@@ -148,7 +163,7 @@ class _BodyState extends State<Body> {
                                 children: <Widget>[
                                   Expanded(
                                     child: Image(
-                                      image: NetworkImage(imageList[position]),
+                                      image: NetworkImage(customerModel.customer!.wishlist!.items![position].product!.mediaGallery![0].url.toString()),
                                       fit: BoxFit.contain,
                                     ),
                                   ),
@@ -185,10 +200,10 @@ class _BodyState extends State<Body> {
                       const SizedBox(
                         height: 15.0,
                       ),
-                      const Padding(
+                       Padding(
                         padding: EdgeInsets.only(left: 10.0),
                         child: Text(
-                          'ZENITH Chandelier',
+                          customerModel.customer!.wishlist!.items![position].product!.name??'',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 15.0,
@@ -200,7 +215,7 @@ class _BodyState extends State<Body> {
                       const SizedBox(
                         height: 15.0,
                       ),
-                      const Padding(
+                       Padding(
                         padding: EdgeInsets.only(left: 10.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -208,7 +223,7 @@ class _BodyState extends State<Body> {
                             Padding(
                               padding: EdgeInsets.only(right: 10.0),
                               child: Text(
-                                '₹ 2,595',
+                                "₹ ${customerModel.customer!.wishlist!.items![position].product!.priceRange!.minimumPrice!.regularPrice!.value.toString()}",
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                             )

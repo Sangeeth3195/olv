@@ -1369,41 +1369,34 @@ class _AnimatedNavBarState extends State<AnimatedNavBar>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: animation,
-        builder: (BuildContext context, Widget? child) {
-          return Transform.translate(
-            offset: Offset(0, animation.value),
-            child: Container(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 12,
-                  spreadRadius: 2,
-                  offset: const Offset(2, -2),
-                ),
-              ]),
-              child: BottomNavigationBar(
-                type: BottomNavigationBarType.shifting,
-                currentIndex: widget.model.index,
-                onTap: (x) {
-                  widget.onItemTapped(x);
-                },
-                elevation: 0.0,
-                showUnselectedLabels: true,
-                unselectedItemColor: Colors.grey.shade500,
-                selectedItemColor: themecolor,
-                items: widget.menuItems
-                    .map((MenuItem menuItem) => BottomNavigationBarItem(
-                          backgroundColor: Colors.white,
-                          icon: Icon(menuItem.iconData),
-                          label: menuItem.text,
-                        ))
-                    .toList(),
-              ),
-            ),
-          );
-        });
+    return Container(
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.2),
+          blurRadius: 12,
+          spreadRadius: 2,
+          offset: const Offset(2, -2),
+        ),
+      ]),
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        currentIndex: widget.model.index,
+        onTap: (x) {
+          widget.onItemTapped(x);
+        },
+        elevation: 0.0,
+        showUnselectedLabels: true,
+        unselectedItemColor: Colors.grey.shade500,
+        selectedItemColor: themecolor,
+        items: widget.menuItems
+            .map((MenuItem menuItem) => BottomNavigationBarItem(
+                  backgroundColor: Colors.white,
+                  icon: Icon(menuItem.iconData),
+                  label: menuItem.text,
+                ))
+            .toList(),
+      ),
+    );
   }
 }
 

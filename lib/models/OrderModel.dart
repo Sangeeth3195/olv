@@ -1,277 +1,435 @@
+// To parse this JSON data, do
+//
+//     final orderModel = orderModelFromJson(jsonString);
 
 import 'dart:convert';
 
-OrdersModel customerModelFromJson(String str) => OrdersModel.fromJson(json.decode(str));
+OrderModel orderModelFromJson(String str) => OrderModel.fromJson(json.decode(str));
 
-String customerModelToJson(OrdersModel data) => json.encode(data.toJson());
+String orderModelToJson(OrderModel data) => json.encode(data.toJson());
 
-class OrdersModel {
+class OrderModel {
   String? typename;
-  Data? data;
-
-  OrdersModel({
-    this.typename,this.data});
-
-  OrdersModel.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
   Customer? customer;
 
-  Data({this.customer});
+  OrderModel({
+    this.typename,
+    this.customer,
+  });
 
-  Data.fromJson(Map<String, dynamic> json) {
-    customer = json['customer'] != null
-        ? Customer.fromJson(json['customer'])
-        : null;
-  }
+  factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
+    typename: json["__typename"],
+    customer: json["customer"] == null ? null : Customer.fromJson(json["customer"]),
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (customer != null) {
-      data['customer'] = customer!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "__typename": typename,
+    "customer": customer?.toJson(),
+  };
 }
 
 class Customer {
+  String? typename;
   Orders? orders;
 
-  Customer({this.orders});
+  Customer({
+    this.typename,
+    this.orders,
+  });
 
-  Customer.fromJson(Map<String, dynamic> json) {
-    orders =
-    json['orders'] != null ? Orders.fromJson(json['orders']) : null;
-  }
+  factory Customer.fromJson(Map<String, dynamic> json) => Customer(
+    typename: json["__typename"],
+    orders: json["orders"] == null ? null : Orders.fromJson(json["orders"]),
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (orders != null) {
-      data['orders'] = orders!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "__typename": typename,
+    "orders": orders?.toJson(),
+  };
 }
 
 class Orders {
-  List<Items>? items;
+  String? typename;
+  List<OrdersItem>? items;
 
-  Orders({this.items});
+  Orders({
+    this.typename,
+    this.items,
+  });
 
-  Orders.fromJson(Map<String, dynamic> json) {
-    if (json['items'] != null) {
-      items = <Items>[];
-      json['items'].forEach((v) {
-        items!.add(Items.fromJson(v));
-      });
-    }
-  }
+  factory Orders.fromJson(Map<String, dynamic> json) => Orders(
+    typename: json["__typename"],
+    items: json["items"] == null ? [] : List<OrdersItem>.from(json["items"]!.map((x) => OrdersItem.fromJson(x))),
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (items != null) {
-      data['items'] = items!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "__typename": typename,
+    "items": items == null ? [] : List<dynamic>.from(items!.map((x) => x.toJson())),
+  };
 }
 
-class Items {
+class OrdersItem {
+  PurpleTypename? typename;
   String? id;
   String? orderNumber;
   String? status;
   String? shippingMethod;
-  List<PaymentMethods>? paymentMethods;
-  ShippingAddress? shippingAddress;
-  ShippingAddress? billingAddress;
-  List<Items>? items;
-  String? orderDate;
+  List<PaymentMethod>? paymentMethods;
+  IngAddress? shippingAddress;
+  IngAddress? billingAddress;
+  List<ItemItem>? items;
+  DateTime? orderDate;
   Total? total;
 
-  Items(
-      {this.id,
-        this.orderNumber,
-        this.status,
-        this.shippingMethod,
-        this.paymentMethods,
-        this.shippingAddress,
-        this.billingAddress,
-        this.items,
-        this.orderDate,
-        this.total});
+  OrdersItem({
+    this.typename,
+    this.id,
+    this.orderNumber,
+    this.status,
+    this.shippingMethod,
+    this.paymentMethods,
+    this.shippingAddress,
+    this.billingAddress,
+    this.items,
+    this.orderDate,
+    this.total,
+  });
 
-  Items.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    orderNumber = json['order_number'];
-    status = json['status'];
-    shippingMethod = json['shipping_method'];
-    if (json['payment_methods'] != null) {
-      paymentMethods = <PaymentMethods>[];
-      json['payment_methods'].forEach((v) {
-        paymentMethods!.add(PaymentMethods.fromJson(v));
-      });
-    }
-    shippingAddress = json['shipping_address'] != null
-        ? ShippingAddress.fromJson(json['shipping_address'])
-        : null;
-    billingAddress = json['billing_address'] != null
-        ? ShippingAddress.fromJson(json['billing_address'])
-        : null;
-    if (json['items'] != null) {
-      items = <Items>[];
-      json['items'].forEach((v) {
-        items!.add(Items.fromJson(v));
-      });
-    }
-    orderDate = json['order_date'];
-    total = json['total'] != null ? Total.fromJson(json['total']) : null;
-  }
+  factory OrdersItem.fromJson(Map<String, dynamic> json) => OrdersItem(
+    typename: purpleTypenameValues.map[json["__typename"]]!,
+    id: json["id"],
+    orderNumber: json["order_number"],
+    status: json["status"]!,
+    shippingMethod: json["shipping_method"]!,
+    paymentMethods: json["payment_methods"] == null ? [] : List<PaymentMethod>.from(json["payment_methods"]!.map((x) => PaymentMethod.fromJson(x))),
+    shippingAddress: json["shipping_address"] == null ? null : IngAddress.fromJson(json["shipping_address"]),
+    billingAddress: json["billing_address"] == null ? null : IngAddress.fromJson(json["billing_address"]),
+    items: json["items"] == null ? [] : List<ItemItem>.from(json["items"]!.map((x) => ItemItem.fromJson(x))),
+    orderDate: json["order_date"] == null ? null : DateTime.parse(json["order_date"]),
+    total: json["total"] == null ? null : Total.fromJson(json["total"]),
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['order_number'] = orderNumber;
-    data['status'] = status;
-    data['shipping_method'] = shippingMethod;
-    if (paymentMethods != null) {
-      data['payment_methods'] =
-          paymentMethods!.map((v) => v.toJson()).toList();
-    }
-    if (shippingAddress != null) {
-      data['shipping_address'] = shippingAddress!.toJson();
-    }
-    if (billingAddress != null) {
-      data['billing_address'] = billingAddress!.toJson();
-    }
-    if (items != null) {
-      data['items'] = items!.map((v) => v.toJson()).toList();
-    }
-    data['order_date'] = orderDate;
-    if (total != null) {
-      data['total'] = total!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "__typename": purpleTypenameValues.reverse[typename],
+    "id": id,
+    "order_number": orderNumber,
+    "status": statusValues.reverse[status],
+    "shipping_method": shippingMethodValues.reverse[shippingMethod],
+    "payment_methods": paymentMethods == null ? [] : List<dynamic>.from(paymentMethods!.map((x) => x.toJson())),
+    "shipping_address": shippingAddress?.toJson(),
+    "billing_address": billingAddress?.toJson(),
+    "items": items == null ? [] : List<dynamic>.from(items!.map((x) => x.toJson())),
+    "order_date": orderDate?.toIso8601String(),
+    "total": total?.toJson(),
+  };
 }
 
-class PaymentMethods {
-  String? name;
-
-  PaymentMethods({this.name});
-
-  PaymentMethods.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    return data;
-  }
-}
-
-class ShippingAddress {
+class IngAddress {
+  BillingAddressTypename? typename;
   String? firstname;
   String? lastname;
   List<String>? street;
-  String? city;
+  City? city;
   String? telephone;
-  String? region;
+  Region? region;
   String? postcode;
 
-  ShippingAddress(
-      {this.firstname,
-        this.lastname,
-        this.street,
-        this.city,
-        this.telephone,
-        this.region,
-        this.postcode});
+  IngAddress({
+    this.typename,
+    this.firstname,
+    this.lastname,
+    this.street,
+    this.city,
+    this.telephone,
+    this.region,
+    this.postcode,
+  });
 
-  ShippingAddress.fromJson(Map<String, dynamic> json) {
-    firstname = json['firstname'];
-    lastname = json['lastname'];
-    street = json['street'].cast<String>();
-    city = json['city'];
-    telephone = json['telephone'];
-    region = json['region'];
-    postcode = json['postcode'];
-  }
+  factory IngAddress.fromJson(Map<String, dynamic> json) => IngAddress(
+    typename: billingAddressTypenameValues.map[json["__typename"]]!,
+    firstname: json["firstname"]!,
+    lastname: json["lastname"]!,
+    street: json["street"] == null ? [] : List<String>.from(json["street"]),
+    city: cityValues.map[json["city"]]!,
+    telephone: json["telephone"],
+    region: regionValues.map[json["region"]]!,
+    postcode: json["postcode"],
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['firstname'] = firstname;
-    data['lastname'] = lastname;
-    data['street'] = street;
-    data['city'] = city;
-    data['telephone'] = telephone;
-    data['region'] = region;
-    data['postcode'] = postcode;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "__typename": billingAddressTypenameValues.reverse[typename],
+    "firstname": firstnameValues.reverse[firstname],
+    "lastname": lastnameValues.reverse[lastname],
+    "street": street == null ? [] : List<dynamic>.from(street!.map((x) => streetValues.reverse[x])),
+    "city": cityValues.reverse[city],
+    "telephone": telephone,
+    "region": regionValues.reverse[region],
+    "postcode": postcode,
+  };
 }
 
-
-class ProductSalePrice {
-  int? value;
-  String? currency;
-
-  ProductSalePrice({this.value, this.currency});
-
-  ProductSalePrice.fromJson(Map<String, dynamic> json) {
-    value = json['value'];
-    currency = json['currency'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['value'] = value;
-    data['currency'] = currency;
-    return data;
-  }
+enum City {
+  CHENNAI
 }
+
+final cityValues = EnumValues({
+  "Chennai": City.CHENNAI
+});
+
+enum Firstname {
+  MOHAMED_MAIDEEN
+}
+
+final firstnameValues = EnumValues({
+  "Mohamed Maideen": Firstname.MOHAMED_MAIDEEN
+});
+
+enum Lastname {
+  I
+}
+
+final lastnameValues = EnumValues({
+  "I": Lastname.I
+});
+
+enum Region {
+  TAMIL_NADU
+}
+
+final regionValues = EnumValues({
+  "Tamil Nadu": Region.TAMIL_NADU
+});
+
+enum Street {
+  SYED_AHAMED_STREET,
+  SYED_AHAMED_STREET_1
+}
+
+final streetValues = EnumValues({
+  "Syed Ahamed Street": Street.SYED_AHAMED_STREET,
+  "Syed Ahamed Street-1": Street.SYED_AHAMED_STREET_1
+});
+
+enum BillingAddressTypename {
+  ORDER_ADDRESS
+}
+
+final billingAddressTypenameValues = EnumValues({
+  "OrderAddress": BillingAddressTypename.ORDER_ADDRESS
+});
+
+class ItemItem {
+  FluffyTypename? typename;
+  String? productName;
+  ProductType? productType;
+  String? productSku;
+  GrandTotal? productSalePrice;
+  int? quantityOrdered;
+
+  ItemItem({
+    this.typename,
+    this.productName,
+    this.productType,
+    this.productSku,
+    this.productSalePrice,
+    this.quantityOrdered,
+  });
+
+  factory ItemItem.fromJson(Map<String, dynamic> json) => ItemItem(
+    typename: fluffyTypenameValues.map[json["__typename"]]!,
+    productName: json["product_name"],
+    productType: productTypeValues.map[json["product_type"]]!,
+    productSku: json["product_sku"],
+    productSalePrice: json["product_sale_price"] == null ? null : GrandTotal.fromJson(json["product_sale_price"]),
+    quantityOrdered: json["quantity_ordered"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "__typename": fluffyTypenameValues.reverse[typename],
+    "product_name": productName,
+    "product_type": productTypeValues.reverse[productType],
+    "product_sku": productSku,
+    "product_sale_price": productSalePrice?.toJson(),
+    "quantity_ordered": quantityOrdered,
+  };
+}
+
+class GrandTotal {
+  GrandTotalTypename? typename;
+  double? value;
+  Currency? currency;
+
+  GrandTotal({
+    this.typename,
+    this.value,
+    this.currency,
+  });
+
+  factory GrandTotal.fromJson(Map<String, dynamic> json) => GrandTotal(
+    typename: grandTotalTypenameValues.map[json["__typename"]]!,
+    value: json["value"]?.toDouble(),
+    currency: currencyValues.map[json["currency"]]!,
+  );
+
+  Map<String, dynamic> toJson() => {
+    "__typename": grandTotalTypenameValues.reverse[typename],
+    "value": value,
+    "currency": currencyValues.reverse[currency],
+  };
+}
+
+enum Currency {
+  INR
+}
+
+final currencyValues = EnumValues({
+  "INR": Currency.INR
+});
+
+enum GrandTotalTypename {
+  MONEY
+}
+
+final grandTotalTypenameValues = EnumValues({
+  "Money": GrandTotalTypename.MONEY
+});
+
+enum ProductType {
+  CONFIGURABLE,
+  SIMPLE
+}
+
+final productTypeValues = EnumValues({
+  "configurable": ProductType.CONFIGURABLE,
+  "simple": ProductType.SIMPLE
+});
+
+enum FluffyTypename {
+  ORDER_ITEM
+}
+
+final fluffyTypenameValues = EnumValues({
+  "OrderItem": FluffyTypename.ORDER_ITEM
+});
+
+class PaymentMethod {
+  String? typename;
+  String? name;
+
+  PaymentMethod({
+    this.typename,
+    this.name,
+  });
+
+  factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
+    typename: json["__typename"]!,
+    name: json["name"]!,
+  );
+
+  Map<String, dynamic> toJson() => {
+    "__typename": paymentMethodTypenameValues.reverse[typename],
+    "name": nameValues.reverse[name],
+  };
+}
+
+enum Name {
+  CASH_ON_DELIVERY,
+  RAZORPAY
+}
+
+final nameValues = EnumValues({
+  "Cash On Delivery": Name.CASH_ON_DELIVERY,
+  "Razorpay": Name.RAZORPAY
+});
+
+enum PaymentMethodTypename {
+  ORDER_PAYMENT_METHOD
+}
+
+final paymentMethodTypenameValues = EnumValues({
+  "OrderPaymentMethod": PaymentMethodTypename.ORDER_PAYMENT_METHOD
+});
+
+enum ShippingMethod {
+  FREE_SHIPPING,
+  OMA_SHIPPING_STANDARD_SHIPPING,
+  STANDARD_SHIPPING
+}
+
+final shippingMethodValues = EnumValues({
+  "Free Shipping": ShippingMethod.FREE_SHIPPING,
+  "OMA Shipping - Standard Shipping": ShippingMethod.OMA_SHIPPING_STANDARD_SHIPPING,
+  "Standard Shipping": ShippingMethod.STANDARD_SHIPPING
+});
+
+enum Status {
+  CANCELED,
+  COMPLETE,
+  EMPTY,
+  PROCESSING,
+  SHIPPED
+}
+
+final statusValues = EnumValues({
+  "Canceled": Status.CANCELED,
+  "Complete": Status.COMPLETE,
+  "": Status.EMPTY,
+  "Processing": Status.PROCESSING,
+  "Shipped": Status.SHIPPED
+});
 
 class Total {
-  ProductSalePrice? totalShipping;
-  ProductSalePrice? subtotal;
-  ProductSalePrice? grandTotal;
+  TotalTypename? typename;
+  GrandTotal? totalShipping;
+  GrandTotal? subtotal;
+  GrandTotal? grandTotal;
 
-  Total({this.totalShipping, this.subtotal, this.grandTotal});
+  Total({
+    this.typename,
+    this.totalShipping,
+    this.subtotal,
+    this.grandTotal,
+  });
 
-  Total.fromJson(Map<String, dynamic> json) {
-    totalShipping = json['total_shipping'] != null
-        ? ProductSalePrice.fromJson(json['total_shipping'])
-        : null;
-    subtotal = json['subtotal'] != null
-        ? ProductSalePrice.fromJson(json['subtotal'])
-        : null;
-    grandTotal = json['grand_total'] != null
-        ? ProductSalePrice.fromJson(json['grand_total'])
-        : null;
-  }
+  factory Total.fromJson(Map<String, dynamic> json) => Total(
+    typename: totalTypenameValues.map[json["__typename"]]!,
+    totalShipping: json["total_shipping"] == null ? null : GrandTotal.fromJson(json["total_shipping"]),
+    subtotal: json["subtotal"] == null ? null : GrandTotal.fromJson(json["subtotal"]),
+    grandTotal: json["grand_total"] == null ? null : GrandTotal.fromJson(json["grand_total"]),
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (totalShipping != null) {
-      data['total_shipping'] = totalShipping!.toJson();
-    }
-    if (subtotal != null) {
-      data['subtotal'] = subtotal!.toJson();
-    }
-    if (grandTotal != null) {
-      data['grand_total'] = grandTotal!.toJson();
-    }
-    return data;
+  Map<String, dynamic> toJson() => {
+    "__typename": totalTypenameValues.reverse[typename],
+    "total_shipping": totalShipping?.toJson(),
+    "subtotal": subtotal?.toJson(),
+    "grand_total": grandTotal?.toJson(),
+  };
+}
+
+enum TotalTypename {
+  ORDER_TOTAL
+}
+
+final totalTypenameValues = EnumValues({
+  "OrderTotal": TotalTypename.ORDER_TOTAL
+});
+
+enum PurpleTypename {
+  CUSTOMER_ORDER
+}
+
+final purpleTypenameValues = EnumValues({
+  "CustomerOrder": PurpleTypename.CUSTOMER_ORDER
+});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
   }
 }

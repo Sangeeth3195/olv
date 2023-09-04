@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
+import '../../../models/OrderModel.dart';
 
 class Body extends StatelessWidget {
-  const Body({super.key});
+  final OrdersItem ordersItem;
+
+  const Body({super.key, required this.ordersItem});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +33,9 @@ class Body extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Expanded(
+                 Expanded(
                   child: Text(
-                    "Order ID: 000000933",
+                    "Order ID: ${ordersItem.id??00}",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -93,18 +96,18 @@ class Body extends StatelessWidget {
                     style: TextStyle(fontSize: 13),
                   )),
                 ],
-                rows: const [
+                rows:  [
                   DataRow(cells: [
                     DataCell(Text(
-                      'Scheffera potted plant',
+                      ordersItem.items![0].productName??'',
                       style: TextStyle(fontSize: 13),
                     )),
                     DataCell(Text(
-                      '4',
+                      ordersItem.items![0].quantityOrdered.toString(),
                       style: TextStyle(fontSize: 13),
                     )),
                     DataCell(Text(
-                      '₹ 1,598',
+                      ordersItem.items![0].productSalePrice!.value.toString()??'',
                       style: TextStyle(fontSize: 13),
                     )),
                   ]),
@@ -129,7 +132,7 @@ class Body extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          const Padding(
+           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 15, 0),
             child: Row(
               children: <Widget>[
@@ -149,7 +152,7 @@ class Body extends StatelessWidget {
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: Row(children: [
                       Text(
-                        '₹ 1,298',
+                        '₹ ${ordersItem.total!.subtotal!.value??''}',
                         style: TextStyle(color: Colors.black),
                       ),
                     ]),
@@ -161,7 +164,7 @@ class Body extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          const Padding(
+           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 15, 0),
             child: Row(
               children: <Widget>[
@@ -181,7 +184,7 @@ class Body extends StatelessWidget {
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: Row(children: [
                       Text(
-                        '₹ 500',
+                        '₹ ${ordersItem.total!.totalShipping!.value??''}',
                         style: TextStyle(color: Colors.black),
                       ),
                     ]),
@@ -193,7 +196,7 @@ class Body extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          const Padding(
+           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 15, 0),
             child: Row(
               children: <Widget>[
@@ -213,7 +216,7 @@ class Body extends StatelessWidget {
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: Row(children: [
                       Text(
-                        '- ₹ 200',
+                        '- ₹ 0',
                         style: TextStyle(color: Colors.black),
                       ),
                     ]),
@@ -226,11 +229,11 @@ class Body extends StatelessWidget {
             height: 5,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding:  EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: Container(
               color: const Color(0xFFFFF2E1),
               height: 50,
-              child: const Padding(
+              child:  Padding(
                 padding: EdgeInsets.only(left: 10, right: 10),
                 child: Row(
                   children: <Widget>[
@@ -251,7 +254,7 @@ class Body extends StatelessWidget {
                         padding: EdgeInsets.only(left: 10, right: 10),
                         child: Row(children: [
                           Text(
-                            '₹ 1,598',
+                            '₹ ${ordersItem.total!.grandTotal!.value??''}',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
@@ -265,7 +268,7 @@ class Body extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-          const Padding(
+           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
             child: Row(
               children: [
@@ -282,14 +285,14 @@ class Body extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            padding:  EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Expanded(
+                     Expanded(
                       child: Text(
                         'Shipping Address',
                         style: TextStyle(
@@ -298,18 +301,21 @@ class Body extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Row(
-                        children: [
-                          Text(
-                            'Shipping Method',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                    SizedBox(width: 40,),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Row(
+                          children: [
+                            Text(
+                              'Shipping Method',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -318,30 +324,28 @@ class Body extends StatelessWidget {
                   height: 0,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Expanded(
-                      child: Text(
-                        "653 Nostrand Ave.\nBrooklyn, NY 11216",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            height: 1.5,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Row(
-                        children: [
-                          Text(
-                            'Standard Shipping',
-                            style: TextStyle(color: Colors.black, fontSize: 14),
-                          ),
-                        ],
+                     Expanded(
+                       child: Text(
+                         "${ordersItem.shippingAddress!.street![0]??''}",
+                         style: TextStyle(
+                             color: Colors.black,
+                             fontSize: 13,
+                             height: 1.5,
+                             fontWeight: FontWeight.w500),
+                       ),
+                     ),
+                    SizedBox(width: 40,),
+
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {},
+                        child:  Text(
+                          '${ordersItem.shippingMethod??''}',
+                          style: TextStyle(color: Colors.black, fontSize: 14),
+                        ),
                       ),
                     )
                   ],
@@ -366,18 +370,22 @@ class Body extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Row(
-                        children: [
-                          Text(
-                            'Payment Method',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                    SizedBox(width: 40,),
+
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Row(
+                          children: [
+                            Text(
+                              'Payment Method',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -385,9 +393,9 @@ class Body extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Expanded(
+                     Expanded(
                       child: Text(
-                        "653 Nostrand Ave.\nBrooklyn, NY 11216",
+                        "${ordersItem.billingAddress!.street![0].toString()??''}",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 13,
@@ -395,18 +403,19 @@ class Body extends StatelessWidget {
                             fontWeight: FontWeight.w500),
                       ),
                     ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Row(
-                        children: [
-                          Text(
-                            'Razorpay',
-                            style: TextStyle(color: Colors.black, fontSize: 14),
-                          ),
-                        ],
+                    SizedBox(width: 40,),
+
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {},
+                        child:  Row(
+                          children: [
+                            Text(
+                              "${ordersItem.paymentMethods!.first.name!.toString()??''}",
+                              style: TextStyle(color: Colors.black, fontSize: 14),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],

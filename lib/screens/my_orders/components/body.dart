@@ -15,7 +15,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   GraphQLService graphQLService = GraphQLService();
 
-  OrdersModel ordersModel = OrdersModel();
+  OrderModel ordersModel = OrderModel();
 
   @override
   void initState() {
@@ -26,15 +26,18 @@ class _BodyState extends State<Body> {
 
   void getuserdata() async {
     ordersModel = await graphQLService.getorderdetails(limit: 100);
-    print(ordersModel.data?.customer?.orders?.items?.length);
+    print(ordersModel.customer?.orders?.items?.length);
+    setState(() {
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView.builder(
-        itemCount: ordersModel.data?.customer?.orders?.items?.length,
+      body: (ordersModel.customer==null||ordersModel.customer!.orders==null)?Center(child: CircularProgressIndicator()):ListView.builder(
+        itemCount: ordersModel.customer!.orders!.items!.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -54,7 +57,7 @@ class _BodyState extends State<Body> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Order ID: ${ordersModel.data?.customer?.orders?.items?[index].orderNumber}",
+                              "Order ID: ${ordersModel.customer?.orders?.items?[index].orderNumber}",
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -66,7 +69,7 @@ class _BodyState extends State<Body> {
                             width: 4,
                           ),
                           Text(
-                            "Total: ₹ ${ordersModel.data?.customer?.orders?.items![index].total?.grandTotal!.value}",
+                            "Total: ₹ ${ordersModel.customer?.orders?.items![index].total?.grandTotal!.value}",
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 13,
@@ -86,7 +89,7 @@ class _BodyState extends State<Body> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Order Status: ${ordersModel.data?.customer?.orders?.items![index].status}",
+                              "Order Status: ${ordersModel.customer?.orders?.items?[index].status}",
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -107,7 +110,7 @@ class _BodyState extends State<Body> {
                         children: [
                           Expanded(
                             child: Text(
-                              "${ordersModel.data?.customer?.orders?.items![index].orderDate}",
+                              "${ordersModel.customer?.orders?.items?[index].orderDate}",
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -140,7 +143,7 @@ class _BodyState extends State<Body> {
                         children: [
                           Expanded(
                             child: Text(
-                              "Ship To : ${ordersModel.data?.customer?.orders?.items![index].shippingAddress?.firstname}",
+                              "Ship To : ${ordersModel.customer?.orders?.items?[index].shippingAddress?.firstname}",
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -183,7 +186,7 @@ class _BodyState extends State<Body> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const RecentOrders()));
+                                           RecentOrders(ordersItem: ordersModel.customer?.orders?.items?[index],)));
                             },
                             style: OutlinedButton.styleFrom(
                               side: const BorderSide(

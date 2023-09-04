@@ -1509,6 +1509,22 @@ class GraphQLService {
                           }
                         }
                       }
+                      media_gallery {
+        url
+        label
+        position
+        disabled
+        ... on ProductVideo {
+          video_content {
+            media_type
+            video_provider
+            video_url
+            video_title
+            video_description
+            video_metadata
+          }
+        }
+      }
                       price_range {
                         minimum_price {
                           regular_price {
@@ -1817,7 +1833,7 @@ class GraphQLService {
   }
 
   /// Get Order Details
-  Future<OrdersModel> getorderdetails({
+  Future<OrderModel> getorderdetails({
     required int limit,
   }) async {
     try {
@@ -1892,15 +1908,14 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        // log(jsonEncode(result.data));
-        print(result.data?['customer']['orders']['items']);
-        return OrdersModel.fromJson(result.data!);
+        log(jsonEncode(result.data));
+        return OrderModel.fromJson(result.data!);
       }
 
-      return OrdersModel();
+      return OrderModel();
     } catch (e) {
       print(e);
-      return OrdersModel();
+      return OrderModel();
     }
   }
 
