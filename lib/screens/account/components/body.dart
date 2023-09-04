@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/models/CustomerModel.dart';
@@ -38,14 +36,11 @@ class _BodyState extends State<Body> {
 
     print(customerModel.customer?.addresses?.length);
     setState(() {
-
-      _firstnameController.text=customerModel.customer?.firstname??'';
-      _lastnameController.text=customerModel.customer?.lastname??'';
-      _emailController.text=customerModel.customer?.email??'';
+      _firstnameController.text = customerModel.customer?.firstname ?? '';
+      _lastnameController.text = customerModel.customer?.lastname ?? '';
+      _emailController.text = customerModel.customer?.email ?? '';
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,24 +51,23 @@ class _BodyState extends State<Body> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             ListTile(
-              leading: CircleAvatar(
+            ListTile(
+              leading: const CircleAvatar(
                 radius: 40,
-                backgroundImage: NetworkImage(
-                    'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
+                backgroundImage: AssetImage('assets/images/photo.jpg'),
               ),
               title: Text(
-                customerModel?.customer?.firstname??'',
-                style: TextStyle(
+                customerModel?.customer?.firstname ?? '',
+                style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               subtitle: Text(
                 //TODO: take from profile info
-                customerModel?.customer?.email??'',
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                customerModel?.customer?.email ?? '',
+                style: const TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.w500),
               ),
             ),
             const SizedBox(
@@ -143,7 +137,7 @@ class _BodyState extends State<Body> {
             const SizedBox(
               height: 25,
             ),
-            const Padding(
+            /*const Padding(
               padding: EdgeInsets.only(left: 10.0, right: 0.0),
               child: Text(
                 'Email',
@@ -152,8 +146,8 @@ class _BodyState extends State<Body> {
                   fontSize: 14.0,
                 ),
               ),
-            ),
-            Padding(
+            ),*/
+            /*Padding(
               padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
               child: TextFormField(
                 controller: _emailController,
@@ -174,29 +168,28 @@ class _BodyState extends State<Body> {
             ),
             const SizedBox(
               height: 20,
-            ),
+            ),*/
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: InkWell(
-                onTap: () async{
+                onTap: () async {
                   if (_formKey.currentState!.validate()) {
-                    /*graphQLService.Login(loginEmailController.text.toString(),
-                        loginPasswordController.text.toString(), context);*/
-
                     if (_formKey.currentState!.validate()) {
                       String result;
+                      result = await graphQLService.update_customer_details_api(
+                          firstname: _firstnameController.text,
+                          lastname: _lastnameController.text,
+                          email: _emailController.text,
+                          isSubscribed: false);
 
-                      result= await  graphQLService.update_customer_details_api(firstname: _firstnameController.text, lastname: _lastnameController.text, email: _emailController.text, isSubscribed: false);
-
-                      if(result=="200"){
+                      if (result == "200") {
                         Navigator.of(context).pop();
-                        Fluttertoast.showToast(msg: "Address Added Successfully");
-                      }else{
+                        Fluttertoast.showToast(
+                            msg: "Address Added Successfully");
+                      } else {
                         Fluttertoast.showToast(msg: "Address Added Failed");
-
                       }
                     }
-
                   }
                 },
                 child: Container(

@@ -26,9 +26,7 @@ class _BodyState extends State<Body> {
     customerModel = await graphQLService.get_customer_details();
 
     print(customerModel.customer?.addresses?.length);
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -39,20 +37,21 @@ class _BodyState extends State<Body> {
         itemCount: customerModel.customer?.addresses?.length,
         itemBuilder: (context, index) {
           return ListTile(
-            onTap: (){
-              Navigator.of(context, rootNavigator: true).pushNamed("/addaddress",arguments: customerModel.customer?.addresses?[index]).then((value) => ({
-                getData()
-              }));
+            onTap: () {
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed("/addaddress",
+                      arguments: customerModel.customer?.addresses?[index])
+                  .then((value) => ({getData()}));
             },
             title: Text(
-              customerModel.customer?.addresses?[index].firstname??'',
-              style: TextStyle(fontSize: 14),
+              customerModel.customer?.addresses?[index].firstname ?? '',
+              style: const TextStyle(fontSize: 14),
             ),
             subtitle: Text(
-              customerModel.customer?.addresses?[index].street?.first??'',
-              style: TextStyle(fontSize: 13),
+              customerModel.customer?.addresses?[index].street?.first ?? '',
+              style: const TextStyle(fontSize: 13),
             ),
-            trailing: SizedBox(
+            trailing: const SizedBox(
               width: 46,
               child: Expanded(
                 // Place `Expanded` inside `Row`

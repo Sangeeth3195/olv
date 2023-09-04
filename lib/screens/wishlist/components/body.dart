@@ -41,6 +41,7 @@ class _BodyState extends State<Body> {
     setState(() {});
 
     print('wishList --> ${wishList.length}');
+    print('wishList --> ${wishList}');
   }
 
   @override

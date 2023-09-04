@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../API Services/graphql_service.dart';
 import '../../../components/no_account_text.dart';
@@ -197,12 +198,18 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(55)),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
 
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  String token = prefs.getString('token') ?? '';
+                  String emailid = prefs.getString('emailid') ?? '';
+
+                  print(token);
+                  print(emailid);
                   print(confrmnewpasswordController.text);
 
-                  graphQLService.resetpassword(confrmnewpasswordController.text.toString(),context);
+                  graphQLService.chnagepassword(emailid,token,confrmnewpasswordController.text.toString(),context);
 
                 }
               },

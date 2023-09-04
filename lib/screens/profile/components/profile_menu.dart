@@ -21,7 +21,7 @@ class ProfileMenu extends StatelessWidget {
       child: TextButton(
         style: TextButton.styleFrom(
           primary: kPrimaryColor,
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(2),
           //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
          // backgroundColor: const Color(0xFFF5F6F9),
         ),
@@ -32,7 +32,7 @@ class ProfileMenu extends StatelessWidget {
               icon,
               color: Colors.black,
             ),
-            const SizedBox(width: 20),
+            const SizedBox(width: 16),
             Expanded(
                 child: Text(
                   text,

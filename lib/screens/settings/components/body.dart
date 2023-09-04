@@ -143,7 +143,7 @@ class _BodyState extends State<Body> {
             press: () async {
 
 
-              revokeloggedinuser = await graphQLService.revokeuser();
+              revokeloggedinuser = await graphQLService.revokeuser(context);
 
 
               /* Navigator.push(

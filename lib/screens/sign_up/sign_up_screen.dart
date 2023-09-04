@@ -1,7 +1,10 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/constants.dart';
 
@@ -212,6 +215,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   TextEditingController loginfullnameController = TextEditingController();
+  TextEditingController loginlastnameController = TextEditingController();
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
 
@@ -219,6 +223,8 @@ class _SignInState extends State<SignIn> {
   final FocusNode focusNodePassword = FocusNode();
   GraphQLService graphQLService = GraphQLService();
   final _formKey = GlobalKey<FormState>();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+  late GoogleSignInAccount _userObj;
 
   bool passwordVisible = false;
 
@@ -227,6 +233,39 @@ class _SignInState extends State<SignIn> {
     focusNodeEmail.dispose();
     focusNodePassword.dispose();
     super.dispose();
+  }
+
+  void _handleSignIn() async {
+    try {
+
+      /*  getRandomString(10).toString();
+      if (kDebugMode) {
+        print(getRandomString(10).toString());
+      }*/
+
+      _googleSignIn.signIn().then((userData) {
+        setState(() {
+          // _isLoggedIn = true;
+          _userObj = userData!;
+        });
+      }).catchError((e) {
+        print(e);
+      });
+
+      Fluttertoast.showToast(msg: _userObj.email);
+      Fluttertoast.showToast(msg: _userObj.displayName.toString());
+
+      graphQLService.Login(
+          _userObj.email.toString(),
+          'test',
+          context);
+
+      // User signed in, you can proceed with the app logic
+    } catch (error) {
+      if (kDebugMode) {
+        print('Error signing in: $error');
+      }
+    }
   }
 
   @override
@@ -242,7 +281,7 @@ class _SignInState extends State<SignIn> {
               const Padding(
                 padding: EdgeInsets.only(left: 15.0, right: 0.0),
                 child: Text(
-                  'Full Name',
+                  'First Name',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -271,6 +310,43 @@ class _SignInState extends State<SignIn> {
                       ),
                       contentPadding:
                           const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                      hintText: "Name",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(32.0))),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 15.0, right: 0.0),
+                child: Text(
+                  'Last Name',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15.0,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 5.0, right: 10.0, bottom: 20.0, left: 10.0),
+                child: TextFormField(
+                  obscureText: false,
+                  controller: loginlastnameController,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'This is a required field.';
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                  decoration: InputDecoration(
+                      suffixIcon: const Icon(
+                        Icons.person,
+                        color: Colors.grey,
+                        size: 22.0,
+                      ),
+                      contentPadding:
+                      const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
                       hintText: "Name",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(32.0))),
@@ -383,9 +459,10 @@ class _SignInState extends State<SignIn> {
                     if (_formKey.currentState!.validate()) {
                       graphQLService.createuser(
                           loginfullnameController.text.toString(),
+                          loginlastnameController.text.toString(),
                           loginEmailController.text.toString(),
                           loginPasswordController.text.toString(),
-                          true);
+                          true,context);
                     }
                   },
                   child: const Text('Register Now'),
@@ -409,13 +486,9 @@ class _SignInState extends State<SignIn> {
                             text: 'Log In',
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginPage()),
-                                );
-                                /*Navigator.of(context, rootNavigator: true)
-                                    .pushNamed("/loginpage");*/
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                                        (Route<dynamic> route) => false);
                               },
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -492,24 +565,19 @@ class _SignInState extends State<SignIn> {
                       child: SizedBox(
                         height: 50, // <-- Your height
                         child: ElevatedButton.icon(
-                          icon: IconButton(
-                            icon: Image.asset(
-                              'assets/icons/facebook.png',
-                              height: 20,
-                            ),
-                            iconSize: 0,
-                            onPressed: () {},
+                          icon: Image.asset(
+                            'assets/icons/facebook.png',
+                            height: 20,
                           ),
                           label: const Text(
                             'Facebook',
-                            style:
-                                TextStyle(fontSize: 15.0, color: Colors.white),
+                            style: TextStyle(fontSize: 15.0, color: Colors.white),
                           ),
                           style: ElevatedButton.styleFrom(
                             primary: const Color(0xFF345288),
                             textStyle: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: 15,
                                 fontStyle: FontStyle.normal),
                             shape: const StadiumBorder(),
                           ),
@@ -524,28 +592,31 @@ class _SignInState extends State<SignIn> {
                       // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
                       child: SizedBox(
                         height: 50, // <-- Your height
-                        child: ElevatedButton.icon(
-                          icon: IconButton(
+                        child:
+                        GestureDetector(
+                          onTap: (){
+                            // _handleSignIn();
+                          },
+                          child: ElevatedButton.icon(
                             icon: Image.asset('assets/icons/google.png'),
-                            iconSize: 0,
-                            onPressed: () {},
+                            label: const Text(
+                              'Google',
+                              style: TextStyle(fontSize: 15.0, color: Colors.black),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              side:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                              textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.normal),
+                              shape: const StadiumBorder(),
+                            ),
+                            onPressed: () {
+                              _handleSignIn();
+                            },
                           ),
-                          label: const Text(
-                            'Google',
-                            style:
-                                TextStyle(fontSize: 15.0, color: Colors.black),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            side: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            textStyle: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontStyle: FontStyle.normal),
-                            shape: const StadiumBorder(),
-                          ),
-                          onPressed: () {},
                         ),
                       ),
                     ),
@@ -556,6 +627,7 @@ class _SignInState extends State<SignIn> {
           ),
         ));
   }
+
 }
 
 class SignUp extends StatefulWidget {

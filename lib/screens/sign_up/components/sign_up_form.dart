@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../API Services/graphql_service.dart';
 import '../../../components/custom_surfix_icon.dart';
@@ -53,8 +54,9 @@ class _SignUpFormState extends State<SignUpForm> {
           DefaultButton(
             text: "Create an account",
             press: () {
+              EasyLoading.show(status: 'loading...');
               graphQLService.createuser(
-                  "maideen", "maideen.i@gmail.com", "12345@@DF6789", true);
+                  "maideen","maideen", "maideen.i@gmail.com", "12345@@DF6789", true,context);
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
               }

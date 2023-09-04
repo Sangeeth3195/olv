@@ -4,18 +4,15 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/models/CountryModel.dart';
 import 'package:omaliving/models/CustomerModel.dart';
-import 'package:omaliving/models/ProductListJson.dart';
-import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../MainLayout.dart';
-import '../models/categoryList.dart';
+import '../models/OrderModel.dart';
 import 'graphql_config.dart';
 
 class GraphQLService {
@@ -964,25 +961,34 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> createuser(
-      String firstname, String email, String password, bool issub) async {
+  Future<String> createuser(String firstname, String lastname, String email,
+      String password, bool issub, BuildContext context) async {
     try {
       print(firstname);
+      print(lastname);
       print(email);
       print(password);
       print(issub);
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(
-              new_user(firstname, password, email, password, issub)), // this
+              new_user(firstname, lastname, email, password, issub)), // this
         ),
       );
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
         Fluttertoast.showToast(
             msg: result.exception!.graphqlErrors[0].message.toString());
-      } else if (result.data != null) {}
-      print(result.data?['createCustomerV2']['customer']);
+      } else if (result.data != null) {
+        print(result.data?['createCustomerV2']['customer']);
+
+        EasyLoading.dismiss();
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => MainLayout()),
+            (Route<dynamic> route) => false);
+      }
+
       return "";
     } catch (e) {
       print(e);
@@ -1061,7 +1067,56 @@ class GraphQLService {
       } else if (result.data != null) {
         print(result.data?['requestPasswordResetEmail']);
         if (result.data?['requestPasswordResetEmail'] == true) {
-          Fluttertoast.showToast(msg: 'msg');
+          Fluttertoast.showToast(
+              msg: 'A link to reset your password will be sent to your email');
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+              (Route<dynamic> route) => false);
+
+          print(result.exception?.graphqlErrors[0].message);
+        } else {}
+      }
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// reset password
+  static String changepws(String email, String token, String password) {
+    return '''
+            mutation {
+              resetPassword(
+              email: "$email",
+              resetPasswordToken: "$token",
+              newPassword: "$password"
+            )
+            }
+        ''';
+  }
+
+  Future<String> chnagepassword(
+      String email, String token, String password, BuildContext context) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(changepws(email, token, password)),
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+        Fluttertoast.showToast(
+            msg: result.exception!.graphqlErrors[0].message.toString());
+      } else if (result.data != null) {
+        print(result.data?['requestPasswordResetEmail']);
+        if (result.data?['requestPasswordResetEmail'] == true) {
+          Fluttertoast.showToast(
+              msg: 'A link to reset your password will be sent to your email');
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+              (Route<dynamic> route) => false);
+
           print(result.exception?.graphqlErrors[0].message);
         } else {}
       }
@@ -1073,8 +1128,18 @@ class GraphQLService {
   }
 
   /// Add Customer address
-  static String add_cus_add({required String firstname, required String lastname, required String phNo,
-     required String postalCode,required String city,required String address,required String region, required String regioncode,required String countryCode,required String regionId, bool? isSubcribed}) {
+  static String add_cus_add(
+      {required String firstname,
+      required String lastname,
+      required String phNo,
+      required String postalCode,
+      required String city,
+      required String address,
+      required String region,
+      required String regioncode,
+      required String countryCode,
+      required String regionId,
+      bool? isSubcribed}) {
     return '''
             mutation {
             
@@ -1113,20 +1178,50 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> add_customer_address({required String firstname, required String lastname, required String phNo,
-   required String postalCode,required String city,required String address,required String region, required String regioncode,required String countryCode,required String regionId, bool? isSubcribed}) async {
+  Future<String> add_customer_address(
+      {required String firstname,
+      required String lastname,
+      required String phNo,
+      required String postalCode,
+      required String city,
+      required String address,
+      required String region,
+      required String regioncode,
+      required String countryCode,
+      required String regionId,
+      bool? isSubcribed}) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(
-              add_cus_add(firstname: firstname,lastname: lastname,city: city ,address: address,phNo: phNo,postalCode: postalCode,isSubcribed: true,countryCode: countryCode,region: region,regioncode: regioncode,regionId: regionId)), // this
+          document: gql(add_cus_add(
+              firstname: firstname,
+              lastname: lastname,
+              city: city,
+              address: address,
+              phNo: phNo,
+              postalCode: postalCode,
+              isSubcribed: true,
+              countryCode: countryCode,
+              region: region,
+              regioncode: regioncode,
+              regionId: regionId)), // this
         ),
       );
-      log(add_cus_add(firstname: firstname, lastname: lastname, phNo: phNo, postalCode: postalCode, city: city, address: address, region: region, regioncode: regioncode, countryCode: countryCode, regionId: regionId).toString());
+      log(add_cus_add(
+              firstname: firstname,
+              lastname: lastname,
+              phNo: phNo,
+              postalCode: postalCode,
+              city: city,
+              address: address,
+              region: region,
+              regioncode: regioncode,
+              countryCode: countryCode,
+              regionId: regionId)
+          .toString());
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-
         return "200";
       }
 
@@ -1136,20 +1231,55 @@ class GraphQLService {
       return "";
     }
   }
-  Future<String> update_customer_address({required String firstname, required String lastname, required String phNo,
-   required String postalCode,required String city,required String address,required String region, required String regioncode,required String countryCode,required String regionId, bool? isSubcribed,required String id}) async {
+
+  Future<String> update_customer_address(
+      {required String firstname,
+      required String lastname,
+      required String phNo,
+      required String postalCode,
+      required String city,
+      required String address,
+      required String region,
+      required String regioncode,
+      required String countryCode,
+      required String regionId,
+      bool? billingadd,
+      bool? shippadd,
+      required String id}) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(
-              upd_cus_add(firstname: firstname,lastname: lastname,city: city ,address: address,phNo: phNo,postalCode: postalCode,isSubcribed: true,countryCode: countryCode,region: region,regioncode: regioncode,regionId: regionId,id: id)), // this
+          document: gql(upd_cus_add(
+              firstname: firstname,
+              lastname: lastname,
+              city: city,
+              address: address,
+              phNo: phNo,
+              postalCode: postalCode,
+              isSubcribed: true,
+              countryCode: countryCode,
+              region: region,
+              regioncode: regioncode,
+              regionId: regionId,
+              id: id)), // this
         ),
       );
-      log(upd_cus_add(firstname: firstname, lastname: lastname, phNo: phNo, postalCode: postalCode, city: city, address: address, region: region, regioncode: regioncode, countryCode: countryCode, regionId: regionId,id: id).toString());
+      log(upd_cus_add(
+              firstname: firstname,
+              lastname: lastname,
+              phNo: phNo,
+              postalCode: postalCode,
+              city: city,
+              address: address,
+              region: region,
+              regioncode: regioncode,
+              countryCode: countryCode,
+              regionId: regionId,
+              id: id)
+          .toString());
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-
         return "200";
       }
 
@@ -1161,82 +1291,100 @@ class GraphQLService {
   }
 
   /// Update Customer address
-  static String upd_cus_add({required String firstname, required String lastname, required String phNo,
-    required String postalCode,required String city,required String address,required String region, required String regioncode,required String countryCode,required String regionId, bool? isSubcribed,required String id}) {
+  static String upd_cus_add(
+      {required String firstname,
+      required String lastname,
+      required String phNo,
+      required String postalCode,
+      required String city,
+      required String address,
+      required String region,
+      required String regioncode,
+      required String countryCode,
+      required String regionId,
+      bool? isSubcribed,
+      bool? isSubcribed1,
+      required String id}) {
     return '''
             mutation {
             
               updateCustomerAddress(
-              id: ${id}
-                input: {
-                  region: {
-      region: "${region}"
-      region_code: "${regioncode}"
-      region_id: "${regionId}"
-    }
-    country_code: $countryCode
-    street: ["${address}"]
-    telephone: "${phNo}"
-    postcode: "${postalCode}"
-    city: "${city}"
-    firstname: "${firstname}"
-    lastname: "${lastname}"
-    default_shipping: true
-    default_billing: false
-                }
-              ) {
-    id
-    region {
-      region
-      region_code
-    }
-    country_code
-    street
-    telephone
-    postcode
-    city
-    default_shipping
-    default_billing
-  }
-            }
+                              id: ${id}
+                                input: {
+                                  region: {
+                      region: "${region}"
+                      region_code: "${regioncode}"
+                      region_id: "${regionId}"
+                    }
+                    country_code: $countryCode
+                    street: ["${address}"]
+                    telephone: "${phNo}"
+                    postcode: "${postalCode}"
+                    city: "${city}"
+                    firstname: "${firstname}"
+                    lastname: "${lastname}"
+                    default_shipping: "${isSubcribed}"
+                    default_billing: "${isSubcribed1}"
+                                }
+                              ) {
+                    id
+                    region {
+                      region
+                      region_code
+                    }
+                    country_code
+                    street
+                    telephone
+                    postcode
+                    city
+                    default_shipping
+                    default_billing
+                  }
+                            }
         ''';
   }
-  static String update_customer_details({required String firstname, required String lastname, required String email,bool? isSubscribed}) {
+
+  static String update_customer_details(
+      {required String firstname,
+      required String lastname,
+      required String email,
+      bool? isSubscribed}) {
     return '''
             mutation {
-            
               updateCustomerV2(
-    input: {
-      firstname: "$firstname"
-      lastname: "${lastname}"
-      email: "${email}"
-      is_subscribed: ${isSubscribed??false}
-    }
-  ) {
-    customer {
-      firstname
-      is_subscribed
-    }
-  }
+                  input: {
+                    firstname: "$firstname"
+                    lastname: "${lastname}"
+                    is_subscribed: ${isSubscribed ?? false}
+                  }
+                ) {
+                  customer {
+                    firstname
+                    is_subscribed
+                  }
+                }
             }
         ''';
   }
 
-
-  Future<String> update_customer_details_api({required String firstname, required String lastname, required String email,
-     bool? isSubscribed}) async {
+  Future<String> update_customer_details_api(
+      {required String firstname,
+      required String lastname,
+      required String email,
+      bool? isSubscribed}) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(
-              update_customer_details(firstname: firstname, lastname: lastname, email: email)), // this
+          document: gql(update_customer_details(
+              firstname: firstname, lastname: lastname, email: email)), // this
         ),
       );
-      log(update_customer_details(firstname: firstname, lastname: lastname, email: email).toString());
+      log(update_customer_details(
+              firstname: firstname, lastname: lastname, email: email)
+          .toString());
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-
         return "200";
       }
 
@@ -1247,7 +1395,7 @@ class GraphQLService {
     }
   }
 
-  /// Update Customer address
+  /// Get Customer address
   static String get_cus_det() {
     return '''
             {
@@ -1569,7 +1717,7 @@ class GraphQLService {
   }
 
   /// Get Order Details
-  Future<List<dynamic>> getorderdetails({
+  Future<OrdersModel> getorderdetails({
     required int limit,
   }) async {
     try {
@@ -1642,18 +1790,17 @@ class GraphQLService {
       );
 
       if (result.hasException) {
-        throw Exception(result.exception);
-      } else {
-        List? res = result.data?[''];
-
-        if (res == null || res.isEmpty) {
-          return [];
-        }
-
-        return res.first[''];
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        // log(jsonEncode(result.data));
+        print(result.data?['customer']['orders']['items']);
+        return OrdersModel.fromJson(result.data!);
       }
-    } catch (error) {
-      return [];
+
+      return OrdersModel();
+    } catch (e) {
+      print(e);
+      return OrdersModel();
     }
   }
 
@@ -1693,7 +1840,7 @@ class GraphQLService {
   }
 
   /// Revoke Customer Token
-  Future<String> revokeuser() async {
+  Future<String> revokeuser(BuildContext context) async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -1712,7 +1859,15 @@ class GraphQLService {
         if (kDebugMode) {
           print(result.exception?.graphqlErrors[0].message);
         }
-      } else if (result.data != null) {}
+      } else if (result.data != null) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        await preferences.clear();
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => MainLayout()),
+            (Route<dynamic> route) => false);
+
+        Fluttertoast.showToast(msg: 'Logout successfully');
+      }
       return "";
     } catch (e) {
       if (kDebugMode) {

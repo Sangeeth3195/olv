@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/constants.dart';
+import 'package:omaliving/demo/demo.dart';
 import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
 import 'package:omaliving/screens/sign_up/sign_up_screen.dart';
 
@@ -23,7 +25,6 @@ class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   late PageController _pageController;
   int activePageIndex = 0;
-
 
   @override
   void dispose() {
@@ -114,54 +115,81 @@ class _LoginPageState extends State<LoginPage>
             )));
   }
 
+  void _onPlaceBidButtonPress() {
+    _pageController.animateToPage(0,
+        duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
+  }
+
   Widget _buildMenuBar(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 50.0,
+      height: 55.0,
       decoration: const BoxDecoration(
-        color: Colors.black26,
+        color: Color(0x552B2B2B),
         borderRadius: BorderRadius.all(Radius.circular(25.0)),
       ),
-      child: CustomPaint(
-        painter: BubbleIndicatorPainter(pageController: _pageController),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                ),
-                onPressed: _onSignInButtonPress,
-                child: const Text(
-                  'Email',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Expanded(
+            child: Ink(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black12, width: 5.0),
+                // color: Colors.indigo[900],
+                borderRadius:
+                const BorderRadius.all(Radius.circular(borderRadius)),
+              ),
+              child: InkWell(
+                borderRadius:
+                const BorderRadius.all(Radius.circular(borderRadius)),
+                onTap: _onPlaceBidButtonPress,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  alignment: Alignment.center,
+                  decoration: (activePageIndex == 0)
+                      ? const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  )
+                      : null,
+                  child: Text(
+                    'Email',
+                    style: (activePageIndex == 0)
+                        ? const TextStyle(color: Colors.grey)
+                        : const TextStyle(color: Colors.grey),
                   ),
                 ),
               ),
             ),
-            //Container(height: 33.0, width: 1.0, color: Colors.white),
-            /*  Expanded(
-              child: TextButton(
-                style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
-                ),
-                onPressed: _onSignUpButtonPress,
+          ),
+          /*  Expanded(
+            child: InkWell(
+              borderRadius: const BorderRadius.all(Radius.circular(borderRadius)),
+              onTap: _onBuyNowButtonPress,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                alignment: Alignment.center,
+                decoration: (activePageIndex == 1)
+                    ? const BoxDecoration(
+                        color: Colors.green,
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(borderRadius)),
+                      )
+                    : null,
                 child: Text(
-                  'Phone Number',
-                  style: TextStyle(
-                    color: right,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  "Buy Now",
+                  style: (activePageIndex == 1)
+                      ? const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)
+                      : const TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
-            ),*/
-          ],
-        ),
+            ),
+          ),*/
+        ],
       ),
     );
   }
@@ -257,12 +285,15 @@ class _SignInState extends State<SignIn> {
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
   bool? remember = false;
+  bool isLoggedIn = false;
+  var profileData;
 
   GraphQLService graphQLService = GraphQLService();
   final _formKey = GlobalKey<FormState>();
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   late GoogleSignInAccount _userObj;
-  final GoogleSignIn _googleSignIn1 = GoogleSignIn();
+  var facebookLogin = FacebookLogin();
+
 
   @override
   void dispose() {
@@ -286,12 +317,13 @@ class _SignInState extends State<SignIn> {
 
   void _handleSignIn() async {
     try {
-      getRandomString(10).toString();
+
+    /*  getRandomString(10).toString();
       if (kDebugMode) {
         print(getRandomString(10).toString());
-      }
+      }*/
 
-      /*_googleSignIn.signIn().then((userData) {
+      _googleSignIn.signIn().then((userData) {
         setState(() {
           // _isLoggedIn = true;
           _userObj = userData!;
@@ -302,11 +334,14 @@ class _SignInState extends State<SignIn> {
 
       Fluttertoast.showToast(msg: _userObj.email);
       Fluttertoast.showToast(msg: _userObj.displayName.toString());
+      Fluttertoast.showToast(msg: _userObj.id);
+
+      print(_userObj.id.toString());
 
       graphQLService.Login(
           _userObj.email.toString(),
-          getRandomString(10).toString(),
-          context);*/
+          'test',
+          context);
 
       // User signed in, you can proceed with the app logic
     } catch (error) {
@@ -315,6 +350,46 @@ class _SignInState extends State<SignIn> {
       }
     }
   }
+
+  void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
+    setState(() {
+      this.isLoggedIn = isLoggedIn;
+      this.profileData = profileData;
+    });
+  }
+
+  /*void _handleFBSignIn() async {
+    try {
+
+      var facebookLoginResult =
+      await facebookLogin.logInWithReadPermissions(['email']);
+
+      switch (facebookLoginResult.status) {
+        case FacebookLoginStatus.error:
+          onLoginStatusChanged(false);
+          break;
+        case FacebookLoginStatus.cancel:
+          onLoginStatusChanged(false);
+          break;
+        case FacebookLoginStatus.success:
+          var graphResponse = await http.get(
+              'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.width(400)&access_token=${facebookLoginResult
+                  .accessToken.token}');
+
+          var profile = json.decode(graphResponse.body);
+          print(profile.toString());
+
+          onLoginStatusChanged(true, profileData: profile);
+          break;
+      }
+
+      // User signed in, you can proceed with the app logic
+    } catch (error) {
+      if (kDebugMode) {
+        print('Error signing in: $error');
+      }
+    }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -478,9 +553,6 @@ class _SignInState extends State<SignIn> {
                           text: 'Create an Account',
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              /*Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/signupscreen',
-                                  (Route<dynamic> route) => false);*/
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -578,7 +650,16 @@ class _SignInState extends State<SignIn> {
                               fontStyle: FontStyle.normal),
                           shape: const StadiumBorder(),
                         ),
-                        onPressed: () {}, // Every button need a callback
+                        onPressed: () {
+                          /*_handleFBSignIn();*/
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      FBLoginPage()));
+
+                        }, // Every button need a callback
                       ),
                     ),
                   ),
