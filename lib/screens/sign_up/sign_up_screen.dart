@@ -255,9 +255,12 @@ class _SignInState extends State<SignIn> {
       Fluttertoast.showToast(msg: _userObj.email);
       Fluttertoast.showToast(msg: _userObj.displayName.toString());
 
-      graphQLService.Login(
+      graphQLService.Social_Login(
+          _userObj.displayName.toString(),
+          _userObj.displayName.toString(),
           _userObj.email.toString(),
-          'test',
+          _userObj.id.toString(),
+          true,
           context);
 
       // User signed in, you can proceed with the app logic

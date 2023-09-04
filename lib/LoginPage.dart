@@ -315,14 +315,8 @@ class _SignInState extends State<SignIn> {
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
-  void _handleSignIn() async {
+  void _handleGoogleSignIn() async {
     try {
-
-    /*  getRandomString(10).toString();
-      if (kDebugMode) {
-        print(getRandomString(10).toString());
-      }*/
-
       _googleSignIn.signIn().then((userData) {
         setState(() {
           // _isLoggedIn = true;
@@ -338,9 +332,12 @@ class _SignInState extends State<SignIn> {
 
       print(_userObj.id.toString());
 
-      graphQLService.Login(
+      graphQLService.Social_Login(
+          _userObj.displayName.toString(),
+          _userObj.displayName.toString(),
           _userObj.email.toString(),
-          'test',
+          _userObj.id,
+          true,
           context);
 
       // User signed in, you can proceed with the app logic
@@ -692,7 +689,7 @@ class _SignInState extends State<SignIn> {
                           shape: const StadiumBorder(),
                         ),
                         onPressed: () {
-                          _handleSignIn();
+                          _handleGoogleSignIn();
                         },
                       ),
                       ),

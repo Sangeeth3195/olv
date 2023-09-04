@@ -1042,6 +1042,57 @@ class GraphQLService {
     }
   }
 
+  /// Social login
+  static String social_login(String firstname, String lastname, String email,String token,bool issub) {
+    return '''
+            mutation {
+                createCustomerV3(
+                  input: {
+                    firstname: "$firstname"
+                    lastname: "$firstname"
+                    email: "$email"
+                    token: "$token"
+                    is_subscribed: "$issub"
+                  }
+                ) {
+                  token
+                }
+              }
+        ''';
+  }
+
+  Future<String> Social_Login(String firstname, lastname,email,token,issubscribe, BuildContext context) async {
+    try {
+      GraphQLConfig graphQLConfig = GraphQLConfig();
+      GraphQLClient client = graphQLConfig.clientToQuery();
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(social_login(firstname, lastname,email,token,issubscribe)), // this
+        ),
+      );
+      if (result.hasException) {
+        print('---${result.exception!.graphqlErrors[0].message}');
+        Fluttertoast.showToast(
+            msg: result.exception!.graphqlErrors[0].message.toString());
+      } else if (result.data != null) {
+        print(result.data?['generateCustomerToken']['token']);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString(
+            'token', result.data?['generateCustomerToken']['token']);
+
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainLayout()));
+
+        Fluttertoast.showToast(msg: 'Login successfully');
+      }
+
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
   /// reset password
   static String resetpass(String email) {
     return '''
@@ -1404,11 +1455,11 @@ class GraphQLService {
                 lastname
                 suffix
                 email
-                wishlists{
-                    id
+                wishlists {
+                  id
                 }
                 addresses {
-                    id
+                  id
                   firstname
                   lastname
                   street
@@ -1423,7 +1474,8 @@ class GraphQLService {
                   default_shipping
                   default_billing
                 }
-                 wishlist {
+            
+                wishlist {
                   items_count
                   sharing_code
                   updated_at
@@ -1454,6 +1506,14 @@ class GraphQLService {
                               value
                             }
                             use_default_value
+                          }
+                        }
+                      }
+                      price_range {
+                        minimum_price {
+                          regular_price {
+                            value
+                            currency
                           }
                         }
                       }
