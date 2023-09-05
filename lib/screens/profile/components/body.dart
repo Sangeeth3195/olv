@@ -3,10 +3,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/screens/my_orders/Myorders.dart';
 import 'package:omaliving/screens/settings/settings.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../API Services/graphql_service.dart';
 import '../../../models/CustomerModel.dart';
+import '../../provider/provider.dart';
 import 'profile_menu.dart' as pmenu;
 import 'profile_pic.dart';
 
@@ -20,7 +22,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   CustomerModel customerModel = CustomerModel();
   GraphQLService graphQLService = GraphQLService();
-
+  MyProvider? myProvider;
   final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
@@ -29,6 +31,8 @@ class _BodyState extends State<Body> {
     // TODO: implement initState
     super.initState();
     getuserdata();
+    myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider!.notifyListeners();
   }
 
   void getuserdata() async {
@@ -42,6 +46,9 @@ class _BodyState extends State<Body> {
       _firstnameController.text = customerModel.customer?.firstname ?? '';
       _emailController.text = customerModel.customer?.email ?? '';
     });
+
+    myProvider!.notifyListeners();
+
   }
 
   @override
@@ -60,7 +67,7 @@ class _BodyState extends State<Body> {
             ),
             title: Text(
               //TODO: take from profile info
-              customerModel.customer?.firstname ?? '',
+              _firstnameController.text ?? '',
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 18,
@@ -69,7 +76,7 @@ class _BodyState extends State<Body> {
             ),
             subtitle: Text(
               //TODO: take from profile info
-              customerModel.customer?.email ?? '',
+              _emailController.text ?? '',
               style: const TextStyle(
                   color: Colors.black, fontWeight: FontWeight.w500),
             ),
@@ -93,34 +100,11 @@ class _BodyState extends State<Body> {
             ),
           ),
 
-          /*   pmenu.ProfileMenu(
-            text: "Account",
-            icon: Icons.person_outline,
-            press: () => {
-              navigate(context, '/account',
-                  isRootNavigator: false,
-                  arguments: {'id': '1'})
-
-              // Navigator.of(context, rootNavigator: true).pushNamed("/account"),
-            },
-          ),*/
-          /*  const Padding(
-            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
-            child: Divider(
-              color: Colors.grey,
-              thickness: 0.3,
-            ),
-          ),*/
-
           pmenu.ProfileMenu(
             text: "My Orders",
             icon: Icons.shopping_basket,
             press: () {
               Navigator.of(context, rootNavigator: true).pushNamed("/myorders");
-              /*  Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MyOrders()));*/
             },
           ),
           const Padding(

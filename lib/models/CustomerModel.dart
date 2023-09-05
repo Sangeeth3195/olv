@@ -31,6 +31,7 @@ class CustomerModel {
 class Customer {
   String? typename;
   String? firstname;
+  bool? issubscribed;
   String? lastname;
   dynamic suffix;
   String? email;
@@ -41,6 +42,7 @@ class Customer {
   Customer({
     this.typename,
     this.firstname,
+    this.issubscribed,
     this.lastname,
     this.suffix,
     this.email,
@@ -52,6 +54,7 @@ class Customer {
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
     typename: json["__typename"],
     firstname: json["firstname"],
+    issubscribed: json["is_subscribed"],
     lastname: json["lastname"],
     suffix: json["suffix"],
     email: json["email"],
@@ -63,6 +66,7 @@ class Customer {
   Map<String, dynamic> toJson() => {
     "__typename": typename,
     "firstname": firstname,
+    "issubscribed": issubscribed,
     "lastname": lastname,
     "suffix": suffix,
     "email": email,

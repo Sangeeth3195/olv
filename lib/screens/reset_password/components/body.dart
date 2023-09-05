@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../API Services/graphql_service.dart';
@@ -201,15 +203,22 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
 
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  String token = prefs.getString('token') ?? '';
-                  String emailid = prefs.getString('emailid') ?? '';
+                  EasyLoading.show(status: 'loading...');
 
-                  print(token);
-                  print(emailid);
                   print(confrmnewpasswordController.text);
 
-                  graphQLService.chnagepassword(emailid,token,confrmnewpasswordController.text.toString(),context);
+                  String result;
+                  result = await graphQLService.update_reset_password(password:confrmnewpasswordController.text.toString());
+
+                  if (result == "200") {
+                    EasyLoading.dismiss();
+                    Navigator.of(context).pop();
+                    Fluttertoast.showToast(
+                        msg: "Password updated Successfully");
+                  } else {
+                    EasyLoading.dismiss();
+                    Fluttertoast.showToast(msg: "Password updation failed");
+                  }
 
                 }
               },

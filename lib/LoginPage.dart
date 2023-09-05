@@ -3,9 +3,6 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_facebook/flutter_login_facebook.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/demo/demo.dart';
@@ -292,8 +289,6 @@ class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   late GoogleSignInAccount _userObj;
-  var facebookLogin = FacebookLogin();
-
 
   @override
   void dispose() {
@@ -308,13 +303,6 @@ class _SignInState extends State<SignIn> {
     passwordVisible = true;
   }
 
-  static const _chars =
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-  final Random _rnd = Random();
-
-  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
-
   void _handleGoogleSignIn() async {
     try {
       _googleSignIn.signIn().then((userData) {
@@ -326,10 +314,8 @@ class _SignInState extends State<SignIn> {
         print(e);
       });
 
-      Fluttertoast.showToast(msg: _userObj.email);
-      Fluttertoast.showToast(msg: _userObj.displayName.toString());
-      Fluttertoast.showToast(msg: _userObj.id);
-
+      print(_userObj.email.toString());
+      print(_userObj.displayName.toString());
       print(_userObj.id.toString());
 
       graphQLService.Social_Login(
@@ -654,7 +640,7 @@ class _SignInState extends State<SignIn> {
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      FBLoginPage()));
+                                      FBOOK()));
 
                         }, // Every button need a callback
                       ),

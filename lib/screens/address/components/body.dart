@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/CustomerModel.dart';
 
@@ -23,6 +24,8 @@ class _BodyState extends State<Body> {
   }
 
   void getData() async {
+    EasyLoading.show(status: 'loading...');
+
     customerModel = await graphQLService.get_customer_details();
 
     print(customerModel.customer?.addresses?.length);
@@ -53,9 +56,7 @@ class _BodyState extends State<Body> {
             ),
             trailing: const SizedBox(
               width: 46,
-              child: Expanded(
-                // Place `Expanded` inside `Row`
-                child: Row(
+              child:  Row(
                   children: [
                     Text(
                       'Edit |',
@@ -69,7 +70,7 @@ class _BodyState extends State<Body> {
                   ],
                 ),
               ),
-            ),
+
           );
         },
       ),

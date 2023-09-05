@@ -1043,7 +1043,8 @@ class GraphQLService {
   }
 
   /// Social login
-  static String social_login(String firstname, String lastname, String email,String token,bool issub) {
+  static String social_login(String firstname, String lastname, String email,
+      String token, bool issub) {
     return '''
             mutation {
                 createCustomerV3(
@@ -1052,7 +1053,7 @@ class GraphQLService {
                     lastname: "$firstname"
                     email: "$email"
                     token: "$token"
-                    is_subscribed: "$issub"
+                    is_subscribed: $issub
                   }
                 ) {
                   token
@@ -1061,13 +1062,15 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> Social_Login(String firstname, lastname,email,token,issubscribe, BuildContext context) async {
+  Future<String> Social_Login(String firstname, lastname, email, token,
+      issubscribe, BuildContext context) async {
     try {
       GraphQLConfig graphQLConfig = GraphQLConfig();
       GraphQLClient client = graphQLConfig.clientToQuery();
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(social_login(firstname, lastname,email,token,issubscribe)), // this
+          document: gql(social_login(
+              firstname, lastname, email, token, issubscribe)), // this
         ),
       );
       if (result.hasException) {
@@ -1075,10 +1078,10 @@ class GraphQLService {
         Fluttertoast.showToast(
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
-        print(result.data?['generateCustomerToken']['token']);
+        print(result.data?['createCustomerV3']['token']);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString(
-            'token', result.data?['generateCustomerToken']['token']);
+            'token', result.data?['createCustomerV3']['token']);
 
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => MainLayout()));
@@ -1307,11 +1310,13 @@ class GraphQLService {
               address: address,
               phNo: phNo,
               postalCode: postalCode,
-              isSubcribed: true,
+              // isSubcribed: true,
               countryCode: countryCode,
               region: region,
               regioncode: regioncode,
               regionId: regionId,
+              billingadd: billingadd,
+              shippadd: shippadd,
               id: id)), // this
         ),
       );
@@ -1326,6 +1331,8 @@ class GraphQLService {
               regioncode: regioncode,
               countryCode: countryCode,
               regionId: regionId,
+          billingadd: billingadd,
+          shippadd: shippadd,
               id: id)
           .toString());
       if (result.hasException) {
@@ -1353,8 +1360,8 @@ class GraphQLService {
       required String regioncode,
       required String countryCode,
       required String regionId,
-      bool? isSubcribed,
-      bool? isSubcribed1,
+      bool? billingadd,
+      bool? shippadd,
       required String id}) {
     return '''
             mutation {
@@ -1374,8 +1381,8 @@ class GraphQLService {
                     city: "${city}"
                     firstname: "${firstname}"
                     lastname: "${lastname}"
-                    default_shipping: "${isSubcribed}"
-                    default_billing: "${isSubcribed1}"
+                    default_shipping: ${billingadd}
+                    default_billing: ${shippadd}
                                 }
                               ) {
                     id
@@ -1402,11 +1409,11 @@ class GraphQLService {
       bool? isSubscribed}) {
     return '''
             mutation {
-              updateCustomerV2(
+              updateCustomer(
                   input: {
                     firstname: "$firstname"
                     lastname: "${lastname}"
-                    is_subscribed: ${isSubscribed ?? false}
+                    is_subscribed: ${isSubscribed}
                   }
                 ) {
                   customer {
@@ -1427,11 +1434,11 @@ class GraphQLService {
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(update_customer_details(
-              firstname: firstname, lastname: lastname, email: email)), // this
+              firstname: firstname, lastname: lastname, email: email,isSubscribed :isSubscribed)), // this
         ),
       );
       log(update_customer_details(
-              firstname: firstname, lastname: lastname, email: email)
+              firstname: firstname, lastname: lastname, email: email,isSubscribed :isSubscribed)
           .toString());
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
@@ -1453,6 +1460,7 @@ class GraphQLService {
               customer {
                 firstname
                 lastname
+                is_subscribed
                 suffix
                 email
                 wishlists {
@@ -1510,21 +1518,21 @@ class GraphQLService {
                         }
                       }
                       media_gallery {
-        url
-        label
-        position
-        disabled
-        ... on ProductVideo {
-          video_content {
-            media_type
-            video_provider
-            video_url
-            video_title
-            video_description
-            video_metadata
-          }
-        }
-      }
+                            url
+                            label
+                            position
+                            disabled
+                            ... on ProductVideo {
+                              video_content {
+                                media_type
+                                video_provider
+                                video_url
+                                video_title
+                                video_description
+                                video_metadata
+                              }
+                            }
+                          }
                       price_range {
                         minimum_price {
                           regular_price {
@@ -1549,13 +1557,15 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
+        EasyLoading.dismiss();
         log(jsonEncode(result.data));
         print(result.data?['customer']['addresses']);
         return CustomerModel.fromJson(result.data!);
       }
-
+      EasyLoading.dismiss();
       return CustomerModel();
     } catch (e) {
       print(e);
@@ -1907,10 +1917,14 @@ class GraphQLService {
 
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
+        EasyLoading.dismiss();
       } else if (result.data != null) {
         log(jsonEncode(result.data));
+        EasyLoading.dismiss();
+
         return OrderModel.fromJson(result.data!);
       }
+      EasyLoading.dismiss();
 
       return OrderModel();
     } catch (e) {
@@ -2017,8 +2031,10 @@ class GraphQLService {
       );
 
       if (result.hasException) {
+        EasyLoading.dismiss();
         throw Exception(result.exception);
       } else {
+        EasyLoading.dismiss();
         return result;
       }
     } catch (error) {
@@ -2026,64 +2042,51 @@ class GraphQLService {
     }
   }
 
-  /// subscribe to news letter
-  static String sub_email(String email) {
+
+  static String update_custor_password(
+      {required String password,
+        }) {
     return '''
             mutation {
-                subscribeEmailToNewsletter(
-                  email: "$email"
+              updateCustomer(
+                  input: {
+                    password: "$password"
+                  }
                 ) {
-                  status
+                  customer {
+                    firstname
+                    is_subscribed
+                  }
                 }
-              }
+            }
         ''';
   }
 
-  Future<String> subscribenewsletter(String email) async {
+  Future<String> update_reset_password(
+      {required String password}) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(sub_email(email)),
+          document: gql(update_custor_password(
+              password:password)), // this
         ),
       );
+      log(update_custor_password(
+          password:password)
+          .toString());
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        //  parse your response here and return
-        // var data = User.fromJson(result.data["register"]);
+        EasyLoading.dismiss();
+        return "200";
       }
+
       return "";
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      print(e);
       return "";
     }
   }
 
-  /// Unsubscribe to news letter
-  Future<Object> unsubscribenewsletter(String value) async {
-    try {
-      QueryResult result = await client.query(
-        QueryOptions(
-          fetchPolicy: FetchPolicy.noCache,
-          document: gql("""
-           mutation {
-              unsubscribeEmailToNewsletter(email: "$value") {
-                status
-              }
-            }
-            """),
-        ),
-      );
-
-      if (result.hasException) {
-        throw Exception(result.exception);
-      } else {
-        return result;
-      }
-    } catch (error) {
-      return [];
-    }
-  }
 }

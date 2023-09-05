@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/models/CustomerModel.dart';
 
@@ -32,6 +33,9 @@ class _BodyState extends State<Body> {
   void getuserdata() async {
     // navHeaderList = await graphQLService.getcustomeraddresslist(limit: 100);
     // setState(() {});
+
+    EasyLoading.show(status: 'loading...');
+
     customerModel = await graphQLService.get_customer_details();
 
     print(customerModel.customer?.addresses?.length);
@@ -57,7 +61,7 @@ class _BodyState extends State<Body> {
                 backgroundImage: AssetImage('assets/images/photo.jpg'),
               ),
               title: Text(
-                customerModel?.customer?.firstname ?? '',
+                customerModel.customer?.firstname ?? '',
                 style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
@@ -65,7 +69,7 @@ class _BodyState extends State<Body> {
               ),
               subtitle: Text(
                 //TODO: take from profile info
-                customerModel?.customer?.email ?? '',
+                customerModel.customer?.email ?? '',
                 style: const TextStyle(
                     color: Colors.black, fontWeight: FontWeight.w500),
               ),
@@ -147,34 +151,16 @@ class _BodyState extends State<Body> {
                 ),
               ),
             ),*/
-            /*Padding(
-              padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
-              child: TextFormField(
-                controller: _emailController,
-                obscureText: false,
-                textInputAction: TextInputAction.next,
-                validator: (val) {
-                  if (val!.isEmpty) return 'This is a required field.';
-                  return null;
-                },
-                style: const TextStyle(fontSize: 14.0, color: Colors.black),
-                decoration: InputDecoration(
-                    contentPadding:
-                        const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                    hintText: "Email",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0))),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),*/
+
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: InkWell(
                 onTap: () async {
                   if (_formKey.currentState!.validate()) {
                     if (_formKey.currentState!.validate()) {
+
+                      EasyLoading.show(status: 'loading...');
+
                       String result;
                       result = await graphQLService.update_customer_details_api(
                           firstname: _firstnameController.text,
@@ -183,11 +169,13 @@ class _BodyState extends State<Body> {
                           isSubscribed: false);
 
                       if (result == "200") {
+                        EasyLoading.dismiss();
                         Navigator.of(context).pop();
                         Fluttertoast.showToast(
-                            msg: "Address Added Successfully");
+                            msg: "Profile updated Successfully");
                       } else {
-                        Fluttertoast.showToast(msg: "Address Added Failed");
+                        EasyLoading.dismiss();
+                        Fluttertoast.showToast(msg: "Profile updation  Failed");
                       }
                     }
                   }

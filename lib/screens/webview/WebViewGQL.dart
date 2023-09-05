@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import '../../API Services/graphql_service.dart';
@@ -32,6 +33,9 @@ class _CommonWebViewState extends State<CommonWebViewGraphql> {
   }
 
   void getNavdata() async {
+
+    EasyLoading.show(status: 'loading...');
+
     print(widget.url);
     getcustomwebview = await graphQLService.getcustomwebview(widget.url);
     setState(() {});
@@ -64,7 +68,7 @@ class _CommonWebViewState extends State<CommonWebViewGraphql> {
                   getcustomwebview.data?['cmsPage']['content'],
                   customStylesBuilder: (element) {
                     if (element.classes.contains('foo')) {
-                      return {'color': 'red'};
+                      return {'color': 'red','font-size': '20px',};
                     }
                     return null;
                   },
@@ -74,7 +78,7 @@ class _CommonWebViewState extends State<CommonWebViewGraphql> {
                       const CircularProgressIndicator(),
                   renderMode: RenderMode.column,
                   // set the default styling for text
-                  textStyle: const TextStyle(fontSize: 14.0),
+                  textStyle: const TextStyle(fontSize: 14.0,height: 1.6),
                 ) : Container()
               ),
             ],

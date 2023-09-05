@@ -121,43 +121,19 @@ class _MainLayoutState extends State<MainLayout> {
         elevation: 0,
         iconTheme: const IconThemeData(color: chipColor),
         backgroundColor: Colors.white,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-
-            const Text(
-              'OMA',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: headingColor,
-              ),
-            ),
-
-           /* IconButton(
-              icon: const Icon(
-                Icons.location_on_outlined,
-                size: 24,
-                color: Colors.black,
-              ),
-              onPressed: () {},
-            ),
-            const Text(
-              'Gurugram',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),*/
-          ],
+        title: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Center(
+            child:
+            Image.asset('assets/omalogo.png', height: 30, width: 100),
+          ),
         ),
         actions: [
           IconButton(
             icon: const Icon(
-              Icons.favorite_border,
+              Icons.notifications,
               color: blackColor,
-              size: 26,
+              size: 22,
             ),
             onPressed: () {
               /*getNavdata();*/
@@ -165,7 +141,7 @@ class _MainLayoutState extends State<MainLayout> {
             },
           ),
           const SizedBox(
-            width: 12,
+            width: 0,
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
@@ -181,11 +157,10 @@ class _MainLayoutState extends State<MainLayout> {
               },
               child: const CircleAvatar(
                 backgroundColor: Colors.black,
-                radius: 15,
+                radius: 12,
                 child: CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage(
-                      'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
+                  backgroundImage: AssetImage('assets/images/photo.jpg'),
                 ),
               ),
             ),
@@ -202,6 +177,7 @@ class _MainLayoutState extends State<MainLayout> {
                   .pushNamed("/loginpage");
             },
           ),*/
+
         ],
       ),
       drawer: Drawer(
@@ -216,7 +192,7 @@ class _MainLayoutState extends State<MainLayout> {
               leading: IconButton(
                 icon: const Icon(
                   Icons.close,
-                  size: 28,
+                  size: 22,
                   color: Colors.black,
                 ),
                 onPressed: () {
@@ -225,18 +201,17 @@ class _MainLayoutState extends State<MainLayout> {
               ),
               title: Padding(
                 padding: const EdgeInsets.all(2.0),
-                child:
-                    Container(), /*Center(
+                child: Center(
                   child:
-                      Image.asset('assets/omalogo.png', height: 50, width: 100),
-                ),*/
+                      Image.asset('assets/omalogo.png', height: 30, width: 100),
+                ),
               ),
               actions: [
                 IconButton(
                   icon: const Icon(
-                    Icons.favorite_border,
+                    Icons.notifications,
                     color: blackColor,
-                    size: 26,
+                    size: 22,
                   ),
                   onPressed: () {
                     getNavdata();
@@ -245,9 +220,9 @@ class _MainLayoutState extends State<MainLayout> {
                     // Navigator.pushNamed(context, Settings.routeName);
                   },
                 ),
-                const SizedBox(
-                  width: 12,
-                ),
+                // const SizedBox(
+                //   width: 12,
+                // ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   child: GestureDetector(
@@ -262,11 +237,10 @@ class _MainLayoutState extends State<MainLayout> {
                     },
                     child: const CircleAvatar(
                       backgroundColor: Colors.black,
-                      radius: 15,
+                      radius: 12,
                       child: CircleAvatar(
                         radius: 25,
-                        backgroundImage: NetworkImage(
-                            'https://d2v5dzhdg4zhx3.cloudfront.net/web-assets/images/storypages/short/linkedin-profile-picture-maker/HEADER.webp'),
+                        backgroundImage: AssetImage('assets/images/photo.jpg'),
                       ),
                     ),
                   ),
@@ -994,16 +968,6 @@ class _NextScreenState extends State<NextScreen> {
         child: const Text('Home Page'));
   }
 }
-/*
- * File: main.dart
- * Project: BottomNavigationBar demo
- * File Created: Wednesday, 26th May 2022 1:15:47 pm
- * Author: Mahesh Jamdade
- * -----
- * Last Modified: Saturday, 28th May 2022 4:42:07 pm
- * Modified By: Mahesh Jamdade
- * -----
- */
 
 class MenuItem {
   const MenuItem(this.iconData, this.text);

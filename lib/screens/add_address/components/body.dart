@@ -37,8 +37,8 @@ class _BodyState extends State<Body> {
   Country selectedCountrySuggestion = Country();
   int countryPosition = 0;
   int statePosition = 0;
-  bool isChecked = false;
-  bool isChecked1 = false;
+  bool? isChecked_billing = false;
+  bool? isChecked_shipping = false;
 
   bool isVisible = false;
 
@@ -61,6 +61,10 @@ class _BodyState extends State<Body> {
     if (widget.arguments?.firstname != null) {
 
       isVisible = true;
+
+      isChecked_billing = widget.arguments?.defaultBilling!;
+      isChecked_shipping = widget.arguments?.defaultShipping!;
+
 
       firstNameController.text = widget.arguments?.firstname ?? '';
       lastNameController.text = widget.arguments?.lastname ?? '';
@@ -432,11 +436,11 @@ class _BodyState extends State<Body> {
                 children: <Widget>[
                   Checkbox(
                     checkColor: Colors.white,
-                    value: isChecked,
+                    value: isChecked_billing,
                     onChanged: (bool? value) {
                       setState(() {
-                        isChecked = value!;
-                        print(isChecked);
+                        isChecked_billing = value!;
+                        print(isChecked_billing);
                       });
                     },
                   ),
@@ -445,7 +449,6 @@ class _BodyState extends State<Body> {
                     style: TextStyle(fontSize: 14.0),
                   ),
                   const SizedBox(width: 5),
-
                 ],
               ),
               ),
@@ -456,11 +459,11 @@ class _BodyState extends State<Body> {
                 children: <Widget>[
                   Checkbox(
                     checkColor: Colors.white,
-                    value: isChecked1,
+                    value: isChecked_shipping,
                     onChanged: (bool? value) {
                       setState(() {
-                        isChecked1 = value!;
-                        print(isChecked1);
+                        isChecked_shipping = value!;
+                        print(isChecked_shipping);
                       });
                     },
                   ),
@@ -494,6 +497,10 @@ class _BodyState extends State<Body> {
                       if (_formKey.currentState!.validate()) {
                         String result;
 
+                        print(isChecked_billing);
+                        print(isChecked_shipping);
+
+
                         if (widget.arguments?.id != null) {
                           result = await graphQLService.update_customer_address(
                               firstname: firstNameController.text,
@@ -506,9 +513,9 @@ class _BodyState extends State<Body> {
                               region: selectedSuggestion.name ?? '',
                               countryCode: selectedCountrySuggestion.id ?? '',
                               regionId: selectedSuggestion.id.toString(),
+                              billingadd : isChecked_billing,
+                              shippadd : isChecked_shipping,
                               id: widget.arguments!.id.toString());
-                              billingadd : isChecked ?? true ;
-                              shippadd : isChecked1 ?? true ;
                         } else {
                           result = await graphQLService.add_customer_address(
                               firstname: firstNameController.text,
@@ -525,9 +532,9 @@ class _BodyState extends State<Body> {
                         if (result == "200") {
                           Navigator.of(context).pop();
                           Fluttertoast.showToast(
-                              msg: "Address Added Successfully");
+                              msg: "Address Updated Successfully");
                         } else {
-                          Fluttertoast.showToast(msg: "Address Added Failed");
+                          Fluttertoast.showToast(msg: "Address Updation Failed");
                         }
                       }
                     },

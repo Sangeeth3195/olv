@@ -71,10 +71,10 @@ class _LoginPageState extends State<SignUpScreen>
                         padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                         child: Text(
                           "If you have an account, sign in with your email address.",
-                          textAlign: TextAlign.center,
                           textScaleFactor: 0.9,
                           style: TextStyle(
                               fontSize: 13.0,
+                              height: 1.5,
                               color: Colors.black45,
                               fontWeight: FontWeight.w600),
                         ),

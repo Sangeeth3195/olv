@@ -35,8 +35,8 @@ class Body extends StatelessWidget {
               children: [
                  Expanded(
                   child: Text(
-                    "Order ID: ${ordersItem.id??00}",
-                    style: TextStyle(
+                    "Order ID: ${ordersItem.orderNumber??00}",
+                    style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14,
                         height: 1.5,
@@ -100,15 +100,15 @@ class Body extends StatelessWidget {
                   DataRow(cells: [
                     DataCell(Text(
                       ordersItem.items![0].productName??'',
-                      style: TextStyle(fontSize: 13),
+                      style: const TextStyle(fontSize: 13),
                     )),
                     DataCell(Text(
                       ordersItem.items![0].quantityOrdered.toString(),
-                      style: TextStyle(fontSize: 13),
+                      style: const TextStyle(fontSize: 13),
                     )),
                     DataCell(Text(
                       ordersItem.items![0].productSalePrice!.value.toString()??'',
-                      style: TextStyle(fontSize: 13),
+                      style: const TextStyle(fontSize: 13),
                     )),
                   ]),
                 ],
@@ -133,10 +133,10 @@ class Body extends StatelessWidget {
             height: 15,
           ),
            Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
             child: Row(
               children: <Widget>[
-                Expanded(
+                const Expanded(
                   // Place `Expanded` inside `Row`
                   child: SizedBox(
                     height: 15, // <-- Your height
@@ -149,11 +149,11 @@ class Body extends StatelessWidget {
                 SizedBox(
                   height: 30, // <-- Your height
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Row(children: [
                       Text(
                         '₹ ${ordersItem.total!.subtotal!.value??''}',
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ]),
                   ),
@@ -165,10 +165,10 @@ class Body extends StatelessWidget {
             height: 5,
           ),
            Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
             child: Row(
               children: <Widget>[
-                Expanded(
+                const Expanded(
                   // Place `Expanded` inside `Row`
                   child: SizedBox(
                     height: 15, // <-- Your height
@@ -181,11 +181,11 @@ class Body extends StatelessWidget {
                 SizedBox(
                   height: 30, // <-- Your height
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Row(children: [
                       Text(
                         '₹ ${ordersItem.total!.totalShipping!.value??''}',
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ]),
                   ),
@@ -196,7 +196,7 @@ class Body extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-           Padding(
+           const Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 15, 0),
             child: Row(
               children: <Widget>[
@@ -229,15 +229,15 @@ class Body extends StatelessWidget {
             height: 5,
           ),
           Padding(
-            padding:  EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding:  const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: Container(
               color: const Color(0xFFFFF2E1),
               height: 50,
               child:  Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Row(
                   children: <Widget>[
-                    Expanded(
+                    const Expanded(
                       // Place `Expanded` inside `Row`
                       child: SizedBox(
                         height: 15, // <-- Your height
@@ -251,11 +251,11 @@ class Body extends StatelessWidget {
                     SizedBox(
                       height: 30, // <-- Your height
                       child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
                         child: Row(children: [
                           Text(
                             '₹ ${ordersItem.total!.grandTotal!.value??''}',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -268,7 +268,7 @@ class Body extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-           Padding(
+           const Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
             child: Row(
               children: [
@@ -285,14 +285,14 @@ class Body extends StatelessWidget {
             ),
           ),
           Padding(
-            padding:  EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            padding:  const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                     Expanded(
+                     const Expanded(
                       child: Text(
                         'Shipping Address',
                         style: TextStyle(
@@ -301,7 +301,7 @@ class Body extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    SizedBox(width: 40,),
+                    const SizedBox(width: 40,),
                     Expanded(
                       child: TextButton(
                         onPressed: () {},
@@ -330,21 +330,21 @@ class Body extends StatelessWidget {
                      Expanded(
                        child: Text(
                          "${ordersItem.shippingAddress!.street![0]??''}",
-                         style: TextStyle(
+                         style: const TextStyle(
                              color: Colors.black,
                              fontSize: 13,
                              height: 1.5,
                              fontWeight: FontWeight.w500),
                        ),
                      ),
-                    SizedBox(width: 40,),
+                    const SizedBox(width: 40,),
 
                     Expanded(
                       child: TextButton(
                         onPressed: () {},
                         child:  Text(
                           '${ordersItem.shippingMethod??''}',
-                          style: TextStyle(color: Colors.black, fontSize: 14),
+                          style: const TextStyle(color: Colors.black, fontSize: 14),
                         ),
                       ),
                     )
@@ -370,7 +370,7 @@ class Body extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    SizedBox(width: 40,),
+                    const SizedBox(width: 40,),
 
                     Expanded(
                       child: TextButton(
@@ -396,14 +396,14 @@ class Body extends StatelessWidget {
                      Expanded(
                       child: Text(
                         "${ordersItem.billingAddress!.street![0].toString()??''}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.black,
                             fontSize: 13,
                             height: 1.5,
                             fontWeight: FontWeight.w500),
                       ),
                     ),
-                    SizedBox(width: 40,),
+                    const SizedBox(width: 40,),
 
                     Expanded(
                       child: TextButton(
@@ -412,7 +412,7 @@ class Body extends StatelessWidget {
                           children: [
                             Text(
                               "${ordersItem.paymentMethods!.first.name!.toString()??''}",
-                              style: TextStyle(color: Colors.black, fontSize: 14),
+                              style: const TextStyle(color: Colors.black, fontSize: 14),
                             ),
                           ],
                         ),

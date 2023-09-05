@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/components/default_button.dart';
 
 import '../../../API Services/graphql_service.dart';
+import '../../../models/CustomerModel.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -13,8 +16,30 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
 
   GraphQLService graphQLService = GraphQLService();
+  CustomerModel customerModel = CustomerModel();
 
   bool isChecked = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getuserdata();
+  }
+
+  void getuserdata() async {
+    EasyLoading.show(status: 'loading...');
+    customerModel = await graphQLService.get_customer_details();
+    print(customerModel.customer?.addresses?.length);
+
+    print(customerModel.customer!.issubscribed!);
+
+    setState(() {
+
+      isChecked = customerModel.customer!.issubscribed!;
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +75,31 @@ class _BodyState extends State<Body> {
                 margin: const EdgeInsets.all(15),
                 child: DefaultButton(
                   text: 'Save',
-                  press: () {
+                  press: () async {
 
+                    EasyLoading.show(status: 'loading...');
+
+                    String? nam = customerModel.customer?.firstname;
+                    String? lm = customerModel.customer?.lastname;
+                    String? em = customerModel.customer?.email;
                     print(isChecked);
 
-                    graphQLService.subscribenewsletter('');
+                    String result;
+                    result = await graphQLService.update_customer_details_api(
+                        firstname: nam!,
+                        lastname: lm!,
+                        email: em!,
+                        isSubscribed: isChecked);
 
+                    if (result == "200") {
+                      EasyLoading.dismiss();
+                      Navigator.of(context).pop();
+                      Fluttertoast.showToast(
+                          msg: "Subscribed Successfully");
+                    } else {
+                      EasyLoading.dismiss();
+                      Fluttertoast.showToast(msg: "Subscribed updation failed");
+                    }
                   },
                 ),
               ),  //Row
