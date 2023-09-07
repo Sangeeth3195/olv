@@ -42,6 +42,6 @@ final Map<String, WidgetBuilder> routes = {
   '/address': (context) => const Address(),
   '/newsletter': (context) => const Newsletter(),
   '/resetpassword': (context) => const ResetPassword(),
-  '/settings': (context) => const Settings(),
+  // '/settings': (context) => const Settings(),
 
 };

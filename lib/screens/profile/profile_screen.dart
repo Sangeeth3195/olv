@@ -16,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
           colorScheme:
           Theme.of(context).colorScheme.copyWith(primary: colors[2])),
       child: Navigator(
-          key: profileKey,
+          // key: profileKey,
           initialRoute: '/',
           onGenerateRoute: (RouteSettings settings) {
             WidgetBuilder builder;

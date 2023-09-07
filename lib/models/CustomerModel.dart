@@ -165,7 +165,7 @@ class PurpleWishlist {
   int? itemsCount;
   String? sharingCode;
   DateTime? updatedAt;
-  List<Item>? items;
+  List<ItemWishList>? items;
 
   PurpleWishlist({
     this.typename,
@@ -180,7 +180,7 @@ class PurpleWishlist {
     itemsCount: json["items_count"],
     sharingCode: json["sharing_code"],
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    items: json["items"] == null ? [] : List<Item>.from(json["items"]!.map((x) => Item.fromJson(x))),
+    items: json["items"] == null ? [] : List<ItemWishList>.from(json["items"]!.map((x) => ItemWishList.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -192,7 +192,7 @@ class PurpleWishlist {
   };
 }
 
-class Item {
+class ItemWishList {
   String? typename;
   int? id;
   int? qty;
@@ -200,7 +200,7 @@ class Item {
   DateTime? addedAt;
   Product? product;
 
-  Item({
+  ItemWishList({
     this.typename,
     this.id,
     this.qty,
@@ -209,7 +209,7 @@ class Item {
     this.product,
   });
 
-  factory Item.fromJson(Map<String, dynamic> json) => Item(
+  factory ItemWishList.fromJson(Map<String, dynamic> json) => ItemWishList(
     typename: json["__typename"],
     id: json["id"],
     qty: json["qty"],

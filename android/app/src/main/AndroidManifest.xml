@@ -39,11 +39,10 @@
             <meta-data android:name="com.facebook.sdk.ApplicationId"
                 android:value="607191638268187"/>
 
-            <meta-data
-                android:name="com.facebook.sdk.ClientToken"
-                android:value="a64547c6c3ac6bcea9638f2460e52ef9"/>
+            <meta-data android:name="com.facebook.sdk.ClientToken"
+                android:value="@string/facebook_client_token"/>
 
-                <intent-filter>
+            <intent-filter>
                     <action android:name="android.intent.action.VIEW" />
                     <category android:name="android.intent.category.DEFAULT" />
                     <category android:name="android.intent.category.BROWSABLE" />

@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
+import 'package:omaliving/models/CustomerModel.dart';
+// import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/models/ProductListJson.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProvider extends ChangeNotifier {
   List<dynamic> _data = [];
@@ -25,6 +28,8 @@ class MyProvider extends ChangeNotifier {
 
   bool isDetailScreen=false;
   bool isproduct=false;
+  int? bottombar;
+  CustomerModel customerModel = CustomerModel();
 
 
 
@@ -37,6 +42,23 @@ class MyProvider extends ChangeNotifier {
     isDetailScreen=value;
     notifyListeners();
   }
+
+  void bottomBar(int bottomIndex){
+    bottombar=bottomIndex;
+    notifyListeners();
+  }
+
+  void getuserdata() async {
+
+    customerModel = await graphQLService.get_customer_details();
+    print(customerModel.customer?.addresses?.length);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('emailid', customerModel.customer?.email??'');
+    notifyListeners();
+
+  }
+
 
   void updateData(int id) async {
     dynamic listData = await graphQLService.getproductlist(limit: 100, id: id);

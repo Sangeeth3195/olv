@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/screens/order_success/OrderSuccess.dart';
+import 'package:omaliving/screens/provider/provider.dart';
 import 'package:omaliving/screens/settings/components/settings_menu.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -143,12 +146,16 @@ class _BodyState extends State<Body> {
             text: "Logout",
             icon: Icons.logout_rounded,
             press: () async {
+             MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
+
+             myProvider.customerModel=CustomerModel();
+             myProvider.getuserdata();
               revokeloggedinuser = await graphQLService.revokeuser(context);
               SharedPreferences preferences = await SharedPreferences.getInstance();
               await preferences.clear();
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => MainLayout()),
-                      (Route<dynamic> route) => false);
+              // Navigator.of(context).pushAndRemoveUntil(
+              //     MaterialPageRoute(builder: (context) => MainLayout()),
+              //         (Route<dynamic> route) => false);
             },
           ),
           const SizedBox(

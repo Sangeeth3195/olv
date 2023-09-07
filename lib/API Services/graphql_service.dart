@@ -5,10 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/models/CountryModel.dart';
 import 'package:omaliving/models/CustomerModel.dart';
+import 'package:omaliving/screens/provider/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../MainLayout.dart';
@@ -1029,11 +1032,15 @@ class GraphQLService {
         prefs.setString(
             'token', result.data?['generateCustomerToken']['token']);
 
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MainLayout()));
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => MainLayout()));
 
+        Navigator.of(context).pop();
         Fluttertoast.showToast(msg: 'Login successfully');
       }
+
+    MyProvider  myProvider = Provider.of<MyProvider>(context, listen: false);
+      myProvider.getuserdata();
 
       return "";
     } catch (e) {
@@ -1991,12 +1998,22 @@ class GraphQLService {
       } else if (result.data != null) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         await preferences.clear();
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => MainLayout()),
-            (Route<dynamic> route) => false);
+        // Navigator.of(context).pushAndRemoveUntil(
+        //     MaterialPageRoute(builder: (context) => MainLayout()),
+        //     (Route<dynamic> route) => false);
 
         Fluttertoast.showToast(msg: 'Logout successfully');
       }
+      Navigator.of(context).pop();
+      context.go('/home');
+
+      // MyProvider  myProvider = Provider.of<MyProvider>(context, listen: true);
+      // myProvider.customerModel=CustomerModel();
+      // myProvider.getuserdata();
+      // myProvider.notifyListeners();
+      // final NavbarNotifier _navbarNotifier = NavbarNotifier();
+      // _navbarNotifier.setIndexFor(0);
+
       return "";
     } catch (e) {
       if (kDebugMode) {

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/screens/homescreen/components/text_title.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
@@ -84,9 +85,10 @@ class _BodyState extends State<Body> {
 
       GestureDetector(
         onTap: (){
-          navigate(context, ProductListing.routeName,
-              isRootNavigator: false,
-              arguments: {'id': '1'});
+          context.go('/home/pdp');
+          // navigate(context, ProductListing.routeName,
+          //     isRootNavigator: false,
+          //     arguments: {'id': '1'});
 
         },
         child: Center(

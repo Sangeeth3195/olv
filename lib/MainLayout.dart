@@ -982,11 +982,11 @@ Future<void> navigate(BuildContext context, String route,
     Navigator.of(context, rootNavigator: isRootNavigator)
         .pushNamed(route, arguments: arguments);
 
-final homeKey = GlobalKey<NavigatorState>();
-final productsKey = GlobalKey<NavigatorState>();
-final wishKey = GlobalKey<NavigatorState>();
-final cartKey = GlobalKey<NavigatorState>();
-final profileKey = GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState> homeKey = GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState> productsKey = GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState> wishKey = GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState> cartKey = GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState> profileKey = GlobalKey<NavigatorState>();
 final NavbarNotifier _navbarNotifier = NavbarNotifier();
 List<Color> colors = [
   themecolor,
