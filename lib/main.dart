@@ -5,27 +5,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/app_router.dart';
 import 'package:omaliving/constants.dart';
-import 'package:omaliving/routes.dart';
 import 'package:omaliving/screens/provider/provider.dart';
-import 'package:omaliving/splash.dart';
 import 'package:provider/provider.dart';
 
 void main() async{
   try {
   WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb || defaultTargetPlatform == TargetPlatform.macOS) {
-    // initialiaze the facebook javascript SDK
-    await FacebookAuth.instance.webAndDesktopInitialize(
-      appId: "607191638268187",
-      cookie: true,
-      xfbml: true,
-      version: "v15.0",
-    );
-  }
+
+
   if (Platform.isIOS) {
     // await Firebase.initializeApp(
     //   options: DefaultFirebaseOptions.currentPlatform,

@@ -153,9 +153,6 @@ class _BodyState extends State<Body> {
               revokeloggedinuser = await graphQLService.revokeuser(context);
               SharedPreferences preferences = await SharedPreferences.getInstance();
               await preferences.clear();
-              // Navigator.of(context).pushAndRemoveUntil(
-              //     MaterialPageRoute(builder: (context) => MainLayout()),
-              //         (Route<dynamic> route) => false);
             },
           ),
           const SizedBox(

@@ -73,7 +73,7 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   void getNavdata() async {
-    navHeaderList = await graphQLService.getCategory(limit: 100);
+    navHeaderList = await graphQLService.getCategory(limit: 1000);
     setState(() {});
   }
 
@@ -124,8 +124,7 @@ class _MainLayoutState extends State<MainLayout> {
         title: Padding(
           padding: const EdgeInsets.all(2.0),
           child: Center(
-            child:
-            Image.asset('assets/omalogo.png', height: 30, width: 100),
+            child: Image.asset('assets/omalogo.png', height: 30, width: 100),
           ),
         ),
         actions: [
@@ -177,7 +176,6 @@ class _MainLayoutState extends State<MainLayout> {
                   .pushNamed("/loginpage");
             },
           ),*/
-
         ],
       ),
       drawer: Drawer(

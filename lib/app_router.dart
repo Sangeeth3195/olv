@@ -19,7 +19,6 @@ import 'package:omaliving/screens/wishlist/wishlist.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _sectionNavigatorKey = GlobalKey<NavigatorState>();
 
-
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/home',
@@ -37,8 +36,6 @@ final router = GoRouter(
           // Add this branch routes
           // each routes with its sub routes if available e.g feed/uuid/details
           routes: <RouteBase>[
-
-
             GoRoute(
               path: '/home',
               builder: (context, state) => const HomeScreen(),
@@ -46,7 +43,9 @@ final router = GoRouter(
                 GoRoute(
                   path: 'pdp',
                   builder: (context, state) {
-                    return  ProductListing(id: 8989,);
+                    return const ProductListing(
+                      id: 8989,
+                    );
                   },
                 )
               ],
@@ -97,40 +96,39 @@ final router = GoRouter(
               GoRoute(
                 path: 'account',
                 builder: (context, state) {
-                  return  Account();
+                  return const Account();
                 },
               ),
               GoRoute(
                 path: 'myorders',
                 builder: (context, state) {
-                  return  MyOrders();
+                  return const MyOrders();
                 },
               ),
               GoRoute(
                 path: 'address',
                 builder: (context, state) {
-                  return  Address();
+                  return const Address();
                 },
               ),
               GoRoute(
                 path: 'resetpassword',
                 builder: (context, state) {
-                  return  ResetPassword();
+                  return const ResetPassword();
                 },
               ),
               GoRoute(
                 path: 'news',
                 builder: (context, state) {
-                  return  Newsletter();
+                  return const Newsletter();
                 },
               ),
               GoRoute(
                 path: 'settings',
                 builder: (context, state) {
-                  return  Settings();
+                  return const Settings();
                 },
               ),
-
             ],
           ),
         ]),

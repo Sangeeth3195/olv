@@ -77,7 +77,7 @@ class CheckoutCard extends StatelessWidget {
                             color: Colors.white,
                             fontSize: 15,
                             fontStyle: FontStyle.normal),
-                        shape: const StadiumBorder(),
+                       // shape: const StadiumBorder(),
                       ),
                       onPressed: () {
                         Navigator.push(

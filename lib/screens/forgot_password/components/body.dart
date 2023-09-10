@@ -113,13 +113,13 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                   suffixIcon: const Icon(
                     Icons.email_outlined,
                     color: Colors.grey,
-                    size: 22.0,
+                    size: 18.0,
                   ),
                   contentPadding:
-                      const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                      const EdgeInsets.fromLTRB(10.0, 15.0, 20.0, 0.0),
                   hintText: "Email",
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0))),
+                      borderRadius: BorderRadius.circular(0.0))),
             ),
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.01),
@@ -132,7 +132,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                 backgroundColor: themecolor,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(55)),
+                    borderRadius: BorderRadius.circular(0)),
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {

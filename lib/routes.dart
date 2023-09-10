@@ -27,7 +27,7 @@ final Map<String, WidgetBuilder> routes = {
   ProductListing.routeName: (context) =>  const ProductListing(id:10071),
   ProfileScreen.routeName: (context) => const ProfileScreen(),
   Ordersummary.routeName: (context) => const Ordersummary(),
-  Checkout.routeName: (context) => const Checkout(),
+
   HomeScreen.routeName: (context) => const HomeScreen(),
 
   '/productlisting': (context) => const ProductListing(id: 0),
@@ -42,6 +42,7 @@ final Map<String, WidgetBuilder> routes = {
   '/address': (context) => const Address(),
   '/newsletter': (context) => const Newsletter(),
   '/resetpassword': (context) => const ResetPassword(),
+  '/login': (context) => const LoginPage(),
   // '/settings': (context) => const Settings(),
 
 };
