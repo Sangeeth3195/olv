@@ -74,22 +74,19 @@ class _BodyState extends State<Body> {
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
         child: GestureDetector(
-          onTap: (){
-            navigate(context, ProductList.route,
-                isRootNavigator: false,
-                arguments: {'id': '1'});
-          },
-
+            onTap: () {
+              navigate(context, ProductList.route,
+                  isRootNavigator: false, arguments: {'id': '1'});
+            },
             child: const SearchForm()),
       ),
 
       GestureDetector(
-        onTap: (){
+        onTap: () {
           context.go('/home/pdp');
           // navigate(context, ProductListing.routeName,
           //     isRootNavigator: false,
           //     arguments: {'id': '1'});
-
         },
         child: Center(
           child: Padding(
@@ -97,10 +94,10 @@ class _BodyState extends State<Body> {
             child: Container(
               height: 175.0,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(0),
               ),
               child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(0.0)),
                 child: ImageSlideshow(
                   indicatorColor: Colors.white,
                   onPageChanged: (value) {
@@ -133,11 +130,19 @@ class _BodyState extends State<Body> {
         ),
       ),
 
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
-        child: TextTitle(
-          title: "Shop Latest",
-          pressSeeAll: () {},
+      Center(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+            child: Text(
+              'Shop Latest',
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+          ),
         ),
       ),
 
@@ -151,7 +156,7 @@ class _BodyState extends State<Body> {
               return Container(
                 margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
                   child: Image.network(url, fit: BoxFit.cover, width: 1000.0),
                 ),
               );
@@ -163,7 +168,7 @@ class _BodyState extends State<Body> {
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
         child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(0.0)),
           child: ImageSlideshow(
             indicatorColor: Colors.transparent,
             height: 230.0,
@@ -181,11 +186,19 @@ class _BodyState extends State<Body> {
         ),
       ),
 
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
-        child: TextTitle(
-          title: "Drinkware Essentials",
-          pressSeeAll: () {},
+      Center(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+            child: Text(
+              'Drinkware Essentials',
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+          ),
         ),
       ),
 
@@ -199,7 +212,7 @@ class _BodyState extends State<Body> {
               return Container(
                 margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
                   child: Image.network(url, fit: BoxFit.cover, width: 1000.0),
                 ),
               );
@@ -207,19 +220,26 @@ class _BodyState extends State<Body> {
           ).toList(),
         ),
       ),
-
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
-        child: TextTitle(
-          title: "Explore Kitchenware",
-          pressSeeAll: () {},
+      Center(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+            child: Text(
+              'Explore Kitchenware',
+              style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+          ),
         ),
       ),
 
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
         child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(0.0)),
           child: ImageSlideshow(
             indicatorColor: Colors.transparent,
             height: 200.0,
@@ -270,7 +290,7 @@ class _BodyState extends State<Body> {
       Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
         child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(0.0)),
           child: ImageSlideshow(
             indicatorColor: Colors.transparent,
             height: 200.0,
@@ -302,7 +322,7 @@ class _BodyState extends State<Body> {
               return Container(
                 margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
                   child: Image.network(url, fit: BoxFit.cover, width: 1000.0),
                 ),
               );
@@ -380,7 +400,7 @@ class _BodyState extends State<Body> {
               return Container(
                 margin: const EdgeInsets.fromLTRB(0.0, 0, 8, 0),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
                   child: Image.network(url, fit: BoxFit.cover, width: 1000.0),
                 ),
               );

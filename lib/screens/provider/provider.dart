@@ -62,7 +62,6 @@ class MyProvider extends ChangeNotifier {
 
   void updateData(int id) async {
     dynamic listData = await graphQLService.getproductlist(limit: 100, id: id);
-    print(listData.data?['products']['aggregations']);
     List? res = listData.data?['products']['items'];
     pList = res!;
     aggrecation = listData.data?['products']['aggregations'];

@@ -491,7 +491,7 @@ class _BodyState extends State<Body> {
                       backgroundColor: themecolor,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(55)),
+                          borderRadius: BorderRadius.circular(0)),
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {

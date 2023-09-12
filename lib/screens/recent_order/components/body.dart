@@ -47,7 +47,7 @@ class Body extends StatelessWidget {
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(width: 1.0, color: headingColor),
-                    shape: const StadiumBorder(),
+                    // shape: const StadiumBorder(),
                   ),
                   child: const Text('Print Order'),
                 )
@@ -76,7 +76,7 @@ class Body extends StatelessWidget {
             child: Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(0.0),
               ),
               child: DataTable(
                 columns: const [

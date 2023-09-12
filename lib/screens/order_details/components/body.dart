@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/address/address.dart';
 import 'package:omaliving/screens/order_success/OrderSuccess.dart';
@@ -304,11 +305,7 @@ class _BodyState extends State<Body> {
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: InkWell(
               onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const OrderSuccess()),
-                );
+
               },
               child: Container(
                 //width: 100.0,

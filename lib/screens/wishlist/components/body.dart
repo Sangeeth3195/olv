@@ -32,6 +32,7 @@ class _BodyState extends State<Body> {
     EasyLoading.show(status: 'loading...');
     customerModel = await graphQLService.get_customer_details();
     print(customerModel.customer?.addresses?.length);
+    print(customerModel.customer!.wishlist!.items!.length);
     setState(() {});
   }
 
@@ -42,7 +43,6 @@ class _BodyState extends State<Body> {
             customerModel.customer!.wishlist!.items == null)
         ? const Center(child: CircularProgressIndicator())
         : Container(
-            color: Colors.grey.shade100,
             margin:
                 const EdgeInsets.only(bottom: 55, left: 5, right: 5, top: 5),
             child: GridView.builder(
@@ -65,127 +65,103 @@ class _BodyState extends State<Body> {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: InkResponse(
+          padding: const EdgeInsets.all(5.0),
+          child: InkResponse(
             onTap: () {},
             child: Material(
-              child: Container(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
                   padding: const EdgeInsets.all(5.0),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(color: Colors.black12, blurRadius: 8.0)
-                      ]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          padding: const EdgeInsets.all(5.0),
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: Color(0xFFF6F7F9),
-                              shape: BoxShape.rectangle,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black12, blurRadius: 8.0)
-                              ]),
-                          child: SizedBox(
-                            height: 150.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Image(
-                                      image: NetworkImage(customerModel
-                                          .customer!
-                                          .wishlist!
-                                          .items![position]
-                                          .product!
-                                          .mediaGallery![0]
-                                          .url
-                                          .toString()),
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      if (kDebugMode) {
-
-                                        print(customerModel.customer!.wishlist!
-                                            .items![position].id
-                                            .toString());
-
-                                        dynamic listData = await graphQLService
-                                            .remove_Product_from_wishlist(
-                                            wishlistId: "377",
-                                            wishlistItemsIds: customerModel
-                                                .customer!
-                                                .wishlist!
-                                                .items![position]
-                                                .id
-                                                .toString());
-                                      }
-                                    },
-                                    child: const Icon(
-                                      Icons.favorite,
-                                      color: Color(0xFFF4597D),
-                                      size: 22.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                  child: SizedBox(
+                    height: 150.0,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Image(
+                              image: NetworkImage(customerModel
+                                  .customer!
+                                  .wishlist!
+                                  .items![position]
+                                  .product!
+                                  .mediaGallery![0]
+                                  .url
+                                  .toString()),
+                              fit: BoxFit.contain,
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: Text(
-                          customerModel.customer!.wishlist!.items![position]
-                                  .product!.name ??
-                              '',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.0,
+                          GestureDetector(
+                            onTap: () async {
+                              if (kDebugMode) {
+                                print(customerModel
+                                    .customer!.wishlist!.items![position].id
+                                    .toString());
+
+                                dynamic listData = await graphQLService
+                                    .remove_Product_from_wishlist(
+                                        wishlistId: "377",
+                                        wishlistItemsIds: customerModel
+                                            .customer!
+                                            .wishlist!
+                                            .items![position]
+                                            .id
+                                            .toString());
+                              }
+                            },
+                            child: const Icon(
+                              Icons.favorite,
+                              color: Color(0xFFF4597D),
+                              size: 22.0,
+                            ),
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 14.0,
-                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    customerModel.customer!.wishlist!.items![position].product!
+                            .name ??
+                        '',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14.0,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(
+                  height: 14.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
-                              child: Text(
-                                "₹ ${customerModel.customer!.wishlist!.items![position].product!.priceRange!.minimumPrice!.regularPrice!.value.toString()}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14.0),
-                              ),
-                            )
-                          ],
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: Text(
+                          "₹ ${customerModel.customer!.wishlist!.items![position].product!.priceRange!.minimumPrice!.regularPrice!.value.toString()}",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 14.0),
                         ),
                       )
                     ],
-                  )),
+                  ),
+                )
+              ],
             )),
-      ),
+          )),
     );
   }
 }

@@ -8,6 +8,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/constants.dart';
+import 'package:omaliving/demo/btm.dart';
+import 'package:omaliving/screens/360view.dart';
 import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
 import 'package:omaliving/screens/sign_up/sign_up_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -522,7 +524,7 @@ class _SignInState extends State<SignIn> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const SignUpScreen()),
+                                    builder: (context) =>  BTM()),//Imageviewth
                               );
                             },
                           style: const TextStyle(

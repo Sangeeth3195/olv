@@ -8,7 +8,6 @@ class AddAddress extends StatelessWidget {
 
   const AddAddress({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,13 +15,15 @@ class AddAddress extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black,size: 20),
+        iconTheme: const IconThemeData(color: Colors.black, size: 20),
         title: const Text(
           'Add Address',
-          style: TextStyle(color: Colors.black,fontSize: 16),
+          style: TextStyle(color: Colors.black, fontSize: 16),
         ),
       ),
-      body:  Body( arguments: ModalRoute.of(context)!.settings.arguments as Address?,),
+      body: Body(
+        arguments: ModalRoute.of(context)!.settings.arguments as Address?,
+      ),
     );
   }
 }

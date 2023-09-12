@@ -193,14 +193,16 @@ class _DetailsPageState extends State<DetailsPage>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const SizedBox(height: 10),
-                    Card(
+                  /*  Card(
                         color: Colors.white,
                         elevation: 5,
                         margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 2.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        child: Column(
+                        child: */
+
+                        Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               GestureDetector(
@@ -277,7 +279,9 @@ class _DetailsPageState extends State<DetailsPage>
                                 }),
                               ),
                               const SizedBox(height: 15),
-                            ])),
+                            ]),
+
+                   /* ),*/
                     Container(
                       padding:
                           const EdgeInsets.only(top: 20, right: 10, left: 10),
@@ -687,7 +691,7 @@ class _DetailsPageState extends State<DetailsPage>
                       ),
                     ),*/
 
-                    Container(
+                    SizedBox(
                       height: 250,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -699,9 +703,7 @@ class _DetailsPageState extends State<DetailsPage>
                             width: 200,
                             // color: colors[index],
                             margin: const EdgeInsets.all(8.0),
-                            child: Card(
-                              elevation: 0,
-                              child: Stack(
+                            child:  Stack(
                                 children: [
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -815,7 +817,7 @@ class _DetailsPageState extends State<DetailsPage>
                                       )),
                                 ],
                               ),
-                            ),
+
                           );
                         },
                       ),

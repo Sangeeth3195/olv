@@ -140,7 +140,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                       const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
                   hintText: "New Password",
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0))),
+                      borderRadius: BorderRadius.circular(0.0))),
             ),
           ),
           Padding(
@@ -186,7 +186,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                       const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
                   hintText: "Confirm New Password",
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0))),
+                      borderRadius: BorderRadius.circular(0.0))),
             ),
           ),
           Padding(
@@ -194,11 +194,11 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                 top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size.fromHeight(50),
+                minimumSize: const Size.fromHeight(45),
                 backgroundColor: themecolor,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(55)),
+                    borderRadius: BorderRadius.circular(0)),
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {

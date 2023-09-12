@@ -186,7 +186,7 @@ class _BodyState extends State<Body> {
                   decoration: BoxDecoration(
                     color: headingColor,
                     border: Border.all(color: Colors.white, width: 2.0),
-                    borderRadius: BorderRadius.circular(25.0),
+                    borderRadius: BorderRadius.circular(0.0),
                   ),
                   child: const Center(
                     child: Text(

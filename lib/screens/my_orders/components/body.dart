@@ -47,7 +47,7 @@ class _BodyState extends State<Body> {
                   child: SizedBox(
                     height: 170,
                     child: Card(
-                      color: const Color(0xFFFCF6FD),
+                      // color: const Color(0xFFFCF6FD),
                       borderOnForeground: true,
                       elevation: 2,
                       child: Column(
@@ -160,7 +160,7 @@ class _BodyState extends State<Body> {
                                 MaterialButton(
                                   color: headingColor,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
+                                    borderRadius: BorderRadius.circular(0.0),
                                   ),
                                   onPressed: () {},
                                   child: const Text(
@@ -198,7 +198,7 @@ class _BodyState extends State<Body> {
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(
                                         width: 1.0, color: headingColor),
-                                    shape: const StadiumBorder(),
+                                    // shape: const StadiumBorder(),
                                   ),
                                   child: const Text(
                                     'View Order',

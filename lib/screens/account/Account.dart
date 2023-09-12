@@ -15,7 +15,7 @@ class Account extends StatelessWidget {
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black, size: 20),
         title: const Text(
-          'My Dashboard',
+          'Profile',
           style: TextStyle(color: Colors.black, fontSize: 16),
         ),
         actions: [

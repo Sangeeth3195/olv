@@ -491,7 +491,7 @@ class _SignInState extends State<SignIn> {
                           const TextSpan(
                               text: 'Already have an account? ',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
                                   color: Colors.black)),
                           TextSpan(
                             text: 'Log In',

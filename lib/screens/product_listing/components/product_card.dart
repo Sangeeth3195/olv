@@ -37,9 +37,11 @@ class _ProductCardState extends State<ProductCard> {
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
-        child: Card(
+        child:
+        /*Card(
           elevation: 0,
-          child: Stack(
+          child:*/
+          Stack(
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -234,7 +236,7 @@ class _ProductCardState extends State<ProductCard> {
                   )),
             ],
           ),
-        ),
+        /*),*/
       ),
     );
   }

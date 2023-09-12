@@ -3,6 +3,7 @@ import 'package:omaliving/screens/order_details/orderdetails.dart';
 
 import '../../components/size_config.dart';
 import '../../constants.dart';
+import '../order_success/OrderSuccess.dart';
 import 'components/body.dart';
 
 class Ordersummary extends StatelessWidget {
@@ -83,7 +84,7 @@ class CheckoutCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Orderdetails()),
+                              builder: (context) => const OrderSuccess()),
                         );
                       },
                       child: const Text(

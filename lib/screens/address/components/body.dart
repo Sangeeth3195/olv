@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/CustomerModel.dart';
+import 'package:omaliving/screens/add_address/add_address.dart';
 
 import '../../../API Services/graphql_service.dart';
 
@@ -44,11 +45,13 @@ class _BodyState extends State<Body> {
               itemBuilder: (context, index) {
                 return ListTile(
                   onTap: () {
+
                     Navigator.of(context, rootNavigator: true)
                         .pushNamed("/addaddress",
                             arguments:
                                 customerModel.customer?.addresses?[index])
                         .then((value) => ({getData()}));
+
                   },
                   title: Text(
                     customerModel.customer?.addresses?[index].firstname ?? '',
@@ -80,7 +83,13 @@ class _BodyState extends State<Body> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context, rootNavigator: true).pushNamed("/addaddress");
+          // Navigator.of(context, rootNavigator: true).pushNamed("/addaddress");
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>  const AddAddress()),
+          );
         },
         backgroundColor: headingColor,
         child: const Icon(Icons.add),
