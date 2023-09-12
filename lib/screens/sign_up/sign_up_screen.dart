@@ -121,7 +121,7 @@ class _LoginPageState extends State<SignUpScreen>
       width: MediaQuery.of(context).size.width,
       height: 55.0,
       decoration: const BoxDecoration(
-        color: Color(0x552B2B2B),
+        color: Colors.white12,
         borderRadius: BorderRadius.all(Radius.circular(25.0)),
       ),
       child: Row(
@@ -133,11 +133,11 @@ class _LoginPageState extends State<SignUpScreen>
                 border: Border.all(color: Colors.black12, width: 5.0),
                 // color: Colors.indigo[900],
                 borderRadius:
-                    const BorderRadius.all(Radius.circular(borderRadius)),
+                    const BorderRadius.all(Radius.circular(0)), //borderRadius
               ),
               child: InkWell(
                 borderRadius:
-                    const BorderRadius.all(Radius.circular(borderRadius)),
+                    const BorderRadius.all(Radius.circular(0)),
                 onTap: _onPlaceBidButtonPress,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -152,8 +152,8 @@ class _LoginPageState extends State<SignUpScreen>
                   child: Text(
                     'Email',
                     style: (activePageIndex == 0)
-                        ? const TextStyle(color: Colors.grey)
-                        : const TextStyle(color: Colors.grey),
+                        ? const TextStyle(color: Colors.black)
+                        : const TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -287,7 +287,7 @@ class _SignInState extends State<SignIn> {
                   'First Name',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15.0,
+                    fontSize: 13.0,
                   ),
                 ),
               ),
@@ -309,13 +309,15 @@ class _SignInState extends State<SignIn> {
                       suffixIcon: const Icon(
                         Icons.person,
                         color: Colors.grey,
-                        size: 22.0,
+                        size: 18.0,
                       ),
                       contentPadding:
-                          const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
-                      hintText: "Name",
+                          const EdgeInsets.fromLTRB(10.0, 15.0, 20.0, 0.0),
+                      hintText: "First Name",
+                      hintStyle: const TextStyle(fontSize: 12),
+
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0))),
+                          borderRadius: BorderRadius.circular(0.0))),
                 ),
               ),
               const Padding(
@@ -324,7 +326,7 @@ class _SignInState extends State<SignIn> {
                   'Last Name',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15.0,
+                    fontSize: 13.0,
                   ),
                 ),
               ),
@@ -346,13 +348,15 @@ class _SignInState extends State<SignIn> {
                       suffixIcon: const Icon(
                         Icons.person,
                         color: Colors.grey,
-                        size: 22.0,
+                        size: 18.0,
                       ),
                       contentPadding:
-                      const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
-                      hintText: "Name",
+                      const EdgeInsets.fromLTRB(10.0, 15.0, 20.0, 0.0),
+                      hintText: "Last Name",
+                      hintStyle: const TextStyle(fontSize: 12),
+
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0))),
+                          borderRadius: BorderRadius.circular(0.0))),
                 ),
               ),
               const Padding(
@@ -361,7 +365,7 @@ class _SignInState extends State<SignIn> {
                   'Email',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15.0,
+                    fontSize: 13.0,
                   ),
                 ),
               ),
@@ -383,13 +387,15 @@ class _SignInState extends State<SignIn> {
                       suffixIcon: const Icon(
                         Icons.email_outlined,
                         color: Colors.grey,
-                        size: 22.0,
+                        size: 18.0,
                       ),
                       contentPadding:
-                          const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                          const EdgeInsets.fromLTRB(10.0, 15.0, 20.0, 0.0),
                       hintText: "Email",
+                      hintStyle: const TextStyle(fontSize: 12),
+
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0))),
+                          borderRadius: BorderRadius.circular(0.0))),
                 ),
               ),
               const Padding(
@@ -398,7 +404,7 @@ class _SignInState extends State<SignIn> {
                   'Password',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15.0,
+                    fontSize: 13.0,
                   ),
                 ),
               ),
@@ -423,7 +429,7 @@ class _SignInState extends State<SignIn> {
                           passwordVisible
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          size: 22.0,
+                          size: 18.0,
                         ),
                         onPressed: () {
                           setState(
@@ -434,10 +440,12 @@ class _SignInState extends State<SignIn> {
                         },
                       ),
                       contentPadding:
-                          const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                          const EdgeInsets.fromLTRB(10.0, 15.0, 20.0, 0.0),
                       hintText: "Password",
+                      hintStyle: const TextStyle(fontSize: 12),
+
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0))),
+                          borderRadius: BorderRadius.circular(0.0))),
                 ),
               ),
               const SizedBox(
@@ -456,7 +464,7 @@ class _SignInState extends State<SignIn> {
                     backgroundColor: themecolor,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(55)),
+                        borderRadius: BorderRadius.circular(0)),
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -483,19 +491,22 @@ class _SignInState extends State<SignIn> {
                           const TextSpan(
                               text: 'Already have an account? ',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                   color: Colors.black)),
                           TextSpan(
                             text: 'Log In',
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(builder: (context) => const LoginPage()),
-                                        (Route<dynamic> route) => false);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()),
+                                );
                               },
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: headingColor,
+
                                 fontSize: 13.0),
                           ),
                         ],
@@ -531,7 +542,7 @@ class _SignInState extends State<SignIn> {
                         'Or Sign up with',
                         style: TextStyle(
                           color: Colors.black,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           fontSize: 13.0,
                         ),
                       ),
@@ -574,7 +585,7 @@ class _SignInState extends State<SignIn> {
                           ),
                           label: const Text(
                             'Facebook',
-                            style: TextStyle(fontSize: 15.0, color: Colors.white),
+                            style: TextStyle(fontSize: 14.0, color: Colors.white),
                           ),
                           style: ElevatedButton.styleFrom(
                             primary: const Color(0xFF345288),
@@ -582,7 +593,7 @@ class _SignInState extends State<SignIn> {
                                 color: Colors.white,
                                 fontSize: 15,
                                 fontStyle: FontStyle.normal),
-                            shape: const StadiumBorder(),
+                            // shape: const StadiumBorder(),
                           ),
                           onPressed: () {}, // Every button need a callback
                         ),
@@ -604,7 +615,7 @@ class _SignInState extends State<SignIn> {
                             icon: Image.asset('assets/icons/google.png'),
                             label: const Text(
                               'Google',
-                              style: TextStyle(fontSize: 15.0, color: Colors.black),
+                              style: TextStyle(fontSize: 14.0, color: Colors.black),
                             ),
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
@@ -614,7 +625,7 @@ class _SignInState extends State<SignIn> {
                                   color: Colors.white,
                                   fontSize: 15,
                                   fontStyle: FontStyle.normal),
-                              shape: const StadiumBorder(),
+                              // shape: const StadiumBorder(),
                             ),
                             onPressed: () {
                               _handleSignIn();

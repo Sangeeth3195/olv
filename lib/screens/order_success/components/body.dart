@@ -44,7 +44,7 @@ class Body extends StatelessWidget {
                     minimumSize: const Size.fromHeight(45),
                     backgroundColor: headingColor,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)),
+                        borderRadius: BorderRadius.circular(0)),
                   ),
                   onPressed: () {
 

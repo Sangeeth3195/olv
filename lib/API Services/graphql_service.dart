@@ -107,7 +107,7 @@ class GraphQLService {
                       oma_subclass:{in:[]}
                       }
                       sort: {name: ASC}
-                      pageSize:16
+                      pageSize:"${100}"
                       ) {
                       aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
                         attribute_code
@@ -877,74 +877,12 @@ class GraphQLService {
     }
   }
 
-  /// Wishlist
-  Future<List<dynamic>> getWishlist() async {
-    try {
-      QueryResult result = await client.query(
-        QueryOptions(
-          fetchPolicy: FetchPolicy.noCache,
-          document: gql("""
-           query Query {
-                wishlist {
-                  items_count
-                  name
-                  sharing_code
-                  updated_at
-                  items {
-                    id
-                    qty
-                    description
-                    added_at
-                    product {
-                      sku
-                      name
-                      media_gallery {
-                      url
-                      label
-                      position
-                      disabled
-                      ... on ProductVideo {
-                        video_content {
-                          media_type
-                          video_provider
-                          video_url
-                          video_title
-                          video_description
-                          video_metadata
-                        }
-                      }
-                    }
-                    }
-                  }
-                }
-              }
-            """),
-        ),
-      );
-
-      if (result.hasException) {
-        print(result.exception);
-        throw Exception(result.exception);
-      } else {
-        List? res = result.data?['wishlist']['items'];
-
-        if (res == null || res.isEmpty) {
-          return [];
-        }
-        return res;
-      }
-    } catch (error) {
-      print(error);
-      return [];
-    }
-  }
-
   /// create new user
   static String new_user(String firstname, String lastname, String email,
       String password, bool isSubcribed) {
     return '''
             mutation {
-              createCustomerV2(
+              createCustomer(
                 input: {
                   firstname: "$firstname"
                   lastname: "$lastname"
@@ -1087,11 +1025,11 @@ class GraphQLService {
       } else if (result.data != null) {
         print(result.data?['createCustomerV3']['token']);
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString(
-            'token', result.data?['createCustomerV3']['token']);
+        prefs.setString('token', result.data?['createCustomerV3']['token']);
 
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MainLayout()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => MainLayout()),
+            (Route<dynamic> route) => false);
 
         Fluttertoast.showToast(msg: 'Login successfully');
       }
@@ -1338,8 +1276,8 @@ class GraphQLService {
               regioncode: regioncode,
               countryCode: countryCode,
               regionId: regionId,
-          billingadd: billingadd,
-          shippadd: shippadd,
+              billingadd: billingadd,
+              shippadd: shippadd,
               id: id)
           .toString());
       if (result.hasException) {
@@ -1441,11 +1379,17 @@ class GraphQLService {
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(update_customer_details(
-              firstname: firstname, lastname: lastname, email: email,isSubscribed :isSubscribed)), // this
+              firstname: firstname,
+              lastname: lastname,
+              email: email,
+              isSubscribed: isSubscribed)), // this
         ),
       );
       log(update_customer_details(
-              firstname: firstname, lastname: lastname, email: email,isSubscribed :isSubscribed)
+              firstname: firstname,
+              lastname: lastname,
+              email: email,
+              isSubscribed: isSubscribed)
           .toString());
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
@@ -2059,10 +2003,9 @@ class GraphQLService {
     }
   }
 
-
-  static String update_custor_password(
-      {required String password,
-        }) {
+  static String update_custor_password({
+    required String password,
+  }) {
     return '''
             mutation {
               updateCustomer(
@@ -2079,18 +2022,14 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> update_reset_password(
-      {required String password}) async {
+  Future<String> update_reset_password({required String password}) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(update_custor_password(
-              password:password)), // this
+          document: gql(update_custor_password(password: password)), // this
         ),
       );
-      log(update_custor_password(
-          password:password)
-          .toString());
+      log(update_custor_password(password: password).toString());
       if (result.hasException) {
         EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
@@ -2106,4 +2045,255 @@ class GraphQLService {
     }
   }
 
+  /// Add Product to Wishlist
+  static String addProductfromwishlist({required String sku,required String qty}) {
+    return '''
+            mutation {
+                  addProductsToWishlist(
+                    wishlistId: 
+                    wishlistItems: [
+                      {
+                        sku: "${sku}"
+                        quantity: $qty
+                      }
+                      {
+                        parent_sku: "WJ01"
+                        sku: "WJ01-M-Red"
+                        quantity: 1
+                      }
+                      {
+                        sku: "24-WG080"
+                        quantity: 1
+                        selected_options: [
+                          "YnVuZGxlLzEvMS8x"
+                          "YnVuZGxlLzIvNC8x"
+                          "YnVuZGxlLzMvNy8x"
+                          "YnVuZGxlLzQvOC8x"
+                        ]
+                      }
+                    ]
+                  ) {
+                    wishlist {
+                        items_count
+                        sharing_code
+                        updated_at
+                        items {
+                          id
+                          qty
+                          description
+                          added_at
+                          product {
+                            sku
+                            name
+                            media_gallery {
+                          url
+                          label
+                          position
+                          disabled
+                          ... on ProductVideo {
+                            video_content {
+                              media_type
+                              video_provider
+                              video_url
+                              video_title
+                              video_description
+                              video_metadata
+                            }
+                          }
+                        }
+                            ... on BundleProduct {
+                              sku
+                              dynamic_sku
+                            }
+                            ... on ConfigurableProduct {
+                              sku
+                              configurable_options {
+                                id
+                                attribute_id_v2
+                                attribute_code
+                                label
+                                __typename
+                                use_default
+                                values {
+                                  store_label
+                                  swatch_data {
+                                    value
+                                  }
+                                  use_default_value
+                                }
+                              }
+                            }
+                            price_range{
+                                minimum_price{
+                                  regular_price{
+                                    value
+                                    currency
+                                  }
+                                }
+                              }
+                          }
+                        }
+                      }
+                    user_errors {
+                      code
+                      message
+                    }
+                  }
+                }
+
+        ''';
+  }
+
+  Future<String> add_Product_from_wishlist({required String sku,required String qty}) async {
+    try {
+      print(sku);
+      print(qty);
+
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(
+              addProductfromwishlist(sku:sku, qty:qty)), // this
+        ),
+
+      );
+
+      log(addProductfromwishlist(
+          sku: sku,
+          qty: qty)
+          .toString());
+
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+        Fluttertoast.showToast(
+            msg: result.exception!.graphqlErrors[0].message.toString());
+      } else if (result.data != null) {
+        log(jsonEncode(result.data));
+
+        EasyLoading.dismiss();
+
+      }
+
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// Remove Product from Wishlist
+  static String removeProductfromwishlist({required String wishlistId,required String wishlistItemsIds}) {
+    return '''
+            mutation {
+                removeProductsFromWishlist(
+                wishlistId: ${wishlistId}
+                wishlistItemsIds: [${wishlistItemsIds}]
+                ){
+                  wishlist {
+                      items_count
+                      sharing_code
+                      updated_at
+                      items {
+                        id
+                        qty
+                        description
+                        added_at
+                        product {
+                          sku
+                          name
+                          media_gallery {
+                        url
+                        label
+                        position
+                        disabled
+                        ... on ProductVideo {
+                          video_content {
+                            media_type
+                            video_provider
+                            video_url
+                            video_title
+                            video_description
+                            video_metadata
+                          }
+                        }
+                      }
+                          ... on BundleProduct {
+                            sku
+                            dynamic_sku
+                          }
+                          ... on ConfigurableProduct {
+                            sku
+                            configurable_options {
+                              id
+                              attribute_id_v2
+                              attribute_code
+                              label
+                              __typename
+                              use_default
+                              values {
+                                store_label
+                                swatch_data {
+                                  value
+                                }
+                                use_default_value
+                              }
+                            }
+                          }
+                          price_range{
+                              minimum_price{
+                                regular_price{
+                                  value
+                                  currency
+                                }
+                              }
+                            }
+                        }
+                      }
+                    }
+                  user_errors {
+                    code
+                    message
+                  }
+                }
+              }
+        ''';
+  }
+
+  Future<String> remove_Product_from_wishlist({required String wishlistId,required String wishlistItemsIds}) async {
+    try {
+      print(wishlistId);
+      print(wishlistItemsIds);
+
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(
+              removeProductfromwishlist(wishlistId:wishlistId, wishlistItemsIds:wishlistItemsIds)), // this
+        ),
+
+      );
+
+      log(removeProductfromwishlist(
+          wishlistId: wishlistId,
+          wishlistItemsIds: wishlistItemsIds)
+          .toString());
+
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+        Fluttertoast.showToast(
+            msg: result.exception!.graphqlErrors[0].message.toString());
+      } else if (result.data != null) {
+        log(jsonEncode(result.data));
+
+        EasyLoading.dismiss();
+
+      }
+
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+
 }
+

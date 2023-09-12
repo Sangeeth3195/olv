@@ -115,9 +115,22 @@ class _BodyState extends State<Body> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
                                       if (kDebugMode) {
-                                        print('click');
+
+                                        print(customerModel.customer!.wishlist!
+                                            .items![position].id
+                                            .toString());
+
+                                        dynamic listData = await graphQLService
+                                            .remove_Product_from_wishlist(
+                                            wishlistId: "377",
+                                            wishlistItemsIds: customerModel
+                                                .customer!
+                                                .wishlist!
+                                                .items![position]
+                                                .id
+                                                .toString());
                                       }
                                     },
                                     child: const Icon(
@@ -175,5 +188,4 @@ class _BodyState extends State<Body> {
       ),
     );
   }
-
 }

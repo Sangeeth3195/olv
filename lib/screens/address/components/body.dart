@@ -36,44 +36,48 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView.builder(
-        itemCount: customerModel.customer?.addresses?.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            onTap: () {
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/addaddress",
-                      arguments: customerModel.customer?.addresses?[index])
-                  .then((value) => ({getData()}));
-            },
-            title: Text(
-              customerModel.customer?.addresses?[index].firstname ?? '',
-              style: const TextStyle(fontSize: 14),
-            ),
-            subtitle: Text(
-              customerModel.customer?.addresses?[index].street?.first ?? '',
-              style: const TextStyle(fontSize: 13),
-            ),
-            trailing: const SizedBox(
-              width: 46,
-              child:  Row(
-                  children: [
-                    Text(
-                      'Edit |',
-                      style: TextStyle(color: Colors.black, fontSize: 12),
+      body: (customerModel.customer == null ||
+              customerModel.customer!.addresses == null)
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: customerModel.customer!.addresses!.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {
+                    Navigator.of(context, rootNavigator: true)
+                        .pushNamed("/addaddress",
+                            arguments:
+                                customerModel.customer?.addresses?[index])
+                        .then((value) => ({getData()}));
+                  },
+                  title: Text(
+                    customerModel.customer?.addresses?[index].firstname ?? '',
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                  subtitle: Text(
+                    customerModel.customer?.addresses?[index].street?.first ??
+                        '',
+                    style: const TextStyle(fontSize: 13),
+                  ),
+                  trailing: const SizedBox(
+                    width: 46,
+                    child: Row(
+                      children: [
+                        Text(
+                          'Edit |',
+                          style: TextStyle(color: Colors.black, fontSize: 12),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_outlined,
+                          size: 14,
+                          color: Colors.black,
+                        ),
+                      ],
                     ),
-                    Icon(
-                      Icons.arrow_forward_outlined,
-                      size: 14,
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-              ),
-
-          );
-        },
-      ),
+                  ),
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context, rootNavigator: true).pushNamed("/addaddress");

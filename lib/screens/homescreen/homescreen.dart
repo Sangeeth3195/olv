@@ -79,7 +79,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   }
 
   void getNavdata() async {
-    navHeaderList = await graphQLService.getCategory(limit: 100);
+    navHeaderList = await graphQLService.getCategory(limit: 1000);
     setState(() {});
   }
   @override

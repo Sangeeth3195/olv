@@ -1,15 +1,19 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/constants.dart';
-import 'package:omaliving/demo/demo.dart';
 import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
 import 'package:omaliving/screens/sign_up/sign_up_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'API Services/graphql_service.dart';
+import 'models/CustomerModel.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -122,8 +126,8 @@ class _LoginPageState extends State<LoginPage>
       width: MediaQuery.of(context).size.width,
       height: 55.0,
       decoration: const BoxDecoration(
-        color: Color(0x552B2B2B),
-        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+        color: Colors.white12,
+        borderRadius: BorderRadius.all(Radius.circular(0.0)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -134,11 +138,11 @@ class _LoginPageState extends State<LoginPage>
                 border: Border.all(color: Colors.black12, width: 5.0),
                 // color: Colors.indigo[900],
                 borderRadius:
-                const BorderRadius.all(Radius.circular(borderRadius)),
+                    const BorderRadius.all(Radius.circular(0)),
               ),
               child: InkWell(
                 borderRadius:
-                const BorderRadius.all(Radius.circular(borderRadius)),
+                    const BorderRadius.all(Radius.circular(0)),
                 onTap: _onPlaceBidButtonPress,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -146,15 +150,15 @@ class _LoginPageState extends State<LoginPage>
                   alignment: Alignment.center,
                   decoration: (activePageIndex == 0)
                       ? const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                  )
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        )
                       : null,
                   child: Text(
                     'Email',
                     style: (activePageIndex == 0)
-                        ? const TextStyle(color: Colors.grey)
-                        : const TextStyle(color: Colors.grey),
+                        ? const TextStyle(color: Colors.black)
+                        : const TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -202,71 +206,6 @@ class _LoginPageState extends State<LoginPage>
   }
 }
 
-class BubbleIndicatorPainter extends CustomPainter {
-  BubbleIndicatorPainter(
-      {this.dxTarget = 345.0,
-      this.dxEntry = 25.0,
-      this.radius = 20.0,
-      this.dy = 25.0,
-      required this.pageController})
-      : super(repaint: pageController) {
-    painter = Paint()
-      ..color = CustomTheme.white
-      ..style = PaintingStyle.fill;
-  }
-
-  late Paint painter;
-  final double dxTarget;
-  final double dxEntry;
-  final double radius;
-  final double dy;
-
-  final PageController pageController;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final ScrollPosition pos = pageController.position;
-    final double fullExtent =
-        pos.maxScrollExtent - pos.minScrollExtent + pos.viewportDimension;
-
-    final double pageOffset = pos.extentBefore / fullExtent;
-
-    final bool left2right = dxEntry < dxTarget;
-    final Offset entry = Offset(left2right ? dxEntry : dxTarget, dy);
-    final Offset target = Offset(left2right ? dxTarget : dxEntry, dy);
-
-    final Path path = Path();
-    path.addArc(
-        Rect.fromCircle(center: entry, radius: radius), 0.5 * pi, 1 * pi);
-    path.addRect(Rect.fromLTRB(entry.dx, dy - radius, target.dx, dy + radius));
-    path.addArc(
-        Rect.fromCircle(center: target, radius: radius), 1.5 * pi, 1 * pi);
-
-    canvas.translate(size.width * pageOffset, 0.0);
-    canvas.drawShadow(path, CustomTheme.loginGradientStart, 3.0, true);
-    canvas.drawPath(path, painter);
-  }
-
-  @override
-  bool shouldRepaint(BubbleIndicatorPainter oldDelegate) => true;
-}
-
-class CustomTheme {
-  const CustomTheme();
-
-  static const Color loginGradientStart = Color(0xFFFFFFFF);
-  static const Color loginGradientEnd = Color(0xFFFFFFFF);
-  static const Color white = Color(0xFFFFFFFF);
-  static const Color black = Color(0xFF000000);
-
-  static const LinearGradient primaryGradient = LinearGradient(
-    colors: <Color>[loginGradientStart, loginGradientEnd],
-    stops: <double>[0.0, 1.0],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  );
-}
-
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
 
@@ -275,9 +214,10 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  TextEditingController loginEmailController = TextEditingController(text: 'maideen.i@gmail.com');
-  TextEditingController loginPasswordController = TextEditingController(text: 'Magento@123');
+  TextEditingController loginEmailController = TextEditingController();
+  TextEditingController loginPasswordController = TextEditingController();
   bool passwordVisible = false;
+  CustomerModel customerModel = CustomerModel();
 
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
@@ -302,6 +242,18 @@ class _SignInState extends State<SignIn> {
     super.initState();
     passwordVisible = true;
   }
+
+ /* Future<UserCredential?> signInWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login();
+    if (result.status == LoginStatus.success) {
+      // Create a credential from the access token
+      final OAuthCredential credential =
+          FacebookAuthProvider.credential(result.accessToken!.token);
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    }
+    return null;
+  }*/
 
   void _handleGoogleSignIn() async {
     try {
@@ -374,6 +326,18 @@ class _SignInState extends State<SignIn> {
     }
   }*/
 
+  void getuserdata() async {
+    customerModel = await graphQLService.get_customer_details();
+
+    print('customerModel length');
+    print(customerModel.customer?.addresses?.length);
+
+    print(customerModel.customer!.wishlists![0].id!);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('wishlist_id', customerModel.customer!.wishlists![0].id!);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -390,7 +354,7 @@ class _SignInState extends State<SignIn> {
                 'Email',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 15.0,
+                  fontSize: 13.0,
                 ),
               ),
             ),
@@ -413,13 +377,14 @@ class _SignInState extends State<SignIn> {
                     suffixIcon: const Icon(
                       Icons.email_outlined,
                       color: Colors.grey,
-                      size: 22.0,
+                      size: 18.0,
                     ),
                     contentPadding:
-                        const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                        const EdgeInsets.fromLTRB(10.0, 15.0, 20.0, 0.0),
                     hintText: "Email",
+                    hintStyle: const TextStyle(fontSize: 12),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32.0))),
+                        borderRadius: BorderRadius.circular(0.0))),
               ),
             ),
             const Padding(
@@ -428,7 +393,7 @@ class _SignInState extends State<SignIn> {
                 'Password',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 15.0,
+                  fontSize: 13.0,
                 ),
               ),
             ),
@@ -451,7 +416,7 @@ class _SignInState extends State<SignIn> {
                         passwordVisible
                             ? Icons.visibility
                             : Icons.visibility_off,
-                        size: 22.0,
+                        size: 18.0,
                       ),
                       onPressed: () {
                         setState(
@@ -462,14 +427,15 @@ class _SignInState extends State<SignIn> {
                       },
                     ),
                     contentPadding:
-                        const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                        const EdgeInsets.fromLTRB(10.0, 15.0, 20.0, 0.0),
                     hintText: "Password",
+                    hintStyle: const TextStyle(fontSize: 13), // you need this
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32.0))),
+                        borderRadius: BorderRadius.circular(0.0))),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+              padding: const EdgeInsets.only(left: 5.0, right: 15.0),
               child: Row(
                 children: [
                   Checkbox(
@@ -483,15 +449,24 @@ class _SignInState extends State<SignIn> {
                   ),
                   const Text(
                     'Remember me',
-                    style: TextStyle(fontSize: 13.0),
+                    style: TextStyle(fontSize: 13.0,fontWeight: FontWeight.w600,color: Colors.black54),
                   ),
                   const Spacer(),
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(
-                        context, ForgotPasswordScreen.routeName),
+                    /*onTap: () => Navigator.pushNamed(
+                        context, ForgotPasswordScreen.routeName),*/
+
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordScreen()),
+                      );
+                    },
+
                     child: const Text(
                       'Forgot Password?',
-                      style: TextStyle(fontSize: 13.0),
+                      style: TextStyle(fontSize: 13.0,color: headingColor,fontWeight: FontWeight.w600),
                     ),
                   )
                 ],
@@ -509,21 +484,29 @@ class _SignInState extends State<SignIn> {
                   backgroundColor: themecolor,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(55)),
+                      borderRadius: BorderRadius.circular(0)),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    graphQLService.Login(
+                    String result;
+                    result = await graphQLService.Login(
                         loginEmailController.text.toString(),
                         loginPasswordController.text.toString(),
                         context);
+
+                    if (result == "200") {
+                      EasyLoading.dismiss();
+                      getuserdata();
+                    } else {
+                      EasyLoading.dismiss();
+                    }
                   }
                 },
                 child: const Text('Login'),
               ),
             ),
             const SizedBox(
-              height: 40.0,
+              height: 35.0,
             ),
             Center(
               child: Padding(
@@ -531,7 +514,7 @@ class _SignInState extends State<SignIn> {
                   child: Text.rich(
                     TextSpan(
                       children: [
-                        const TextSpan(text: 'Don’t have an account? '),
+                        const TextSpan(text: 'Don’t have an account? ',style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500)),
                         TextSpan(
                           text: 'Create an Account',
                           recognizer: TapGestureRecognizer()
@@ -580,7 +563,7 @@ class _SignInState extends State<SignIn> {
                       'Or Sign in with',
                       style: TextStyle(
                         color: Colors.black,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         fontSize: 13.0,
                       ),
                     ),
@@ -623,7 +606,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         label: const Text(
                           'Facebook',
-                          style: TextStyle(fontSize: 15.0, color: Colors.white),
+                          style: TextStyle(fontSize: 14.0, color: Colors.white),
                         ),
                         style: ElevatedButton.styleFrom(
                           primary: const Color(0xFF345288),
@@ -631,16 +614,17 @@ class _SignInState extends State<SignIn> {
                               color: Colors.white,
                               fontSize: 15,
                               fontStyle: FontStyle.normal),
-                          shape: const StadiumBorder(),
+                          // shape: const StadiumBorder(),
                         ),
                         onPressed: () {
-                          /*_handleFBSignIn();*/
 
-                          Navigator.push(
+                          /*signInWithFacebook();*/
+
+                          /* Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      FBOOK()));
+                                      FBOOK()));*/
 
                         }, // Every button need a callback
                       ),
@@ -653,31 +637,31 @@ class _SignInState extends State<SignIn> {
                     // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
                     child: SizedBox(
                       height: 50, // <-- Your height
-                      child:
-                      GestureDetector(
-                      onTap: (){
-                       // _handleSignIn();
-                      },
-                      child: ElevatedButton.icon(
-                        icon: Image.asset('assets/icons/google.png'),
-                        label: const Text(
-                          'Google',
-                          style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          side:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          textStyle: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontStyle: FontStyle.normal),
-                          shape: const StadiumBorder(),
-                        ),
-                        onPressed: () {
-                          _handleGoogleSignIn();
+                      child: GestureDetector(
+                        onTap: () {
+                          // _handleSignIn();
                         },
-                      ),
+                        child: ElevatedButton.icon(
+                          icon: Image.asset('assets/icons/google.png'),
+                          label: const Text(
+                            'Google',
+                            style:
+                                TextStyle(fontSize: 15.0, color: Colors.black),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            side: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            textStyle: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontStyle: FontStyle.normal),
+                            // shape: const StadiumBorder(),
+                          ),
+                          onPressed: () {
+                            _handleGoogleSignIn();
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -690,6 +674,13 @@ class _SignInState extends State<SignIn> {
     );
   }
 }
+
+class Resource {
+  final Status status;
+  Resource({required this.status});
+}
+
+enum Status { Success, Error, Cancelled }
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
