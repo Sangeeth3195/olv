@@ -4,6 +4,7 @@ import 'package:omaliving/scaffold_with_navbar.dart';
 import 'package:omaliving/screens/account/Account.dart';
 import 'package:omaliving/screens/address/address.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
+import 'package:omaliving/screens/checkout/Checkout.dart';
 import 'package:omaliving/screens/discover/discovers.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
@@ -83,6 +84,15 @@ final router = GoRouter(
             builder: (context, state) {
               return const CartScreen();
             },
+            routes: <RouteBase>[
+              GoRoute(
+                path: 'continue',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const Checkout();
+                },
+              ),
+            ]
           ),
         ]),
         StatefulShellBranch(routes: <RouteBase>[
@@ -95,6 +105,7 @@ final router = GoRouter(
             },
             routes: <RouteBase>[
               GoRoute(
+                parentNavigatorKey: _rootNavigatorKey,
                 path: 'account',
                 builder: (context, state) {
                   return  Account();
@@ -102,30 +113,40 @@ final router = GoRouter(
               ),
               GoRoute(
                 path: 'myorders',
+                parentNavigatorKey: _rootNavigatorKey,
+
                 builder: (context, state) {
                   return  MyOrders();
                 },
               ),
               GoRoute(
                 path: 'address',
+                parentNavigatorKey: _rootNavigatorKey,
+
                 builder: (context, state) {
                   return  Address();
                 },
               ),
               GoRoute(
                 path: 'resetpassword',
+                parentNavigatorKey: _rootNavigatorKey,
+
                 builder: (context, state) {
                   return  ResetPassword();
                 },
               ),
               GoRoute(
                 path: 'news',
+                parentNavigatorKey: _rootNavigatorKey,
+
                 builder: (context, state) {
                   return  Newsletter();
                 },
               ),
               GoRoute(
                 path: 'settings',
+                parentNavigatorKey: _rootNavigatorKey,
+
                 builder: (context, state) {
                   return  Settings();
                 },
@@ -135,6 +156,12 @@ final router = GoRouter(
           ),
         ]),
       ],
+    ),
+    GoRoute(
+      path: '/details',
+      builder: (BuildContext context, GoRouterState state) {
+        return const Account();
+      },
     ),
   ],
 );

@@ -29,6 +29,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> {
   BuildContext? selectedContext;
   MyProvider? myProvider;
   int _selectedIndex = 0;
+  int selectedPageIndex = 0;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -47,6 +49,9 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> {
   void getuserdata() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token') ?? '';
+    setState(() {
+
+    });
   }
   Widget _leadButton(BuildContext context) {
     return GestureDetector(
@@ -384,29 +389,46 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> {
         ),
       ),
 
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
+      bottomNavigationBar: NavigationBar(
+        // type: BottomNavigationBarType.shifting,
         // onTap: (x) {
         // },
         elevation: 0.0,
-        showUnselectedLabels: true,
-        unselectedItemColor: Colors.grey.shade500,
-        selectedItemColor: themecolor,
-        currentIndex: widget.navigationShell.currentIndex,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.compass), label: 'Discover'),
-          BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.heart), label: 'WishList'),
-          BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cartPlus), label: 'cart'),
-          BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.user), label: 'Profile'),
+        backgroundColor: Colors.white,
+        indicatorColor: themecolor,
+        indicatorShape:RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(11),topLeft: Radius.circular(11)),
+          side: BorderSide(
+              width: 1,
+              color: themecolor,
+          ),
+        ),
+        selectedIndex: selectedPageIndex,
+        onDestinationSelected: (int index) {
+          _onTap(index);
+          setState(() {
+            selectedPageIndex = index;
+          });
+        },
+        // showUnselectedLabels: true,
+        // unselectedItemColor: Colors.grey.shade500,
+        // selectedItemColor: themecolor,
+        // currentIndex: widget.navigationShell.currentIndex,
+        destinations:  [
+          NavigationDestination(icon: Icon(Icons.home,color: selectedPageIndex==0?Colors.white:Colors.grey,), label: 'Home'),
+          NavigationDestination(icon: Icon(FontAwesomeIcons.compass,color: selectedPageIndex==1?Colors.white:Colors.grey,), label: 'Discover'),
+          NavigationDestination(icon: Icon(FontAwesomeIcons.heart,color: selectedPageIndex==2?Colors.white:Colors.grey,), label: 'WishList'),
+          NavigationDestination(icon: Icon(FontAwesomeIcons.cartPlus,color: selectedPageIndex==3?Colors.white:Colors.grey,), label: 'cart'),
+          NavigationDestination(icon: Icon(FontAwesomeIcons.user,color: selectedPageIndex==4?Colors.white:Colors.grey,), label: 'Profile'),
         ],
-        onTap: _onTap,
+        // onTap: _onTap,
       ),
     );
   }
 
   void _onTap(index) {
     if(index==2 || index==4){
+      getuserdata();
       if(token.isEmpty){
         Navigator.push(
           context,

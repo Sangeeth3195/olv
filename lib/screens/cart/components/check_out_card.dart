@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
@@ -212,11 +213,12 @@ import '../../checkout/Checkout.dart';
                             listen: false);
                         myProvider.navBar=true;
                         myProvider.notifyListeners();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Checkout()),
-                        );
+                        context.go('/cart/continue');
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const Checkout()),
+                        // );
                       },
                     ),
                   ),
