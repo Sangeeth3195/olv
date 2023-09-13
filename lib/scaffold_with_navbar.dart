@@ -19,7 +19,7 @@ class ScaffoldWithNavbar extends StatefulWidget {
   State<ScaffoldWithNavbar> createState() => _ScaffoldWithNavbarState();
 }
 
-class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> {
+class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> with  SingleTickerProviderStateMixin{
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> navHeaderList = [];
   late DateTime currentBackPressTime;
@@ -30,6 +30,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> {
   MyProvider? myProvider;
   int _selectedIndex = 0;
   int selectedPageIndex = 0;
+  late TabController _tabController;
 
   @override
   void initState() {
@@ -37,6 +38,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> {
     super.initState();
     getNavdata();
     getuserdata();
+    _tabController = TabController(vsync: this, length: 5);
+
 
     myProvider = Provider.of<MyProvider>(context, listen: false);
   }
@@ -48,10 +51,12 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> {
     print(navHeaderList.length);
   }
 
-  void getuserdata() async {
+  Future<String> getuserdata() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token') ?? '';
     setState(() {});
+
+    return token;
   }
 
   Widget _leadButton(BuildContext context) {
@@ -78,8 +83,42 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> {
     return GoRouter.of(context).location != '/home';
   }
 
+  Widget _tabItem(Widget child, String label, {bool isSelected = false}) {
+    return Container(
+      width: MediaQuery.of(context).size.width/5,
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      decoration: !isSelected
+          ? null
+          : BoxDecoration(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10)),
+        color: themecolor,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          child,
+          SizedBox(height: 5,),
+          Text(label, style: TextStyle(fontSize: 8,),textAlign: TextAlign.center),
+        ],
+      ),
+    );
+  }
+
+  final List<String> _labels = ['Home', 'Discover', 'WishList','cart','Profile'];
+
+
   @override
   Widget build(BuildContext context) {
+
+    List<Widget> _icons = const [
+      Icon(Icons.home),
+      Icon(FontAwesomeIcons.compass),
+      Icon(FontAwesomeIcons.heart),
+      Icon(FontAwesomeIcons.cartPlus),
+      Icon(FontAwesomeIcons.user),
+
+    ];
     return Scaffold(
       appBar: AppBar(
         leading: _showLeading(context) ? _leadButton(context) : null,
@@ -393,66 +432,56 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> {
           ],
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        // type: BottomNavigationBarType.shifting,
-        // onTap: (x) {
-        // },
-        elevation: 0.0,
-        backgroundColor: Colors.white,
-        indicatorColor: themecolor,
-        indicatorShape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(5), topLeft: Radius.circular(5)),
-          side: BorderSide(
-            width: 1,
-            color: themecolor,
+      bottomNavigationBar: Container(
+        height: 65,
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(0.0),
+          child: Container(
+            color: Colors.white,
+            child: TabBar(
+                onTap: (x) {
+                  _onTap(x);
+                  setState(() {
+                    _selectedIndex = x;
+                  });
+                },
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.grey,
+                indicator: const UnderlineTabIndicator(
+                  borderSide: BorderSide.none,
+                ),
+                tabs: [
+                  for (int i = 0; i < _icons.length; i++)
+                    _tabItem(
+                      _icons[i],
+                      _labels[i],
+                      isSelected: i == _selectedIndex,
+                    ),
+                ],
+                controller: _tabController),
           ),
         ),
-        selectedIndex: selectedPageIndex,
-        onDestinationSelected: (int index) {
-          _onTap(index);
-          setState(() {
-            selectedPageIndex = index;
-          });
-        },
-        // showUnselectedLabels: true,
-        // unselectedItemColor: Colors.grey.shade500,
-        // selectedItemColor: themecolor,
-        // currentIndex: widget.navigationShell.currentIndex,
-        destinations: [
-          NavigationDestination(
-              icon: Icon(
-                Icons.home,
-                color: selectedPageIndex == 0 ? Colors.white : Colors.grey,
-              ),
-              label: 'Home'),
-          NavigationDestination(
-              icon: Icon(
-                FontAwesomeIcons.compass,
-                color: selectedPageIndex == 1 ? Colors.white : Colors.grey,
-              ),
-              label: 'Discover'),
-          NavigationDestination(
-              icon: Icon(
-                FontAwesomeIcons.heart,
-                color: selectedPageIndex == 2 ? Colors.white : Colors.grey,
-              ),
-              label: 'WishList'),
-          NavigationDestination(
-              icon: Icon(
-                FontAwesomeIcons.cartPlus,
-                color: selectedPageIndex == 3 ? Colors.white : Colors.grey,
-              ),
-              label: 'cart'),
-          NavigationDestination(
-              icon: Icon(
-                FontAwesomeIcons.user,
-                color: selectedPageIndex == 4 ? Colors.white : Colors.grey,
-              ),
-              label: 'Profile'),
-        ],
-        // onTap: _onTap,
       ),
+
+      // bottomNavigationBar: BottomNavigationBar(
+      //   type: BottomNavigationBarType.shifting,
+      //   // onTap: (x) {
+      //   // },
+      //   elevation: 0.0,
+      //   showUnselectedLabels: true,
+      //   unselectedItemColor: Colors.grey.shade500,
+      //   selectedItemColor: themecolor,
+      //   currentIndex: widget.navigationShell.currentIndex,
+      //   items: const [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+      //     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.compass), label: 'Discover'),
+      //     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.heart), label: 'WishList'),
+      //     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cartPlus), label: 'cart'),
+      //     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.user), label: 'Profile'),
+      //   ],
+      //   onTap: _onTap,
+      // ),
     );
   }
 
@@ -470,9 +499,9 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> {
     return str.join(" ");
   }*/
 
-  void _onTap(index) {
+  void _onTap(index) async{
     if (index == 2 || index == 4) {
-      getuserdata();
+      await getuserdata();
       if (token.isEmpty) {
         Navigator.push(
           context,

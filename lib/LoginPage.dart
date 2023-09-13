@@ -216,8 +216,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  TextEditingController loginEmailController = TextEditingController();
-  TextEditingController loginPasswordController = TextEditingController();
+  TextEditingController loginEmailController = TextEditingController(text: 'maideen.i@gmail.com');
+  TextEditingController loginPasswordController = TextEditingController(text: 'Magento@123');
   bool passwordVisible = false;
   CustomerModel customerModel = CustomerModel();
 

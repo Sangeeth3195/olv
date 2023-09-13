@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/screens/add_address/add_address.dart';
@@ -46,11 +47,17 @@ class _BodyState extends State<Body> {
                 return ListTile(
                   onTap: () {
 
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamed("/addaddress",
-                            arguments:
-                                customerModel.customer?.addresses?[index])
-                        .then((value) => ({getData()}));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  AddAddress(arguments: customerModel.customer?.addresses?[index],)),
+                    );
+
+                    // context.go("/addaddress");
+                    // Navigator.of(context, rootNavigator: true)
+                    //     .pushNamed("/addaddress",
+                    //         arguments:
+                    //             customerModel.customer?.addresses?[index])
+                    //     .then((value) => ({getData()}));
 
                   },
                   title: Text(

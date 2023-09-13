@@ -10,6 +10,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/models/CountryModel.dart';
 import 'package:omaliving/models/CustomerModel.dart';
+import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -971,14 +972,16 @@ class GraphQLService {
             'token', result.data?['generateCustomerToken']['token']);
 
         // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => MainLayout()));
+        //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
 
         Navigator.of(context).pop();
+        context.go('/home');
         Fluttertoast.showToast(msg: 'Login successfully');
       }
 
     MyProvider  myProvider = Provider.of<MyProvider>(context, listen: false);
       myProvider.getuserdata();
+
 
       return "";
     } catch (e) {
