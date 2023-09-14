@@ -5,8 +5,9 @@ import 'components/body.dart';
 
 class AddAddress extends StatelessWidget {
   static String routeName = "/addaddress";
+  final Address? arguments;
 
-  const AddAddress({super.key});
+  const AddAddress({super.key, this.arguments});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class AddAddress extends StatelessWidget {
         ),
       ),
       body: Body(
-        arguments: ModalRoute.of(context)!.settings.arguments as Address?,
+        arguments: arguments,
       ),
     );
   }
