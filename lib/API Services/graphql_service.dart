@@ -22,6 +22,48 @@ class GraphQLService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
+  Future<dynamic> gethomescreen() async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query { 
+                getHomePageData {
+                  category
+                  title
+                  description
+                  priority
+                  skulist
+                  buttontext
+                  link
+                  sectiondata{
+                    title
+                    description
+                    priority
+                    attachment
+                    attachmentmob
+                    buttontext
+                    link
+                  }
+                }
+              }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        EasyLoading.dismiss();
+
+        return result;
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
   Future<List<dynamic>> getCategory({
     required int limit,
   }) async {
@@ -107,7 +149,7 @@ class GraphQLService {
                       oma_subclass:{in:[]}
                       }
                       sort: {name: ASC}
-                      pageSize:"${100}"
+                      pageSize:"${16}"
                       ) {
                       aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
                         attribute_code
@@ -977,7 +1019,7 @@ class GraphQLService {
         Fluttertoast.showToast(msg: 'Login successfully');
       }
 
-    MyProvider  myProvider = Provider.of<MyProvider>(context, listen: false);
+      MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
       myProvider.getuserdata();
 
       return "";
@@ -2046,7 +2088,8 @@ class GraphQLService {
   }
 
   /// Add Product to Wishlist
-  static String addProductfromwishlist({required String sku,required String qty}) {
+  static String addProductfromwishlist(
+      {required String sku, required String qty}) {
     return '''
             mutation {
                   addProductsToWishlist(
@@ -2144,23 +2187,19 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> add_Product_from_wishlist({required String sku,required String qty}) async {
+  Future<String> add_Product_from_wishlist(
+      {required String sku, required String qty}) async {
     try {
       print(sku);
       print(qty);
 
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(
-              addProductfromwishlist(sku:sku, qty:qty)), // this
+          document: gql(addProductfromwishlist(sku: sku, qty: qty)), // this
         ),
-
       );
 
-      log(addProductfromwishlist(
-          sku: sku,
-          qty: qty)
-          .toString());
+      log(addProductfromwishlist(sku: sku, qty: qty).toString());
 
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
@@ -2170,7 +2209,6 @@ class GraphQLService {
         log(jsonEncode(result.data));
 
         EasyLoading.dismiss();
-
       }
 
       return "";
@@ -2181,7 +2219,8 @@ class GraphQLService {
   }
 
   /// Remove Product from Wishlist
-  static String removeProductfromwishlist({required String wishlistId,required String wishlistItemsIds}) {
+  static String removeProductfromwishlist(
+      {required String wishlistId, required String wishlistItemsIds}) {
     return '''
             mutation {
                 removeProductsFromWishlist(
@@ -2258,22 +2297,22 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> remove_Product_from_wishlist({required String wishlistId,required String wishlistItemsIds}) async {
+  Future<String> remove_Product_from_wishlist(
+      {required String wishlistId, required String wishlistItemsIds}) async {
     try {
       print(wishlistId);
       print(wishlistItemsIds);
 
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(
-              removeProductfromwishlist(wishlistId:wishlistId, wishlistItemsIds:wishlistItemsIds)), // this
+          document: gql(removeProductfromwishlist(
+              wishlistId: wishlistId,
+              wishlistItemsIds: wishlistItemsIds)), // this
         ),
-
       );
 
       log(removeProductfromwishlist(
-          wishlistId: wishlistId,
-          wishlistItemsIds: wishlistItemsIds)
+              wishlistId: wishlistId, wishlistItemsIds: wishlistItemsIds)
           .toString());
 
       if (result.hasException) {
@@ -2284,7 +2323,6 @@ class GraphQLService {
         log(jsonEncode(result.data));
 
         EasyLoading.dismiss();
-
       }
 
       return "";
@@ -2293,7 +2331,4 @@ class GraphQLService {
       return "";
     }
   }
-
-
 }
-

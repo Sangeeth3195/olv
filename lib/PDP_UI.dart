@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
 import 'package:omaliving/constants.dart';
+import 'package:omaliving/screens/360view.dart';
 import 'package:omaliving/screens/details/components/product_description.dart';
 import 'package:omaliving/screens/product_listing/components/product_card.dart';
 import 'package:omaliving/screens/provider/provider.dart';
@@ -177,7 +178,7 @@ class _DetailsPageState extends State<DetailsPage>
                         child: const Center(child: Text('Add to cart'))),
                   )))
         ],
-        backgroundColor: Theme.of(context).canvasColor,
+        backgroundColor: Colors.white,
         body: Consumer<MyProvider>(
           builder: (context, provider, _) {
             imgList.clear();
@@ -224,6 +225,7 @@ class _DetailsPageState extends State<DetailsPage>
                                   }
                                 },
                               ),
+
                               CarouselSlider(
                                 options: CarouselOptions(
                                     initialPage: 0,
@@ -259,6 +261,7 @@ class _DetailsPageState extends State<DetailsPage>
                                   );
                                 }).toList(),
                               ),
+
                               const SizedBox(height: 15),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -309,6 +312,38 @@ class _DetailsPageState extends State<DetailsPage>
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
+
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>  Imageviewth()),
+                                    );
+                                  },
+                                child: Card(
+                                  color: Colors.grey[300],
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(0.0),
+                                  ),
+                                  child: const SizedBox(
+                                    height: 35,
+                                    width: 110,
+                                    child: AnimatedSwitcher(
+                                      duration:
+                                      Duration(milliseconds: 500),
+                                      child: Text(
+                                        '360 view',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                ),
                               ],
                             ),
                             const SizedBox(height: 10),
@@ -357,7 +392,7 @@ class _DetailsPageState extends State<DetailsPage>
                                       color: Colors.grey[300],
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(25.0),
+                                            BorderRadius.circular(0.0),
                                       ),
                                       child: SizedBox(
                                         height: 35,

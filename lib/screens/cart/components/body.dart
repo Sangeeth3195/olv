@@ -186,7 +186,7 @@ class _BodyState extends State<Body> {
                       ),
                       Container(
                         // color: const Color(0xFFFFF2E1),
-                        color: kSecondaryColor,
+                        color: kPrimaryLightColor,
                         height: 50,
                         child: const Padding(
                           padding: EdgeInsets.only(left: 10, right: 10),

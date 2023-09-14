@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imageview360/imageview360.dart';
 
-
 class Imageviewth extends StatefulWidget {
   Imageviewth({Key? key}) : super(key: key);
 
@@ -30,32 +29,29 @@ class _DemoPageState extends State<Imageviewth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Imageview 360'),
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.only(top: 72.0),
+            padding: const EdgeInsets.only(top: 40.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 (imagePrecached == true)
                     ? ImageView360(
-                  key: UniqueKey(),
-                  imageList: imageList,
-                  autoRotate: autoRotate,
-                  rotationCount: rotationCount,
-                  rotationDirection: RotationDirection.anticlockwise,
-                  frameChangeDuration: const Duration(milliseconds: 30),
-                  swipeSensitivity: swipeSensitivity,
-                  allowSwipeToRotate: allowSwipeToRotate,
-                  onImageIndexChanged: (currentImageIndex) {
-                    print("currentImageIndex: $currentImageIndex");
-                  },
-                )
+                        key: UniqueKey(),
+                        imageList: imageList,
+                        autoRotate: autoRotate,
+                        rotationCount: rotationCount,
+                        rotationDirection: RotationDirection.anticlockwise,
+                        frameChangeDuration: const Duration(milliseconds: 30),
+                        swipeSensitivity: swipeSensitivity,
+                        allowSwipeToRotate: allowSwipeToRotate,
+                        onImageIndexChanged: (currentImageIndex) {
+                          print("currentImageIndex: $currentImageIndex");
+                        },
+                      )
                     : const Text("Pre-Caching images..."),
-                const Padding(
+                /*const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     "Optional features:",
@@ -90,7 +86,7 @@ class _DemoPageState extends State<Imageviewth> {
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Text("Swipe sensitivity: $swipeSensitivity"),
-                ),
+                ),*/
               ],
             ),
           ),
