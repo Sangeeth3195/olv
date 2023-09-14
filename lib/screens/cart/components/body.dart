@@ -39,7 +39,6 @@ class _BodyState extends State<Body> {
                       child: CartCard(),
                     ),
                   )),
-
               Container(
                 padding: EdgeInsets.symmetric(
                   vertical: getProportionateScreenWidth(15),
@@ -79,10 +78,42 @@ class _BodyState extends State<Body> {
                       const SizedBox(
                         height: 18.0,
                       ),
-                      const Row(
-                        children: [
-                          Text("Enter coupon code"),
-                          SizedBox(width: 10),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: TextField(
+                              onSubmitted: (s) {},
+                              decoration: const InputDecoration(
+                                  hintText: "Enter coupon code",
+                                  fillColor: Color(0xFFF5F6F9),
+                                  filled: true,
+                                  border: InputBorder.none),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 0.0),
+                            child: SizedBox(
+                              height: 45, // <-- Your height
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: headingColor,
+
+                                  textStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontStyle: FontStyle.normal),
+                                  // shape: const StadiumBorder(),
+                                ),
+                                onPressed: () {},
+                                child: const Text(
+                                  'Apply',
+                                  style: TextStyle(
+                                      fontSize: 15.0, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(height: getProportionateScreenHeight(20)),

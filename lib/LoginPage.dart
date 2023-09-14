@@ -416,8 +416,8 @@ class _SignInState extends State<SignIn> {
                     suffixIcon: IconButton(
                       icon: Icon(
                         passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                         size: 18.0,
                       ),
                       onPressed: () {
@@ -524,7 +524,7 @@ class _SignInState extends State<SignIn> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>  BTM()),//Imageviewth
+                                    builder: (context) =>  SignUpScreen()),//Imageviewth
                               );
                             },
                           style: const TextStyle(

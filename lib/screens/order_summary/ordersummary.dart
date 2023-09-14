@@ -12,9 +12,15 @@ class Ordersummary extends StatelessWidget {
   const Ordersummary({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Body(),
-      bottomNavigationBar: CheckoutCard(),
+    return  Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black,size: 20),
+        title: const Text('Order Summary',style: TextStyle(color: Colors.black,fontSize: 16),),
+      ),
+      body: const Body(),
+      bottomNavigationBar: const CheckoutCard(),
     );
   }
 }

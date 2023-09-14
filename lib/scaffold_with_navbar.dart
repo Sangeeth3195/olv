@@ -86,11 +86,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> with  SingleTic
   Widget _tabItem(Widget child, String label, {bool isSelected = false}) {
     return Container(
       width: MediaQuery.of(context).size.width/5,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: !isSelected
           ? null
-          : BoxDecoration(
-        borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10)),
+          : const BoxDecoration(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(5),topLeft: Radius.circular(5)),
         color: themecolor,
       ),
       child: Column(
@@ -98,8 +98,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> with  SingleTic
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           child,
-          SizedBox(height: 5,),
-          Text(label, style: TextStyle(fontSize: 8,),textAlign: TextAlign.center),
+          const SizedBox(height: 5,),
+          Text(label, style: const TextStyle(fontSize: 10,),textAlign: TextAlign.center),
         ],
       ),
     );

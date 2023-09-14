@@ -62,10 +62,39 @@ import '../../checkout/Checkout.dart';
                   const SizedBox(
                     height: 18.0,
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text("Enter coupon code"),
-                      SizedBox(width: 10),
+                  IconTheme(
+                  //new
+                  data: IconThemeData(color: Colors.black54), //new
+          child: Container(
+            //modified
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+
+                    onSubmitted: (s) {},
+                    decoration:
+                    const InputDecoration(
+                        hintText: "Send a message",
+                        fillColor:  Color(0xFFF5F6F9),
+                        filled: true,
+                        border: InputBorder.none),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: () {}),
+                ),
+              ],
+            ),
+          ), //new
+        ),
                     ],
                   ),
                   SizedBox(height: getProportionateScreenHeight(20)),

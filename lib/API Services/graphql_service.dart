@@ -23,7 +23,7 @@ class GraphQLService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-  Future<dynamic> gethomescreen() async {
+  Future<dynamic> gethomepagedata() async {
     try {
       QueryResult result = await client.query(
         QueryOptions(

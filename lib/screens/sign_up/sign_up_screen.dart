@@ -427,8 +427,8 @@ class _SignInState extends State<SignIn> {
                       suffixIcon: IconButton(
                         icon: Icon(
                           passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           size: 18.0,
                         ),
                         onPressed: () {
