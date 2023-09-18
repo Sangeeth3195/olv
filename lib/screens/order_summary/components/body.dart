@@ -25,13 +25,13 @@ class _BodyState extends State<Body> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
             child: Text(
               'Delivery',
               style:
-                  TextStyle(color: headingColor, fontWeight: FontWeight.bold),
+                  TextStyle(color: headingColor, fontWeight: FontWeight.bold,fontSize: 15),
             ),
           ),
           /*const Text(
@@ -43,14 +43,14 @@ class _BodyState extends State<Body> {
             style: TextStyle(color: headingColor, fontWeight: FontWeight.bold),
           ),*/
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Delivering to Home",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black, fontSize: 12),
+                  style: TextStyle(color: Colors.black, fontSize: 13),
                 ),
                 SizedBox(
                   height: 8,
@@ -68,7 +68,6 @@ class _BodyState extends State<Body> {
                             fontWeight: FontWeight.w500),
                       ),
                     ),
-
                   ],
                 ),
               ],
@@ -88,9 +87,9 @@ class _BodyState extends State<Body> {
                   ),
                   title: Text(
                     'Scheffera potted plant',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 14),
                   ),
-                  subtitle: Text('₹ 1,298'),
+                  subtitle: Text('₹ 1,298', style: TextStyle(color: Colors.black,fontSize: 13,),),
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
@@ -107,33 +106,11 @@ class _BodyState extends State<Body> {
                   ),
                   title: Text(
                     'Scheffera potted plant',
-                    style: TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: 14),
                   ),
                   subtitle: Text(
                     '₹ 1,298',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
-                  child: Divider(
-                    color: Colors.grey,
-                  ),
-                ),
-                ListTile(
-                  leading: Image(
-                    image: NetworkImage(
-                        'https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI002927_3.png'),
-                    height: 60,
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text(
-                    'Scheffera potted plant',
-                    style: TextStyle(fontSize: 13),
-                  ),
-                  subtitle: Text(
-                    '₹ 1,298',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 13, color: Colors.black),
                   ),
                 ),
                 Padding(
@@ -151,11 +128,33 @@ class _BodyState extends State<Body> {
                   ),
                   title: Text(
                     'Scheffera potted plant',
-                    style: TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: 14),
                   ),
                   subtitle: Text(
                     '₹ 1,298',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 13, color: Colors.black),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                  child: Divider(
+                    color: Colors.grey,
+                  ),
+                ),
+                ListTile(
+                  leading: Image(
+                    image: NetworkImage(
+                        'https://staging2.omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI002927_3.png'),
+                    height: 60,
+                    fit: BoxFit.cover,
+                  ),
+                  title: Text(
+                    'Scheffera potted plant',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  subtitle: Text(
+                    '₹ 1,298',
+                    style: TextStyle(fontSize: 13,color: Colors.black),
                   ),
                 ),
               ],

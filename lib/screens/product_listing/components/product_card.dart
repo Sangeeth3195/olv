@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:omaliving/models/ProductListJson.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../API Services/graphql_service.dart';
 import '../../../constants.dart';
 
 class ProductCard extends StatefulWidget {
@@ -12,7 +15,7 @@ class ProductCard extends StatefulWidget {
     required this.press,
     required this.bgColor,
     this.product,
-     this.item,
+    this.item,
   }) : super(key: key);
   final String image, title;
   final VoidCallback press;
@@ -26,7 +29,13 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  int _selected=0;
+  GraphQLService graphQLService = GraphQLService();
+
+  String cart_token = '';
+
+  // create_cart
+
+  int _selected = 0;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -38,66 +47,67 @@ class _ProductCardState extends State<ProductCard> {
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
         child:
-        /*Card(
+            /*Card(
           elevation: 0,
           child:*/
-          Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: widget.bgColor,
-                      borderRadius: const BorderRadius.all(
-                          Radius.circular(defaultBorderRadius)),
-                    ),
-                    child: Image.network(
-                      widget.item!.smallImage.url,
-                      height: 150,
-                    ),
+            Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: widget.bgColor,
+                    borderRadius: const BorderRadius.all(
+                        Radius.circular(defaultBorderRadius)),
                   ),
-                  const SizedBox(height: 2),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                        child: Text(
-                          widget.item!.dynamicAttributes[0].attributeValue.toString(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: blackColor,
-                              height: 1.5,
-                              fontSize: 12),
-                        ),
+                  child: Image.network(
+                    widget.item!.smallImage.url,
+                    height: 150,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                        widget.item!.dynamicAttributes[0].attributeValue
+                            .toString(),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: blackColor,
+                            height: 1.5,
+                            fontSize: 12),
                       ),
-                      const SizedBox(height: 0.0),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                        child: Text(
-                          widget.title,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: blackColor,
-                              height: 1.5,
-                              fontSize: 13),
-                        ),
+                    ),
+                    const SizedBox(height: 0.0),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                        widget.title,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: blackColor,
+                            height: 1.5,
+                            fontSize: 13),
                       ),
-                      const SizedBox(height: 10.0),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: widget.item!.getPriceRange.isEmpty
+                          ? Text(widget.item!.textAttributes[0].normalprice
+                              .toString())
+                          : Text(widget.item!.getPriceRange[0].normalpricevalue
+                              .toString()),
+                    ),
 
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                        child:
-                      widget.item!.getPriceRange.isEmpty
-                          ? Text(widget.item!.textAttributes[0].normalprice.toString())
-                          : Text(widget.item!.getPriceRange[0].normalpricevalue.toString()),
-                      ),
-
-                      /*Padding(
+                    /*Padding(
                         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(
                           '₹$price',
@@ -109,106 +119,153 @@ class _ProductCardState extends State<ProductCard> {
                         ),
                       ),*/
 
-                      const SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
+                    widget.item!.textAttributes[0].specicalprice.toString() == null
+                        ? Padding(
+                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                            child: Text(
+                              widget.item!.textAttributes[0].specicalprice
+                                  .toString(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: headingColor,
+                                  height: 1.2,
+                                  fontSize: 12),
+                            ),
+                          )
+                        : Container(),
+                    widget.item!.typename == "ConfigurableProduct"
+                        ? Row(
+                            children: [
+                              widget.item!.configurableOptions[0].values
+                                          .length >
+                                      2
+                                  ? SizedBox(
+                                      height: 50,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: widget
+                                                    .item!
+                                                    .configurableOptions[0]
+                                                    .values
+                                                    .length >
+                                                2
+                                            ? 2
+                                            : widget
+                                                .item!
+                                                .configurableOptions[0]
+                                                .values
+                                                .length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              _changeColor(index);
+                                            },
+                                            child: Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: _selected == index
+                                                        ? Colors.red
+                                                        : Colors.transparent,
+                                                    width:
+                                                        2.0), // Using BorderSide with BoxDecoration
 
-                      widget.item!.textAttributes[0].specicalprice.toString() == null ?
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                        child: Text(
-                          widget.item!.textAttributes[0].specicalprice.toString(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: headingColor,
-                              height: 1.2,
-                              fontSize: 12),
-                        ),
-                      ) : Container(),
-
-                      widget.item!.typename == "ConfigurableProduct"
-                          ? Row(
-                              children: [
-
-                                widget.item!.configurableOptions[0].values
-                                    .length >
-                                    2 ?
-                                SizedBox(
-                                  height: 50,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: widget.item!.configurableOptions[0].values
-                                                .length >
-                                            2
-                                        ? 2
-                                        : widget.item!.configurableOptions[0].values.length,
-                                    itemBuilder: (context, index) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          _changeColor(index);
+                                                shape: BoxShape.circle,
+                                                color: colorFromHex(widget
+                                                    .item!
+                                                    .configurableOptions[0]
+                                                    .values[index]
+                                                    .swatchData
+                                                    .value),
+                                              ),
+                                            ),
+                                          );
                                         },
-                                        child: Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: _selected==index?Colors.red:Colors.transparent, width: 2.0), // Using BorderSide with BoxDecoration
-
-                                            shape: BoxShape.circle,
-                                            color: colorFromHex(
-                                                widget.item!.configurableOptions[0].values[index].swatchData.value),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ) : SizedBox(
-                                  height: 50,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: widget.item!.configurableOptions[0].values
-                                        .length,
-                                    itemBuilder: (context, index) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          _changeColor(index);
+                                      ),
+                                    )
+                                  : SizedBox(
+                                      height: 50,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: widget
+                                            .item!
+                                            .configurableOptions[0]
+                                            .values
+                                            .length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              _changeColor(index);
+                                            },
+                                            child: Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                    color: _selected == index
+                                                        ? Colors.brown
+                                                        : Colors.transparent,
+                                                    width:
+                                                        3.0), // Using BorderSide with BoxDecoration
+                                                color: colorFromHex(widget
+                                                    .item!
+                                                    .configurableOptions[0]
+                                                    .values[index]
+                                                    .swatchData
+                                                    .value),
+                                              ),
+                                            ),
+                                          );
                                         },
-                                        child:
+                                      ),
+                                    ),
+                              widget.item!.configurableOptions[0].values
+                                          .length >
+                                      2
+                                  ? const Text(
+                                      '+ More',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: headingColor,
+                                          height: 1.2,
+                                          fontSize: 13),
+                                    )
+                                  : Container(),
+                            ],
+                          )
+                        : Container(),
+                    GestureDetector(
+                      onTap: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        cart_token = prefs.getString('cart_token') ?? '';
 
-                                        Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 5),
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(color: _selected==index?Colors.brown:Colors.transparent, width: 3.0), // Using BorderSide with BoxDecoration
-                                            color: colorFromHex(
-                                                widget.item!.configurableOptions[0].values[index].swatchData.value),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
+                        print(cart_token);
 
-                                widget.item!.configurableOptions[0].values
-                                            .length >
-                                        2
-                                    ? const Text(
-                                        '+ More',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: headingColor,
-                                            height: 1.2,
-                                            fontSize: 13),
-                                      )
-                                    : Container(),
-                              ],
-                            )
-                          : Container(),
+                        if (cart_token == null || cart_token == '') {
+                          graphQLService.create_cart();
+                        } else {
+                          print(widget.item?.sku);
 
+                          graphQLService.add_product_to_cart(
+                            cart_token,
+                            widget.item!.sku.toString(),
+                            '1',
+                          );
 
-                      const Padding(
+                          print('cart not empty');
+                        }
+                      },
+                      child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(
                           "Add to Cart",
@@ -219,38 +276,39 @@ class _ProductCardState extends State<ProductCard> {
                               fontSize: 13),
                         ),
                       ),
-                    ],
-                  )
-                ],
-              ),
-              const Positioned(
-                  top: 0,
-                  right: 5,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
-                    child: Icon(
-                      Icons.favorite_border,
-                      color: blackColor,
-                      size: 22,
                     ),
-                  )),
-            ],
-          ),
+                  ],
+                )
+              ],
+            ),
+            const Positioned(
+                top: 0,
+                right: 5,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
+                  child: Icon(
+                    Icons.favorite_border,
+                    color: blackColor,
+                    size: 22,
+                  ),
+                )),
+          ],
+        ),
         /*),*/
       ),
     );
   }
 
   void _changeColor(int index) {
-setState(() {
-  _selected=index;
-});
+    setState(() {
+      _selected = index;
+    });
   }
 
   Color colorFromHex(String hexColor) {
     // Remove the '#' character from the hex color code, if present.
 
-    try{
+    try {
       if (hexColor.startsWith('#')) {
         hexColor = hexColor.substring(1);
       }
@@ -263,11 +321,8 @@ setState(() {
 
       // Parse the hexadecimal values and construct the Color object.
       return Color(int.parse('FF$hexColor', radix: 16));
-    }catch (e){
-      return Color(0xFFFFFFFF);
-
+    } catch (e) {
+      return const Color(0xFFFFFFFF);
     }
-
   }
 }
-

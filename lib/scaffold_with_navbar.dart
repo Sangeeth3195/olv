@@ -19,7 +19,8 @@ class ScaffoldWithNavbar extends StatefulWidget {
   State<ScaffoldWithNavbar> createState() => _ScaffoldWithNavbarState();
 }
 
-class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> with  SingleTickerProviderStateMixin{
+class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
+    with SingleTickerProviderStateMixin {
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> navHeaderList = [];
   late DateTime currentBackPressTime;
@@ -40,7 +41,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> with  SingleTic
     getuserdata();
     _tabController = TabController(vsync: this, length: 5);
 
-
     myProvider = Provider.of<MyProvider>(context, listen: false);
   }
 
@@ -60,11 +60,13 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> with  SingleTic
   }
 
   Widget _leadButton(BuildContext context) {
-    return GestureDetector(
+    return
+      GestureDetector(
       onTap: () {
         context.pop();
       },
-      child: const Icon(Icons.arrow_back),
+
+      child:  Icon(Icons.arrow_back),
     );
   }
 
@@ -85,39 +87,49 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> with  SingleTic
 
   Widget _tabItem(Widget child, String label, {bool isSelected = false}) {
     return Container(
-      width: MediaQuery.of(context).size.width/5,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      width: MediaQuery.of(context).size.width / 8,
+      padding: const EdgeInsets.symmetric(horizontal: 0),
       decoration: !isSelected
           ? null
           : const BoxDecoration(
-        borderRadius: BorderRadius.only(topRight: Radius.circular(5),topLeft: Radius.circular(5)),
-        color: themecolor,
-      ),
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(2), topLeft: Radius.circular(2)),
+              color: themecolor,
+            ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           child,
-          const SizedBox(height: 5,),
-          Text(label, style: const TextStyle(fontSize: 10,),textAlign: TextAlign.center),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(label,
+              style: const TextStyle(
+                fontSize: 10,
+              ),
+              textAlign: TextAlign.center),
         ],
       ),
     );
   }
 
-  final List<String> _labels = ['Home', 'Discover', 'WishList','cart','Profile'];
-
+  final List<String> _labels = [
+    'Home',
+    'Discover',
+    'WishList',
+    'cart',
+    'Profile'
+  ];
 
   @override
   Widget build(BuildContext context) {
-
     List<Widget> _icons = const [
       Icon(Icons.home),
       Icon(FontAwesomeIcons.compass),
       Icon(FontAwesomeIcons.heart),
       Icon(FontAwesomeIcons.cartPlus),
       Icon(FontAwesomeIcons.user),
-
     ];
     return Scaffold(
       appBar: AppBar(
@@ -281,11 +293,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> with  SingleTic
                           title: GestureDetector(
                             onTap: () {
                               Navigator.of(context).pop();
-
-                              // navigate(context, ProductListing.routeName,
-                              //     isRootNavigator: false,
-                              //     arguments: {'id': '1'});
-
                               catId = navHeaderList[index]['id'];
                               print('item_id --> $catId');
                               final myProvider = Provider.of<MyProvider>(
@@ -463,43 +470,10 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar> with  SingleTic
           ),
         ),
       ),
-
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.shifting,
-      //   // onTap: (x) {
-      //   // },
-      //   elevation: 0.0,
-      //   showUnselectedLabels: true,
-      //   unselectedItemColor: Colors.grey.shade500,
-      //   selectedItemColor: themecolor,
-      //   currentIndex: widget.navigationShell.currentIndex,
-      //   items: const [
-      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-      //     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.compass), label: 'Discover'),
-      //     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.heart), label: 'WishList'),
-      //     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.cartPlus), label: 'cart'),
-      //     BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.user), label: 'Profile'),
-      //   ],
-      //   onTap: _onTap,
-      // ),
     );
   }
 
-  /*capital_letter(str)
-  {
-    str = str.split(" ");
-
-    str1 = str.split("&");
-
-
-    for (var i = 0, x = str.length; i < x; i++) {
-      str[i] = str1[i][0].toUpperCase() + str[i].substr(1);
-    }
-
-    return str.join(" ");
-  }*/
-
-  void _onTap(index) async{
+  void _onTap(index) async {
     if (index == 2 || index == 4) {
       await getuserdata();
       if (token.isEmpty) {

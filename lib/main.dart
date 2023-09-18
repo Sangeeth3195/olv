@@ -11,45 +11,38 @@ import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
-void main() async{
+void main() async {
   try {
-  WidgetsFlutterBinding.ensureInitialized();
+    WidgetsFlutterBinding.ensureInitialized();
 
-
-  if (Platform.isIOS) {
-    // await Firebase.initializeApp(
-    //   options: DefaultFirebaseOptions.currentPlatform,
-    // );
-  } else {
-    await Firebase.initializeApp();
-  }
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    systemNavigationBarColor: headingColor, // navigation bar color
-    statusBarColor: headingColor, // status bar color
-  ));
+    if (Platform.isIOS) {
+      // await Firebase.initializeApp(
+      //   options: DefaultFirebaseOptions.currentPlatform,
+      // );
+    } else {
+      await Firebase.initializeApp();
+    }
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: headingColor, // navigation bar color
+      statusBarColor: headingColor, // status bar color
+    ));
   } catch (e) {
     print(e);
   }
 
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp]
-  );
-  runApp( MultiProvider(
-    providers:[
-      // Provider<MyProvider>(create: (_) => MyProvider()),
-      // Provider<NavbarNotifier>(create: (_) => NavbarNotifier()),
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runApp(MultiProvider(providers: [
+    // Provider<MyProvider>(create: (_) => MyProvider()),
+    // Provider<NavbarNotifier>(create: (_) => NavbarNotifier()),
 
-      ChangeNotifierProvider(
-          create: (context) => MyProvider(),
-         ),
-      ChangeNotifierProvider(
-          create: (context) => NavbarNotifier(),
-         ),
-    ],
-      child: const MyApp()
-  ));
+    ChangeNotifierProvider(
+      create: (context) => MyProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => NavbarNotifier(),
+    ),
+  ], child: const MyApp()));
   configLoading();
-
 }
 
 class MyApp extends StatelessWidget {
@@ -58,7 +51,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      debugShowCheckedModeBanner:false,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Gotham',
         primarySwatch: Colors.brown,
@@ -69,7 +62,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 
 void configLoading() {
   EasyLoading.instance
@@ -91,10 +83,10 @@ class CustomAnimation extends EasyLoadingAnimation {
 
   @override
   Widget buildWidget(
-      Widget child,
-      AnimationController controller,
-      AlignmentGeometry alignment,
-      ) {
+    Widget child,
+    AnimationController controller,
+    AlignmentGeometry alignment,
+  ) {
     return Opacity(
       opacity: controller.value,
       child: RotationTransition(

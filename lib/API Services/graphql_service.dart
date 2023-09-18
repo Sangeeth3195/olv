@@ -142,7 +142,7 @@ class GraphQLService {
            query Query {
                     products(
                     filter: {
-                      category_id: {eq: "${id}"}
+                      category_id: {eq: "$id"}
                       material: {in: [] }
                       color:{in: []}
                       brands:{in:[]}
@@ -412,7 +412,7 @@ class GraphQLService {
           fetchPolicy: FetchPolicy.noCache,
           document: gql("""
            query Query {
-                    products(filter: { sku: { eq: "${id}" } }) {
+                    products(filter: { sku: { eq: "$id" } }) {
                       items {
                         id
                         detail
@@ -1190,17 +1190,17 @@ class GraphQLService {
               createCustomerAddress(
                 input: {
                   region: {
-      region: "${region}"
-      region_code: "${regioncode}"
-      region_id: "${regionId}"
+      region: "$region"
+      region_code: "$regioncode"
+      region_id: "$regionId"
     }
     country_code: $countryCode
-    street: ["${address}"]
-    telephone: "${phNo}"
-    postcode: "${postalCode}"
-    city: "${city}"
-    firstname: "${firstname}"
-    lastname: "${lastname}"
+    street: ["$address"]
+    telephone: "$phNo"
+    postcode: "$postalCode"
+    city: "$city"
+    firstname: "$firstname"
+    lastname: "$lastname"
     default_shipping: true
     default_billing: false
                 }
@@ -1357,22 +1357,22 @@ class GraphQLService {
             mutation {
             
               updateCustomerAddress(
-                              id: ${id}
+                              id: $id
                                 input: {
                                   region: {
-                      region: "${region}"
-                      region_code: "${regioncode}"
-                      region_id: "${regionId}"
+                      region: "$region"
+                      region_code: "$regioncode"
+                      region_id: "$regionId"
                     }
                     country_code: $countryCode
-                    street: ["${address}"]
-                    telephone: "${phNo}"
-                    postcode: "${postalCode}"
-                    city: "${city}"
-                    firstname: "${firstname}"
-                    lastname: "${lastname}"
-                    default_shipping: ${billingadd}
-                    default_billing: ${shippadd}
+                    street: ["$address"]
+                    telephone: "$phNo"
+                    postcode: "$postalCode"
+                    city: "$city"
+                    firstname: "$firstname"
+                    lastname: "$lastname"
+                    default_shipping: $billingadd
+                    default_billing: $shippadd
                                 }
                               ) {
                     id
@@ -1402,8 +1402,8 @@ class GraphQLService {
               updateCustomer(
                   input: {
                     firstname: "$firstname"
-                    lastname: "${lastname}"
-                    is_subscribed: ${isSubscribed}
+                    lastname: "$lastname"
+                    is_subscribed: $isSubscribed
                   }
                 ) {
                   customer {
@@ -1588,7 +1588,9 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['customerCart']);
+        print(result.data?['createEmptyCart']);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('cart_token', result.data?['createEmptyCart']);
       }
 
       return "";
@@ -1627,17 +1629,17 @@ class GraphQLService {
   }
 
   /// add Product to Cart
-  static String add_prd_to_cart() {
+  static String add_prd_to_cart(String cart_token,String sku, String qty,) {
     return '''
             mutation {
                 addSimpleProductsToCart(
                   input: {
-                    cart_id: 'token'
+                    cart_id: "$cart_token"
                     cart_items: [
                       {
                         data: {
-                          quantity: 1
-                          sku: "24-MB04"
+                          quantity: "$qty"
+                          sku: "$sku"
                         }
                       }
                     ]
@@ -1658,17 +1660,17 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> add_product_to_cart() async {
+  Future<String> add_product_to_cart(String cart_token,String sku, String qty,) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(add_prd_to_cart()), // this
+          document: gql(add_prd_to_cart(cart_token,sku,qty,)), // this
         ),
       );
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['customerCart']['id']);
+        print(result.data);
       }
 
       return "";
@@ -2099,7 +2101,7 @@ class GraphQLService {
                     wishlistId: 
                     wishlistItems: [
                       {
-                        sku: "${sku}"
+                        sku: "$sku"
                         quantity: $qty
                       }
                       {
@@ -2227,8 +2229,8 @@ class GraphQLService {
     return '''
             mutation {
                 removeProductsFromWishlist(
-                wishlistId: ${wishlistId}
-                wishlistItemsIds: [${wishlistItemsIds}]
+                wishlistId: $wishlistId
+                wishlistItemsIds: [$wishlistItemsIds]
                 ){
                   wishlist {
                       items_count

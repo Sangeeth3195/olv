@@ -79,20 +79,19 @@ final router = GoRouter(
           // Add this branch routes
           // each routes with its sub routes if available e.g shope/uuid/details
           GoRoute(
-            path: '/cart',
-            builder: (context, state) {
-              return const CartScreen();
-            },
-            routes: <RouteBase>[
-              GoRoute(
-                path: 'continue',
-                parentNavigatorKey: _rootNavigatorKey,
-                builder: (BuildContext context, GoRouterState state) {
-                  return const Checkout();
-                },
-              ),
-            ]
-          ),
+              path: '/cart',
+              builder: (context, state) {
+                return const CartScreen();
+              },
+              routes: <RouteBase>[
+                GoRoute(
+                  path: 'continue',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  builder: (BuildContext context, GoRouterState state) {
+                    return const Checkout();
+                  },
+                ),
+              ]),
         ]),
         StatefulShellBranch(routes: <RouteBase>[
           // Add this branch routes
@@ -113,7 +112,6 @@ final router = GoRouter(
               GoRoute(
                 path: 'myorders',
                 parentNavigatorKey: _rootNavigatorKey,
-
                 builder: (context, state) {
                   return const MyOrders();
                 },
@@ -121,7 +119,6 @@ final router = GoRouter(
               GoRoute(
                 path: 'address',
                 parentNavigatorKey: _rootNavigatorKey,
-
                 builder: (context, state) {
                   return const Address();
                 },
@@ -129,7 +126,6 @@ final router = GoRouter(
               GoRoute(
                 path: 'resetpassword',
                 parentNavigatorKey: _rootNavigatorKey,
-
                 builder: (context, state) {
                   return const ResetPassword();
                 },
@@ -137,7 +133,6 @@ final router = GoRouter(
               GoRoute(
                 path: 'news',
                 parentNavigatorKey: _rootNavigatorKey,
-
                 builder: (context, state) {
                   return const Newsletter();
                 },
@@ -145,7 +140,6 @@ final router = GoRouter(
               GoRoute(
                 path: 'settings',
                 parentNavigatorKey: _rootNavigatorKey,
-
                 builder: (context, state) {
                   return const Settings();
                 },
