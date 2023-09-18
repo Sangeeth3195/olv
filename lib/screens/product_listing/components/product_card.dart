@@ -120,7 +120,8 @@ class _ProductCardState extends State<ProductCard> {
                       ),*/
 
                     const SizedBox(height: 10.0),
-                    widget.item!.textAttributes[0].specicalprice.toString() == null
+                    widget.item!.textAttributes[0].specicalprice.toString() ==
+                            null
                         ? Padding(
                             padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                             child: Text(
