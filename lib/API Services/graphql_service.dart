@@ -10,6 +10,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/models/CountryModel.dart';
 import 'package:omaliving/models/CustomerModel.dart';
+import 'package:omaliving/models/HomePageModel.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,7 @@ class GraphQLService {
   static GraphQLConfig graphQLConfig = GraphQLConfig();
   GraphQLClient client = graphQLConfig.clientToQuery();
 
-  Future<dynamic> gethomepagedata() async {
+  Future<HomePageModel> gethomepagedata() async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -58,10 +59,11 @@ class GraphQLService {
       } else {
         EasyLoading.dismiss();
 
-        return result;
+        log(jsonEncode(result.data));
+        return HomePageModel.fromJson(result.data!!);
       }
     } catch (error) {
-      return [];
+      return HomePageModel();
     }
   }
 

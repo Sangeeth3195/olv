@@ -1,14 +1,20 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
 import 'package:go_router/go_router.dart';
+import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/MainLayout.dart';
+import 'package:omaliving/models/HomePageModel.dart';
 import 'package:omaliving/screens/homescreen/components/text_title.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
+import 'package:omaliving/screens/provider/provider.dart';
+import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 import '../../product_listing/components/search_form.dart';
 
 class Body extends StatefulWidget {
@@ -21,6 +27,13 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   AudioPlayer player = AudioPlayer();
 
+  GraphQLService graphQLService = GraphQLService();
+
+  HomePageModel homePageModel=HomePageModel();
+  late  VideoPlayerController? videoPlayerController;
+  final bool looping=false;
+  final bool autoplay=false;
+
   final List<String> imageList = [
     "https://www.omaliving.com/media/wysiwyg/image_18_.png",
     "https://www.omaliving.com/media/wysiwyg/image_24_.png",
@@ -30,18 +43,52 @@ class _BodyState extends State<Body> {
     "https://www.omaliving.com/media/wysiwyg/image_19_.png"
   ];
 
+  ChewieController? _chewieController;
+
   @override
   void initState() {
     super.initState();
+    getDate();
     /* WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
     });*/
   }
 
+  getDate()async{
+   homePageModel=await graphQLService.gethomepagedata();
+   if(homePageModel.typename !=null){
+      videoPlayerController = VideoPlayerController.network(
+         homePageModel.getHomePageData![8].link!!);
+
+     await videoPlayerController!.initialize();
+     _chewieController = ChewieController(
+       videoPlayerController: videoPlayerController!,
+       aspectRatio:5/8,
+       autoInitialize: true,
+       autoPlay: autoplay,
+       looping: looping,
+       errorBuilder: (context, errorMessage) {
+         return Center(
+           child: Text(
+             errorMessage,
+             style: TextStyle(color: Colors.white),
+           ),
+         );
+       },
+     );
+
+   }
+   setState(() {
+
+   });
+
+  }
   @override
   void dispose() {
     /*_playerEventSubs?.cancel();
     _meeduPlayerController.dispose();*/
+    videoPlayerController?.dispose();
+    _chewieController?.dispose();
     super.dispose();
   }
 
@@ -65,7 +112,8 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: Column(children: [
+        child: homePageModel.typename !=null?
+        Column(children: [
       Container(
         height: 75,
         padding: const EdgeInsets.all(5),
@@ -83,7 +131,7 @@ class _BodyState extends State<Body> {
 
       GestureDetector(
         onTap: () {
-          context.go('/home/pdp');
+
           // navigate(context, ProductListing.routeName,
           //     isRootNavigator: false,
           //     arguments: {'id': '1'});
@@ -106,21 +154,18 @@ class _BodyState extends State<Body> {
                   autoPlayInterval: 3000,
                   isLoop: true,
                   children: [
-                    Image.asset(
-                      'assets/images/salebanner.png',
-                      fit: BoxFit.cover,
-                    ),
-                    Image.asset(
-                      'assets/images/Homepage1.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                    Image.asset(
-                      'assets/images/homepage2.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                    Image.asset(
-                      'assets/images/bannerdesktop3.jpeg',
-                      fit: BoxFit.cover,
+                    for(Sectiondatum item in homePageModel.getHomePageData![0].sectiondata!!)   GestureDetector(
+                      onTap: (){
+                        final myProvider = Provider.of<MyProvider>(
+                            context,
+                            listen: false);
+                        myProvider.updateData(int.parse(item.link!));
+                        context.go('/home/pdp');
+                      },
+                      child: Image.network(
+                "https://staging2.omaliving.com/"+item.attachmentmob!!,
+                fit: BoxFit.cover,
+              ),
                     ),
                   ],
                 ),
@@ -135,7 +180,7 @@ class _BodyState extends State<Body> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
             child: Text(
-              'Shop Latest',
+              homePageModel.getHomePageData![1].title!!,
               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                     color: Colors.black,
                     fontSize: 18,
@@ -146,22 +191,33 @@ class _BodyState extends State<Body> {
         ),
       ),
 
-      Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-        child: GFItemsCarousel(
-          rowCount: 3,
-          itemHeight: 175.0,
-          children: imageList.map(
-            (url) {
-              return Container(
-                margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                  child: Image.network(url, fit: BoxFit.cover, width: 1000.0),
-                ),
-              );
-            },
-          ).toList(),
+      GestureDetector(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+          child: GFItemsCarousel(
+            rowCount: 3,
+            itemHeight: 175.0,
+            children: homePageModel.getHomePageData![1].sectiondata!.map(
+              (url) {
+                return GestureDetector(
+                  onTap: (){
+                    final myProvider = Provider.of<MyProvider>(
+                        context,
+                        listen: false);
+                    myProvider.updateData(int.parse(url.link!));
+                    context.go('/home/pdp');
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                      child: Image.network("https://staging2.omaliving.com/${url.attachment!!}", fit: BoxFit.cover, width: 1000.0),
+                    ),
+                  ),
+                );
+              },
+            ).toList(),
+          ),
         ),
       ),
 
@@ -191,7 +247,7 @@ class _BodyState extends State<Body> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
             child: Text(
-              'Drinkware Essentials',
+              homePageModel.getHomePageData![3].title!!,
               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                     color: Colors.black,
                     fontSize: 18,
@@ -207,13 +263,22 @@ class _BodyState extends State<Body> {
         child: GFItemsCarousel(
           rowCount: 3,
           itemHeight: 175.0,
-          children: imageList.map(
+          children: homePageModel.getHomePageData![3].sectiondata!.map(
             (url) {
-              return Container(
-                margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                  child: Image.network(url, fit: BoxFit.cover, width: 1000.0),
+              return GestureDetector(
+                onTap: (){
+                  final myProvider = Provider.of<MyProvider>(
+                      context,
+                      listen: false);
+                  myProvider.updateData(int.parse(url.link!));
+                  context.go('/home/pdp');
+                },
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                    child: Image.network("https://staging2.omaliving.com/${url.attachment!!}", fit: BoxFit.cover, width: 1000.0),
+                  ),
                 ),
               );
             },
@@ -225,7 +290,7 @@ class _BodyState extends State<Body> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
             child: Text(
-              'Explore Kitchenware',
+              homePageModel.getHomePageData![4].title!!,
               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                     color: Colors.black,
                     fontSize: 18,
@@ -248,10 +313,19 @@ class _BodyState extends State<Body> {
             },
             isLoop: false,
             children: [
-              Image.network(
-                  'https://www.omaliving.com/media/oma/kitchenware.png',
-                  fit: BoxFit.cover,
-                  width: 1000.0),
+          for(Sectiondatum item in homePageModel.getHomePageData![4].sectiondata!!)   GestureDetector(
+
+            onTap: (){
+              final myProvider = Provider.of<MyProvider>(
+                  context,
+                  listen: false);
+              myProvider.updateData(int.parse(item.link!));
+              context.go('/home/pdp');
+            },child: Image.network(
+        "https://staging2.omaliving.com/"+item.attachmentmob!!,
+            fit: BoxFit.cover,
+        ),
+          ),
             ],
           ),
         ),
@@ -266,7 +340,7 @@ class _BodyState extends State<Body> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
             child: Text(
-              'STYLE WITH OMA',
+              homePageModel.getHomePageData![5].title!!,
               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -299,10 +373,19 @@ class _BodyState extends State<Body> {
             },
             isLoop: false,
             children: [
-              Image.network(
-                  'https://www.omaliving.com/media/oma/luxuryofsleep.jpg',
-                  fit: BoxFit.cover,
-                  width: 1000.0),
+          for(Sectiondatum item in homePageModel.getHomePageData![5].sectiondata!!)   GestureDetector(
+            onTap: (){
+              final myProvider = Provider.of<MyProvider>(
+                  context,
+                  listen: false);
+              myProvider.updateData(int.parse(item.link!));
+              context.go('/home/pdp');
+            },
+            child: Image.network(
+        "https://staging2.omaliving.com/"+item.attachment!!,
+            fit: BoxFit.cover,
+        ),
+          ),
             ],
           ),
         ),
@@ -317,13 +400,22 @@ class _BodyState extends State<Body> {
         child: GFItemsCarousel(
           rowCount: 2,
           itemHeight: 175.0,
-          children: imageList.map(
+          children: homePageModel.getHomePageData![6].sectiondata!.map(
             (url) {
-              return Container(
-                margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                  child: Image.network(url, fit: BoxFit.cover, width: 1000.0),
+              return GestureDetector(
+                onTap: (){
+                  final myProvider = Provider.of<MyProvider>(
+                      context,
+                      listen: false);
+                  myProvider.updateData(int.parse(url.link!));
+                  context.go('/home/pdp');
+                },
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                    child: Image.network("https://staging2.omaliving.com/${url.attachment!!}", fit: BoxFit.cover, width: 1000.0),
+                  ),
                 ),
               );
             },
@@ -369,7 +461,7 @@ class _BodyState extends State<Body> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
             child: Text(
-              '# OMA LIVING',
+              homePageModel.getHomePageData![7].title!!,
               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -395,20 +487,42 @@ class _BodyState extends State<Body> {
         child: GFItemsCarousel(
           rowCount: 3,
           itemHeight: 175.0,
-          children: imageList.map(
+          children: homePageModel.getHomePageData![7].sectiondata!.map(
             (url) {
-              return Container(
-                margin: const EdgeInsets.fromLTRB(0.0, 0, 8, 0),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                  child: Image.network(url, fit: BoxFit.cover, width: 1000.0),
+              return GestureDetector(
+                onTap: (){
+                  final myProvider = Provider.of<MyProvider>(
+                      context,
+                      listen: false);
+                  myProvider.updateData(int.parse(url.link!));
+                  context.go('/home/pdp');
+                },
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(0.0, 0, 8, 0),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                    child: Image.network("https://staging2.omaliving.com/${url.attachment!!}", fit: BoxFit.cover, width: 1000.0),
+                  ),
                 ),
               );
             },
           ).toList(),
         ),
       ),
-    ]));
+
+        _chewieController ==null?Center(child: CircularProgressIndicator()):  SizedBox(
+            height: 200,
+        child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AspectRatio(
+                aspectRatio: 16/9,
+                child: Chewie(
+                  controller: _chewieController!,
+                ),
+              ),
+            ),
+      )
+    ]):Center(child: CircularProgressIndicator()));
   }
 
   Widget get header {
