@@ -1692,32 +1692,29 @@ class GraphQLService {
   static String upt_prd_to_cart(String cart_token,String sku, String qty,) {
     return '''
             mutation {
-                addSimpleProductsToCart(
+                updateCartItems(
                   input: {
-                   cart_id: "$cart_token"
+                    cart_id: $cart_token,
                     cart_items: [
                       {
-                        data: {
-                          quantity: "$qty"
-                          sku: "$sku"
-                        }
+                        cart_item_uid: "MzE4NjQ="
+                        quantity: 9
                       }
                     ]
                   }
-                ) {
+                ){
                   cart {
                     items {
-                      id
+                      uid
                       product {
                         name
-                        sku
-                        quantity
-                        media_gallery {
-                          url
-                          label
-                          position
-                          disabled
-                        }
+                      }
+                      quantity
+                    }
+                    prices {
+                      grand_total{
+                        value
+                        currency
                       }
                     }
                   }
@@ -1739,6 +1736,56 @@ class GraphQLService {
         print(result.data?['customerCart']['id']);
       }
 
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// Remove Item from Cart
+  static String rmv_itm_frm_cart(String cart_token,String id,) {
+    return '''
+            mutation {
+                  removeItemFromCart(
+                    input: {
+                      cart_id: $cart_token,
+                      cart_item_id: $id
+                    }
+                  )
+                 {
+                  cart {
+                    items {
+                      id
+                      product {
+                        name
+                      }
+                      quantity
+                    }
+                    prices {
+                      grand_total{
+                        value
+                        currency
+                      }
+                    }
+                  }
+                 }
+                }
+        ''';
+  }
+
+  Future<String> remove_item_from_cart(String cart_token,String cpn,) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(rmv_itm_frm_cart(cart_token,cpn)),
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        print(result.data?['customerCart']['id']);
+      }
       return "";
     } catch (e) {
       print(e);
@@ -1791,6 +1838,57 @@ class GraphQLService {
         print(result.data?['customerCart']['id']);
       }
 
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// apply Coupon To Cart
+  static String apply_cpn_to_cart(String cart_token,String cpn,) {
+    return '''
+            mutation {
+                applyCouponToCart(
+                  input: {
+                    cart_id: $cart_token,
+                    coupon_code: $cpn
+                  }
+                ) {
+                  cart {
+                    items {
+                      product {
+                        name
+                      }
+                      quantity
+                    }
+                    applied_coupons {
+                      code
+                    }
+                    prices {
+                      grand_total{
+                        value
+                        currency
+                      }
+                    }
+                  }
+                }
+              }
+        ''';
+  }
+
+  Future<String> apply_coupon_to_cart(String cart_token,String cpn,) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(apply_cpn_to_cart(cart_token,cpn)),
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        print(result.data?['customerCart']['id']);
+      }
       return "";
     } catch (e) {
       print(e);
@@ -2350,4 +2448,5 @@ class GraphQLService {
       return "";
     }
   }
+
 }
