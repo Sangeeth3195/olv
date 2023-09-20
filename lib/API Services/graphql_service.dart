@@ -1653,8 +1653,14 @@ class GraphQLService {
                       product {
                         name
                         sku
+                        quantity
+                        media_gallery {
+                          url
+                          label
+                          position
+                          disabled
+                        }
                       }
-                      quantity
                     }
                   }
                 }
@@ -1683,17 +1689,17 @@ class GraphQLService {
   }
 
   /// Update Product to Cart
-  static String upt_prd_to_cart() {
+  static String upt_prd_to_cart(String cart_token,String sku, String qty,) {
     return '''
             mutation {
                 addSimpleProductsToCart(
                   input: {
-                    cart_id: 'token'
+                   cart_id: "$cart_token"
                     cart_items: [
                       {
                         data: {
-                          quantity: 1
-                          sku: "24-MB04"
+                          quantity: "$qty"
+                          sku: "$sku"
                         }
                       }
                     ]
@@ -1705,8 +1711,14 @@ class GraphQLService {
                       product {
                         name
                         sku
+                        quantity
+                        media_gallery {
+                          url
+                          label
+                          position
+                          disabled
+                        }
                       }
-                      quantity
                     }
                   }
                 }
@@ -1718,7 +1730,7 @@ class GraphQLService {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(upt_prd_to_cart()), // this
+          document: gql(upt_prd_to_cart('','','')), // this
         ),
       );
       if (result.hasException) {
@@ -1770,7 +1782,7 @@ class GraphQLService {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(upt_prd_to_cart()), // this
+          document: gql(upt_prd_to_cart('','','')), // this
         ),
       );
       if (result.hasException) {

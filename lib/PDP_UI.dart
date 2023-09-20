@@ -9,6 +9,7 @@ import 'package:omaliving/screens/details/components/product_description.dart';
 import 'package:omaliving/screens/product_listing/components/product_card.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'API Services/graphql_service.dart';
 import 'components/size_config.dart';
@@ -25,8 +26,9 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage>
     with TickerProviderStateMixin {
-  GraphQLService graphQLService = GraphQLService();
 
+  GraphQLService graphQLService = GraphQLService();
+  String cart_token = '';
   int quantity = 0;
   int selectedImage = 0;
 
@@ -78,7 +80,7 @@ class _DetailsPageState extends State<DetailsPage>
         child: const Text(
           'Add Item',
           style: TextStyle(
-            color: Colors.black54,
+            color: Colors.black,
           ),
         ),
         onPressed: () {
@@ -131,16 +133,6 @@ class _DetailsPageState extends State<DetailsPage>
     'https://www.omaliving.com/media/catalog/product/cache/0141941aeb4901c5334e6ba10ea3844d/I/T/ITEM-008721_2_1.png',
   ];
 
-  final List<String> imageList = [
-    "https://www.omaliving.com/media/wysiwyg/image_18_.png",
-    "https://www.omaliving.com/media/wysiwyg/image_24_.png",
-    "https://www.omaliving.com/media/wysiwyg/image_22_.png",
-    "https://www.omaliving.com/media/wysiwyg/image_21_.png",
-    "https://www.omaliving.com/media/wysiwyg/image_23_.png",
-    "https://www.omaliving.com/media/wysiwyg/image_19_.png"
-  ];
-
-  final List<Color> colors = [Colors.red, Colors.green, Colors.blue];
 
   int _current = 0;
 
@@ -162,8 +154,30 @@ class _DetailsPageState extends State<DetailsPage>
               child: Container(
                   color: Colors.transparent,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Add your button press logic here
+                    onPressed: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      cart_token = prefs.getString('cart_token') ?? '';
+
+                      print(cart_token);
+
+                      if (cart_token == null || cart_token == '') {
+
+                        graphQLService.create_cart();
+
+
+                      } else {
+
+                        print(widget.product['sku']);
+
+                        graphQLService.add_product_to_cart(
+                          cart_token,
+                          widget.product['sku'].toString(),
+                          '1',
+                        );
+
+                        print('cart not empty');
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       primary: headingColor, // Button background color
@@ -347,18 +361,7 @@ class _DetailsPageState extends State<DetailsPage>
                               ],
                             ),
                             const SizedBox(height: 10),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Limited time offer',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ],
-                            ),
+
                             const SizedBox(height: 0),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -371,11 +374,11 @@ class _DetailsPageState extends State<DetailsPage>
                                               "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
                                           style: const TextStyle(
                                               color: headingColor,
-                                              fontSize: 14)),
+                                              fontSize: 16)),
                                       const TextSpan(
                                           text: '    ',
                                           style:
-                                              TextStyle(color: headingColor)),
+                                              TextStyle(color: Colors.black)),
                                       /*const TextSpan(
                                         text: 'Clearance ₹ 1,298',
                                         style: TextStyle(
@@ -706,12 +709,16 @@ class _DetailsPageState extends State<DetailsPage>
                               bgColor: demo_product[0].colors[0],
                               item: provider.items[index],
                               press: () {
-                                */ /*Navigator.push(
+                                */
+
+                    /*Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => DetailsScreen(
                                   product: provider.items[index]),
-                            ));*/ /*
+                            ));*/
+
+                    /*
 
                                 Navigator.push(
                                     context,
@@ -957,6 +964,7 @@ class _DetailsPageState extends State<DetailsPage>
                     //     },
                     //   ).toList(),
                     // ),
+
                     const SizedBox(height: 10.0),
                   ],
                 ),
