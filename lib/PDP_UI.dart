@@ -165,6 +165,11 @@ class _DetailsPageState extends State<DetailsPage>
 
                         graphQLService.create_cart();
 
+                        graphQLService.add_product_to_cart(
+                          cart_token,
+                          widget.product['sku'].toString(),
+                          '1',
+                        );
 
                       } else {
 

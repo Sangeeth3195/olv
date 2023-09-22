@@ -6,6 +6,7 @@ import '../../components/size_config.dart';
 import '../../constants.dart';
 import '../cart/components/check_out_card.dart';
 import '../order_details/orderdetails.dart';
+import '../order_success/OrderSuccess.dart';
 import 'components/body.dart';
 
 class Checkout extends StatelessWidget {
@@ -89,10 +90,15 @@ class CheckoutCard extends StatelessWidget {
                         // shape: const StadiumBorder(),
                       ),
                       onPressed: () {
-                        Navigator.push(
+                       /* Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Ordersummary()),
+                        );*/
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const OrderSuccess()),
                         );
                       },
                       child: const Text(

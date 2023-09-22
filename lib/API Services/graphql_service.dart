@@ -1129,7 +1129,7 @@ class GraphQLService {
     }
   }
 
-  /// reset password
+  /// change password
   static String changepws(String email, String token, String password) {
     return '''
             mutation {
@@ -1689,51 +1689,218 @@ class GraphQLService {
   }
 
   /// Update Product to Cart
-  static String upt_prd_to_cart(String cart_token,String sku, String qty,) {
+  static String upt_prd_to_cart(String cart_token,String uid, String qty,) {
     return '''
             mutation {
-                updateCartItems(
-                  input: {
-                    cart_id: $cart_token,
-                    cart_items: [
-                      {
-                        cart_item_uid: "MzE4NjQ="
-                        quantity: 9
-                      }
-                    ]
-                  }
-                ){
-                  cart {
+                  updateCartItems(
+                    input: {
+                      cart_id: $cart_token,
+                      cart_items: [
+                        {
+                          cart_item_uid: $uid
+                          quantity: $qty
+                        }
+                      ]
+                    }
+                  ){
+                    cart {
+                       id
+                      
                     items {
-                      uid
-                      product {
-                        name
-                      }
                       quantity
-                    }
-                    prices {
-                      grand_total{
-                        value
-                        currency
+                    
+                      product {
+                        sku
+                        
+                        uid
+                        name
+                        dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
+                        media_gallery {
+                        url
+                        label
+                        position
+                        disabled
+                      }
                       }
                     }
+                   
+                   shipping_addresses {
+                      available_shipping_methods {
+                        amount {
+                          currency
+                          value
+                        }
+                        available
+                        carrier_code
+                        carrier_title
+                        method_code
+                        method_title
+                        price_excl_tax {
+                          value
+                          currency
+                        }
+                        price_incl_tax {
+                          value
+                          currency
+                        }
+                      }
+                      selected_shipping_method {
+                        amount {
+                          value
+                          currency
+                        }
+                        carrier_code
+                        carrier_title
+                        method_code
+                        method_title
+                      }
+                    }
+                
+                    prices {
+                
+                        discounts {
+                          label
+                          amount {
+                            value
+                          }
+                        }
+                
+                
+                subtotal_excluding_tax{
+                
+                          value
+                          currency
+                        }
+                
+                        grand_total{
+                          value
+                          currency
+                        }
+                      }
+                  }
                   }
                 }
-              }
+
         ''';
   }
 
-  Future<String> update_product_to_cart() async {
+  Future<String> update_product_to_cart(String cart_token,String uid, String qty,) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(upt_prd_to_cart('','','')), // this
+          document: gql(upt_prd_to_cart(cart_token,uid,qty)), // this
         ),
       );
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['customerCart']['id']);
+        print(result.data);
+      }
+
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// GET Cart List
+  static String gt_crt_list(String cart_token) {
+    return '''
+            {
+                cart(
+                  cart_id: $cart_token
+                ) {
+                    id
+                  items {
+                    quantity
+                    product {
+                      sku
+                      uid
+                      name
+                      dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                           attribute_code
+                          attribute_label
+                          attribute_value
+                    }
+                      media_gallery {
+                      url
+                      label
+                      position
+                      disabled
+                    }
+                    }
+                  }
+                 shipping_addresses {
+                    available_shipping_methods {
+                      amount {
+                        currency
+                        value
+                      }
+                      available
+                      carrier_code
+                      carrier_title
+                      method_code
+                      method_title
+                      price_excl_tax {
+                        value
+                        currency
+                      }
+                      price_incl_tax {
+                        value
+                        currency
+                      }
+                    }
+                    selected_shipping_method {
+                      amount {
+                        value
+                        currency
+                      }
+                      carrier_code
+                      carrier_title
+                      method_code
+                      method_title
+                    }
+                  }
+              
+                  prices {
+                      discounts {
+                        label
+                        amount {
+                          value
+                        }
+                      }
+                      
+                  subtotal_excluding_tax{
+                        value
+                        currency
+                      }
+              
+                      grand_total{
+                        value
+                        currency
+                      }
+                    }
+                }
+              }
+        ''';
+  }
+
+  Future<String> get_cart_list(String cart_token) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(gt_crt_list(cart_token)), // this
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        print(result.data);
       }
 
       return "";
@@ -1755,36 +1922,98 @@ class GraphQLService {
                   )
                  {
                   cart {
+                       id
+                      
                     items {
-                      id
-                      product {
-                        name
-                      }
                       quantity
-                    }
-                    prices {
-                      grand_total{
-                        value
-                        currency
+                    
+                      product {
+                        sku
+                        
+                        uid
+                        name
+                        dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
+                        media_gallery {
+                        url
+                        label
+                        position
+                        disabled
+                      }
                       }
                     }
+                   
+                   shipping_addresses {
+                      available_shipping_methods {
+                        amount {
+                          currency
+                          value
+                        }
+                        available
+                        carrier_code
+                        carrier_title
+                        method_code
+                        method_title
+                        price_excl_tax {
+                          value
+                          currency
+                        }
+                        price_incl_tax {
+                          value
+                          currency
+                        }
+                      }
+                      selected_shipping_method {
+                        amount {
+                          value
+                          currency
+                        }
+                        carrier_code
+                        carrier_title
+                        method_code
+                        method_title
+                      }
+                    }
+                
+                    prices {
+                        discounts {
+                          label
+                          amount {
+                            value
+                          }
+                        }
+                
+                subtotal_excluding_tax{
+                
+                          value
+                          currency
+                        }
+                
+                        grand_total{
+                          value
+                          currency
+                        }
+                      }
                   }
                  }
                 }
         ''';
   }
 
-  Future<String> remove_item_from_cart(String cart_token,String cpn,) async {
+  Future<String> remove_item_from_cart(String cart_token,String id,) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(rmv_itm_frm_cart(cart_token,cpn)),
+          document: gql(rmv_itm_frm_cart(cart_token,id)),
         ),
       );
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['customerCart']['id']);
+        print(result.data);
       }
       return "";
     } catch (e) {
@@ -1794,42 +2023,62 @@ class GraphQLService {
   }
 
   /// Set Shipping Address On Cart
-  static String set_shipping_add_to_cart() {
+  static String set_shipping_add_to_cart(String cart_token,) {
     return '''
             mutation {
-                addSimpleProductsToCart(
-                  input: {
-                    cart_id: 'token'
-                    cart_items: [
-                      {
-                        data: {
-                          quantity: 1
-                          sku: "24-MB04"
+                  setShippingAddressesOnCart(
+                    input: {
+                      cart_id: $cart_token
+                      shipping_addresses: [
+                        {
+                          address: {
+                            firstname: ""
+                            lastname: ""
+                            company: ""
+                            street: [""]
+                            city: ""
+                            region_id: 
+                            region: ""
+                            postcode: ""
+                            country_code: ""
+                            telephone: ""
+                            save_in_address_book: false
+                          },
+                          pickup_location_code: ""
                         }
+                      ]
+                    }
+                  ) {
+                    cart {
+                      shipping_addresses {
+                        firstname
+                        lastname
+                        company
+                        street
+                        city
+                        region {
+                          code
+                          label
+                        }
+                        postcode
+                        telephone
+                        country {
+                          code
+                          label
+                        }
+                        pickup_location_code
                       }
-                    ]
-                  }
-                ) {
-                  cart {
-                    items {
-                      id
-                      product {
-                        name
-                        sku
-                      }
-                      quantity
                     }
                   }
                 }
-              }
         ''';
   }
 
-  Future<String> set_shipping_address_to_cart() async {
+  Future<String> set_shipping_address_to_cart(String cart_token,) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(upt_prd_to_cart('','','')), // this
+          document: gql(set_shipping_add_to_cart(cart_token)), // this
         ),
       );
       if (result.hasException) {
@@ -1846,26 +2095,84 @@ class GraphQLService {
   }
 
   /// apply Coupon To Cart
-  static String apply_cpn_to_cart(String cart_token,String cpn,) {
+  static String apply_cpn_to_cart(String cart_token,String coupon_code,) {
     return '''
             mutation {
                 applyCouponToCart(
                   input: {
-                    cart_id: $cart_token,
-                    coupon_code: $cpn
+                    cart_id: $cart_token
+                    coupon_code: $coupon_code
                   }
                 ) {
                   cart {
-                    items {
-                      product {
-                        name
+                   id
+                  items {
+                    quantity
+                    id
+                    uid
+                    product {
+                      sku
+                      uid
+                      name
+                      dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                           attribute_code
+                          attribute_label
+                          attribute_value
+                    }
+                      media_gallery {
+                      url
+                      label
+                      position
+                      disabled
+                    }
+                    }
+                  }
+                 
+                 shipping_addresses {
+                    available_shipping_methods {
+                      amount {
+                        currency
+                        value
                       }
-                      quantity
+                      available
+                      carrier_code
+                      carrier_title
+                      method_code
+                      method_title
+                      price_excl_tax {
+                        value
+                        currency
+                      }
+                      price_incl_tax {
+                        value
+                        currency
+                      }
                     }
-                    applied_coupons {
-                      code
+                    selected_shipping_method {
+                      amount {
+                        value
+                        currency
+                      }
+                      carrier_code
+                      carrier_title
+                      method_code
+                      method_title
                     }
-                    prices {
+                  }
+              
+                  prices {
+                      discounts {
+                        label
+                        amount {
+                          value
+                        }
+                      }
+              
+                      subtotal_excluding_tax{
+                        value
+                        currency
+                      }
+                      
                       grand_total{
                         value
                         currency
@@ -1887,7 +2194,171 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['customerCart']['id']);
+        print(result.data);
+      }
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// Remove Coupon code To Cart
+  static String rmv_cpn_to_cart(String cart_token) {
+    return '''
+            mutation {
+                mutation {
+                    removeCouponFromCart(
+                      input:
+                        { cart_id: $cart_token }
+                      ) {
+                      cart {
+                         id
+                        
+                      items {
+                        quantity
+                      
+                        product {
+                          sku
+                          
+                          uid
+                          name
+                          dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                               attribute_code
+                              attribute_label
+                              attribute_value
+                        }
+                          media_gallery {
+                          url
+                          label
+                          position
+                          disabled
+                        }
+                        }
+                      }
+                     
+                     shipping_addresses {
+                        available_shipping_methods {
+                          amount {
+                            currency
+                            value
+                          }
+                          available
+                          carrier_code
+                          carrier_title
+                          method_code
+                          method_title
+                          price_excl_tax {
+                            value
+                            currency
+                          }
+                          price_incl_tax {
+                            value
+                            currency
+                          }
+                        }
+                        selected_shipping_method {
+                          amount {
+                            value
+                            currency
+                          }
+                          carrier_code
+                          carrier_title
+                          method_code
+                          method_title
+                        }
+                      }
+                  
+                      prices {
+                  
+                          discounts {
+                            label
+                            amount {
+                              value
+                            }
+                          }
+                  
+                  subtotal_excluding_tax{
+                            value
+                            currency
+                          }
+                  
+                          grand_total{
+                            value
+                            currency
+                          }
+                        }
+                      }
+                    }
+                  }
+              }
+        ''';
+  }
+
+  Future<String> remove_coupon_to_cart(String cart_token) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(rmv_cpn_to_cart(cart_token)),
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        print(result.data);
+      }
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// Set Shipping Method to cart
+  static String st_shp_to_mtd_to_cart(String cart_token,String carrier_code,) {
+    return '''
+            mutation {
+              setShippingMethodsOnCart(
+                input: {
+                  cart_id: $cart_token,
+                  shipping_methods: [
+                    {
+                      carrier_code: $carrier_code
+                      method_code: $carrier_code
+                    }
+                  ]
+                }
+              ) {
+                cart {
+                  shipping_addresses {
+                    selected_shipping_method {
+                      carrier_code
+                      carrier_title
+                      method_code
+                      method_title
+                      amount {
+                        value
+                        currency
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        ''';
+  }
+
+  Future<String> set_shipping_method_to_cart(String cart_token,String cpn,) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(st_shp_to_mtd_to_cart(cart_token,cpn)),
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        print(result.data);
       }
       return "";
     } catch (e) {

@@ -46,14 +46,14 @@ class Body extends StatelessWidget {
                         borderRadius: BorderRadius.circular(0)),
                   ),
                   onPressed: () {
-                    Navigator.push(
+                   /* Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const Orderdetails()),
-                    );
+                    );*/
                   },
                   child: const Text(
-                    'View Order Details',
+                    'Continue Shopping',
                     style: TextStyle(fontSize: 14),
                   ),
                 ),
