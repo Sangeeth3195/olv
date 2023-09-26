@@ -160,29 +160,10 @@ class _DetailsPageState extends State<DetailsPage>
                       cart_token = prefs.getString('cart_token') ?? '';
 
                       print(cart_token);
-
-                      if (cart_token == null || cart_token == '') {
-
-                        graphQLService.create_cart();
-
-                        // graphQLService.add_product_to_cart(
-                        //   cart_token,
-                        //   widget.product['sku'].toString(),
-                        //   1,
-                        // );
-
-                      } else {
-
-                        print(widget.product['sku']);
-
-                        graphQLService.add_product_to_cart(
-                          cart_token,
-                          widget.product['sku'].toString(),
-                          '1',
-                        );
-
-                        print('cart not empty');
-                      }
+                      graphQLService.update_product_to_cart(
+                        widget.product['sku'].toString(),
+                        quantity.toStringAsFixed(0),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: headingColor, // Button background color

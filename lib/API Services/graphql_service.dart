@@ -2225,8 +2225,21 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> add_product_to_cart(String cart_token,String sku, String qty,) async {
+  Future<String> addProductToCart(String sku, String qty,) async {
     try {
+
+      SharedPreferences prefs =
+      await SharedPreferences.getInstance();
+      var cart_token = prefs.getString('cart_token') ?? '';
+
+      print(cart_token);
+
+      if (cart_token == '') {
+        await create_cart();
+        cart_token=prefs.getString('cart_token') ?? '';
+      }
+
+
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(add_prd_to_cart(cart_token,sku,qty,)), // this
@@ -2345,8 +2358,19 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> update_product_to_cart(String cart_token,String uid, String qty,) async {
+  Future<String> update_product_to_cart(String uid, String qty,) async {
     try {
+      SharedPreferences prefs =
+      await SharedPreferences.getInstance();
+      var cart_token = prefs.getString('cart_token') ?? '';
+
+      print(cart_token);
+
+      if (cart_token == '') {
+        await create_cart();
+        cart_token=prefs.getString('cart_token') ?? '';
+      }
+
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(upt_prd_to_cart(cart_token,uid,qty)), // this
@@ -2447,8 +2471,20 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> get_cart_list(String cart_token) async {
+  Future<String> get_cart_list() async {
+
     try {
+      SharedPreferences prefs =
+      await SharedPreferences.getInstance();
+      var cart_token = prefs.getString('cart_token') ?? '';
+
+      print(cart_token);
+
+      if (cart_token == '') {
+        await create_cart();
+        cart_token=prefs.getString('cart_token') ?? '';
+      }
+
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(gt_crt_list(cart_token)), // this

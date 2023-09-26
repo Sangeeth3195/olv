@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/default_button.dart';
@@ -31,10 +33,30 @@ import '../../constants.dart';
 import '../order_success/OrderSuccess.dart';
 import 'components/body.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   static String routeName = "/ordersummary";
 
   const CartScreen({super.key});
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  GraphQLService graphQLService = GraphQLService();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getNavdata();
+  }
+
+  void getNavdata() async {
+    if (kDebugMode) {
+    }
+
+    graphQLService.get_cart_list();
+  }
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

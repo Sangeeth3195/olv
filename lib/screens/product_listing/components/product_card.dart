@@ -246,25 +246,11 @@ class _ProductCardState extends State<ProductCard> {
                         : Container(),
                     GestureDetector(
                       onTap: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        cart_token = prefs.getString('cart_token') ?? '';
 
-                        print(cart_token);
-
-                        if (cart_token == null || cart_token == '') {
-                          graphQLService.create_cart();
-                        } else {
-                          print(widget.item?.sku);
-
-                          graphQLService.add_product_to_cart(
-                            cart_token,
-                            widget.item!.sku.toString(),
-                            '1',
-                          );
-
-                          print('cart not empty');
-                        }
+                        graphQLService.addProductToCart(
+                          widget.item!.sku.toString(),
+                          '1',
+                        );
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
