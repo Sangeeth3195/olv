@@ -501,7 +501,7 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(10, 15, 10, 5),
                       child: Center(
                         child: Text(
-                          homePageModel.getHomePageData![9].title!,
+                          'homePageModel.getHomePageData![9].title==null?homePageModel.getHomePageData?[9].title',
                           textAlign: TextAlign.center,
                           style:
                               Theme.of(context).textTheme.subtitle1!.copyWith(
@@ -520,7 +520,7 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
                       child: Center(
                         child: Text(
-                          homePageModel.getHomePageData![9].description!,
+                          'homePageModel.getHomePageData![9].description!',
                           textAlign: TextAlign.center,
                           style:
                               Theme.of(context).textTheme.subtitle1!.copyWith(
