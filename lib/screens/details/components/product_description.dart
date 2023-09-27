@@ -137,7 +137,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 height: 18,
               ),
 
-              provider.productData[0]['configurable_options'][0]['values'][0]
+              provider.productData[0]['configurable_options']!=null && provider.productData[0]['configurable_options'][0]['values'][0]
                           ['attribute_code'] ==
                       "size"
                   ? Row(
@@ -411,17 +411,18 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
               Row(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: getProportionateScreenWidth(10)),
-                    child: const Text('QUANTITY',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: headingColor)),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(
+                  //       horizontal: getProportionateScreenWidth(10)),
+                  //   child: const Text('QUANTITY',
+                  //       style: TextStyle(
+                  //           fontWeight: FontWeight.bold, color: headingColor)),
+                  // ),
                   const SizedBox(
-                    width: 16,
+                    width: 12,
                   ),
                   Container(
+
                     decoration: BoxDecoration(
                       color: omaColor,
                       border: Border.all(
@@ -485,6 +486,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 height: 15,
               ),
               Container(
+                height: 40,
+
                 width: double.infinity,
                 // Set the container width to occupy the full width
                 margin:
@@ -493,8 +496,13 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 child: ElevatedButton(
                   onPressed: () {
                     // Button onPressed action
-                    graphQLService.create_cart_non_user();
-                    graphQLService.create_cart();
+                    // graphQLService.create_cart_non_user();
+                    // graphQLService.create_cart();
+
+                    graphQLService.update_product_to_cart(
+                      widget.product['sku'].toString(),
+                      quantity.toStringAsFixed(0),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(5),
@@ -506,27 +514,48 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   ),
                 ),
               ),
-              Container(
-                width: double.infinity,
-                // Set the container width to occupy the full width
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
-                // Adjust margins as needed
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Button onPressed action
-                  },
-                  style: ElevatedButton.styleFrom(
-                    side: const BorderSide(color: headingColor),
-                    backgroundColor: Colors.white,
-                    padding:
-                        const EdgeInsets.all(5), // Set the background color
+              SizedBox(height: 6,),
+              Row(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width-80,
+                    height: 40,
+                    // Set the container width to occupy the full width
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
+                    // Adjust margins as needed
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Button onPressed action
+                      },
+                      style: ElevatedButton.styleFrom(
+                        side: const BorderSide(color: headingColor),
+                        backgroundColor: Colors.white,
+                        padding:
+                            const EdgeInsets.all(5), // Set the background color
+                      ),
+                      child: const Text(
+                        'Buy Now',
+                        style: TextStyle(fontSize: 14, color: headingColor),
+                      ),
+                    ),
                   ),
-                  child: const Text(
-                    'ADD TO WATCHLIST',
-                    style: TextStyle(fontSize: 14, color: headingColor),
-                  ),
-                ),
+                  Container(
+                    height: 40,
+                      // padding: const EdgeInsets.symmetric(
+                      //     horizontal: 1.0,
+                      //     vertical: 1), // Adjust padding as needed
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: headingColor, // Border color
+                          width: 1.0, // Border width
+                        ),
+                        borderRadius: BorderRadius.circular(
+                            0.0), // Adjust border radius as needed
+                      ),
+                      child: IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border,color: themecolor,)))
+                ],
               ),
               const SizedBox(
                 height: 12,
@@ -540,48 +569,46 @@ class _ProductDescriptionState extends State<ProductDescription> {
               ),
               Padding(
                 padding: const EdgeInsets.all(5),
-                child: Card(
-                  color: chip2Color,
-                  child: ExpansionTile(
-                    onExpansionChanged: _onExpansionChanged,
-                    trailing: _isExpanded
-                        ? const Icon(Icons.remove) // Icon when expanded
-                        : const Icon(Icons.add),
-                    title: const Text(
-                      'Dimensions',
-                      style: TextStyle(color: headingColor),
-                    ),
-                    children: [
-                      SingleChildScrollView(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                              product[0]['height'] == null
-                                    ? Container()
-                                    : Text('Height: ' + product[0]['height']),
-                            product[0]['diameter'] == null
-                                ? Container()
-                                : Text('Diameter: ' + product[0]['diameter']),
-                            product[0]['capacity'] == null
-                                ? Container()
-                                : Text('Capacity: ' + product[0]['capacity']),
-                            product[0]['width'] == null
-                                ? Container()
-                                : Text('Width: ' + product[0]['width']),
-                            product[0]['length'] == null
-                                ? Container()
-                                : Text('Length: ' + product[0]['length']),
-                            product[0]['overall'] == null
-                                ? Container()
-                                : Text('Overall: ' + product[0]['overall']),
-                            product[0]['depth'] == null
-                                ? Container()
-                                : Text('Depth: ' + product[0]['depth']),
-                          ],
-                        ),
-                      ),
-                    ],
+                child: ExpansionTile(
+
+                  onExpansionChanged: _onExpansionChanged,
+                  trailing: _isExpanded
+                      ? const Icon(Icons.remove) // Icon when expanded
+                      : const Icon(Icons.add),
+                  title: const Text(
+                    'Dimensions',
+                    style: TextStyle(color: headingColor),
                   ),
+                  children: [
+                    SingleChildScrollView(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                            product[0]['height'] == null
+                                  ? Container()
+                                  : Text('Height: ' + product[0]['height']),
+                          product[0]['diameter'] == null
+                              ? Container()
+                              : Text('Diameter: ' + product[0]['diameter']),
+                          product[0]['capacity'] == null
+                              ? Container()
+                              : Text('Capacity: ' + product[0]['capacity']),
+                          product[0]['width'] == null
+                              ? Container()
+                              : Text('Width: ' + product[0]['width']),
+                          product[0]['length'] == null
+                              ? Container()
+                              : Text('Length: ' + product[0]['length']),
+                          product[0]['overall'] == null
+                              ? Container()
+                              : Text('Overall: ' + product[0]['overall']),
+                          product[0]['depth'] == null
+                              ? Container()
+                              : Text('Depth: ' + product[0]['depth']),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -639,26 +666,23 @@ class _HtmlExpansionTileState extends State<HtmlExpansionTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: chip2Color,
-      child: ExpansionTile(
-        onExpansionChanged: _onExpansionChanged,
-        trailing: _isExpanded
-            ? const Icon(Icons.remove) // Icon when expanded
-            : const Icon(Icons.add),
-        title: Container(
-            child: Text(widget.title,
-                style: const TextStyle(
-                    fontWeight: FontWeight.w500, color: headingColor))),
-        children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Html(
-              data: widget.htmlContent,
-            ),
+    return ExpansionTile(
+      onExpansionChanged: _onExpansionChanged,
+      trailing: _isExpanded
+          ? const Icon(Icons.remove) // Icon when expanded
+          : const Icon(Icons.add),
+      title: Container(
+          child: Text(widget.title,
+              style: const TextStyle(
+                  fontWeight: FontWeight.w500, color: headingColor))),
+      children: [
+        SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Html(
+            data: widget.htmlContent,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -44,11 +44,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+
       body: Consumer<MyProvider>(
         builder: (context,provider,_){
           if(provider.productData != null){
             return Container(
-              color: Colors.white,
+              color: omaColor,
               child: ListView(
                 children: [
                 /*  Container(
@@ -66,7 +68,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),*/
                   ProductImages(product: provider.productData),
                   TopRoundedContainer(
-                    color: Colors.white,
+                    color: omaColor,
                     child: Column(
                       children: [
                         ProductDescription(

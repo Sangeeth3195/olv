@@ -495,19 +495,19 @@ class _HomeScreenState extends State<ProductListing> {
                           bgColor: demo_product[0].colors[0],
                           item: provider.items[index],
                           press: () {
-                            /*Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DetailsScreen(
-                                      product: provider.items[index]),
-                                ));*/
-
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      DetailsPage(product: provider.pList[index]),
+                                  builder: (context) => DetailsScreen(
+                                      product: provider.pList[index]),
                                 ));
+
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) =>
+                            //           DetailsPage(product: provider.pList[index]),
+                            //     ));
                           },
                         ),
                       ),
