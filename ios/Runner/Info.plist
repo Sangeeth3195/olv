@@ -28,6 +28,12 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+    	<string>tez</string>
+        <string>phonepe</string>
+        <string>paytmmp</string>
+    </array>
 	<key>CFBundleName</key>
 	<string>omaliving</string>
 	<key>CFBundlePackageType</key>
