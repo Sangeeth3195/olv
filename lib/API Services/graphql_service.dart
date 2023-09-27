@@ -1893,21 +1893,6 @@ class GraphQLService {
                         sku: "$sku"
                         quantity: $qty
                       }
-                      {
-                        parent_sku: "WJ01"
-                        sku: "WJ01-M-Red"
-                        quantity: 1
-                      }
-                      {
-                        sku: "24-WG080"
-                        quantity: 1
-                        selected_options: [
-                          "YnVuZGxlLzEvMS8x"
-                          "YnVuZGxlLzIvNC8x"
-                          "YnVuZGxlLzMvNy8x"
-                          "YnVuZGxlLzQvOC8x"
-                        ]
-                      }
                     ]
                   ) {
                     wishlist {
@@ -2197,8 +2182,9 @@ class GraphQLService {
                     cart_items: [
                       {
                         data: {
-                          quantity: "$qty"
-                          sku: "$sku"
+                          quantity: $qty
+                          parent_sku:""
+                          sku: $sku
                         }
                       }
                     ]
@@ -2210,13 +2196,13 @@ class GraphQLService {
                       product {
                         name
                         sku
-                        quantity
-                        media_gallery {
-                          url
-                          label
-                          position
-                          disabled
-                        }
+                      }
+                       quantity
+                    }
+                     prices {
+                      grand_total{
+                        value
+                        currency
                       }
                     }
                   }
@@ -2275,13 +2261,9 @@ class GraphQLService {
                   ){
                     cart {
                        id
-                      
-                    items {
-                      quantity
-                    
+                    items {                    
                       product {
                         sku
-                        
                         uid
                         name
                         dynamicAttributes(fields:["oma_collection","oma_subclass"]){
@@ -2331,17 +2313,13 @@ class GraphQLService {
                     }
                 
                     prices {
-                
                         discounts {
                           label
                           amount {
                             value
                           }
                         }
-                
-                
                 subtotal_excluding_tax{
-                
                           value
                           currency
                         }
@@ -2351,10 +2329,9 @@ class GraphQLService {
                           currency
                         }
                       }
-                  }
+                    }
                   }
                 }
-
         ''';
   }
 

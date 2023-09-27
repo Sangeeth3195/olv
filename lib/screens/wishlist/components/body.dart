@@ -31,7 +31,11 @@ class _BodyState extends State<Body> {
   void getuserdata() async {
     EasyLoading.show(status: 'loading...');
     customerModel = await graphQLService.get_customer_details();
-    print(customerModel.customer?.addresses?.length);
+
+    print('wishlist id');
+
+    print(customerModel.customer?.wishlists?[0].id);
+
     print(customerModel.customer!.wishlist!.items!.length);
     setState(() {});
   }
@@ -47,7 +51,7 @@ class _BodyState extends State<Body> {
                 const EdgeInsets.only(bottom: 55, left: 5, right: 5, top: 5),
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 0.70),
+                  crossAxisCount: 2, childAspectRatio: 0.8),
               itemBuilder: (context, position) {
                 return gridItem(context, position,
                     customerModel.customer!.wishlist!.items![position]);
@@ -103,7 +107,7 @@ class _BodyState extends State<Body> {
 
                                 dynamic listData = await graphQLService
                                     .remove_Product_from_wishlist(
-                                        wishlistId: "377",
+                                        wishlistId: customerModel.customer!.wishlists![0].id!,
                                         wishlistItemsIds: customerModel
                                             .customer!
                                             .wishlist!
