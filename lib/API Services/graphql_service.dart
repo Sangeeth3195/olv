@@ -2111,7 +2111,7 @@ class GraphQLService {
     }
   }
 
-  // --------------- Cart FUNCTION -------------- //
+  // --------------- CART FUNCTION -------------- //
 
   /// Step 1 - Create Cart
   static String crt_cart() {
@@ -2592,7 +2592,93 @@ class GraphQLService {
     }
   }
 
-  /// Step 4 - Set Shipping Address On Cart
+  // ---------- Here Compulsory Login needed ----------- //
+
+  /// Step 4 - assign Customer To Guest Cart
+  static String assign_Customer_To_Guest_Crt(String cart_token,) {
+    return '''
+            mutation {
+                  assignCustomerToGuestCart(
+                    cart_id: $cart_token
+                  ) {
+                      items {
+                      quantity
+                      id
+                      uid
+                      product {
+                        sku
+                        uid
+                        name
+                        dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
+                        media_gallery {
+                        url
+                        label
+                        position
+                        disabled
+                      }
+                      }
+                    }
+                     shipping_addresses {
+                              available_shipping_methods {
+                                amount {
+                                  currency
+                                  value
+                                }
+                                available
+                                carrier_code
+                                carrier_title
+                                method_code
+                                method_title
+                                price_excl_tax {
+                                  value
+                                  currency
+                                }
+                                price_incl_tax {
+                                  value
+                                  currency
+                                }
+                              }
+                              selected_shipping_method {
+                                amount {
+                                  value
+                                  currency
+                                }
+                                carrier_code
+                                carrier_title
+                                method_code
+                                method_title
+                              }
+                            }
+                  }
+                }
+        ''';
+  }
+
+  Future<String> assign_Customer_To_Guest_Cart(String cart_token,) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(assign_Customer_To_Guest_Crt(cart_token)), // this
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        print(result.data?['customerCart']['id']);
+      }
+
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// Step 5 - Set Shipping Address On Cart
   static String set_shipping_add_to_cart(String cart_token,) {
     return '''
             mutation {
@@ -2664,7 +2750,7 @@ class GraphQLService {
     }
   }
 
-  /// Step 5 - Set billing Address to cart
+  /// Step 6 - Set billing Address to cart
   static String St_billing_Address_to_cart(String cart_token) {
     return '''
             mutation {
@@ -2739,7 +2825,7 @@ class GraphQLService {
     }
   }
 
-  /// Step 6 - Set Shipping Method to cart
+  /// Step 7 - Set Shipping Method to cart
   static String st_shp_to_mtd_to_cart(String cart_token,String carrier_code,) {
     return '''
             mutation {
@@ -2792,7 +2878,7 @@ class GraphQLService {
     }
   }
 
-  /// Step 7 - I - apply Coupon To Cart
+  /// Step 8 - I - apply Coupon To Cart
   static String apply_cpn_to_cart(String cart_token,String coupon_code,) {
     return '''
             mutation {
@@ -2901,7 +2987,7 @@ class GraphQLService {
     }
   }
 
-  /// Step 7 - II - Remove Coupon code To Cart
+  /// Step 8 - II - Remove Coupon code To Cart
   static String rmv_cpn_to_cart(String cart_token) {
     return '''
             mutation {
@@ -3012,7 +3098,7 @@ class GraphQLService {
     }
   }
 
-  /// Step 8 - I - Available Payment methods
+  /// Step 9 - I - Available Payment methods
   static String avl_payment_methods(String cart_token,) {
     return '''
             query query {
@@ -3046,7 +3132,7 @@ class GraphQLService {
     }
   }
 
-  /// Step 8 - II - Set Payment to Cart
+  /// Step 9 - II - Set Payment to Cart
   static String set_paymnt_to_cart(String cart_token,String pay_mode,) {
     return '''
             mutation {
@@ -3086,7 +3172,7 @@ class GraphQLService {
     }
   }
 
-  /// Step 9  - Place Order
+  /// Step 10  - Place Order
   static String plc_ord(String cart_token) {
     return '''
             mutation {
