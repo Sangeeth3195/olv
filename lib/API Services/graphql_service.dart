@@ -1470,6 +1470,7 @@ class GraphQLService {
                   lastname
                   street
                   city
+                  region_id
                   region {
                     region_code
                     region
@@ -1595,6 +1596,7 @@ class GraphQLService {
                         lastname
                         street
                         city
+                        region_id
                         region {
                           region_code
                           region
@@ -2690,8 +2692,10 @@ class GraphQLService {
   }
 
   /// Step 5 - Set Shipping Address On Cart
-  static String set_shipping_add_to_cart(String cart_token,) {
-    return '''
+  static String set_shipping_add_to_cart(String cart_token,Address address) {
+
+    try{
+      return '''
             mutation {
                   setShippingAddressesOnCart(
                     input: {
@@ -2699,16 +2703,16 @@ class GraphQLService {
                       shipping_addresses: [
                         {
                           address: {
-                            firstname: ""
-                            lastname: ""
-                            company: ""
-                            street: [""]
-                            city: ""
-                            region_id: 
-                            region: ""
-                            postcode: ""
-                            country_code: ""
-                            telephone: ""
+                            firstname: "${address.firstname}"
+                            lastname: "${address.lastname??''}"
+                            company: "${address.firstname}"
+                            street: "${address.street}"
+                            city: "${address.city}"
+                            region_id: "${address.regionId}"
+                            region: "${address.region!.toJson()}"
+                            postcode: "${address.postcode}"
+                            country_code: "${address.countryCode}"
+                            telephone: "${address.telephone}"
                             save_in_address_book: false
                           },
                           pickup_location_code: ""
@@ -2739,13 +2743,17 @@ class GraphQLService {
                   }
                 }
         ''';
+
+    }catch(e){
+      return '';
+    }
   }
 
-  Future<String> set_shipping_address_to_cart(String cart_token,) async {
+  Future<String> set_shipping_address_to_cart(String cart_token,Address address) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(set_shipping_add_to_cart(cart_token)), // this
+          document: gql(set_shipping_add_to_cart(cart_token,address)), // this
         ),
       );
       if (result.hasException) {
@@ -2845,8 +2853,8 @@ class GraphQLService {
                   cart_id: $cart_token,
                   shipping_methods: [
                     {
-                      carrier_code: $carrier_code
-                      method_code: $carrier_code
+                      carrier_code: "$carrier_code"
+                      method_code: "$carrier_code"
                     }
                   ]
                 }

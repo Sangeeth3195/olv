@@ -272,7 +272,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             padding: EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
                               Text(
-                                '₹ ${widget.cartModel.cart!.shippingAddresses!.toString()}',
+                                '₹ ${widget.cartModel.cart!.prices!.grandTotal!.value!>1000?500:0}',
                                 style: TextStyle(color: Colors.black),
                               ),
                             ]),
@@ -369,6 +369,8 @@ class _CheckoutCardState extends State<CheckoutCard> {
                               MaterialPageRoute(builder: (context) => const LoginPage()),
                             );
                           } else {
+                            CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+
                             context.go('/cart/continue');
 
                           }

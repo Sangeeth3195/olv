@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'components/body.dart';
 
-class Address extends StatelessWidget {
+class AddEditAddress extends StatelessWidget {
   static String routeName = "/address";
 
-  const Address({super.key});
+  const AddEditAddress({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

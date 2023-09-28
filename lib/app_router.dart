@@ -120,7 +120,7 @@ final router = GoRouter(
                 path: 'address',
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) {
-                  return const Address();
+                  return const AddEditAddress();
                 },
               ),
               GoRoute(

@@ -83,6 +83,7 @@ class Address {
   String? lastname;
   List<String>? street;
   String? city;
+  int? regionId;
   Region? region;
   String? postcode;
   String? countryCode;
@@ -103,6 +104,7 @@ class Address {
     this.telephone,
     this.defaultShipping,
     this.defaultBilling,
+    this.regionId,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
@@ -112,6 +114,7 @@ class Address {
     lastname: json["lastname"],
     street: json["street"] == null ? [] : List<String>.from(json["street"]!.map((x) => x)),
     city: json["city"],
+    regionId: json["region_id"],
     region: json["region"] == null ? null : Region.fromJson(json["region"]),
     postcode: json["postcode"],
     countryCode: json["country_code"],
@@ -127,6 +130,7 @@ class Address {
     "lastname": lastname,
     "street": street == null ? [] : List<dynamic>.from(street!.map((x) => x)),
     "city": city,
+    "regionId": regionId,
     "region": region?.toJson(),
     "postcode": postcode,
     "country_code": countryCode,
