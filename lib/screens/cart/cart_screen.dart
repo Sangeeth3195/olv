@@ -1,8 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
+import 'package:omaliving/LoginPage.dart';
+import 'package:omaliving/models/CartModel.dart';
+import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../components/default_button.dart';
 import '../../models/Cart.dart';
@@ -43,14 +48,18 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+
   GraphQLService graphQLService = GraphQLService();
+  CartProvider? cartProvider;
   void initState() {
-    // TODO: implement initState
     super.initState();
     getNavdata();
   }
 
   void getNavdata() async {
+    cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+    cartProvider!.getCartData();
     if (kDebugMode) {
     }
 
@@ -59,18 +68,36 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Body(),
-      bottomNavigationBar: CheckoutCard(),
+    return Consumer<CartProvider>(
+      builder: (context, provider, _) {
+        if(provider.cartModel.cart==null||cartProvider!.cartModel.cart==null||cartProvider!.cartModel.cart!.items==null){
+          return Center(child: Text('No Cart'),);
+        }
+        return  Scaffold(
+          body: Body(cartModel:provider.cartModel),
+          bottomNavigationBar: CheckoutCard(cartModel:provider.cartModel,cartProvider: cartProvider!,),
+        );
+
+      },
     );
+
   }
 }
 
-class CheckoutCard extends StatelessWidget {
-  const CheckoutCard({
-    Key? key,
+class CheckoutCard extends StatefulWidget {
+  final CartModel cartModel;
+  final CartProvider cartProvider;
+
+  const CheckoutCard( {
+    Key? key, required this.cartModel, required this.cartProvider,
   }) : super(key: key);
 
+  @override
+  State<CheckoutCard> createState() => _CheckoutCardState();
+}
+
+class _CheckoutCardState extends State<CheckoutCard> {
+  TextEditingController applyCouponController=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -140,6 +167,8 @@ class CheckoutCard extends StatelessWidget {
                       children: <Widget>[
                         Expanded(
                           child: TextField(
+                            enabled: widget.cartModel.cart!.prices!.discounts!.length==0?true:false,
+                            controller: applyCouponController,
                             onSubmitted: (s) {},
                             decoration: const InputDecoration(
                                 hintText: "Enter coupon code",
@@ -162,9 +191,19 @@ class CheckoutCard extends StatelessWidget {
                                     fontStyle: FontStyle.normal),
                                 // shape: const StadiumBorder(),
                               ),
-                              onPressed: () {},
-                              child: const Text(
-                                'Apply',
+                              onPressed: () {
+                                if(widget.cartModel.cart!.prices!.discounts!.isNotEmpty){
+                                  widget.cartProvider.removeApplyCouponCode();
+                                  return;
+                                }
+                                if(applyCouponController.text.isEmpty){
+                                  Fluttertoast.showToast(msg: 'Please enter coupon');
+                                  return;
+                                }
+                                widget.cartProvider.setapplyCouponCode(applyCouponController.text);
+                              },
+                              child:  Text(
+                                widget.cartModel.cart!.prices!.discounts!.length==0?'Apply':'Cancel',
                                 style: TextStyle(
                                     fontSize: 15.0, color: Colors.white),
                               ),
@@ -186,7 +225,7 @@ class CheckoutCard extends StatelessWidget {
                     const SizedBox(
                       height: 15,
                     ),
-                    const Row(
+                     Row(
                       children: <Widget>[
                         Expanded(
                           // Place `Expanded` inside `Row`
@@ -204,7 +243,7 @@ class CheckoutCard extends StatelessWidget {
                             padding: EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
                               Text(
-                                '₹ 1,298',
+                                '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value.toString()}',
                                 style: TextStyle(color: Colors.black),
                               ),
                             ]),
@@ -215,7 +254,7 @@ class CheckoutCard extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Row(
+                     Row(
                       children: <Widget>[
                         Expanded(
                           // Place `Expanded` inside `Row`
@@ -233,7 +272,7 @@ class CheckoutCard extends StatelessWidget {
                             padding: EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
                               Text(
-                                '₹ 500',
+                                '₹ ${widget.cartModel.cart!.shippingAddresses!.toString()}',
                                 style: TextStyle(color: Colors.black),
                               ),
                             ]),
@@ -244,7 +283,7 @@ class CheckoutCard extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Row(
+                     Row(
                       children: <Widget>[
                         Expanded(
                           // Place `Expanded` inside `Row`
@@ -262,7 +301,7 @@ class CheckoutCard extends StatelessWidget {
                             padding: EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
                               Text(
-                                '- ₹ 200',
+                                '- ₹ ${widget.cartModel.cart!.prices!.discounts!.isEmpty?0:widget.cartModel.cart!.prices!.discounts![0].amount!.value}',
                                 style: TextStyle(color: Colors.black),
                               ),
                             ]),
@@ -277,7 +316,7 @@ class CheckoutCard extends StatelessWidget {
                       // color: const Color(0xFFFFF2E1),
                       color: kPrimaryLightColor,
                       height: 50,
-                      child: const Padding(
+                      child:  Padding(
                         padding: EdgeInsets.only(left: 10, right: 10),
                         child: Row(
                           children: <Widget>[
@@ -299,7 +338,7 @@ class CheckoutCard extends StatelessWidget {
                                 padding: EdgeInsets.only(left: 10, right: 10),
                                 child: Row(children: [
                                   Text(
-                                    '₹ 1,598',
+                                    '₹ ${widget.cartModel.cart!.prices!.grandTotal!.value.toString()}',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
@@ -315,12 +354,25 @@ class CheckoutCard extends StatelessWidget {
                     SizedBox(
                       child: DefaultButton(
                         text: "Continue to Checkout",
-                        press: () {
+                        press: () async{
                           final myProvider =
                               Provider.of<MyProvider>(context, listen: false);
                           myProvider.navBar = true;
                           myProvider.notifyListeners();
-                          context.go('/cart/continue');
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                         var token = prefs.getString('token') ?? '';
+
+                          if (token.isEmpty) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const LoginPage()),
+                            );
+                          } else {
+                            context.go('/cart/continue');
+
+                          }
+
                         },
                       ),
                     ),

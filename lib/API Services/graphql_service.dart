@@ -2457,7 +2457,7 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> get_cart_list() async {
+  Future<dynamic> get_cart_list() async {
 
     try {
       SharedPreferences prefs =
@@ -2479,13 +2479,14 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data);
+        log(jsonEncode(result.data));
+        return result.data;
       }
 
-      return "";
+      return null;
     } catch (e) {
       print(e);
-      return "";
+      return null;
     }
   }
 
@@ -3000,92 +3001,30 @@ class GraphQLService {
   /// Step 8 - II - Remove Coupon code To Cart
   static String rmv_cpn_to_cart(String cart_token) {
     return '''
-            mutation {
-                mutation {
-                    removeCouponFromCart(
-                      input:
-                        { cart_id: $cart_token }
-                      ) {
-                      cart {
-                         id
-                        
-                      items {
-                        quantity
-                      
-                        product {
-                          sku
-                          
-                          uid
-                          name
-                          dynamicAttributes(fields:["oma_collection","oma_subclass"]){
-                               attribute_code
-                              attribute_label
-                              attribute_value
-                        }
-                          media_gallery {
-                          url
-                          label
-                          position
-                          disabled
-                        }
-                        }
-                      }
-                     
-                     shipping_addresses {
-                        available_shipping_methods {
-                          amount {
-                            currency
-                            value
-                          }
-                          available
-                          carrier_code
-                          carrier_title
-                          method_code
-                          method_title
-                          price_excl_tax {
-                            value
-                            currency
-                          }
-                          price_incl_tax {
-                            value
-                            currency
-                          }
-                        }
-                        selected_shipping_method {
-                          amount {
-                            value
-                            currency
-                          }
-                          carrier_code
-                          carrier_title
-                          method_code
-                          method_title
-                        }
-                      }
-                  
-                      prices {
-                  
-                          discounts {
-                            label
-                            amount {
-                              value
-                            }
-                          }
-                  
-                  subtotal_excluding_tax{
-                            value
-                            currency
-                          }
-                  
-                          grand_total{
-                            value
-                            currency
-                          }
-                        }
-                      }
-                    }
-                  }
-              }
+          mutation {
+  removeCouponFromCart(
+    input:
+      { cart_id: $cart_token }
+    ) {
+    cart {
+      items {
+        product {
+          name
+        }
+        quantity
+      }
+      applied_coupons {
+        code
+      }
+      prices {
+        grand_total{
+          value
+          currency
+        }
+      }
+    }
+  }
+}
         ''';
   }
 

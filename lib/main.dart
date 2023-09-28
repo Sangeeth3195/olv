@@ -8,6 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/app_router.dart';
 import 'package:omaliving/constants.dart';
+import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
@@ -40,6 +41,9 @@ void main() async {
     ),
     ChangeNotifierProvider(
       create: (context) => NavbarNotifier(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => CartProvider(),
     ),
   ], child: const MyApp()));
   configLoading();

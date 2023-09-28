@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/LoginPage.dart';
+import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -474,6 +475,12 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   }
 
   void _onTap(index) async {
+    if(index==3){
+     CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+     cartProvider.getCartData();
+
+    }
     if (index == 2 || index == 4) {
       await getuserdata();
       if (token.isEmpty) {

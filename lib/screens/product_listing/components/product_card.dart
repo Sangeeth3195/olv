@@ -66,6 +66,9 @@ class _ProductCardState extends State<ProductCard> {
                   child: Image.network(
                     widget.item!.smallImage.url,
                     height: 150,
+                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                      return Image.asset('assets/omalogo.png',height: 150,);
+                    },
                   ),
                 ),
                 const SizedBox(height: 2),

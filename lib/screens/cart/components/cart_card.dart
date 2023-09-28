@@ -1,5 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:omaliving/LoginPage.dart';
+import 'package:omaliving/models/CartModel.dart';
+import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -9,13 +14,44 @@ import '../../checkout/Checkout.dart';
 import '../../provider/provider.dart';
 
 class CartCard extends StatefulWidget {
-  const CartCard({super.key});
+  final Item item;
+  CartCard({super.key, required this.item});
 
   @override
   _BodyState createState() => _BodyState();
 }
 
 class _BodyState extends State<CartCard> {
+  CartProvider? cartProvider;
+  int quantity = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getNavdata();
+  }
+
+  void incrementQuantity() {
+    quantity++;
+    setState(() {});
+  }
+
+  void decrementQuantity() {
+    if (quantity > 0) {
+      quantity--;
+    }
+    setState(() {});
+  }
+
+  void getNavdata() async {
+    cartProvider = Provider.of<CartProvider>(context, listen: false);
+    quantity=widget.item.quantity!;
+    setState(() {
+
+    });
+  }
+
   Widget showWidget(int qty) {
     if (qty == 0) {
       return TextButton(
@@ -71,7 +107,11 @@ class _BodyState extends State<CartCard> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Image.network(
-                        'https://www.omaliving.com/media/catalog/product/cache/0141941aeb4901c5334e6ba10ea3844d/I/T/ITEM-007993_3_1.png'),
+                        widget.item.product!.mediaGallery![0].url??'',
+                      errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                        return Image.asset('assets/omalogo.png',height: 150,);
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -92,8 +132,8 @@ class _BodyState extends State<CartCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Scheffera potted plant',
+           Text(
+            widget.item.product!.name??'',
             style: TextStyle(
                 fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
           ),
@@ -102,12 +142,12 @@ class _BodyState extends State<CartCard> {
           ),
           Row(
             children: <Widget>[
-              const Expanded(
+               Expanded(
                 // Place `Expanded` inside `Row`
                 child: SizedBox(
                   height: 15, // <-- Your height
                   child: Text(
-                    '₹ 1,298',
+                    '₹ ${widget.item.product!.priceRange!.minimumPrice!.regularPrice!.value.toString()}',
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
@@ -127,7 +167,10 @@ class _BodyState extends State<CartCard> {
                       padding: const EdgeInsets.only(left: 15, right: 15),
                       child: Row(children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            decrementQuantity();
+                            cartProvider!.updateItem(widget.item!.product!.uid!, quantity);
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             width: 20,
@@ -138,10 +181,14 @@ class _BodyState extends State<CartCard> {
                         Container(
                           width: 20,
                           alignment: Alignment.center,
-                          child: const Text('2'),
+                          child:  Text(widget.item.quantity!.toString()),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            incrementQuantity();
+                            cartProvider!.updateItem(widget.item!.product!.sku!, quantity);
+
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             width: 20,
@@ -157,46 +204,70 @@ class _BodyState extends State<CartCard> {
           const SizedBox(
             height: 10,
           ),
-          const Row(
+           Row(
             children: <Widget>[
               Expanded(
                 // Place `Expanded` inside `Row`
-                child: Row(
-                  children: [
-                    Text(
-                      'Move to wishlist |',
-                      style: TextStyle(color: headingColor, fontSize: 13),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_outlined,
-                      size: 14,
-                      color: headingColor,
-                    ),
-                  ],
+                child: GestureDetector(
+                  onTap:() async{
+
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                    var token = prefs.getString('token') ?? '';
+
+                    if (token.isEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginPage()),
+                      );
+                    } else {
+                      cartProvider!.removeItem(widget.item!.id!);
+                      cartProvider!.addToWishList(sku: widget.item!.product!.sku!, qty: widget.item!.quantity!.toString());
+
+                    }
+                    },
+                  child: Row(
+                    children: [
+                      Text(
+                        'Move to wishlist |',
+                        style: TextStyle(color: headingColor, fontSize: 13),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_outlined,
+                        size: 14,
+                        color: headingColor,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
                 width: 10.0,
                 height: 0,
               ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.delete_outline,
-                    size: 18,
-                    color: headingColor,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    'Remove',
-                    style: TextStyle(
-                        color: headingColor,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
+              GestureDetector(
+                onTap: (){
+                  cartProvider!.removeItem(widget.item!.id!);
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.delete_outline,
+                      size: 18,
+                      color: headingColor,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Remove',
+                      style: TextStyle(
+                          color: headingColor,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               )
             ],
           ),

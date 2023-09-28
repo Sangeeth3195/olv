@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/Cart.dart';
+import 'package:omaliving/models/CartModel.dart';
 import 'package:provider/provider.dart';
 
 import '../../../components/default_button.dart';
@@ -12,7 +13,8 @@ import '../../provider/provider.dart';
 import 'cart_card.dart';
 
 class Body extends StatefulWidget {
-  const Body({super.key});
+  final CartModel cartModel;
+  const Body( {super.key, required this.cartModel});
 
   @override
   _BodyState createState() => _BodyState();
@@ -22,9 +24,9 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 0),
+        padding:  EdgeInsets.symmetric(vertical: 0),
         child: Container(
-          margin: const EdgeInsets.only(bottom: 5),
+          margin:  EdgeInsets.only(bottom: 5),
           child: Column(
             children: [
               Padding(
@@ -33,10 +35,10 @@ class _BodyState extends State<Body> {
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: demoCarts.length,
-                    itemBuilder: (context, index) => const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2),
-                      child: CartCard(),
+                    itemCount: widget.cartModel.cart!.items!.length,
+                    itemBuilder: (context, index) =>  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: CartCard(item: widget.cartModel.cart!.items![index]),
                     ),
                   )),
             ],
