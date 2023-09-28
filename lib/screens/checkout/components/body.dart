@@ -27,37 +27,32 @@ class _BodyState extends State<Body> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   const SizedBox(height: 20),
+
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                     child: Text(
-                      'Delivery',
+                      'Shipping Address',
                       style: TextStyle(
                           color: headingColor, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  /*const Text(
-            'Delivery',
-            style: TextStyle(color: headingColor, fontWeight: FontWeight.bold),
-          ),
-          const Text(
-            'Delivery to Home',
-            style: TextStyle(color: headingColor, fontWeight: FontWeight.bold),
-          ),*/
+
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 25),
+                        vertical: 0, horizontal: 25),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                       /* const Text(
                           "Delivering to Home",
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.black, fontSize: 12),
                         ),
                         const SizedBox(
                           height: 8,
-                        ),
+                        ),*/
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -102,6 +97,75 @@ class _BodyState extends State<Body> {
                       ],
                     ),
                   ),
+
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                    child: Text(
+                      'Billing Address',
+                      style: TextStyle(
+                          color: headingColor, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 0, horizontal: 25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Expanded(
+                              child: Text(
+                                "653 Nostrand Ave.\nBrooklyn, NY 11216",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    height: 1.5,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Address()),
+                                );
+                              },
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    'Change Address |',
+                                    style: TextStyle(
+                                        color: headingColor, fontSize: 13),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_outlined,
+                                    size: 13,
+                                    color: headingColor,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                     child: Text(
@@ -110,6 +174,7 @@ class _BodyState extends State<Body> {
                           color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                   ),
+
                   ListTile(
                     title: const Text('Standard Shipping'),
                     leading: Radio<Fruit>(
@@ -122,14 +187,33 @@ class _BodyState extends State<Body> {
                       },
                     ),
                   ),
+
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 85),
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 85),
                     child: Text(
                       '₹ 500',
                       style: TextStyle(
                           color: headingColor, fontWeight: FontWeight.bold),
                     ),
                   ),
+
+                 /* const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+                    child: Text(
+                      'Payment Method',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 15.0, 10.0, 0),
+                    child: Center(
+                      child: Image.asset('assets/razorpay.png',
+                          height: 200, width: 200),
+                    ),
+                  ),*/
+
                 ],
               ),
 

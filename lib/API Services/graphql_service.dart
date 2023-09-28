@@ -1619,7 +1619,6 @@ class GraphQLService {
         if (res == null || res.isEmpty) {
           return [];
         }
-
         return res.first['children'];
       }
     } catch (error) {
@@ -2376,6 +2375,8 @@ class GraphQLService {
                     id
                   items {
                     quantity
+                    id
+                    uid
                     product {
                       sku
                       uid
@@ -2385,6 +2386,14 @@ class GraphQLService {
                           attribute_label
                           attribute_value
                     }
+                     price_range{
+                        minimum_price{
+                          regular_price{
+                            value
+                            currency
+                          }
+                        }
+                      }
                       media_gallery {
                       url
                       label
@@ -2481,7 +2490,7 @@ class GraphQLService {
   }
 
   /// Step 3 - IV - Remove Item from Cart
-  static String rmv_itm_frm_cart(String cart_token,String id,) {
+  static String rmv_itm_frm_cart(String cart_token,String id,)  {
     return '''
             mutation {
                   removeItemFromCart(
@@ -2496,7 +2505,8 @@ class GraphQLService {
                       
                     items {
                       quantity
-                    
+                        id
+                        uid
                       product {
                         sku
                         
@@ -3185,7 +3195,7 @@ class GraphQLService {
   }
 
   Future<String> place_order(
-      {required String cart_token, required String wishlistItemsIds}) async {
+      {required String cart_token}) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(

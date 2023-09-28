@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/screens/order_summary/ordersummary.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+import '../../API Services/graphql_service.dart';
 import '../../Razorpay.dart';
 import '../../components/default_button.dart';
 import '../../components/size_config.dart';
@@ -25,13 +27,13 @@ class Checkout extends StatelessWidget {
         title: const Text('Shipping Address',style: TextStyle(color: Colors.black,fontSize: 16),),
       ),
       body: const Body(),
-      bottomNavigationBar: const CheckoutCard(title: '',),
+      bottomNavigationBar: CheckoutCard(title: '',),
     );
   }
 }
 
 class CheckoutCard extends StatefulWidget {
-  const CheckoutCard({super.key, required this.title});
+  CheckoutCard({super.key, required this.title});
 
   final String title;
 
@@ -41,6 +43,8 @@ class CheckoutCard extends StatefulWidget {
 
 class _MyHomePageState extends State<CheckoutCard> {
 
+  GraphQLService graphQLService = GraphQLService();
+
   void handlePaymentErrorResponse(PaymentFailureResponse response){
     /*
     * PaymentFailureResponse contains three values:
@@ -48,7 +52,10 @@ class _MyHomePageState extends State<CheckoutCard> {
     * 2. Error Description
     * 3. Metadata
     * */
-    showAlertDialog(context, "Payment Failed", "Code: ${response.code}\nDescription: ${response.message}\nMetadata:${response.error.toString()}");
+
+    Fluttertoast.showToast(msg: "Payment failed");
+
+    // showAlertDialog(context, "Payment Failed", "Code: ${response.code}\nDescription: ${response.message}\nMetadata:${response.error.toString()}");
   }
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response){
@@ -58,11 +65,18 @@ class _MyHomePageState extends State<CheckoutCard> {
     * 2. Payment ID
     * 3. Signature
     * */
+    graphQLService.place_order(cart_token: '');
+
+    // Navigation
+
+    Fluttertoast.showToast(msg: 'Payment Successful');
+
     showAlertDialog(context, "Payment Successful", "Payment ID: ${response.paymentId}");
   }
 
   void handleExternalWalletSelected(ExternalWalletResponse response){
-    showAlertDialog(context, "External Wallet Selected", "${response.walletName}");
+    Fluttertoast.showToast(msg: "Payment Successfully");
+    // showAlertDialog(context, "External Wallet Selected", "${response.walletName}");
   }
 
   void showAlertDialog(BuildContext context, String title, String message){
@@ -149,8 +163,8 @@ class _MyHomePageState extends State<CheckoutCard> {
                         Razorpay razorpay = Razorpay();
                         var options = {
                           'key': 'rzp_test_1RBFegXl5eMjV2',
-                          'amount': 100,
-                          'name': 'Acme Corp.',
+                          'amount': "${(25456) * 100}",
+                          'name': 'OMA Living',
                           'description': 'Fine T-Shirt',
                           'retry': {'enabled': true, 'max_count': 1},
                           'send_sms_hash': true,
@@ -162,8 +176,12 @@ class _MyHomePageState extends State<CheckoutCard> {
                         razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
                         razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlePaymentSuccessResponse);
                         razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handleExternalWalletSelected);
-                        razorpay.open(options);
 
+                        try {
+                          razorpay.open(options);
+                        } catch (e) {
+                          debugPrint('Error: $e');
+                        }
 
                        /* Navigator.push(
                           context,

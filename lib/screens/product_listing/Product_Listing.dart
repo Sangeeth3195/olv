@@ -30,10 +30,7 @@ class _HomeScreenState extends State<ProductListing> {
   List<dynamic> pList = [];
   int? _value = 0;
 
-
   var selectedColor = 0;
-
-
 
   final List<String> _options = [
     'Most Relevant',

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+
+import 'API Services/graphql_service.dart';
 
 class RazorpayTEST extends StatefulWidget {
   const RazorpayTEST({super.key, required this.title});
@@ -11,13 +14,7 @@ class RazorpayTEST extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<RazorpayTEST> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  GraphQLService graphQLService = GraphQLService();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +34,7 @@ class _MyHomePageState extends State<RazorpayTEST> {
               Razorpay razorpay = Razorpay();
               var options = {
                 'key': 'rzp_test_1RBFegXl5eMjV2',
-                'amount': 100,
+                'amount': 100 * 100,
                 'name': 'Acme Corp.',
                 'description': 'Fine T-Shirt',
                 'retry': {'enabled': true, 'max_count': 1},
@@ -55,11 +52,6 @@ class _MyHomePageState extends State<RazorpayTEST> {
                 child: const Text("Pay with Razorpay")),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -81,6 +73,13 @@ class _MyHomePageState extends State<RazorpayTEST> {
     * 2. Payment ID
     * 3. Signature
     * */
+
+    graphQLService.place_order(cart_token: '');
+
+    // Navigation
+
+    Fluttertoast.showToast(msg: 'Payment Successful');
+
     showAlertDialog(context, "Payment Successful", "Payment ID: ${response.paymentId}");
   }
 
