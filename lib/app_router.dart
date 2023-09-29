@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/scaffold_with_navbar.dart';
 import 'package:omaliving/screens/account/Account.dart';
 import 'package:omaliving/screens/address/address.dart';
@@ -147,12 +148,75 @@ final router = GoRouter(
             ],
           ),
         ]),
+
+
+        StatefulShellBranch(routes: <RouteBase>[
+          // Add this branch routes
+          // each routes with its sub routes if available e.g shope/uuid/details
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) {
+              return const ProfileScreen();
+            },
+            routes: <RouteBase>[
+              GoRoute(
+                parentNavigatorKey: _rootNavigatorKey,
+                path: 'account',
+                builder: (context, state) {
+                  return const Account();
+                },
+              ),
+              GoRoute(
+                path: 'myorders',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) {
+                  return const MyOrders();
+                },
+              ),
+              GoRoute(
+                path: 'address',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) {
+                  return const AddEditAddress();
+                },
+              ),
+              GoRoute(
+                path: 'resetpassword',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) {
+                  return const ResetPassword();
+                },
+              ),
+              GoRoute(
+                path: 'news',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) {
+                  return const Newsletter();
+                },
+              ),
+              GoRoute(
+                path: 'settings',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) {
+                  return const Settings();
+                },
+              ),
+            ],
+          ),
+        ]),
       ],
     ),
     GoRoute(
       path: '/details',
       builder: (BuildContext context, GoRouterState state) {
         return const Account();
+      },
+    ),
+
+    GoRoute(
+      path: '/login',
+      builder: (BuildContext context, GoRouterState state) {
+        return const LoginPage();
       },
     ),
   ],

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/src/widgets/editable_text.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/models/CartModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,8 +11,10 @@ class CartProvider with ChangeNotifier {
   SharedPreferences? prefs;
   var cart_token;
 
-
   void getCartData()async{
+
+    EasyLoading.show(status: 'loading...');
+
      prefs =
     await SharedPreferences.getInstance();
     cart_token = prefs!.getString('cart_token') ?? '';
@@ -32,21 +35,37 @@ class CartProvider with ChangeNotifier {
     getCartData();
   }
   void updateItem(String id,int quantity) async{
+    print(id);
+    print(quantity);
+    EasyLoading.show(status: 'loading...');
     await graphQLService.update_product_to_cart(id, quantity.toString());
     getCartData();
   }
 
   void setapplyCouponCode(String applyCouponController) async{
+    EasyLoading.show(status: 'loading...');
     await graphQLService.apply_coupon_to_cart(cart_token, applyCouponController);
     getCartData();
   }
   void removeApplyCouponCode() async{
+    EasyLoading.show(status: 'loading...');
     await graphQLService.remove_coupon_to_cart(cart_token);
     getCartData();
   }
+
   void addToWishList({required String sku, required String qty}) async{
     await graphQLService.add_Product_from_wishlist(sku: sku,qty: qty);
     getCartData();
+  }
+
+  void aval_pay_method() async{
+    await graphQLService.available_payment_methods(cart_token);
+    // getCartData();
+  }
+
+  void setpaymentoncart() async{
+    await graphQLService.set_payment_to_cart(cart_token);
+    // getCartData();
   }
 
 }

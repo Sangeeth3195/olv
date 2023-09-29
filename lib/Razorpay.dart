@@ -35,13 +35,15 @@ class _MyHomePageState extends State<RazorpayTEST> {
               var options = {
                 'key': 'rzp_test_1RBFegXl5eMjV2',
                 'amount': 100 * 100,
-                'name': 'Acme Corp.',
+                'name': 'OMA Test Payment.',
+                "timeout": "180",
+                "currency": "INR",
                 'description': 'Fine T-Shirt',
                 'retry': {'enabled': true, 'max_count': 1},
                 'send_sms_hash': true,
                 'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
                 'external': {
-                  'wallets': ['paytm']
+                  'wallets': ["paytm"]
                 }
               };
               razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
@@ -74,7 +76,7 @@ class _MyHomePageState extends State<RazorpayTEST> {
     * 3. Signature
     * */
 
-    graphQLService.place_order(cart_token: '');
+    graphQLService.place_order();
 
     // Navigation
 

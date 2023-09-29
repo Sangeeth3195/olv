@@ -46,10 +46,8 @@ class _BodyState extends State<CartCard> {
 
   void getNavdata() async {
     cartProvider = Provider.of<CartProvider>(context, listen: false);
-    quantity=widget.item.quantity!;
-    setState(() {
-
-    });
+    quantity = widget.item.quantity!;
+    setState(() {});
   }
 
   Widget showWidget(int qty) {
@@ -107,9 +105,13 @@ class _BodyState extends State<CartCard> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Image.network(
-                        widget.item.product!.mediaGallery![0].url??'',
-                      errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                        return Image.asset('assets/omalogo.png',height: 150,);
+                      widget.item.product!.mediaGallery![0].url ?? '',
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return Image.asset(
+                          'assets/omalogo.png',
+                          height: 150,
+                        );
                       },
                     ),
                   ),
@@ -120,7 +122,6 @@ class _BodyState extends State<CartCard> {
               ),
             ],
           ),
-
         ],
       ),
     );
@@ -132,9 +133,9 @@ class _BodyState extends State<CartCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-           Text(
-            widget.item.product!.name??'',
-            style: TextStyle(
+          Text(
+            widget.item.product!.name ?? '',
+            style: const TextStyle(
                 fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
           ),
           const SizedBox(
@@ -142,13 +143,13 @@ class _BodyState extends State<CartCard> {
           ),
           Row(
             children: <Widget>[
-               Expanded(
+              Expanded(
                 // Place `Expanded` inside `Row`
                 child: SizedBox(
                   height: 15, // <-- Your height
                   child: Text(
                     '₹ ${widget.item.product!.priceRange!.minimumPrice!.regularPrice!.value.toString()}',
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -169,7 +170,8 @@ class _BodyState extends State<CartCard> {
                         InkWell(
                           onTap: () {
                             decrementQuantity();
-                            cartProvider!.updateItem(widget.item!.product!.uid!, quantity);
+                            cartProvider!.updateItem(
+                                widget.item!.uid!, quantity);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -181,13 +183,13 @@ class _BodyState extends State<CartCard> {
                         Container(
                           width: 20,
                           alignment: Alignment.center,
-                          child:  Text(widget.item.quantity!.toString()),
+                          child: Text(widget.item.quantity!.toString()),
                         ),
                         InkWell(
                           onTap: () {
                             incrementQuantity();
-                            cartProvider!.updateItem(widget.item!.product!.sku!, quantity);
-
+                            cartProvider!.updateItem(
+                                widget.item!.uid!, quantity);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -204,29 +206,31 @@ class _BodyState extends State<CartCard> {
           const SizedBox(
             height: 10,
           ),
-           Row(
+          Row(
             children: <Widget>[
               Expanded(
                 // Place `Expanded` inside `Row`
                 child: GestureDetector(
-                  onTap:() async{
-
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                  onTap: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
 
                     var token = prefs.getString('token') ?? '';
 
                     if (token.isEmpty) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const LoginPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
                       );
                     } else {
                       cartProvider!.removeItem(widget.item!.id!);
-                      cartProvider!.addToWishList(sku: widget.item!.product!.sku!, qty: widget.item!.quantity!.toString());
-
+                      cartProvider!.addToWishList(
+                          sku: widget.item!.product!.sku!,
+                          qty: widget.item!.quantity!.toString());
                     }
-                    },
-                  child: Row(
+                  },
+                  child: const Row(
                     children: [
                       Text(
                         'Move to wishlist |',
@@ -241,15 +245,15 @@ class _BodyState extends State<CartCard> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10.0,
                 height: 0,
               ),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   cartProvider!.removeItem(widget.item!.id!);
                 },
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(
                       Icons.delete_outline,

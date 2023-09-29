@@ -71,7 +71,7 @@ class _CartScreenState extends State<CartScreen> {
     return Consumer<CartProvider>(
       builder: (context, provider, _) {
         if(provider.cartModel.cart==null||cartProvider!.cartModel.cart==null||cartProvider!.cartModel.cart!.items==null){
-          return Center(child: Text('No Cart'),);
+          return const Center(child: Text('No Cart'),);
         }
         return  Scaffold(
           body: Body(cartModel:provider.cartModel),
@@ -167,7 +167,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                       children: <Widget>[
                         Expanded(
                           child: TextField(
-                            enabled: widget.cartModel.cart!.prices!.discounts!.length==0?true:false,
+                            enabled: widget.cartModel.cart!.prices!.discounts!.isEmpty?true:false,
                             controller: applyCouponController,
                             onSubmitted: (s) {},
                             decoration: const InputDecoration(
@@ -184,7 +184,6 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 primary: headingColor,
-
                                 textStyle: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,
@@ -194,6 +193,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                               onPressed: () {
                                 if(widget.cartModel.cart!.prices!.discounts!.isNotEmpty){
                                   widget.cartProvider.removeApplyCouponCode();
+                                  applyCouponController.clear();
                                   return;
                                 }
                                 if(applyCouponController.text.isEmpty){
@@ -203,8 +203,9 @@ class _CheckoutCardState extends State<CheckoutCard> {
                                 widget.cartProvider.setapplyCouponCode(applyCouponController.text);
                               },
                               child:  Text(
-                                widget.cartModel.cart!.prices!.discounts!.length==0?'Apply':'Cancel',
-                                style: TextStyle(
+                                widget.cartModel.cart!.prices!.discounts!.isEmpty?'Apply':'Cancel',
+
+                                style: const TextStyle(
                                     fontSize: 15.0, color: Colors.white),
                               ),
                             ),
@@ -227,7 +228,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                     ),
                      Row(
                       children: <Widget>[
-                        Expanded(
+                        const Expanded(
                           // Place `Expanded` inside `Row`
                           child: SizedBox(
                             height: 15, // <-- Your height
@@ -240,11 +241,11 @@ class _CheckoutCardState extends State<CheckoutCard> {
                         SizedBox(
                           height: 30, // <-- Your height
                           child: Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
                               Text(
                                 '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value.toString()}',
-                                style: TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ]),
                           ),
@@ -256,7 +257,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                     ),
                      Row(
                       children: <Widget>[
-                        Expanded(
+                        const Expanded(
                           // Place `Expanded` inside `Row`
                           child: SizedBox(
                             height: 15, // <-- Your height
@@ -269,11 +270,11 @@ class _CheckoutCardState extends State<CheckoutCard> {
                         SizedBox(
                           height: 30, // <-- Your height
                           child: Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
                               Text(
                                 '₹ ${widget.cartModel.cart!.prices!.grandTotal!.value!>1000?500:0}',
-                                style: TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ]),
                           ),
@@ -285,7 +286,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                     ),
                      Row(
                       children: <Widget>[
-                        Expanded(
+                        const Expanded(
                           // Place `Expanded` inside `Row`
                           child: SizedBox(
                             height: 15, // <-- Your height
@@ -298,11 +299,11 @@ class _CheckoutCardState extends State<CheckoutCard> {
                         SizedBox(
                           height: 30, // <-- Your height
                           child: Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
                               Text(
                                 '- ₹ ${widget.cartModel.cart!.prices!.discounts!.isEmpty?0:widget.cartModel.cart!.prices!.discounts![0].amount!.value}',
-                                style: TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ]),
                           ),
@@ -317,10 +318,10 @@ class _CheckoutCardState extends State<CheckoutCard> {
                       color: kPrimaryLightColor,
                       height: 50,
                       child:  Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
                         child: Row(
                           children: <Widget>[
-                            Expanded(
+                            const Expanded(
                               // Place `Expanded` inside `Row`
                               child: SizedBox(
                                 height: 15, // <-- Your height
@@ -335,11 +336,11 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             SizedBox(
                               height: 30, // <-- Your height
                               child: Padding(
-                                padding: EdgeInsets.only(left: 10, right: 10),
+                                padding: const EdgeInsets.only(left: 10, right: 10),
                                 child: Row(children: [
                                   Text(
                                     '₹ ${widget.cartModel.cart!.prices!.grandTotal!.value.toString()}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -359,6 +360,10 @@ class _CheckoutCardState extends State<CheckoutCard> {
                               Provider.of<MyProvider>(context, listen: false);
                           myProvider.navBar = true;
                           myProvider.notifyListeners();
+
+                          /// set payment to cart
+                          widget.cartProvider.setpaymentoncart();
+
                           SharedPreferences prefs = await SharedPreferences.getInstance();
 
                          var token = prefs.getString('token') ?? '';

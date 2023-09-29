@@ -28,66 +28,62 @@ class _BodyState extends State<Body> {
   void initState() {
     // TODO: implement initState
     super.initState();
- getData();
-
+    getData();
   }
-  void getData()async{
 
+  void getData() async {
     MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
-    CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
-    if(myProvider.customerModel.customer !=null){
+    CartProvider cartProvider =
+        Provider.of<CartProvider>(context, listen: false);
+    if (myProvider.customerModel.customer != null) {
       myProvider.customerModel.customer!.addresses!.forEach((element) {
-        if(element.defaultShipping!){
-          shippingAddress=element;
+        if (element.defaultShipping!) {
+          shippingAddress = element;
         }
-        if(element.defaultBilling!){
-          billingAddress=element;
+        if (element.defaultBilling!) {
+          billingAddress = element;
         }
       });
-    }else{
+    } else {
       myProvider.getuserdata();
       myProvider.customerModel.customer!.addresses!.forEach((element) {
-        if(element.defaultShipping!){
-          shippingAddress=element;
+        if (element.defaultShipping!) {
+          shippingAddress = element;
         }
-        if(element.defaultBilling!){
-          billingAddress=element;
+        if (element.defaultBilling!) {
+          billingAddress = element;
         }
       });
-
     }
-    myProvider.graphQLService.set_shipping_address_to_cart(cartProvider.cart_token,shippingAddress!);
-    setState(() {
-
-    });
+    myProvider.graphQLService.set_shipping_address_to_cart(
+        cartProvider.cart_token, shippingAddress!);
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(
       builder: (context, provider, _) {
-
         return SingleChildScrollView(
-            padding:  EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Container(
-                margin:  EdgeInsets.only(bottom: 5),
+                margin: const EdgeInsets.only(bottom: 5),
                 child: Column(children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
-                       SizedBox(height: 20),
-
-                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      const SizedBox(height: 20),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                         child: Text(
                           'Shipping Address',
                           style: TextStyle(
                               color: headingColor, fontWeight: FontWeight.bold),
                         ),
                       ),
-
                       Padding(
-                        padding:  EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 25),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,10 +99,12 @@ class _BodyState extends State<Body> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                 Expanded(
+                                Expanded(
                                   child: Text(
-                                    shippingAddress != null?"${shippingAddress!.street![0]}\n${shippingAddress!.city}, ${shippingAddress!.city}":"",
-                                    style: TextStyle(
+                                    shippingAddress != null
+                                        ? "${shippingAddress!.street![0]}\n${shippingAddress!.city}, ${shippingAddress!.city}"
+                                        : "",
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 13,
                                         height: 1.5,
@@ -121,7 +119,8 @@ class _BodyState extends State<Body> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const AddEditAddress()),
+                                          builder: (context) =>
+                                              const AddEditAddress()),
                                     );
                                   },
                                   child: const Row(
@@ -144,20 +143,18 @@ class _BodyState extends State<Body> {
                           ],
                         ),
                       ),
-
                       const SizedBox(
                         height: 20,
                       ),
-
                       const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                         child: Text(
                           'Billing Address',
                           style: TextStyle(
                               color: headingColor, fontWeight: FontWeight.bold),
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 25),
@@ -167,10 +164,12 @@ class _BodyState extends State<Body> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                 Expanded(
+                                Expanded(
                                   child: Text(
-                                    billingAddress != null?"${billingAddress!.street![0]}\n${billingAddress!.city}, ${billingAddress!.city}":"",
-                                    style: TextStyle(
+                                    billingAddress != null
+                                        ? "${billingAddress!.street![0]}\n${billingAddress!.city}, ${billingAddress!.city}"
+                                        : "",
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 13,
                                         height: 1.5,
@@ -185,7 +184,8 @@ class _BodyState extends State<Body> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const AddEditAddress()),
+                                          builder: (context) =>
+                                              const AddEditAddress()),
                                     );
                                   },
                                   child: const Row(
@@ -208,20 +208,18 @@ class _BodyState extends State<Body> {
                           ],
                         ),
                       ),
-
                       const SizedBox(
                         height: 15,
                       ),
-
-                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                         child: Text(
                           'Shipping Method',
                           style: TextStyle(
                               color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                       ),
-
                       ListTile(
                         title: const Text('Standard Shipping'),
                         leading: Radio<Fruit>(
@@ -234,13 +232,12 @@ class _BodyState extends State<Body> {
                           },
                         ),
                       ),
-
-                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 85),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 85),
                         child: Text(
-
-                          '₹ ${provider.cartModel.cart!.prices!.grandTotal!.value!>1000?500:0}',
-                          style: TextStyle(
+                          '₹ ${provider.cartModel.cart!.prices!.grandTotal!.value! > 1000 ? 500 : 0}',
+                          style: const TextStyle(
                               color: headingColor, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -261,14 +258,10 @@ class _BodyState extends State<Body> {
                           height: 200, width: 200),
                     ),
                   ),*/
-
                     ],
                   ),
-
                 ])));
-
       },
     );
-
   }
 }

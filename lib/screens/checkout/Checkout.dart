@@ -54,6 +54,7 @@ class _MyHomePageState extends State<CheckoutCard> {
     * 2. Error Description
     * 3. Metadata
     * */
+    graphQLService.place_order();
 
     Fluttertoast.showToast(msg: "Payment failed");
 
@@ -67,7 +68,7 @@ class _MyHomePageState extends State<CheckoutCard> {
     * 2. Payment ID
     * 3. Signature
     * */
-    graphQLService.place_order(cart_token: '');
+    graphQLService.place_order();
 
     // Navigation
 
@@ -170,15 +171,18 @@ class _MyHomePageState extends State<CheckoutCard> {
                             var options = {
                               'key': 'rzp_test_1RBFegXl5eMjV2',
                               'amount': "${(25456) * 100}",
-                              'name': 'OMA Living',
+                              'name': 'OMA Test Payment.',
+                              "timeout": "180",
+                              "currency": "INR",
                               'description': 'Fine T-Shirt',
                               'retry': {'enabled': true, 'max_count': 1},
                               'send_sms_hash': true,
                               'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
                               'external': {
-                                'wallets': ['paytm']
+                                'wallets': ["paytm"]
                               }
                             };
+
                             razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
                             razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlePaymentSuccessResponse);
                             razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handleExternalWalletSelected);
