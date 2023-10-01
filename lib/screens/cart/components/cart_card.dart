@@ -227,7 +227,12 @@ class _BodyState extends State<CartCard> {
                       cartProvider!.removeItem(widget.item!.id!);
                       cartProvider!.addToWishList(
                           sku: widget.item!.product!.sku!,
-                          qty: widget.item!.quantity!.toString());
+                          qty: widget.item!.quantity!.toString(),
+                          // wishlistId:''
+
+                      );
+
+
                     }
                   },
                   child: const Row(

@@ -272,8 +272,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               separatorBuilder: (BuildContext context, int index) {
-                return const Divider(
-                  color: textColor,
+                return  Divider(
+                  color: navHeaderList[index]['include_in_menu'] !=1?Colors.transparent:textColor,
                   thickness: 0.3,
                 );
               },
@@ -351,6 +351,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                 [itemIndex]['name']);
                                         myProvider.isproduct = true;
                                         myProvider.notifyListeners();
+                                        context.go('/home/pdp');
 
                                         // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
                                       },
@@ -408,6 +409,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                         .toString());
                                                 myProvider.isproduct = true;
                                                 myProvider.notifyListeners();
+                                                context.go('/home/pdp');
+
                                               },
                                               title: Text(
                                                 navHeaderList[index]['children']

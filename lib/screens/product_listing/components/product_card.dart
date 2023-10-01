@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/models/ProductListJson.dart';
+import 'package:omaliving/screens/provider/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../API Services/graphql_service.dart';
@@ -36,6 +39,15 @@ class _ProductCardState extends State<ProductCard> {
   // create_cart
 
   int _selected = 0;
+  MyProvider? myProvider;
+   String? wishListID;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    myProvider = Provider.of<MyProvider>(context, listen: false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -271,15 +283,44 @@ class _ProductCardState extends State<ProductCard> {
                 )
               ],
             ),
-            const Positioned(
+             Positioned(
                 top: 0,
                 right: 5,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: blackColor,
-                    size: 22,
+                child: InkWell(
+                  onTap: () async{
+
+                    if(myProvider!.customerModel?.customer?.email != null){
+                      if(widget.item!.wishlist ==0){
+                        widget.item!.wishlist =1;
+                        dynamic listData = await graphQLService
+                            .add_Product_from_wishlist(
+                          wishlistId: myProvider!.customerModel.customer!.wishlists![0].id!,
+                          sku: widget.item!.sku.toString(),
+                          qty:"1",
+                        );
+                      }else{
+                        widget.item!.wishlist =0;
+                        dynamic listData = await graphQLService
+                            .remove_Product_from_wishlist(
+                            wishlistId: myProvider!.customerModel.customer!.wishlists![0].id!,
+                            wishlistItemsIds: widget.item!.id.toString());
+
+                      }
+                      setState(() {
+
+                      });
+
+                    }else{
+                      Fluttertoast.showToast(msg: 'Please Login for wishlist an item');
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
+                    child: Icon(
+                      widget.item!.wishlist ==0?Icons.favorite_border:Icons.favorite,
+                      color: blackColor,
+                      size: 22,
+                    ),
                   ),
                 )),
           ],

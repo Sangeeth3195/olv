@@ -164,9 +164,11 @@ class Item {
   List<DynamicAttribute> dynamicAttributes;
   String urlKey;
   SmallImage smallImage;
+  int wishlist=0;
 
   Item({
     required this.id,
+    required this.wishlist,
     required this.name,
     required this.typename,
     required this.sku,
@@ -182,6 +184,7 @@ class Item {
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
     id: json["id"],
+    wishlist: json["wishlist"]??0,
     name: json["name"],
     typename: json["__typename"],
     sku: json["sku"],
@@ -276,7 +279,7 @@ class Value {
     typename: json["__typename"],
     valueIndex: json["value_index"],
     label: json["label"],
-    swatchData: SwatchData.fromJson(json["swatch_data"]),
+    swatchData: json["swatch_data"]==null?SwatchData(typename: 'typename', value: 'value'):SwatchData.fromJson(json["swatch_data"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -556,7 +559,7 @@ class Product {
     name: json["name"],
     sku: json["sku"],
     attributeSetId: json["attribute_set_id"],
-    weight: json["weight"],
+    weight: json["weight"]??0,
     priceRange: PriceRange.fromJson(json["price_range"]),
   );
 

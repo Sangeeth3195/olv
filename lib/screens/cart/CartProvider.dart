@@ -54,7 +54,7 @@ class CartProvider with ChangeNotifier {
   }
 
   void addToWishList({required String sku, required String qty}) async{
-    await graphQLService.add_Product_from_wishlist(sku: sku,qty: qty);
+    await graphQLService.add_Product_from_wishlist(sku: sku,qty: qty,wishlistId: '');
     getCartData();
   }
 

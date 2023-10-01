@@ -1883,11 +1883,11 @@ class GraphQLService {
 
   /// Add Product to Wishlist
   static String addProductfromwishlist(
-      {required String sku, required String qty}) {
+      {required String sku, required String qty, required String wishlistId}) {
     return '''
             mutation {
                   addProductsToWishlist(
-                    wishlistId: 
+                wishlistId: $wishlistId
                     wishlistItems: [
                       {
                         sku: "$sku"
@@ -1967,18 +1967,18 @@ class GraphQLService {
   }
 
   Future<String> add_Product_from_wishlist(
-      {required String sku, required String qty}) async {
+      {required String sku, required String qty,required String wishlistId,}) async {
     try {
       print(sku);
       print(qty);
 
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(addProductfromwishlist(sku: sku, qty: qty)), // this
+          document: gql(addProductfromwishlist(sku: sku, qty: qty,wishlistId: wishlistId)), // this
         ),
       );
 
-      log(addProductfromwishlist(sku: sku, qty: qty).toString());
+      log(addProductfromwishlist(sku: sku, qty: qty,wishlistId: wishlistId).toString());
 
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);

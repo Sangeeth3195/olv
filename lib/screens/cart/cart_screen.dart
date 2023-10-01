@@ -273,7 +273,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
                               Text(
-                                '₹ ${widget.cartModel.cart!.prices!.grandTotal!.value!>1000?500:0}',
+                                '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value!>10000?0:500}',
                                 style: const TextStyle(color: Colors.black),
                               ),
                             ]),
