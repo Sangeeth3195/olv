@@ -404,7 +404,6 @@ class GraphQLService {
   }
 
   Future<dynamic> getproductdescription({
-    required int limit,
     required String id,
   }) async {
     try {
@@ -417,9 +416,11 @@ class GraphQLService {
                     products(filter: { sku: { eq: "$id" } }) {
                       items {
                         id
+                        care
                         detail
                         length
                         width
+                        size
                         height
                         diameter
                         overall
@@ -438,13 +439,13 @@ class GraphQLService {
                         manufacturer
                         canonical_url
                         price_range{
-                          minimum_price{
-                            regular_price{
-                              value
-                              currency
-                            }
-                          }
-                        }
+                                minimum_price{
+                                  regular_price{
+                                    value
+                                    currency
+                                  }
+                                }
+                              }
                         getPriceRange{
                               oldpricevalue  
                               normalpricevalue
@@ -525,6 +526,18 @@ class GraphQLService {
                               ... on PhysicalProductInterface {
                                 weight
                               }
+                              description {
+                          html
+                        }
+                        short_description {
+                          html
+                        }
+                              media_gallery {
+                                      url
+                                      label
+                                      position
+                                      disabled
+                                  }
                               price_range{
                                 minimum_price{
                                   regular_price{
@@ -616,43 +629,45 @@ class GraphQLService {
                             value
                           }
                         }
-                        related_products {
-                          id
-                          name
-                          sku
-                          media_gallery {
-                                url
-                                label
-                                position
-                                disabled
-                                ... on ProductVideo {
-                                  video_content {
-                                    media_type
-                                    video_provider
-                                    video_url
-                                    video_title
-                                    video_description
-                                    video_metadata
-                                  }
-                                }
-                              }
-                          getPriceRange{
-                              oldpricevalue  
-                              normalpricevalue
-                            }
-                           price_range{
-                                minimum_price{
-                                  regular_price{
-                                    value
-                                    currency
-                                  }
-                                }
-                              }
-                        }
+                       related_products {
+                                            id
+                                            name
+                                            sku
+                                            media_gallery {
+                                                  url
+                                                  label
+                                                  position
+                                                  disabled
+                                                  ... on ProductVideo {
+                                                    video_content {
+                                                      media_type
+                                                      video_provider
+                                                      video_url
+                                                      video_title
+                                                      video_description
+                                                      video_metadata
+                                                    }
+                                                  }
+                                                }
+                                            getPriceRange{
+                                                oldpricevalue  
+                                                normalpricevalue
+                                              }
+                                             price_range{
+                                                  minimum_price{
+                                                    regular_price{
+                                                      value
+                                                      currency
+                                                    }
+                                                  }
+                                                }
+                                          }
                         upsell_products {
                           id
                           name
                           sku
+                          url_key
+                          __typename
                         }
                         crosssell_products {
                           id
@@ -690,9 +705,6 @@ class GraphQLService {
                     }
                   }
             """),
-          variables: {
-            'limit': limit,
-          },
         ),
       );
 
@@ -714,9 +726,7 @@ class GraphQLService {
     }
   }
 
-  Future<List<dynamic>> productsearch({
-    required int limit,
-  }) async {
+  Future<List<dynamic>> productsearch() async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -899,9 +909,7 @@ class GraphQLService {
                   }
                 }
             """),
-          variables: {
-            'limit': limit,
-          },
+
         ),
       );
 
@@ -1886,83 +1894,59 @@ class GraphQLService {
       {required String sku, required String qty, required String wishlistId}) {
     return '''
             mutation {
-                  addProductsToWishlist(
-                wishlistId: $wishlistId
-                    wishlistItems: [
-                      {
-                        sku: "$sku"
-                        quantity: $qty
-                      }
-                    ]
-                  ) {
-                    wishlist {
-                        items_count
-                        sharing_code
-                        updated_at
-                        items {
+            addProductsToWishlist(
+              wishlistId: "$wishlistId"
+              wishlistItems: [
+                {
+                  sku: "$sku"
+                  quantity: 1
+                }      
+              ]
+            ) {
+              wishlist {
+                id
+                items_count
+                items_v2 (currentPage: 1, pageSize: 8 ) {
+                  items {
+                    id
+                    quantity
+                    ... on BundleWishlistItem {
+                      bundle_options {
+                        values {
                           id
-                          qty
-                          description
-                          added_at
-                          product {
-                            sku
-                            name
-                            media_gallery {
-                          url
                           label
-                          position
-                          disabled
-                          ... on ProductVideo {
-                            video_content {
-                              media_type
-                              video_provider
-                              video_url
-                              video_title
-                              video_description
-                              video_metadata
-                            }
+                          quantity
+                        }
+                      }
+                    }
+                    product {
+                      uid
+                      name
+                      sku
+                      price_range {
+                        minimum_price {
+                          regular_price {
+                            currency
+                            value
                           }
                         }
-                            ... on BundleProduct {
-                              sku
-                              dynamic_sku
-                            }
-                            ... on ConfigurableProduct {
-                              sku
-                              configurable_options {
-                                id
-                                attribute_id_v2
-                                attribute_code
-                                label
-                                __typename
-                                use_default
-                                values {
-                                  store_label
-                                  swatch_data {
-                                    value
-                                  }
-                                  use_default_value
-                                }
-                              }
-                            }
-                            price_range{
-                                minimum_price{
-                                  regular_price{
-                                    value
-                                    currency
-                                  }
-                                }
-                              }
+                        maximum_price {
+                          regular_price {
+                            currency
+                            value
                           }
                         }
                       }
-                    user_errors {
-                      code
-                      message
                     }
                   }
                 }
-
+              }
+              user_errors {
+                code
+                message
+              }
+            }
+          }
         ''';
   }
 
@@ -2095,12 +2079,12 @@ class GraphQLService {
           .toString());
 
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
         Fluttertoast.showToast(
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
         log(jsonEncode(result.data));
-
         EasyLoading.dismiss();
       }
 
@@ -2127,6 +2111,39 @@ class GraphQLService {
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(crt_cart()), // this
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        print(result.data?['createEmptyCart']);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('cart_token', result.data?['createEmptyCart']);
+      }
+
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// Step 1.1 - Create Cart Logged In User
+  static String crt_cart_Logged_in() {
+    return '''
+             query Query {
+                customerCart{
+                  id
+                }
+              }
+        ''';
+  }
+
+  Future<String> crt_cart_Logged_In() async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(crt_cart_Logged_in()), // this
         ),
       );
       if (result.hasException) {
@@ -2240,8 +2257,10 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
+        EasyLoading.dismiss();
         print(result.data);
       }
 
@@ -2691,7 +2710,7 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> assign_Customer_To_Guest_Cart(
+    Future<String> assign_Customer_To_Guest_Cart(
     String cart_token,
   ) async {
     try {
@@ -2703,7 +2722,8 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['customerCart']['id']);
+        print('result.data');
+        print(result.data);
       }
 
       return "";

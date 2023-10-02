@@ -48,7 +48,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-
   GraphQLService graphQLService = GraphQLService();
   CartProvider? cartProvider;
   void initState() {
@@ -60,8 +59,7 @@ class _CartScreenState extends State<CartScreen> {
     cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     cartProvider!.getCartData();
-    if (kDebugMode) {
-    }
+    if (kDebugMode) {}
 
     graphQLService.get_cart_list();
   }
@@ -70,17 +68,22 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(
       builder: (context, provider, _) {
-        if(provider.cartModel.cart==null||cartProvider!.cartModel.cart==null||cartProvider!.cartModel.cart!.items==null){
-          return const Center(child: Text('No Cart'),);
+        if (provider.cartModel.cart == null ||
+            cartProvider!.cartModel.cart == null ||
+            cartProvider!.cartModel.cart!.items == null) {
+          return const Center(
+            child: Text('No Cart'),
+          );
         }
-        return  Scaffold(
-          body: Body(cartModel:provider.cartModel),
-          bottomNavigationBar: CheckoutCard(cartModel:provider.cartModel,cartProvider: cartProvider!,),
+        return Scaffold(
+          body: Body(cartModel: provider.cartModel),
+          bottomNavigationBar: CheckoutCard(
+            cartModel: provider.cartModel,
+            cartProvider: cartProvider!,
+          ),
         );
-
       },
     );
-
   }
 }
 
@@ -88,8 +91,10 @@ class CheckoutCard extends StatefulWidget {
   final CartModel cartModel;
   final CartProvider cartProvider;
 
-  const CheckoutCard( {
-    Key? key, required this.cartModel, required this.cartProvider,
+  const CheckoutCard({
+    Key? key,
+    required this.cartModel,
+    required this.cartProvider,
   }) : super(key: key);
 
   @override
@@ -97,7 +102,7 @@ class CheckoutCard extends StatefulWidget {
 }
 
 class _CheckoutCardState extends State<CheckoutCard> {
-  TextEditingController applyCouponController=TextEditingController();
+  TextEditingController applyCouponController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -167,7 +172,10 @@ class _CheckoutCardState extends State<CheckoutCard> {
                       children: <Widget>[
                         Expanded(
                           child: TextField(
-                            enabled: widget.cartModel.cart!.prices!.discounts!.isEmpty?true:false,
+                            enabled: widget
+                                    .cartModel.cart!.prices!.discounts!.isEmpty
+                                ? true
+                                : false,
                             controller: applyCouponController,
                             onSubmitted: (s) {},
                             decoration: const InputDecoration(
@@ -191,20 +199,25 @@ class _CheckoutCardState extends State<CheckoutCard> {
                                 // shape: const StadiumBorder(),
                               ),
                               onPressed: () {
-                                if(widget.cartModel.cart!.prices!.discounts!.isNotEmpty){
+                                if (widget.cartModel.cart!.prices!.discounts!
+                                    .isNotEmpty) {
                                   widget.cartProvider.removeApplyCouponCode();
                                   applyCouponController.clear();
                                   return;
                                 }
-                                if(applyCouponController.text.isEmpty){
-                                  Fluttertoast.showToast(msg: 'Please enter coupon');
+                                if (applyCouponController.text.isEmpty) {
+                                  Fluttertoast.showToast(
+                                      msg: 'Please enter coupon');
                                   return;
                                 }
-                                widget.cartProvider.setapplyCouponCode(applyCouponController.text);
+                                widget.cartProvider.setapplyCouponCode(
+                                    applyCouponController.text);
                               },
-                              child:  Text(
-                                widget.cartModel.cart!.prices!.discounts!.isEmpty?'Apply':'Cancel',
-
+                              child: Text(
+                                widget.cartModel.cart!.prices!.discounts!
+                                        .isEmpty
+                                    ? 'Apply'
+                                    : 'Cancel',
                                 style: const TextStyle(
                                     fontSize: 15.0, color: Colors.white),
                               ),
@@ -226,7 +239,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                     const SizedBox(
                       height: 15,
                     ),
-                     Row(
+                    Row(
                       children: <Widget>[
                         const Expanded(
                           // Place `Expanded` inside `Row`
@@ -255,7 +268,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                     const SizedBox(
                       height: 5,
                     ),
-                     Row(
+                    Row(
                       children: <Widget>[
                         const Expanded(
                           // Place `Expanded` inside `Row`
@@ -273,7 +286,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
                               Text(
-                                '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value!>10000?0:500}',
+                                '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value! > 10000 ? 0 : 500}',
                                 style: const TextStyle(color: Colors.black),
                               ),
                             ]),
@@ -284,7 +297,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                     const SizedBox(
                       height: 5,
                     ),
-                     Row(
+                    Row(
                       children: <Widget>[
                         const Expanded(
                           // Place `Expanded` inside `Row`
@@ -302,7 +315,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
                               Text(
-                                '- ₹ ${widget.cartModel.cart!.prices!.discounts!.isEmpty?0:widget.cartModel.cart!.prices!.discounts![0].amount!.value}',
+                                '- ₹ ${widget.cartModel.cart!.prices!.discounts!.isEmpty ? 0 : widget.cartModel.cart!.prices!.discounts![0].amount!.value}',
                                 style: const TextStyle(color: Colors.black),
                               ),
                             ]),
@@ -317,7 +330,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                       // color: const Color(0xFFFFF2E1),
                       color: kPrimaryLightColor,
                       height: 50,
-                      child:  Padding(
+                      child: Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: Row(
                           children: <Widget>[
@@ -336,7 +349,8 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             SizedBox(
                               height: 30, // <-- Your height
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
                                 child: Row(children: [
                                   Text(
                                     '₹ ${widget.cartModel.cart!.prices!.grandTotal!.value.toString()}',
@@ -355,7 +369,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                     SizedBox(
                       child: DefaultButton(
                         text: "Continue to Checkout",
-                        press: () async{
+                        press: () async {
                           final myProvider =
                               Provider.of<MyProvider>(context, listen: false);
                           myProvider.navBar = true;
@@ -364,22 +378,24 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           /// set payment to cart
                           widget.cartProvider.setpaymentoncart();
 
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
 
-                         var token = prefs.getString('token') ?? '';
+                          var token = prefs.getString('token') ?? '';
 
                           if (token.isEmpty) {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const LoginPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
                             );
                           } else {
-                            CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+                            CartProvider cartProvider =
+                                Provider.of<CartProvider>(context,
+                                    listen: false);
 
                             context.go('/cart/continue');
-
                           }
-
                         },
                       ),
                     ),

@@ -34,10 +34,12 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> navHeaderList = [];
+  late var test;
   late DateTime currentBackPressTime;
 
   int catId = 10071;
   String token = '';
+  String cart_token = '';
   BuildContext? selectedContext;
   MyProvider? myProvider;
   int _selectedIndex = 0;
@@ -80,6 +82,10 @@ class _MainLayoutState extends State<MainLayout> {
   void getuserdata() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token') ?? '';
+
+    prefs =
+    await SharedPreferences.getInstance();
+    cart_token = prefs.getString('cart_token') ?? '';
   }
 
   final PersistentTabController _controller =
@@ -136,6 +142,7 @@ class _MainLayoutState extends State<MainLayout> {
             ),
             onPressed: () {
               /*getNavdata();*/
+
               _controller.jumpToTab(2);
             },
           ),
@@ -145,7 +152,13 @@ class _MainLayoutState extends State<MainLayout> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: GestureDetector(
-              onTap: () {
+              onTap: () async {
+
+               print('object');
+               print(cart_token);
+
+                test = await graphQLService.assign_Customer_To_Guest_Cart(cart_token);
+
                 token.isEmpty
                     ? Navigator.push(
                         context,

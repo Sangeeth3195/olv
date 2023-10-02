@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/models/ProductListJson.dart';
 import 'package:omaliving/screens/provider/provider.dart';
@@ -261,7 +262,7 @@ class _ProductCardState extends State<ProductCard> {
                         : Container(),
                     GestureDetector(
                       onTap: () async {
-
+                        EasyLoading.show(status: 'loading...');
                         graphQLService.addProductToCart(
                           widget.item!.sku.toString(),
                           '1',

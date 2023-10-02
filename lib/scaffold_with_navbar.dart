@@ -33,6 +33,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   int _selectedIndex = 0;
   int selectedPageIndex = 0;
   late TabController _tabController;
+  String cart_token = '';
+  var test;
 
   @override
   void initState() {
@@ -161,11 +163,17 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
+              onTap: () async {
+
+                print('object');
+                print(cart_token);
+
+                test = await graphQLService.assign_Customer_To_Guest_Cart("Xc357qa7yfvOEhyw8S1P7QkYyAQ3CIdP");
+
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const LoginPage()),
+                // );
               },
               child: const CircleAvatar(
                 backgroundColor: Colors.black,
@@ -478,12 +486,26 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   }
 
   void _onTap(index) async {
+
     if(index==3){
      CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
 
      cartProvider.getCartData();
 
     }
+
+    if(index==2){
+
+      if (token.isNotEmpty) {
+
+        CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+        cartProvider.getCartData();
+      }
+
+    }
+
+
     if (index == 2 || index == 4) {
       await getuserdata();
       if (token.isEmpty) {
