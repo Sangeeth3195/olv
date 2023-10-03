@@ -139,7 +139,7 @@ class _BodyState extends State<Body> {
                                     context.go('/home/pdp');
                                   },
                                   child: Image.network(
-                                    "https://staging2.omaliving.com/${item.attachmentmob!}",
+                                    "https://staging2.omaliving.com${item.attachmentmob!}",
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -190,7 +190,7 @@ class _BodyState extends State<Body> {
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(0.0)),
                                 child: Image.network(
-                                    "https://staging2.omaliving.com/${url.attachment!}",
+                                    "https://staging2.omaliving.com${url.attachment!}",
                                     fit: BoxFit.cover,
                                     width: 1000.0),
                               ),
@@ -225,7 +225,7 @@ class _BodyState extends State<Body> {
                               context.go('/home/pdp');
                             },
                             child: Image.network(
-                              "https://staging2.omaliving.com/${item.attachmentmob!}",
+                              "https://staging2.omaliving.com${item.attachmentmob!}",
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -271,7 +271,7 @@ class _BodyState extends State<Body> {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(0.0)),
                               child: Image.network(
-                                  "https://staging2.omaliving.com/${url.attachment!}",
+                                  "https://staging2.omaliving.com${url.attachment!}",
                                   fit: BoxFit.cover,
                                   width: 1000.0),
                             ),
@@ -321,7 +321,7 @@ class _BodyState extends State<Body> {
                               context.go('/home/pdp');
                             },
                             child: Image.network(
-                              "https://staging2.omaliving.com/${item.attachmentmob!}",
+                              "https://staging2.omaliving.com${item.attachmentmob!}",
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -378,7 +378,7 @@ class _BodyState extends State<Body> {
                               context.go('/home/pdp');
                             },
                             child: Image.network(
-                              "https://staging2.omaliving.com/${item.attachment!}",
+                              "https://staging2.omaliving.com${item.attachment!}",
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -412,7 +412,7 @@ class _BodyState extends State<Body> {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(0.0)),
                               child: Image.network(
-                                  "https://staging2.omaliving.com/${url.attachment!}",
+                                  "https://staging2.omaliving.com${url.attachment!}",
                                   fit: BoxFit.cover,
                                   width: 1000.0),
                             ),
@@ -469,7 +469,7 @@ class _BodyState extends State<Body> {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(0.0)),
                               child: Image.network(
-                                  "https://staging2.omaliving.com/${url.attachment!}",
+                                  "https://staging2.omaliving.com${url.attachment!}",
                                   fit: BoxFit.cover,
                                   width: 1000.0),
                             ),
@@ -501,7 +501,7 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(10, 15, 10, 5),
                       child: Center(
                         child: Text(
-                          'homePageModel.getHomePageData![9].title==null?homePageModel.getHomePageData?[9].title',
+                          homePageModel.getHomePageData![9].title!,
                           textAlign: TextAlign.center,
                           style:
                               Theme.of(context).textTheme.subtitle1!.copyWith(
@@ -520,7 +520,7 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
                       child: Center(
                         child: Text(
-                          'homePageModel.getHomePageData![9].description!',
+                          homePageModel.getHomePageData![9].description!,
                           textAlign: TextAlign.center,
                           style:
                               Theme.of(context).textTheme.subtitle1!.copyWith(
