@@ -1023,6 +1023,11 @@ class GraphQLService {
         prefs.setString(
             'token', result.data?['generateCustomerToken']['token']);
 
+
+        var cartToken=prefs.getString('cart_token');
+        if(cartToken?.isNotEmpty==true){
+          assign_Customer_To_Guest_Cart(cartToken!);
+        }
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
 
@@ -2108,17 +2113,25 @@ class GraphQLService {
 
   Future<String> create_cart() async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var cartToken=prefs.getString('token');
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(crt_cart()), // this
+          document: gql(cartToken?.isNotEmpty==true?crt_cart_Logged_in():crt_cart()), // this
         ),
       );
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['createEmptyCart']);
+        print(result.data);
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('cart_token', result.data?['createEmptyCart']);
+        if(cartToken?.isNotEmpty==true){
+          prefs.setString('cart_token', result.data?['customerCart']['id']);
+
+        }else{
+          prefs.setString('cart_token', result.data?['createEmptyCart']);
+
+        }
       }
 
       return "";

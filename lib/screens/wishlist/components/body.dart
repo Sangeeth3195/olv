@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:omaliving/models/CustomerModel.dart';
+import 'package:omaliving/screens/provider/provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../API Services/graphql_service.dart';
 import '../../../components/size_config.dart';
@@ -18,9 +20,11 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  GraphQLService graphQLService = GraphQLService();
   List<dynamic> wishList = [];
-  CustomerModel customerModel = CustomerModel();
+
+  GraphQLService graphQLService = GraphQLService();
+  MyProvider? myProvider;
+
 
   void initState() {
     // TODO: implement initState
@@ -29,36 +33,37 @@ class _BodyState extends State<Body> {
   }
 
   void getuserdata() async {
-    EasyLoading.show(status: 'loading...');
-    customerModel = await graphQLService.get_customer_details();
+    myProvider = Provider.of<MyProvider>(context, listen: false);
 
-    print('wishlist id');
-
-    print(customerModel.customer?.wishlists?[0].id);
-
-    print(customerModel.customer!.wishlist!.items!.length);
-    setState(() {});
+    myProvider!.getuserdata();
+    myProvider!.notifyListeners();
   }
 
   @override
   Widget build(BuildContext context) {
-    return (customerModel.customer == null ||
-            customerModel.customer!.wishlist == null ||
-            customerModel.customer!.wishlist!.items == null)
-        ? const Center(child: CircularProgressIndicator())
-        : Container(
-            margin:
-                const EdgeInsets.only(bottom: 55, left: 5, right: 5, top: 5),
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 0.8),
-              itemBuilder: (context, position) {
-                return gridItem(context, position,
-                    customerModel.customer!.wishlist!.items![position]);
-              },
-              itemCount: customerModel.customer!.wishlist!.items!.length,
-            ),
-          );
+    return Consumer<MyProvider>(
+      builder: (context, provider, _) {
+        return (myProvider!.customerModel.customer == null ||
+            myProvider!.customerModel.customer!.wishlist == null ||
+            myProvider!.customerModel.customer!.wishlist!.items == null)
+            ? const Center(child: CircularProgressIndicator())
+            : Container(
+          margin:
+          const EdgeInsets.only(bottom: 55, left: 5, right: 5, top: 5),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, childAspectRatio: 0.8),
+            itemBuilder: (context, position) {
+              return gridItem(context, position,
+                  myProvider!.customerModel.customer!.wishlist!.items![position]);
+            },
+            itemCount: myProvider!.customerModel.customer!.wishlist!.items!.length,
+          ),
+        );
+
+      },
+    );
+
   }
 
   gridItem(BuildContext context, int position, wishList) {
@@ -87,7 +92,7 @@ class _BodyState extends State<Body> {
                         children: <Widget>[
                           Expanded(
                             child: Image(
-                              image: NetworkImage(customerModel
+                              image: NetworkImage(myProvider!.customerModel
                                   .customer!
                                   .wishlist!
                                   .items![position]
@@ -101,19 +106,23 @@ class _BodyState extends State<Body> {
                           GestureDetector(
                             onTap: () async {
                               if (kDebugMode) {
-                                print(customerModel
+                                print(myProvider!.customerModel
                                     .customer!.wishlist!.items![position].id
                                     .toString());
 
                                 dynamic listData = await graphQLService
                                     .remove_Product_from_wishlist(
-                                        wishlistId: customerModel.customer!.wishlists![0].id!,
-                                        wishlistItemsIds: customerModel
+                                        wishlistId: myProvider!.customerModel.customer!.wishlists![0].id!,
+                                        wishlistItemsIds: myProvider!.customerModel
                                             .customer!
                                             .wishlist!
                                             .items![position]
                                             .id
                                             .toString());
+                                EasyLoading.show();
+                                myProvider!.getuserdata();
+                                EasyLoading.show();
+
                               }
                             },
                             child: const Icon(
@@ -133,7 +142,7 @@ class _BodyState extends State<Body> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Text(
-                    customerModel.customer!.wishlist!.items![position].product!
+                    myProvider!.customerModel.customer!.wishlist!.items![position].product!
                             .name ??
                         '',
                     style: const TextStyle(
@@ -155,7 +164,7 @@ class _BodyState extends State<Body> {
                       Padding(
                         padding: const EdgeInsets.only(right: 10.0),
                         child: Text(
-                          "₹ ${customerModel.customer!.wishlist!.items![position].product!.priceRange!.minimumPrice!.regularPrice!.value.toString()}",
+                          "₹ ${myProvider!.customerModel.customer!.wishlist!.items![position].product!.priceRange!.minimumPrice!.regularPrice!.value.toString()}",
                           style: const TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 14.0),
                         ),

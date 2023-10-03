@@ -23,26 +23,21 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        padding:  const EdgeInsets.symmetric(vertical: 0),
-        child: Container(
-          margin:  const EdgeInsets.only(bottom: 5),
-          child: Column(
-            children: [
-              Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(10)),
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: widget.cartModel.cart!.items!.length,
-                    itemBuilder: (context, index) =>  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      child: CartCard(item: widget.cartModel.cart!.items![index]),
-                    ),
-                  )),
-            ],
-          ),
-        ));
+    return Container(
+      margin:  const EdgeInsets.only(bottom: 5),
+
+      child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: getProportionateScreenWidth(10)),
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: widget.cartModel.cart!.items!.length,
+            itemBuilder: (context, index) =>  Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: CartCard(item: widget.cartModel.cart!.items![index]),
+            ),
+          )),
+    );
   }
 }

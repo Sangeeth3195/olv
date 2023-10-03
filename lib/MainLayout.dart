@@ -157,7 +157,7 @@ class _MainLayoutState extends State<MainLayout> {
                print('object');
                print(cart_token);
 
-                test = await graphQLService.assign_Customer_To_Guest_Cart(cart_token);
+                // test = await graphQLService.assign_Customer_To_Guest_Cart(cart_token);
 
                 token.isEmpty
                     ? Navigator.push(

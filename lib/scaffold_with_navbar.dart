@@ -168,7 +168,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 print('object');
                 print(cart_token);
 
-                test = await graphQLService.assign_Customer_To_Guest_Cart("Xc357qa7yfvOEhyw8S1P7QkYyAQ3CIdP");
+                // test = await graphQLService.assign_Customer_To_Guest_Cart("Xc357qa7yfvOEhyw8S1P7QkYyAQ3CIdP");
 
                 // Navigator.push(
                 //   context,
@@ -508,6 +508,9 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
 
     if (index == 2 || index == 4) {
       await getuserdata();
+      MyProvider cartProvider = Provider.of<MyProvider>(context, listen: false);
+
+      myProvider!.getuserdata();
       if (token.isEmpty) {
         Navigator.push(
           context,
