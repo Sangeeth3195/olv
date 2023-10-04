@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/models/Product_detail.dart';
 import 'package:omaliving/screens/details/components/product_images.dart';
 import 'package:omaliving/screens/provider/provider.dart';
@@ -26,9 +28,9 @@ class ProductDescription extends StatefulWidget {
 }
 
 class _ProductDescriptionState extends State<ProductDescription> {
-  int quantity = 0;
-
+  int quantity = 1;
   GraphQLService graphQLService = GraphQLService();
+  MyProvider? myProvider;
   bool _isExpanded = false;
 
   void incrementQuantity() {
@@ -47,9 +49,11 @@ class _ProductDescriptionState extends State<ProductDescription> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    myProvider = Provider.of<MyProvider>(context, listen: false);
     if (kDebugMode) {
       print('name --> ' + widget.product['name']);
       print('id --> ${widget.product['id']}');
+
     }
   }
 
@@ -96,8 +100,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         ? provider.productData[0]['price_range']
                                 ['minimum_price']['regular_price']['value']
                             .toString()
-                          : '₹' +
-                              "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}"
+                        : '₹' +
+                            "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}"
                                 " - " +
                             '₹' +
                             "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
@@ -136,10 +140,10 @@ class _ProductDescriptionState extends State<ProductDescription> {
               const SizedBox(
                 height: 18,
               ),
-
-              provider.productData[0]['configurable_options']!=null && provider.productData[0]['configurable_options'][0]['values'][0]
-                          ['attribute_code'] ==
-                      "size"
+              provider.productData[0]['configurable_options'] != null &&
+                      provider.productData[0]['configurable_options'][0]
+                              ['values'][0]['attribute_code'] ==
+                          "size"
                   ? Row(
                       children: [
                         Padding(
@@ -238,7 +242,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ],
                     )
                   : Container(),
-
               provider.productData[0]['__typename'] == "ConfigurableProduct"
                   ? Row(
                       children: [
@@ -338,11 +341,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ],
                     )
                   : Container(),
-
               const SizedBox(
                 height: 18,
               ),
-
               provider.productData[0]['__typename'] == "ConfigurableProduct"
                   ? Row(
                       children: [
@@ -404,11 +405,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ],
                     )
                   : Container(),
-
               const SizedBox(
                 height: 18,
               ),
-
               Row(
                 children: [
                   // Padding(
@@ -422,7 +421,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     width: 12,
                   ),
                   Container(
-
                     decoration: BoxDecoration(
                       color: omaColor,
                       border: Border.all(
@@ -499,10 +497,33 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     // graphQLService.create_cart_non_user();
                     // graphQLService.create_cart();
 
-                    graphQLService.update_product_to_cart(
+                    EasyLoading.show(status: 'loading...');
+
+                    if (provider.productData[0]['configurable_options'] !=
+                        'configurable_options') {
+                      print(widget.product['sku'].toString());
+
+                      print(provider.productData[0]['variants'][0]['product']
+                          ['sku']);
+
+                      graphQLService.addProductToCart(
+                        provider.productData[0]['variants'][0]['product']
+                            ['sku'],
+                        '1',
+                      );
+                    } else {
+                      print('widget.product.toString()');
+                    }
+
+                    graphQLService.addProductToCart(
                       widget.product['sku'].toString(),
-                      quantity.toStringAsFixed(0),
+                      '1',
                     );
+
+                    // graphQLService.update_product_to_cart(
+                    //   widget.product['sku'].toString(),
+                    //   quantity.toStringAsFixed(0),
+                    // );
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(5),
@@ -514,19 +535,42 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   ),
                 ),
               ),
-              SizedBox(height: 6,),
+              const SizedBox(
+                height: 6,
+              ),
               Row(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width-80,
+                    width: MediaQuery.of(context).size.width - 80,
                     height: 40,
                     // Set the container width to occupy the full width
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 4),
                     // Adjust margins as needed
                     child: ElevatedButton(
                       onPressed: () {
-                        // Button onPressed action
+                        EasyLoading.show(status: 'loading...');
+
+                        if (provider.productData[0]['configurable_options'] !=
+                            'configurable_options') {
+                          print(widget.product['sku'].toString());
+
+                          print(provider.productData[0]['variants'][0]
+                              ['product']['sku']);
+
+                          graphQLService.addProductToCart(
+                            provider.productData[0]['variants'][0]['product']
+                                ['sku'],
+                            '1',
+                          );
+                        } else {
+                          print('widget.product.toString()');
+                        }
+
+                        graphQLService.addProductToCart(
+                          widget.product['sku'].toString(),
+                          '1',
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         side: const BorderSide(color: headingColor),
@@ -541,7 +585,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     ),
                   ),
                   Container(
-                    height: 40,
+                      height: 40,
                       // padding: const EdgeInsets.symmetric(
                       //     horizontal: 1.0,
                       //     vertical: 1), // Adjust padding as needed
@@ -554,7 +598,29 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         borderRadius: BorderRadius.circular(
                             0.0), // Adjust border radius as needed
                       ),
-                      child: IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border,color: themecolor,)))
+                      child: IconButton(
+                          onPressed: () async {
+
+
+                            print(widget.product['sku']!.toString());
+
+                            if(myProvider!.customerModel?.customer?.email != null){
+
+
+                              setState(() {
+
+                              });
+
+                            }else{
+                              Fluttertoast.showToast(msg: 'Please Login for wishlist an item');
+                            }
+
+
+                          },
+                          icon: const Icon(
+                            Icons.favorite_border,
+                            color: themecolor,
+                          )))
                 ],
               ),
               const SizedBox(
@@ -570,7 +636,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
               Padding(
                 padding: const EdgeInsets.all(5),
                 child: ExpansionTile(
-
                   onExpansionChanged: _onExpansionChanged,
                   trailing: _isExpanded
                       ? const Icon(Icons.remove) // Icon when expanded
@@ -584,9 +649,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                            product[0]['height'] == null
-                                  ? Container()
-                                  : Text('Height: ' + product[0]['height']),
+                          product[0]['height'] == null
+                              ? Container()
+                              : Text('Height: ' + product[0]['height']),
                           product[0]['diameter'] == null
                               ? Container()
                               : Text('Diameter: ' + product[0]['diameter']),
