@@ -4,6 +4,7 @@ import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:omaliving/screens/order_summary/ordersummary.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../API Services/graphql_service.dart';
 import '../../Razorpay.dart';
@@ -47,6 +48,9 @@ class _MyHomePageState extends State<CheckoutCard> {
 
   GraphQLService graphQLService = GraphQLService();
 
+  SharedPreferences? prefs;
+  var cart_token;
+
   void handlePaymentErrorResponse(PaymentFailureResponse response){
     /*
     * PaymentFailureResponse contains three values:
@@ -54,7 +58,6 @@ class _MyHomePageState extends State<CheckoutCard> {
     * 2. Error Description
     * 3. Metadata
     * */
-    graphQLService.place_order();
 
     Fluttertoast.showToast(msg: "Payment failed");
 
@@ -164,13 +167,22 @@ class _MyHomePageState extends State<CheckoutCard> {
                                 fontStyle: FontStyle.normal),
                             // shape: const StadiumBorder(),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
 
+                            prefs =
+                                await SharedPreferences.getInstance();
+                            cart_token = prefs!.getString('cart_token') ?? '';
+
+                            print(cart_token);
+
+                            graphQLService.available_payment_methods(cart_token);
+
+                            graphQLService.set_payment_to_cart(cart_token);
 
                             Razorpay razorpay = Razorpay();
                             var options = {
                               'key': 'rzp_test_1RBFegXl5eMjV2',
-                              'amount': "${(25456) * 100}",
+                              'amount': (provider.cartModel.cart!.prices!.grandTotal!.value)! * 100,
                               'name': 'OMA Test Payment.',
                               "timeout": "180",
                               "currency": "INR",

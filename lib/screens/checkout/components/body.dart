@@ -57,6 +57,10 @@ class _BodyState extends State<Body> {
     }
     myProvider.graphQLService.set_shipping_address_to_cart(
         cartProvider.cart_token, shippingAddress!);
+
+    myProvider.graphQLService.Set_billing_Address_to_cart(
+      cartProvider.cart_token,billingAddress!,);
+
     setState(() {});
   }
 

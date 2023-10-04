@@ -1014,10 +1014,12 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
+        EasyLoading.dismiss();
         print('---${result.exception!.graphqlErrors[0].message}');
         Fluttertoast.showToast(
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
+        EasyLoading.dismiss();
         print(result.data?['generateCustomerToken']['token']);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString(
@@ -2762,12 +2764,12 @@ class GraphQLService {
                             company: "${address.firstname}"
                             street: "${address.street}"
                             city: "${address.city}"
-                            region_id: "${address.regionId}"
-                            region: "${address.region!.toJson()}"
+                            region_id: ${address.regionId}
+                            region: "${address.region!.regionCode!}"
                             postcode: "${address.postcode}"
                             country_code: "${address.countryCode}"
                             telephone: "${address.telephone}"
-                            save_in_address_book: false
+                            save_in_address_book: true
                           },
                           pickup_location_code: ""
                         }
@@ -2804,6 +2806,14 @@ class GraphQLService {
 
   Future<String> set_shipping_address_to_cart(
       String cart_token, Address address) async {
+
+
+    print(address.region!.regionCode!);
+
+    print('address.regionId');
+    print(address.regionId);
+    print(address.region!.toJson());
+
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -2811,9 +2821,11 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
+        print('set address');
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['customerCart']['id']);
+        print('set address');
+        print(result.data);
       }
 
       return "";
@@ -2824,7 +2836,7 @@ class GraphQLService {
   }
 
   /// Step 6 - Set billing Address to cart
-  static String St_billing_Address_to_cart(String cart_token) {
+  static String St_billing_Address_to_cart(String cart_token, Address address) {
     return '''
             mutation {
                 setBillingAddressOnCart(
@@ -2832,16 +2844,16 @@ class GraphQLService {
                     cart_id: $cart_token
                     billing_address: {
                       address: {
-                        firstname: "John"
-                        lastname: "Doe"
-                        company: "Company Name"
-                        street: ["64 Strawberry Dr"]
-                        city: "Los Angeles"
-                        region: "AN"
-                        region_id: 533
-                        postcode: "90210"
-                        country_code: "IN"
-                        telephone: "123-456-0000"
+                        firstname: "${address.firstname}"
+                        lastname: "${address.lastname}"
+                        company: "${address.lastname}"
+                        street: "${address.street}"
+                        city: "${address.city}"
+                        region_id: ${address.regionId}
+                        region: "${address.region!.regionCode!}"
+                        postcode: "${address.postcode}"
+                        country_code: "${address.countryCode}"
+                        telephone: "${address.telephone}"
                         save_in_address_book: true
                       }
                     }
@@ -2873,11 +2885,11 @@ class GraphQLService {
   }
 
   Future<String> Set_billing_Address_to_cart(
-      {required String cart_token}) async {
+      String cart_token,Address address) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(St_billing_Address_to_cart(cart_token)), // this
+          document: gql(St_billing_Address_to_cart(cart_token,address)), // this
         ),
       );
 

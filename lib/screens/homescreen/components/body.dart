@@ -58,10 +58,14 @@ class _BodyState extends State<Body> {
       await videoPlayerController!.initialize();
       _chewieController = ChewieController(
         videoPlayerController: videoPlayerController!,
-        aspectRatio: 5 / 8,
+        aspectRatio: 16 / 7,
         autoInitialize: true,
         autoPlay: autoplay,
         looping: looping,
+        showOptions: false,
+        allowFullScreen: false,
+        fullScreenByDefault: false,
+        allowPlaybackSpeedChanging: false,
         errorBuilder: (context, errorMessage) {
           return Center(
             child: Text(
@@ -487,7 +491,7 @@ class _BodyState extends State<Body> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: AspectRatio(
-                            aspectRatio: 16 / 9,
+                            aspectRatio: 16 / 2,
                             child: Chewie(
                               controller: _chewieController!,
                             ),
