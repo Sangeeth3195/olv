@@ -3065,7 +3065,8 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data);
+
+        print('ratedata');
         log(jsonEncode(result.data));
       }
       return "";

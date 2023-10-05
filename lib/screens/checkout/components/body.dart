@@ -240,7 +240,7 @@ class _BodyState extends State<Body> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 5, horizontal: 85),
                         child: Text(
-                          '₹ ${provider.cartModel.cart!.prices!.subtotalExcludingTax!.value! > 1000 ? 500 : 0}',
+                          '₹ ${provider.cartModel.cart!.prices!.subtotalExcludingTax!.value! > 10000 ? 0 : 500}',
                           style: const TextStyle(
                               color: headingColor, fontWeight: FontWeight.bold),
                         ),
