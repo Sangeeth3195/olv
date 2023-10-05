@@ -72,8 +72,8 @@ class OrdersItem {
   PurpleTypename? typename;
   String? id;
   String? orderNumber;
-  String? status;
-  String? shippingMethod;
+  Status? status;
+  ShippingMethod? shippingMethod;
   List<PaymentMethod>? paymentMethods;
   IngAddress? shippingAddress;
   IngAddress? billingAddress;
@@ -99,8 +99,8 @@ class OrdersItem {
     typename: purpleTypenameValues.map[json["__typename"]]!,
     id: json["id"],
     orderNumber: json["order_number"],
-    status: json["status"]!,
-    shippingMethod: json["shipping_method"]!,
+    status: statusValues.map[json["status"]]!,
+    shippingMethod: shippingMethodValues.map[json["shipping_method"]]!,
     paymentMethods: json["payment_methods"] == null ? [] : List<PaymentMethod>.from(json["payment_methods"]!.map((x) => PaymentMethod.fromJson(x))),
     shippingAddress: json["shipping_address"] == null ? null : IngAddress.fromJson(json["shipping_address"]),
     billingAddress: json["billing_address"] == null ? null : IngAddress.fromJson(json["billing_address"]),
@@ -126,9 +126,9 @@ class OrdersItem {
 
 class IngAddress {
   BillingAddressTypename? typename;
-  String? firstname;
-  String? lastname;
-  List<String>? street;
+  Firstname? firstname;
+  Lastname? lastname;
+  List<Street>? street;
   City? city;
   String? telephone;
   Region? region;
@@ -147,9 +147,9 @@ class IngAddress {
 
   factory IngAddress.fromJson(Map<String, dynamic> json) => IngAddress(
     typename: billingAddressTypenameValues.map[json["__typename"]]!,
-    firstname: json["firstname"]!,
-    lastname: json["lastname"]!,
-    street: json["street"] == null ? [] : List<String>.from(json["street"]),
+    firstname: firstnameValues.map[json["firstname"]]!,
+    lastname: lastnameValues.map[json["lastname"]]!,
+    street: json["street"] == null ? [] : List<Street>.from(json["street"]!.map((x) => streetValues.map[x]!)),
     city: cityValues.map[json["city"]]!,
     telephone: json["telephone"],
     region: regionValues.map[json["region"]]!,
@@ -169,10 +169,12 @@ class IngAddress {
 }
 
 enum City {
+  BLB,
   CHENNAI
 }
 
 final cityValues = EnumValues({
+  "BLB": City.BLB,
   "Chennai": City.CHENNAI
 });
 
@@ -201,11 +203,15 @@ final regionValues = EnumValues({
 });
 
 enum Street {
+  BLB,
+  STREET_SYED_AHAMED_STREET,
   SYED_AHAMED_STREET,
   SYED_AHAMED_STREET_1
 }
 
 final streetValues = EnumValues({
+  "BLB": Street.BLB,
+  "[Syed Ahamed Street]": Street.STREET_SYED_AHAMED_STREET,
   "Syed Ahamed Street": Street.SYED_AHAMED_STREET,
   "Syed Ahamed Street-1": Street.SYED_AHAMED_STREET_1
 });
@@ -313,8 +319,8 @@ final fluffyTypenameValues = EnumValues({
 });
 
 class PaymentMethod {
-  String? typename;
-  String? name;
+  PaymentMethodTypename? typename;
+  Name? name;
 
   PaymentMethod({
     this.typename,
@@ -322,8 +328,8 @@ class PaymentMethod {
   });
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
-    typename: json["__typename"]!,
-    name: json["name"]!,
+    typename: paymentMethodTypenameValues.map[json["__typename"]]!,
+    name: nameValues.map[json["name"]]!,
   );
 
   Map<String, dynamic> toJson() => {
@@ -366,6 +372,7 @@ enum Status {
   CANCELED,
   COMPLETE,
   EMPTY,
+  PENDING,
   PROCESSING,
   SHIPPED
 }
@@ -374,6 +381,7 @@ final statusValues = EnumValues({
   "Canceled": Status.CANCELED,
   "Complete": Status.COMPLETE,
   "": Status.EMPTY,
+  "Pending": Status.PENDING,
   "Processing": Status.PROCESSING,
   "Shipped": Status.SHIPPED
 });
