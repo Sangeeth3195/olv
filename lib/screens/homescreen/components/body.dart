@@ -58,7 +58,7 @@ class _BodyState extends State<Body> {
       await videoPlayerController!.initialize();
       _chewieController = ChewieController(
         videoPlayerController: videoPlayerController!,
-        aspectRatio: 16 / 7,
+        aspectRatio: 16 / 9,
         autoInitialize: true,
         autoPlay: autoplay,
         looping: looping,
@@ -103,7 +103,7 @@ class _BodyState extends State<Body> {
                         navigate(context, ProductList.route,
                             isRootNavigator: false, arguments: {'id': '1'});
                       },
-                      child: const SearchForm()),
+                      child: SearchForm()),
                 ),
 
                 GestureDetector(
@@ -487,7 +487,7 @@ class _BodyState extends State<Body> {
                 _chewieController == null
                     ? const Center(child: CircularProgressIndicator())
                     : SizedBox(
-                        height: 200,
+                        height: 250,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: AspectRatio(

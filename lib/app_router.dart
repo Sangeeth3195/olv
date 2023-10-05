@@ -11,6 +11,7 @@ import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/my_orders/Myorders.dart';
 import 'package:omaliving/screens/newsletter/news_letter.dart';
+import 'package:omaliving/screens/order_success/OrderSuccess.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 import 'package:omaliving/screens/profile/profile_screen.dart';
 import 'package:omaliving/screens/reset_password/reset_password.dart';
@@ -94,6 +95,26 @@ final router = GoRouter(
                 ),
               ]),
         ]),
+
+        StatefulShellBranch(routes: <RouteBase>[
+          // Add this branch routes
+          // each routes with its sub routes if available e.g shope/uuid/details
+          GoRoute(
+              path: '/checkout',
+              builder: (context, state) {
+                return const CartScreen();
+              },
+              routes: <RouteBase>[
+                GoRoute(
+                  path: 'continue',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  builder: (BuildContext context, GoRouterState state) {
+                    return const OrderSuccess();
+                  },
+                ),
+              ]),
+        ]),
+
         StatefulShellBranch(routes: <RouteBase>[
           // Add this branch routes
           // each routes with its sub routes if available e.g shope/uuid/details
