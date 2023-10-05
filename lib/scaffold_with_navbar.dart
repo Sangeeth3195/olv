@@ -35,6 +35,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   late TabController _tabController;
   String cart_token = '';
   var test;
+  final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
+
 
   @override
   void initState() {
@@ -135,6 +137,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       Icon(FontAwesomeIcons.user),
     ];
     return Scaffold(
+      key: _key, // Assign the key to Scaffold.
       appBar: AppBar(
         leading: _showLeading(context) ? _leadButton(context) : null,
         elevation: 0,
@@ -460,13 +463,23 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
             color: Colors.white,
             child: TabBar(
                 onTap: (x) {
+                  if(x==1){
+                    _key.currentState!.openDrawer();
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                    return;
+                  }
+
                   _onTap(x);
                   setState(() {
                     _selectedIndex = x;
                   });
                 },
-                labelColor: Colors.white,
+                labelColor: Colors.grey,
                 unselectedLabelColor: Colors.grey,
+
+
                 indicator: const UnderlineTabIndicator(
                   borderSide: BorderSide.none,
                 ),

@@ -28,8 +28,7 @@ class _BodyState extends State<Body> {
   void getuserdata() async {
     EasyLoading.show(status: 'loading...');
     ordersModel = await graphQLService.getorderdetails(limit: 100);
-    print('ordersModel.customer?.orders?.items?.length');
-    print(ordersModel.customer?.orders?.items?.length);
+    print(ordersModel.customer!.orders!.items!.length);
     setState(() {});
   }
 
