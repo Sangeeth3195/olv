@@ -35,6 +35,8 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   GraphQLService graphQLService = GraphQLService();
 
+  int wishlist=0;
+
   String cart_token = '';
 
   // create_cart

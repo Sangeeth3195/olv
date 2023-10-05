@@ -109,6 +109,7 @@ class _BodyState extends State<Body> {
                 icon: Icons.shopping_basket,
                 press: () {
                   context.go('/profile/myorders');
+
                   Navigator.of(context, rootNavigator: true)
                       .pushNamed("/myorders");
                 },

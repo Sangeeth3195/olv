@@ -168,15 +168,15 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
             child: GestureDetector(
               onTap: () async {
 
-                print('object');
-                print(cart_token);
+                // print('object');
+                // print(cart_token);
 
                 // test = await graphQLService.assign_Customer_To_Guest_Cart("Xc357qa7yfvOEhyw8S1P7QkYyAQ3CIdP");
 
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const LoginPage()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
               },
               child: const CircleAvatar(
                 backgroundColor: Colors.black,

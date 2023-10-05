@@ -489,6 +489,9 @@ class _SignInState extends State<SignIn> {
                       borderRadius: BorderRadius.circular(0)),
                 ),
                 onPressed: () async {
+
+                  EasyLoading.show(status: 'loading...');
+
                   if (_formKey.currentState!.validate()) {
                     String result;
                     result = await graphQLService.Login(
