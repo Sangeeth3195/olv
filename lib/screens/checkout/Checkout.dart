@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/screens/cart/CartProvider.dart';
@@ -81,8 +83,7 @@ class _MyHomePageState extends State<CheckoutCard> {
     * 3. Signature
     * */
 
-    // Navigation
-    //context.go('/checkout/continue');
+    cleardata();
 
     Navigator.push(
         context,
@@ -94,33 +95,17 @@ class _MyHomePageState extends State<CheckoutCard> {
     // showAlertDialog(context, "Payment Successful", "Payment ID: ${response.paymentId}");//
   }
 
+  Future<void> cleardata() async {
+    print('clear token');
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.remove('cart_token');
+  }
+
   void handleExternalWalletSelected(ExternalWalletResponse response){
     Fluttertoast.showToast(msg: "Payment Successfully");
     // showAlertDialog(context, "External Wallet Selected", "${response.walletName}");
   }
 
-  /*void showAlertDialog(BuildContext context, String title, String message){
-    // set up the buttons
-    Widget continueButton = ElevatedButton(
-      child: const Text("Continue"),
-      onPressed:  () {},
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(title),
-      content: Text(message),
-      actions: [
-        continueButton,
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }*/
 
   void initState() {
     super.initState();
@@ -216,11 +201,14 @@ class _MyHomePageState extends State<CheckoutCard> {
                           ),
                           onPressed: () async {
 
+                            EasyLoading.show(status: 'loading...');
+
                             graphQLService.available_payment_methods(cart_token);
 
                             graphQLService.set_payment_to_cart(cart_token);
 
-                            graphQLService.place_order();
+                            var result;
+                            result = graphQLService.place_order();
 
                             prefs = await SharedPreferences.getInstance();
                             cart_token = prefs!.getString('cart_token') ?? '';

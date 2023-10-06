@@ -169,6 +169,7 @@ class GraphQLService {
                         name
                         __typename
                         sku
+                        is_wishlisted
                         price_range {
                           minimum_price {
                             regular_price {
@@ -304,6 +305,7 @@ class GraphQLService {
                         name
                         __typename
                         sku
+                        is_wishlisted
                         price_range {
                           minimum_price {
                             regular_price {
@@ -416,6 +418,7 @@ class GraphQLService {
                     products(filter: { sku: { eq: "$id" } }) {
                       items {
                         id
+                        is_wishlisted
                         care
                         detail
                         length
@@ -720,6 +723,59 @@ class GraphQLService {
         }
 
         return res;
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  Future<List<dynamic>> productsearch_suggestion(value) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                  products(search: "$value") {
+                    items {
+                      id
+                      name
+                      sku
+                      stock_status
+                      brands
+                      getPriceRange{
+                            oldpricevalue  
+                            normalpricevalue
+                          }
+                       textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                      image {
+                        url
+                        label
+                        position
+                        disabled
+                      }
+                    }
+                  }
+                }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        List? res = result.data?['categoryList'];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+        print(res.first['children']);
+
+        return res.first['children'];
       }
     } catch (error) {
       return [];
@@ -1031,8 +1087,6 @@ class GraphQLService {
           assign_Customer_To_Guest_Cart(cartToken!);
 
         }
-        // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
 
         Navigator.of(context).pop();
         context.go('/home');
@@ -1203,38 +1257,37 @@ class GraphQLService {
       bool? isSubcribed}) {
     return '''
             mutation {
-            
               createCustomerAddress(
                 input: {
                   region: {
-      region: "$region"
-      region_code: "$regioncode"
-      region_id: "$regionId"
-    }
-    country_code: $countryCode
-    street: ["$address"]
-    telephone: "$phNo"
-    postcode: "$postalCode"
-    city: "$city"
-    firstname: "$firstname"
-    lastname: "$lastname"
-    default_shipping: true
-    default_billing: false
+                  region: "$region"
+                  region_code: "$regioncode"
+                  region_id: "$regionId"
                 }
-              ) {
-    id
-    region {
-      region
-      region_code
-    }
-    country_code
-    street
-    telephone
-    postcode
-    city
-    default_shipping
-    default_billing
-  }
+                country_code: $countryCode
+                street: ["$address"]
+                telephone: "$phNo"
+                postcode: "$postalCode"
+                city: "$city"
+                firstname: "$firstname"
+                lastname: "$lastname"
+                default_shipping: true
+                default_billing: false
+                            }
+                          ) {
+                id
+                region {
+                  region
+                  region_code
+                }
+                country_code
+                street
+                telephone
+                postcode
+                city
+                default_shipping
+                default_billing
+              }
             }
         ''';
   }
@@ -2872,7 +2925,7 @@ class GraphQLService {
                             postcode: "${address.postcode}"
                             country_code: "${address.countryCode}"
                             telephone: "${address.telephone}"
-                            save_in_address_book: true
+                            save_in_address_book: false
                           },
                           pickup_location_code: ""
                         }
@@ -2909,7 +2962,6 @@ class GraphQLService {
 
   Future<String> set_shipping_address_to_cart(
       String cart_token, Address address) async {
-
 
     print(address.region!.regionCode!);
 
@@ -2957,7 +3009,7 @@ class GraphQLService {
                         postcode: "${address.postcode}"
                         country_code: "${address.countryCode}"
                         telephone: "${address.telephone}"
-                        save_in_address_book: true
+                        save_in_address_book: false
                       }
                     }
                   }
@@ -3265,15 +3317,18 @@ class GraphQLService {
     String cart_token,
   ) async {
     try {
+      EasyLoading.show(status: 'loading...');
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(avl_payment_methods(cart_token)), // this
         ),
       );
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
         print(result.data);
+        EasyLoading.dismiss();
       }
 
       return "";
@@ -3308,6 +3363,7 @@ class GraphQLService {
   Future<String> set_payment_to_cart(
     String cart_token,
   ) async {
+    EasyLoading.show(status: 'loading...');
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -3315,8 +3371,10 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
+        EasyLoading.dismiss();
         print(result.data);
       }
 
@@ -3349,6 +3407,8 @@ class GraphQLService {
 
     log(plc_ord(cart_token));
 
+    EasyLoading.show(status: 'loading...');
+
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -3357,6 +3417,7 @@ class GraphQLService {
       );
 
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
         Fluttertoast.showToast(
             msg: result.exception!.graphqlErrors[0].message.toString());
@@ -3372,6 +3433,7 @@ class GraphQLService {
         print(result.data?['placeOrder']['order']['order_number']);
 
         EasyLoading.dismiss();
+        return result.data?['placeOrder']['order']['order_number'];
       }
 
       return "";

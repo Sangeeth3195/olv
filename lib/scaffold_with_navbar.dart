@@ -71,7 +71,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
         context.pop();
       },
 
-      child:  Icon(Icons.arrow_back),
+      child:  const Icon(Icons.arrow_back),
     );
   }
 
@@ -153,7 +153,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           IconButton(
             icon: const Icon(
               Icons.notifications,
-              color: blackColor,
+              color: Colors.black54,
               size: 22,
             ),
             onPressed: () {
@@ -169,6 +169,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               onTap: () async {
 
                 // print('object');
+
                 // print(cart_token);
 
                 // test = await graphQLService.assign_Customer_To_Guest_Cart("Xc357qa7yfvOEhyw8S1P7QkYyAQ3CIdP");
@@ -177,6 +178,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                   context,
                   MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
+
               },
               child: const CircleAvatar(
                 backgroundColor: Colors.black,
@@ -200,6 +202,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                   .pushNamed("/loginpage");
             },
           ),*/
+
         ],
       ),
       body: widget.navigationShell,
@@ -210,9 +213,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
         child: ListView(
           children: [
             AppBar(
-              automaticallyImplyLeading:
-                  false, // this will hide Drawer hamburger icon
-
+              automaticallyImplyLeading: false,
               backgroundColor: navBackground,
               elevation: 0,
               leading: IconButton(
@@ -268,7 +269,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     ),
                   ),
                 ),
-
                 /*IconButton(
                   icon: const FaIcon(
                     Icons.shopping_bag_sharp,
@@ -470,7 +470,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     });
                     return;
                   }
-
                   _onTap(x);
                   setState(() {
                     _selectedIndex = x;
@@ -478,8 +477,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 },
                 labelColor: Colors.grey,
                 unselectedLabelColor: Colors.grey,
-
-
                 indicator: const UnderlineTabIndicator(
                   borderSide: BorderSide.none,
                 ),
@@ -500,29 +497,23 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
 
   void _onTap(index) async {
 
+    print(index.toString());
+
     if(index==3){
      CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
-
      cartProvider.getCartData();
-
     }
 
     if(index==2){
-
       if (token.isNotEmpty) {
-
         CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
-
         cartProvider.getCartData();
       }
-
     }
-
 
     if (index == 2 || index == 4) {
       await getuserdata();
       MyProvider cartProvider = Provider.of<MyProvider>(context, listen: false);
-
       myProvider!.getuserdata();
       if (token.isEmpty) {
         Navigator.push(

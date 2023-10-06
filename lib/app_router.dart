@@ -77,6 +77,7 @@ final router = GoRouter(
             },
           ),
         ]),
+
         StatefulShellBranch(routes: <RouteBase>[
           // Add this branch routes
           // each routes with its sub routes if available e.g shope/uuid/details
@@ -91,25 +92,6 @@ final router = GoRouter(
                   parentNavigatorKey: _rootNavigatorKey,
                   builder: (BuildContext context, GoRouterState state) {
                     return const Checkout();
-                  },
-                ),
-              ]),
-        ]),
-
-        StatefulShellBranch(routes: <RouteBase>[
-          // Add this branch routes
-          // each routes with its sub routes if available e.g shope/uuid/details
-          GoRoute(
-              path: '/checkout',
-              builder: (context, state) {
-                return const CartScreen();
-              },
-              routes: <RouteBase>[
-                GoRoute(
-                  path: 'continue',
-                  parentNavigatorKey: _rootNavigatorKey,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return const OrderSuccess();
                   },
                 ),
               ]),
@@ -240,5 +222,6 @@ final router = GoRouter(
         return const LoginPage();
       },
     ),
+
   ],
 );

@@ -71,11 +71,9 @@ class _BodyState extends State<Body> {
                         borderRadius: BorderRadius.circular(0)),
                   ),
                   onPressed: () {
-                   /* Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Orderdetails()),
-                    );*/
+
+
+
                   },
                   child: const Text(
                     'Continue Shopping',
