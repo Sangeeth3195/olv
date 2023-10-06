@@ -857,13 +857,6 @@ class GraphQLService {
                         default_group_id
                         is_default
                       }
-                      product_links {
-                        sku
-                        link_type
-                        linked_product_sku
-                        linked_product_type
-                        position
-                      }
                       media_gallery {
                         url
                         label
@@ -3316,6 +3309,7 @@ class GraphQLService {
   Future<String> available_payment_methods(
     String cart_token,
   ) async {
+    EasyLoading.show(status: 'loading...');
     try {
       EasyLoading.show(status: 'loading...');
       QueryResult result = await client.mutate(

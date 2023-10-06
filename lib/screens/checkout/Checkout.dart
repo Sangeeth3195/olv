@@ -71,8 +71,6 @@ class _MyHomePageState extends State<CheckoutCard> {
     * */
 
     Fluttertoast.showToast(msg: "Payment failed");
-
-    // showAlertDialog(context, "Payment Failed", "Code: ${response.code}\nDescription: ${response.message}\nMetadata:${response.error.toString()}");
   }
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response){
@@ -83,7 +81,7 @@ class _MyHomePageState extends State<CheckoutCard> {
     * 3. Signature
     * */
 
-    cleardata();
+    var resultvalue = graphQLService.place_order();
 
     Navigator.push(
         context,
@@ -92,7 +90,8 @@ class _MyHomePageState extends State<CheckoutCard> {
 
     Fluttertoast.showToast(msg: 'Payment Successful');
 
-    // showAlertDialog(context, "Payment Successful", "Payment ID: ${response.paymentId}");//
+    cleardata();
+
   }
 
   Future<void> cleardata() async {
@@ -103,7 +102,6 @@ class _MyHomePageState extends State<CheckoutCard> {
 
   void handleExternalWalletSelected(ExternalWalletResponse response){
     Fluttertoast.showToast(msg: "Payment Successfully");
-    // showAlertDialog(context, "External Wallet Selected", "${response.walletName}");
   }
 
 
@@ -206,9 +204,6 @@ class _MyHomePageState extends State<CheckoutCard> {
                             graphQLService.available_payment_methods(cart_token);
 
                             graphQLService.set_payment_to_cart(cart_token);
-
-                            var result;
-                            result = graphQLService.place_order();
 
                             prefs = await SharedPreferences.getInstance();
                             cart_token = prefs!.getString('cart_token') ?? '';
