@@ -794,6 +794,7 @@ class GraphQLService {
                       id
                       name
                       sku
+                      is_wishlisted
                       stock_status
                       only_x_left_in_stock
                       meta_keyword
