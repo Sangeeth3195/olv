@@ -138,8 +138,7 @@ class _ProductCardState extends State<ProductCard> {
                       ),*/
 
                     const SizedBox(height: 10.0),
-                    widget.item!.textAttributes[0].specicalprice.toString() ==
-                            null
+                    widget.item!.textAttributes[0].specicalprice.toString() == null
                         ? Padding(
                             padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                             child: Text(
@@ -153,9 +152,14 @@ class _ProductCardState extends State<ProductCard> {
                             ),
                           )
                         : Container(),
+
+                    //widget.item!.typename == "ConfigurableProduct"
                     widget.item!.typename == "ConfigurableProduct"
                         ? Row(
                             children: [
+
+                              widget.item!.configurableOptions[0].label == "Color" ?
+
                               widget.item!.configurableOptions[0].values
                                           .length >
                                       2
@@ -246,7 +250,9 @@ class _ProductCardState extends State<ProductCard> {
                                           );
                                         },
                                       ),
-                                    ),
+                                    ) : Container(),
+
+                              widget.item!.configurableOptions[0].label == "Color" ?
                               widget.item!.configurableOptions[0].values
                                           .length >
                                       2
@@ -258,10 +264,11 @@ class _ProductCardState extends State<ProductCard> {
                                           height: 1.2,
                                           fontSize: 13),
                                     )
-                                  : Container(),
+                                  : Container() : Container(),
                             ],
                           )
                         : Container(),
+
                     GestureDetector(
                       onTap: () async {
                         EasyLoading.show(status: 'loading...');

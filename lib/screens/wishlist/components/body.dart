@@ -11,6 +11,7 @@ import '../../../components/size_config.dart';
 import '../../../constants.dart';
 import '../../../models/Cart.dart';
 import '../../cart/components/cart_card.dart';
+import '../../details/details_screen.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -76,11 +77,19 @@ class _BodyState extends State<Body> {
       child: Padding(
           padding: const EdgeInsets.all(5.0),
           child: InkResponse(
-            onTap: () {},
+            onTap: () {
+
+              print(myProvider!.customerModel.customer!.wishlist!.items![position].product!
+                  .sku);
+
+              String? vxc = myProvider!.customerModel.customer!.wishlist!.items![position].product!.sku;
+
+            },
             child: Material(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: SizedBox(

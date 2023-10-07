@@ -81,8 +81,6 @@ class _MyHomePageState extends State<CheckoutCard> {
     * 3. Signature
     * */
 
-    var resultvalue = graphQLService.place_order();
-
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -205,6 +203,11 @@ class _MyHomePageState extends State<CheckoutCard> {
 
                             graphQLService.set_payment_to_cart(cart_token);
 
+                            var resultvalue = await graphQLService.place_order();
+
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString('order_ID', resultvalue);
+
                             prefs = await SharedPreferences.getInstance();
                             cart_token = prefs!.getString('cart_token') ?? '';
                             orderID = prefs!.getString('order_ID') ?? '';
@@ -219,7 +222,7 @@ class _MyHomePageState extends State<CheckoutCard> {
                               'description': "",
                               'retry': {'enabled': true, 'max_count': 1},
                               'send_sms_hash': true,
-                              'notes':{'referrer': 'Mobile App', 'merchand_order_id': orderID},
+                              'notes':{'referrer': 'Mobile App', 'merchand_order_id': resultvalue},
                               'prefill': {'contact': mob_number, 'email': email},
                               'external': {
                                 'wallets': ["paytm"]

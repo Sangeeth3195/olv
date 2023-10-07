@@ -34,6 +34,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
   void getNavdata() async {
 
+
+    print(widget.product);
+
     print('sku ->' + widget.product['sku'].toString());
 
     myProvider!.updateProductDescriptionData(widget.product['sku'].toString());
@@ -44,8 +47,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-
       body: Consumer<MyProvider>(
         builder: (context,provider,_){
           if(provider.productData != null){
@@ -83,7 +84,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             );
 
           }else{
-           return const CircularProgressIndicator();
+           return Container();
           }
 
         },

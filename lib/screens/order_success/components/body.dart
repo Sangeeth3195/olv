@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/order_details/orderdetails.dart';
 import 'package:omaliving/screens/order_summary/ordersummary.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../MainLayout.dart';
 import '../../../constants.dart';
+import '../../provider/provider.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -72,7 +76,7 @@ class _BodyState extends State<Body> {
                   ),
                   onPressed: () {
 
-
+                    context.go('/home');
 
                   },
                   child: const Text(

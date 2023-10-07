@@ -12,7 +12,7 @@ class MyProvider extends ChangeNotifier {
   List<dynamic> _data = [];
   List<dynamic> aggrecation = [];
 
-  var navBar=false;
+  var navBar = false;
 
   List<dynamic> get data => _data;
 
@@ -24,41 +24,36 @@ class MyProvider extends ChangeNotifier {
   List<Item> items = [];
   List<Item> oldItems = [];
 
-  String title="New Arrival";
+  String title = "New Arrival";
 
-  bool isDetailScreen=false;
-  bool isproduct=false;
+  bool isDetailScreen = false;
+  bool isproduct = false;
   int? bottombar;
   CustomerModel customerModel = CustomerModel();
 
-
-
-  void updateHeader(String header){
-    title=header;
+  void updateHeader(String header) {
+    title = header;
     notifyListeners();
   }
 
-  void updateHeaderScreen(bool value){
-    isDetailScreen=value;
+  void updateHeaderScreen(bool value) {
+    isDetailScreen = value;
     notifyListeners();
   }
 
-  void bottomBar(int bottomIndex){
-    bottombar=bottomIndex;
+  void bottomBar(int bottomIndex) {
+    bottombar = bottomIndex;
     notifyListeners();
   }
 
   void getuserdata() async {
-
     customerModel = await graphQLService.get_customer_details();
     print(customerModel.customer?.addresses?.length);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('emailid', customerModel.customer?.email??'');
+    prefs.setString('emailid', customerModel.customer?.email ?? '');
     notifyListeners();
-
   }
-
 
   void updateData(int id) async {
     dynamic listData = await graphQLService.getproductlist(limit: 100, id: id);
@@ -81,16 +76,18 @@ class MyProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-  void updateDataWithFilter(int id,Map<String, dynamic> filter) async {
+
+  void updateDataWithFilter(int id, Map<String, dynamic> filter) async {
     EasyLoading.dismiss();
-    dynamic listData = await graphQLService.getproductlistBySorting(limit: 100, id: id,hashMap: filter);
+    dynamic listData = await graphQLService.getproductlistBySorting(
+        limit: 100, id: id, hashMap: filter);
     print(listData.data?['products']['aggregations']);
     List? res = listData.data?['products']['items'];
     pList = res!;
     aggrecation = listData.data?['products']['aggregations'];
 
-    dynamic dataFromAPi =
-        await graphQLService.getproductlistBySorting(limit: 100, id: id,hashMap: filter);
+    dynamic dataFromAPi = await graphQLService.getproductlistBySorting(
+        limit: 100, id: id, hashMap: filter);
     List? res1 = dataFromAPi.data?['products']['items'];
     _data = res1!;
     aggrecation = dataFromAPi.data?['products']['aggregations'];
@@ -127,8 +124,7 @@ class MyProvider extends ChangeNotifier {
   }
 
   void updateProductDescriptionData(String id) async {
-    productData =
-        await graphQLService.getproductdescription(id: id);
+    productData = await graphQLService.getproductdescription(id: id);
     notifyListeners();
   }
 }

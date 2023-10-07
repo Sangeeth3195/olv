@@ -111,7 +111,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           ),
           Text(label,
               style: const TextStyle(
-                fontSize: 10,
+                fontSize: 9,
               ),
               textAlign: TextAlign.center),
         ],

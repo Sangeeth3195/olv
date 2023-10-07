@@ -96,14 +96,14 @@ class _HomeScreenState extends State<ProductListing> {
                   height: 20,
                 ),*/
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 1, horizontal: 10),
+                            vertical: 1, horizontal: 5),
                         child: SectionTitle(
                           title: provider.title,
                           pressSeeAll: () {},
@@ -283,7 +283,7 @@ class _HomeScreenState extends State<ProductListing> {
                                   // Button color
                                   backgroundColor: filter,
                                   // Splash color
-                                  foregroundColor: Colors.cyan,
+                                  foregroundColor: omaColor,
                                 ),
                                 // icon of the button
                                 child: SvgPicture.asset(

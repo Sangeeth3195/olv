@@ -140,9 +140,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
               const SizedBox(
                 height: 18,
               ),
+
               provider.productData[0]['configurable_options'] != null &&
-                      provider.productData[0]['configurable_options'][0]
-                              ['values'][0]['attribute_code'] ==
+                  provider.productData[0]['configurable_options'][0]['label'] ==
                           "size"
                   ? Row(
                       children: [
@@ -242,109 +242,216 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ],
                     )
                   : Container(),
-              provider.productData[0]['__typename'] == "ConfigurableProduct"
-                  ? Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: getProportionateScreenWidth(10)),
-                          child: const Text('SIZE',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: headingColor)),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        provider.productData[0]['__typename'] ==
-                                "ConfigurableProduct"
-                            ? Row(
-                                children: [
-                                  SizedBox(
-                                    height: 50,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: provider
-                                          .productData[0]
-                                              ['configurable_options'][0]
-                                              ['values']
-                                          .length,
-                                      itemBuilder: (context, index) {
-                                        return GestureDetector(
-                                            onTap: () {
-                                              // _changeColor(index);
-                                            },
-                                            child: Chip(
-                                              backgroundColor: chipColor,
-                                              label: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 16.0),
-                                                child: Text(
-                                                  "${provider.productData[0]['configurable_options'][0]['values'][index]['swatch_data']['value']}",
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(0.0),
-                                                // Adjust the border radius for rectangle shape
-                                                side: const BorderSide(
-                                                  color: omaColor,
-                                                ),
-                                              ),
-                                            ));
-                                      },
-                                    ),
-                                  ),
 
-                                  /* Chip(
-                                    backgroundColor: chipColor,
-                                    label: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: Text(
-                                        '8.66 "',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(0.0),
-                                      // Adjust the border radius for rectangle shape
-                                      side: const BorderSide(
-                                        color: omaColor,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Chip(
-                                    backgroundColor: chip2Color,
-                                    label: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: Text('4.57 "'),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(0.0),
-                                      // Adjust the border radius for rectangle shape
-                                      side: const BorderSide(color: omaColor),
-                                    ),
-                                  ),*/
-                                  // Add more chips as needed
-                                ],
-                              )
-                            : Container(),
-                      ],
-                    )
-                  : Container(),
+
+              // provider.productData[0]['__typename'] == "ConfigurableProduct"
+              //     ? Row(
+              //         children: [
+              //           Padding(
+              //             padding: EdgeInsets.symmetric(
+              //                 horizontal: getProportionateScreenWidth(10)),
+              //             child: const Text('SIZE',
+              //                 style: TextStyle(
+              //                     fontWeight: FontWeight.bold,
+              //                     color: headingColor)),
+              //           ),
+              //           const SizedBox(
+              //             width: 10,
+              //           ),
+              //
+              //           provider.productData[0]['__typename'] ==
+              //                   "ConfigurableProduct"
+              //               ? Row(
+              //                   children: [
+              //                     SizedBox(
+              //                       height: 50,
+              //                       child: ListView.builder(
+              //                         shrinkWrap: true,
+              //                         scrollDirection: Axis.horizontal,
+              //                         itemCount: provider
+              //                             .productData[0]
+              //                                 ['configurable_options'][0]
+              //                                 ['values']
+              //                             .length,
+              //                         itemBuilder: (context, index) {
+              //                           return GestureDetector(
+              //                               onTap: () {
+              //                                 // _changeColor(index);
+              //                               },
+              //                               child: Chip(
+              //                                 backgroundColor: chipColor,
+              //                                 label: Padding(
+              //                                   padding:
+              //                                       const EdgeInsets.symmetric(
+              //                                           horizontal: 16.0),
+              //                                   child: Text(
+              //                                     "${provider.productData[0]['configurable_options'][0]['values'][index]['swatch_data']['value']}",
+              //                                     style: const TextStyle(
+              //                                         color: Colors.white),
+              //                                   ),
+              //                                 ),
+              //                                 shape: RoundedRectangleBorder(
+              //                                   borderRadius:
+              //                                       BorderRadius.circular(0.0),
+              //                                   // Adjust the border radius for rectangle shape
+              //                                   side: const BorderSide(
+              //                                     color: omaColor,
+              //                                   ),
+              //                                 ),
+              //                               ));
+              //                         },
+              //                       ),
+              //                     ),
+              //
+              //                     /* Chip(
+              //                       backgroundColor: chipColor,
+              //                       label: const Padding(
+              //                         padding: EdgeInsets.symmetric(
+              //                             horizontal: 16.0),
+              //                         child: Text(
+              //                           '8.66 "',
+              //                           style: TextStyle(color: Colors.white),
+              //                         ),
+              //                       ),
+              //                       shape: RoundedRectangleBorder(
+              //                         borderRadius: BorderRadius.circular(0.0),
+              //                         // Adjust the border radius for rectangle shape
+              //                         side: const BorderSide(
+              //                           color: omaColor,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     const SizedBox(
+              //                       width: 5,
+              //                     ),
+              //                     Chip(
+              //                       backgroundColor: chip2Color,
+              //                       label: const Padding(
+              //                         padding: EdgeInsets.symmetric(
+              //                             horizontal: 16.0),
+              //                         child: Text('4.57 "'),
+              //                       ),
+              //                       shape: RoundedRectangleBorder(
+              //                         borderRadius: BorderRadius.circular(0.0),
+              //                         // Adjust the border radius for rectangle shape
+              //                         side: const BorderSide(color: omaColor),
+              //                       ),
+              //                     ),*/
+              //                     // Add more chips as needed
+              //                   ],
+              //                 )
+              //               : Container(),
+              //         ],
+              //       )
+              //     : Container(),  // provider.productData[0]['__typename'] == "ConfigurableProduct"
+              //     ? Row(
+              //         children: [
+              //           Padding(
+              //             padding: EdgeInsets.symmetric(
+              //                 horizontal: getProportionateScreenWidth(10)),
+              //             child: const Text('SIZE',
+              //                 style: TextStyle(
+              //                     fontWeight: FontWeight.bold,
+              //                     color: headingColor)),
+              //           ),
+              //           const SizedBox(
+              //             width: 10,
+              //           ),
+              //
+              //           provider.productData[0]['__typename'] ==
+              //                   "ConfigurableProduct"
+              //               ? Row(
+              //                   children: [
+              //                     SizedBox(
+              //                       height: 50,
+              //                       child: ListView.builder(
+              //                         shrinkWrap: true,
+              //                         scrollDirection: Axis.horizontal,
+              //                         itemCount: provider
+              //                             .productData[0]
+              //                                 ['configurable_options'][0]
+              //                                 ['values']
+              //                             .length,
+              //                         itemBuilder: (context, index) {
+              //                           return GestureDetector(
+              //                               onTap: () {
+              //                                 // _changeColor(index);
+              //                               },
+              //                               child: Chip(
+              //                                 backgroundColor: chipColor,
+              //                                 label: Padding(
+              //                                   padding:
+              //                                       const EdgeInsets.symmetric(
+              //                                           horizontal: 16.0),
+              //                                   child: Text(
+              //                                     "${provider.productData[0]['configurable_options'][0]['values'][index]['swatch_data']['value']}",
+              //                                     style: const TextStyle(
+              //                                         color: Colors.white),
+              //                                   ),
+              //                                 ),
+              //                                 shape: RoundedRectangleBorder(
+              //                                   borderRadius:
+              //                                       BorderRadius.circular(0.0),
+              //                                   // Adjust the border radius for rectangle shape
+              //                                   side: const BorderSide(
+              //                                     color: omaColor,
+              //                                   ),
+              //                                 ),
+              //                               ));
+              //                         },
+              //                       ),
+              //                     ),
+              //
+              //                     /* Chip(
+              //                       backgroundColor: chipColor,
+              //                       label: const Padding(
+              //                         padding: EdgeInsets.symmetric(
+              //                             horizontal: 16.0),
+              //                         child: Text(
+              //                           '8.66 "',
+              //                           style: TextStyle(color: Colors.white),
+              //                         ),
+              //                       ),
+              //                       shape: RoundedRectangleBorder(
+              //                         borderRadius: BorderRadius.circular(0.0),
+              //                         // Adjust the border radius for rectangle shape
+              //                         side: const BorderSide(
+              //                           color: omaColor,
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     const SizedBox(
+              //                       width: 5,
+              //                     ),
+              //                     Chip(
+              //                       backgroundColor: chip2Color,
+              //                       label: const Padding(
+              //                         padding: EdgeInsets.symmetric(
+              //                             horizontal: 16.0),
+              //                         child: Text('4.57 "'),
+              //                       ),
+              //                       shape: RoundedRectangleBorder(
+              //                         borderRadius: BorderRadius.circular(0.0),
+              //                         // Adjust the border radius for rectangle shape
+              //                         side: const BorderSide(color: omaColor),
+              //                       ),
+              //                     ),*/
+              //                     // Add more chips as needed
+              //                   ],
+              //                 )
+              //               : Container(),
+              //         ],
+              //       )
+              //     : Container(),
+
+
               const SizedBox(
                 height: 18,
               ),
-              provider.productData[0]['__typename'] == "ConfigurableProduct"
+
+              provider.productData[0]['configurable_options'] != null &&
+                  provider.productData[0]['configurable_options'][0]['label'] ==
+                      "Color"
                   ? Row(
                       children: [
                         Padding(
@@ -405,6 +512,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ],
                     )
                   : Container(),
+
               const SizedBox(
                 height: 18,
               ),
@@ -493,13 +601,15 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 // Adjust margins as needed
                 child: ElevatedButton(
                   onPressed: () {
+
+                    print(quantity.toString());
                     // Button onPressed action
                     // graphQLService.create_cart_non_user();
                     // graphQLService.create_cart();
 
                     EasyLoading.show(status: 'loading...');
 
-                    if (provider.productData[0]['configurable_options'] !=
+                    if (provider.productData[0]['configurable_options'] ==
                         'configurable_options') {
                       print(widget.product['sku'].toString());
 
@@ -509,16 +619,16 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       graphQLService.addProductToCart(
                         provider.productData[0]['variants'][0]['product']
                             ['sku'],
-                        '1',
+                        quantity.toString(),
                       );
                     } else {
-                      print('widget.product.toString()');
+                      graphQLService.addProductToCart(
+                        widget.product['sku'].toString(),
+                        quantity.toString(),
+                      );
                     }
 
-                    graphQLService.addProductToCart(
-                      widget.product['sku'].toString(),
-                      '1',
-                    );
+
 
                     // graphQLService.update_product_to_cart(
                     //   widget.product['sku'].toString(),
@@ -551,7 +661,33 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       onPressed: () {
                         EasyLoading.show(status: 'loading...');
 
-                        if (provider.productData[0]['configurable_options'] !=
+                        print(quantity.toString());
+                        // Button onPressed action
+                        // graphQLService.create_cart_non_user();
+                        // graphQLService.create_cart();
+
+                        EasyLoading.show(status: 'loading...');
+
+                        if (provider.productData[0]['configurable_options'] ==
+                            'configurable_options') {
+                          print(widget.product['sku'].toString());
+
+                          print(provider.productData[0]['variants'][0]['product']
+                          ['sku']);
+
+                          graphQLService.addProductToCart(
+                            provider.productData[0]['variants'][0]['product']
+                            ['sku'],
+                            quantity.toString(),
+                          );
+                        } else {
+                          graphQLService.addProductToCart(
+                            widget.product['sku'].toString(),
+                            quantity.toString(),
+                          );
+                        }
+
+                        /*if (provider.productData[0]['configurable_options'] !=
                             'configurable_options') {
                           print(widget.product['sku'].toString());
 
@@ -570,7 +706,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         graphQLService.addProductToCart(
                           widget.product['sku'].toString(),
                           '1',
-                        );
+                        );*/
                       },
                       style: ElevatedButton.styleFrom(
                         side: const BorderSide(color: headingColor),
@@ -633,8 +769,14 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   htmlContent: '''${product[0]['detail']}''',
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(5),
+              Card(
+                color: omaColor,
+              elevation: 0,
+                borderOnForeground: false,
+
+
+                child:  Padding(
+                padding: const EdgeInsets.fromLTRB(0,0,0,0),
                 child: ExpansionTile(
                   onExpansionChanged: _onExpansionChanged,
                   trailing: _isExpanded
@@ -646,7 +788,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   ),
                   children: [
                     SingleChildScrollView(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.fromLTRB(5.0,0,0,20),
                       child: Column(
                         children: [
                           product[0]['height'] == null
@@ -675,6 +817,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     ),
                   ],
                 ),
+              ),
               ),
               Padding(
                 padding: const EdgeInsets.all(5),
@@ -731,23 +874,34 @@ class _HtmlExpansionTileState extends State<HtmlExpansionTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
+    return Card(
+      color: omaColor,
+
+      elevation: 0,
+        child: ExpansionTile(
       onExpansionChanged: _onExpansionChanged,
       trailing: _isExpanded
           ? const Icon(Icons.remove) // Icon when expanded
           : const Icon(Icons.add),
-      title: Container(
-          child: Text(widget.title,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500, color: headingColor))),
+      title: Text(widget.title,
+          style: const TextStyle(
+
+              fontWeight: FontWeight.w500, color: headingColor)),
       children: [
         SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(5.0),
           child: Html(
             data: widget.htmlContent,
+            style: {
+              "body": Style(
+                fontSize: FontSize(14.0),
+                fontWeight: FontWeight.normal,
+              ),
+            },
           ),
         ),
       ],
+    ),
     );
   }
 }

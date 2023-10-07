@@ -110,8 +110,8 @@ class _BodyState extends State<Body> {
                 press: () {
                   context.go('/profile/myorders');
 
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed("/myorders");
+                  // Navigator.of(context, rootNavigator: true)
+                  //     .pushNamed("/myorders");
                 },
               ),
               const Padding(

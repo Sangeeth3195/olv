@@ -1028,9 +1028,11 @@ class GraphQLService {
 
         EasyLoading.dismiss();
 
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => MainLayout()),
-            (Route<dynamic> route) => false);
+        context.go('/home');
+
+        // Navigator.of(context).pushAndRemoveUntil(
+        //     MaterialPageRoute(builder: (context) => MainLayout()),
+        //     (Route<dynamic> route) => false);
       }
 
       return "";
@@ -1137,9 +1139,11 @@ class GraphQLService {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', result.data?['createCustomerV3']['token']);
 
-        Navigator.of(context).pushAndRemoveUntil(
+      /*  Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => MainLayout()),
-            (Route<dynamic> route) => false);
+            (Route<dynamic> route) => false);*/
+
+        context.go('/home');
 
         Fluttertoast.showToast(msg: 'Login successfully');
       }
@@ -3414,21 +3418,16 @@ class GraphQLService {
       if (result.hasException) {
         EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
-        Fluttertoast.showToast(
-            msg: result.exception!.graphqlErrors[0].message.toString());
+        // Fluttertoast.showToast(
+        //     msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
         log(jsonEncode(result.data));
         print(result.data);
 
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('order_ID', result.data?['placeOrder']['order']['order_number']);
-
-        print('Order_ID');
-
-        print(result.data?['placeOrder']['order']['order_number']);
-
         EasyLoading.dismiss();
+
         return result.data?['placeOrder']['order']['order_number'];
+
       }
 
       return "";
