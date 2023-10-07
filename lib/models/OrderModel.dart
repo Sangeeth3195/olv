@@ -72,7 +72,7 @@ class OrdersItem {
   PurpleTypename? typename;
   String? id;
   String? orderNumber;
-  Status? status;
+  String? status;
   ShippingMethod? shippingMethod;
   List<PaymentMethod>? paymentMethods;
   IngAddress? shippingAddress;
@@ -99,7 +99,7 @@ class OrdersItem {
     typename: purpleTypenameValues.map[json["__typename"]]!,
     id: json["id"],
     orderNumber: json["order_number"],
-    status: statusValues.map[json["status"]]!,
+    status: json["status"]!,
     shippingMethod: shippingMethodValues.map[json["shipping_method"]]!,
     paymentMethods: json["payment_methods"] == null ? [] : List<PaymentMethod>.from(json["payment_methods"]!.map((x) => PaymentMethod.fromJson(x))),
     shippingAddress: json["shipping_address"] == null ? null : IngAddress.fromJson(json["shipping_address"]),
@@ -126,10 +126,10 @@ class OrdersItem {
 
 class IngAddress {
   BillingAddressTypename? typename;
-  Firstname? firstname;
-  Lastname? lastname;
+  String? firstname;
+  String? lastname;
   List<Street>? street;
-  City? city;
+  String? city;
   String? telephone;
   Region? region;
   String? postcode;
@@ -147,10 +147,10 @@ class IngAddress {
 
   factory IngAddress.fromJson(Map<String, dynamic> json) => IngAddress(
     typename: billingAddressTypenameValues.map[json["__typename"]]!,
-    firstname: firstnameValues.map[json["firstname"]]!,
-    lastname: lastnameValues.map[json["lastname"]]!,
+    firstname: json["firstname"],
+    lastname: json["lastname"]!,
     street: json["street"] == null ? [] : List<Street>.from(json["street"]!.map((x) => streetValues.map[x]!)),
-    city: cityValues.map[json["city"]]!,
+    city: json["city"]!,
     telephone: json["telephone"],
     region: regionValues.map[json["region"]]!,
     postcode: json["postcode"],

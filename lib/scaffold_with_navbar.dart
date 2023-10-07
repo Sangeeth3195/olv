@@ -173,10 +173,26 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
 
                 // test = await graphQLService.assign_Customer_To_Guest_Cart("Xc357qa7yfvOEhyw8S1P7QkYyAQ3CIdP");
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const LoginPage()),
+                // );
+
+                await getuserdata();
+                if(token.isEmpty){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginPage()),
+                  );
+                }else{
+                  setState(() {
+                    _selectedIndex = 4;
+                  });
+                  _onTap(4);
+
+                }
+
               },
               child: const CircleAvatar(
                 backgroundColor: Colors.black,
@@ -251,12 +267,27 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginPage()),
-                      );
+                    onTap: () async{
+                      await getuserdata();
+
+                      if(token.isEmpty){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                        );
+                      }else{
+                        setState(() {
+                          _selectedIndex = 4;
+                        });
+                        _onTap(4);
+
+                      }
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const LoginPage()),
+                      // );
                     },
                     child: const CircleAvatar(
                       backgroundColor: Colors.black,

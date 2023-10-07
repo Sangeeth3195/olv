@@ -50,7 +50,10 @@ class _BodyState extends State<Body> {
             : Container(
           margin:
           const EdgeInsets.only(bottom: 55, left: 5, right: 5, top: 5),
-          child: GridView.builder(
+          child: myProvider!.customerModel.customer!.wishlist!.items!.isEmpty?            Center(
+        child: Text('You have no items in your Cart.'),
+        ):
+        GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, childAspectRatio: 0.8),
             itemBuilder: (context, position) {
