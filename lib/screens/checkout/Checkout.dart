@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:omaliving/screens/order_summary/ordersummary.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +16,7 @@ import '../../Razorpay.dart';
 import '../../components/default_button.dart';
 import '../../components/size_config.dart';
 import '../../constants.dart';
+import '../../models/CustomerModel.dart';
 import '../cart/components/check_out_card.dart';
 import '../order_details/orderdetails.dart';
 import '../order_success/OrderSuccess.dart';
@@ -47,9 +53,14 @@ class CheckoutCard extends StatefulWidget {
 class _MyHomePageState extends State<CheckoutCard> {
 
   GraphQLService graphQLService = GraphQLService();
+  CustomerModel customerModel = CustomerModel();
+
+  String? mob_number;
+  String? email;
 
   SharedPreferences? prefs;
   var cart_token;
+  var orderID;
 
   void handlePaymentErrorResponse(PaymentFailureResponse response){
     /*
@@ -60,8 +71,6 @@ class _MyHomePageState extends State<CheckoutCard> {
     * */
 
     Fluttertoast.showToast(msg: "Payment failed");
-
-    // showAlertDialog(context, "Payment Failed", "Code: ${response.code}\nDescription: ${response.message}\nMetadata:${response.error.toString()}");
   }
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response){
@@ -71,41 +80,62 @@ class _MyHomePageState extends State<CheckoutCard> {
     * 2. Payment ID
     * 3. Signature
     * */
-    graphQLService.place_order();
 
-    // Navigation
+    var resultvalue = graphQLService.place_order();
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const OrderSuccess()));
 
     Fluttertoast.showToast(msg: 'Payment Successful');
 
-    showAlertDialog(context, "Payment Successful", "Payment ID: ${response.paymentId}");
+    cleardata();
+
+  }
+
+  Future<void> cleardata() async {
+    print('clear token');
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.remove('cart_token');
   }
 
   void handleExternalWalletSelected(ExternalWalletResponse response){
     Fluttertoast.showToast(msg: "Payment Successfully");
-    // showAlertDialog(context, "External Wallet Selected", "${response.walletName}");
   }
 
-  void showAlertDialog(BuildContext context, String title, String message){
-    // set up the buttons
-    Widget continueButton = ElevatedButton(
-      child: const Text("Continue"),
-      onPressed:  () {},
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(title),
-      content: Text(message),
-      actions: [
-        continueButton,
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+
+  void initState() {
+    super.initState();
+    getdata();
+  }
+
+  Future<void> getdata() async {
+
+    customerModel = await graphQLService.get_customer_details();
+
+    print(customerModel.customer?.addresses?.length);
+    setState(() {
+      mob_number = customerModel.customer?.addresses?[0].telephone;
+      email = customerModel.customer?.email ?? '';
+    });
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    double? sub_total = prefs.getDouble('sub_total');
+
+    print(sub_total);
+
+    prefs =
+    await SharedPreferences.getInstance();
+    cart_token = prefs!.getString('cart_token') ?? '';
+
+    if(sub_total!  >= 10000 ){
+     graphQLService.set_shipping_method_to_cart(cart_token,'freeshipping');
+
+    }else{
+      graphQLService.set_shipping_method_to_cart(cart_token,'flatrate');
+
+    }
   }
 
   @override
@@ -144,7 +174,7 @@ class _MyHomePageState extends State<CheckoutCard> {
                      Expanded(
                       child: Text(
                         "₹ ${provider.cartModel.cart!.prices!.grandTotal!.value.toString()}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.black,
                             fontSize: 15,
                             fontWeight: FontWeight.w700),
@@ -169,15 +199,15 @@ class _MyHomePageState extends State<CheckoutCard> {
                           ),
                           onPressed: () async {
 
-                            prefs =
-                                await SharedPreferences.getInstance();
-                            cart_token = prefs!.getString('cart_token') ?? '';
-
-                            print(cart_token);
+                            EasyLoading.show(status: 'loading...');
 
                             graphQLService.available_payment_methods(cart_token);
 
                             graphQLService.set_payment_to_cart(cart_token);
+
+                            prefs = await SharedPreferences.getInstance();
+                            cart_token = prefs!.getString('cart_token') ?? '';
+                            orderID = prefs!.getString('order_ID') ?? '';
 
                             Razorpay razorpay = Razorpay();
                             var options = {
@@ -186,10 +216,11 @@ class _MyHomePageState extends State<CheckoutCard> {
                               'name': 'OMA Test Payment.',
                               "timeout": "180",
                               "currency": "INR",
-                              'description': 'Fine T-Shirt',
+                              'description': "",
                               'retry': {'enabled': true, 'max_count': 1},
                               'send_sms_hash': true,
-                              'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
+                              'notes':{'referrer': 'Mobile App', 'merchand_order_id': orderID},
+                              'prefill': {'contact': mob_number, 'email': email},
                               'external': {
                                 'wallets': ["paytm"]
                               }
@@ -211,12 +242,6 @@ class _MyHomePageState extends State<CheckoutCard> {
                               builder: (context) => const Ordersummary()),
                         );*/
 
-                            /*Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RazorpayTEST(title: '',)),
-                        );*/
-
                           },
                           child: const Text(
                             'Continue to payment',
@@ -233,8 +258,5 @@ class _MyHomePageState extends State<CheckoutCard> {
         );
       },
     );
-
-
-
   }
 }

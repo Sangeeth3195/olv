@@ -574,7 +574,7 @@ class _SignInState extends State<SignIn> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Expanded(
+                 /*   Expanded(
                       // Place `Expanded` inside `Row`
                       child: SizedBox(
                         height: 50, // <-- Your height
@@ -601,7 +601,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     const SizedBox(
                       width: 10.0,
-                    ),
+                    ),*/
                     Expanded(
                       // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
                       child: SizedBox(

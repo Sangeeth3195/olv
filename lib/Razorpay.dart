@@ -76,10 +76,6 @@ class _MyHomePageState extends State<RazorpayTEST> {
     * 3. Signature
     * */
 
-    graphQLService.place_order();
-
-    // Navigation
-
     Fluttertoast.showToast(msg: 'Payment Successful');
 
     showAlertDialog(context, "Payment Successful", "Payment ID: ${response.paymentId}");

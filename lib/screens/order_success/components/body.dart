@@ -3,11 +3,36 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:omaliving/screens/order_details/orderdetails.dart';
 import 'package:omaliving/screens/order_summary/ordersummary.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({super.key});
+
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+
+class _BodyState extends State<Body> {
+
+  SharedPreferences? prefs;
+  String? orderID;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  void getData() async {
+    prefs =
+    await SharedPreferences.getInstance();
+
+    orderID = prefs!.getString('order_ID') ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +53,9 @@ class Body extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            const Text(
-              'Order ID: OMA000000933',
-              style: TextStyle(fontSize: 13),
+            Text(
+              "Order ID: $orderID",
+              style: const TextStyle(fontSize: 13),
             ),
             const SizedBox(
               height: 20,
@@ -46,11 +71,9 @@ class Body extends StatelessWidget {
                         borderRadius: BorderRadius.circular(0)),
                   ),
                   onPressed: () {
-                   /* Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Orderdetails()),
-                    );*/
+
+
+
                   },
                   child: const Text(
                     'Continue Shopping',

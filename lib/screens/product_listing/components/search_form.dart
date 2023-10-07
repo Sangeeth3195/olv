@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants.dart';
 
@@ -25,7 +24,6 @@ class SearchForm extends StatelessWidget {
           onSaved: (value) {},
           style: const TextStyle(fontSize: 16),
           autofocus: false,
-
           focusNode: FocusNode(),
           decoration: InputDecoration(
             filled: true,
@@ -40,8 +38,43 @@ class SearchForm extends StatelessWidget {
             errorBorder: outlineInputBorder,
             suffixIcon: SizedBox(
               width: 50,
-              child:
-              IconButton(
+              child: IconButton(
+                onPressed: () {
+                  print('search button pressed');
+                },
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return Card(
+      elevation: 1,
+      child: Form(
+        child: TextFormField(
+          onSaved: (value) {},
+          style: const TextStyle(fontSize: 16),
+          autofocus: false,
+          focusNode: FocusNode(),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            hintStyle: const TextStyle(color: Colors.black),
+            hintText: "what are you looking for",
+            border: outlineInputBorder,
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white, width: 1),
+            ),
+            focusedBorder: outlineInputBorder,
+            errorBorder: outlineInputBorder,
+            suffixIcon: SizedBox(
+              width: 50,
+              child: IconButton(
                 onPressed: () {
                   print('search button pressed');
                 },
@@ -51,27 +84,30 @@ class SearchForm extends StatelessWidget {
                       height: 20,
                       width: 20,
                     ),*/
-                icon: const Icon(Icons.search,color: Colors.black,),
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
               ),
 
               /*Row(
                 children: [
-                 *//* IconButton(
+                 */ /* IconButton(
                     onPressed: () {
                       print('mic button pressed');
                     },
                     icon: const Icon(Icons.mic,color: Colors.black,),
-                  ),*//*
+                  ),*/ /*
                   IconButton(
                     onPressed: () {
                       print('search button pressed');
                     },
-                    *//*icon: SvgPicture.asset(
+                    */ /*icon: SvgPicture.asset(
                       "assets/icons/Search.svg",
                       color: Colors.black,
                       height: 20,
                       width: 20,
-                    ),*//*
+                    ),*/ /*
                     icon: const Icon(Icons.search,color: Colors.black,),
                   ),
                 ],

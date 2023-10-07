@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
       backgroundColor: Colors.white,
       body: (ordersModel.customer == null ||
               ordersModel.customer!.orders == null)
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center()
           : ListView.builder(
               itemCount: ordersModel.customer!.orders!.items!.length,
               itemBuilder: (context, index) {
@@ -121,18 +121,6 @@ class _BodyState extends State<Body> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                 ),
-                                /*const SizedBox(
-                            width: 4,
-                          ),
-                          OutlinedButton(
-                            onPressed: () {},
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                  width: 1.0, color: headingColor),
-                              shape: const StadiumBorder(),
-                            ),
-                            child: const Text('View Order'),
-                          )*/
                               ],
                             ),
                           ),
@@ -157,7 +145,9 @@ class _BodyState extends State<Body> {
                                 const SizedBox(
                                   width: 4,
                                 ),
-                                MaterialButton(
+
+                                /// Reorder
+                                /*  MaterialButton(
                                   color: headingColor,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(0.0),
@@ -168,21 +158,12 @@ class _BodyState extends State<Body> {
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 13),
                                   ),
-                                ),
+                                ),*/
+
                                 const SizedBox(
                                   width: 4,
                                 ),
-                                /* MaterialButton(
-                            color: headingColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                            ),
-                            onPressed: () {},
-                            child: const Text(
-                              "View Order",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),*/
+
                                 OutlinedButton(
                                   onPressed: () {
                                     Navigator.push(

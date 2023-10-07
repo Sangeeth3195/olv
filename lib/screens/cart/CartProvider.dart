@@ -27,6 +27,13 @@ class CartProvider with ChangeNotifier {
     }
     dynamic data =await graphQLService.get_cart_list();
     cartModel=CartModel.fromJson(data);
+
+    /*if(cartModel!.cart!.prices!.subtotalExcludingTax!.value! > 10000 ){
+      graphQLService.set_shipping_method_to_cart(cart_token,'freeshipping');
+    }else{
+      graphQLService.set_shipping_method_to_cart(cart_token,'flatrate');
+    }*/
+
     notifyListeners();
   }
 

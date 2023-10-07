@@ -71,7 +71,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
         context.pop();
       },
 
-      child:  Icon(Icons.arrow_back),
+      child:  const Icon(Icons.arrow_back),
     );
   }
 
@@ -153,7 +153,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           IconButton(
             icon: const Icon(
               Icons.notifications,
-              color: blackColor,
+              color: Colors.black54,
               size: 22,
             ),
             onPressed: () {
@@ -226,9 +226,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
         child: ListView(
           children: [
             AppBar(
-              automaticallyImplyLeading:
-                  false, // this will hide Drawer hamburger icon
-
+              automaticallyImplyLeading: false,
               backgroundColor: navBackground,
               elevation: 0,
               leading: IconButton(

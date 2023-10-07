@@ -169,6 +169,7 @@ class GraphQLService {
                         name
                         __typename
                         sku
+                        is_wishlisted
                         price_range {
                           minimum_price {
                             regular_price {
@@ -304,6 +305,7 @@ class GraphQLService {
                         name
                         __typename
                         sku
+                        is_wishlisted
                         price_range {
                           minimum_price {
                             regular_price {
@@ -416,6 +418,7 @@ class GraphQLService {
                     products(filter: { sku: { eq: "$id" } }) {
                       items {
                         id
+                        is_wishlisted
                         care
                         detail
                         length
@@ -726,18 +729,72 @@ class GraphQLService {
     }
   }
 
-  Future<List<dynamic>> productsearch() async {
+  Future<List<dynamic>> productsearch_suggestion(value) async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
           fetchPolicy: FetchPolicy.noCache,
           document: gql("""
            query Query {
-                  products(search: "item-028258") {
+                  products(search: "$value") {
                     items {
                       id
                       name
                       sku
+                      stock_status
+                      brands
+                      getPriceRange{
+                            oldpricevalue  
+                            normalpricevalue
+                          }
+                       textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                      image {
+                        url
+                        label
+                        position
+                        disabled
+                      }
+                    }
+                  }
+                }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        List? res = result.data?['categoryList'];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+        print(res.first['children']);
+
+        return res.first['children'];
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  Future<List<dynamic>> productsearch(value) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                  products(search: "$value") {
+                    items {
+                      id
+                      name
+                      sku
+                      is_wishlisted
                       stock_status
                       only_x_left_in_stock
                       meta_keyword
@@ -800,13 +857,6 @@ class GraphQLService {
                         sort_order
                         default_group_id
                         is_default
-                      }
-                      product_links {
-                        sku
-                        link_type
-                        linked_product_sku
-                        linked_product_type
-                        position
                       }
                       media_gallery {
                         url
@@ -1025,13 +1075,12 @@ class GraphQLService {
         prefs.setString(
             'token', result.data?['generateCustomerToken']['token']);
 
-
         var cartToken=prefs.getString('cart_token');
         if(cartToken?.isNotEmpty==true){
+
           assign_Customer_To_Guest_Cart(cartToken!);
+
         }
-        // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
 
         Navigator.of(context).pop();
         context.go('/home');
@@ -1202,38 +1251,37 @@ class GraphQLService {
       bool? isSubcribed}) {
     return '''
             mutation {
-            
               createCustomerAddress(
                 input: {
                   region: {
-      region: "$region"
-      region_code: "$regioncode"
-      region_id: "$regionId"
-    }
-    country_code: $countryCode
-    street: ["$address"]
-    telephone: "$phNo"
-    postcode: "$postalCode"
-    city: "$city"
-    firstname: "$firstname"
-    lastname: "$lastname"
-    default_shipping: true
-    default_billing: false
+                  region: "$region"
+                  region_code: "$regioncode"
+                  region_id: "$regionId"
                 }
-              ) {
-    id
-    region {
-      region
-      region_code
-    }
-    country_code
-    street
-    telephone
-    postcode
-    city
-    default_shipping
-    default_billing
-  }
+                country_code: $countryCode
+                street: ["$address"]
+                telephone: "$phNo"
+                postcode: "$postalCode"
+                city: "$city"
+                firstname: "$firstname"
+                lastname: "$lastname"
+                default_shipping: true
+                default_billing: false
+                            }
+                          ) {
+                id
+                region {
+                  region
+                  region_code
+                }
+                country_code
+                street
+                telephone
+                postcode
+                city
+                default_shipping
+                default_billing
+              }
             }
         ''';
   }
@@ -2164,9 +2212,20 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data?['createEmptyCart']);
+
+        print('logged_in');
+
+        print(result.data);
+        print(result.data?['customerCart']['id']);
+
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('cart_token', result.data?['createEmptyCart']);
+        prefs.setString('cart_token', result.data?['customerCart']['id']);
+
+        prefs = await SharedPreferences.getInstance();
+        String old_token = prefs.getString('old_cart_token') ?? '';
+
+        merge_cart(result.data?['customerCart']['id'], old_token);
+
       }
 
       return "";
@@ -2728,6 +2787,10 @@ class GraphQLService {
     Future<String> assign_Customer_To_Guest_Cart(
     String cart_token,
   ) async {
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('old_cart_token', cart_token);
+
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -2738,6 +2801,93 @@ class GraphQLService {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
         print('result.data');
+        print(result.data);
+
+        crt_cart_Logged_In();
+      }
+
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+
+  /// Step 4 - I - Merge Cart
+  static String merge_crt(
+      String cart_token,
+      String dest_id,
+      ) {
+    return '''
+            mutation {
+                  mergeCarts(
+                    source_cart_id: "$cart_token",
+                    destination_cart_id:  "$dest_id",
+                  ) {
+                  
+                     items {
+                      quantity
+                      id
+                      uid
+                      product {
+                        sku
+                        uid
+                        name
+                        dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
+                        media_gallery {
+                        url
+                        label
+                        position
+                        disabled
+                      }
+                      }
+                    }
+                    
+                    prices {
+                        discounts {
+                          label
+                          amount {
+                            value
+                          }
+                        }
+                
+                subtotal_excluding_tax{
+                          value
+                          currency
+                        }
+                
+                        grand_total{
+                          value
+                          currency
+                        }                        
+                      }
+                  }
+                }
+
+        ''';
+  }
+
+  Future<String> merge_cart(
+      String cart_token,
+      String dest_id,
+      ) async {
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(merge_crt(cart_token,dest_id)), // this
+        ),
+      );
+      if (result.hasException) {
+        print(result.exception?.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        print('old_cart_token clear');
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        await preferences.remove('old_cart_token');
         print(result.data);
       }
 
@@ -2769,7 +2919,7 @@ class GraphQLService {
                             postcode: "${address.postcode}"
                             country_code: "${address.countryCode}"
                             telephone: "${address.telephone}"
-                            save_in_address_book: true
+                            save_in_address_book: false
                           },
                           pickup_location_code: ""
                         }
@@ -2807,7 +2957,6 @@ class GraphQLService {
   Future<String> set_shipping_address_to_cart(
       String cart_token, Address address) async {
 
-
     print(address.region!.regionCode!);
 
     print('address.regionId');
@@ -2841,7 +2990,7 @@ class GraphQLService {
             mutation {
                 setBillingAddressOnCart(
                   input: {
-                    cart_id: $cart_token
+                    cart_id: "$cart_token"
                     billing_address: {
                       address: {
                         firstname: "${address.firstname}"
@@ -2854,7 +3003,7 @@ class GraphQLService {
                         postcode: "${address.postcode}"
                         country_code: "${address.countryCode}"
                         telephone: "${address.telephone}"
-                        save_in_address_book: true
+                        save_in_address_book: false
                       }
                     }
                   }
@@ -2880,7 +3029,6 @@ class GraphQLService {
                   }
                 }
               }
-
         ''';
   }
 
@@ -2899,7 +3047,6 @@ class GraphQLService {
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
         log(jsonEncode(result.data));
-
         EasyLoading.dismiss();
       }
 
@@ -2919,7 +3066,7 @@ class GraphQLService {
             mutation {
               setShippingMethodsOnCart(
                 input: {
-                  cart_id: $cart_token,
+                  cart_id: "$cart_token",
                   shipping_methods: [
                     {
                       carrier_code: "$carrier_code"
@@ -2951,6 +3098,10 @@ class GraphQLService {
     String cart_token,
     String cpn,
   ) async {
+
+    print(cart_token);
+    print(cpn);
+
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -2960,7 +3111,9 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-        print(result.data);
+
+        print('ratedata');
+        log(jsonEncode(result.data));
       }
       return "";
     } catch (e) {
@@ -3157,16 +3310,20 @@ class GraphQLService {
   Future<String> available_payment_methods(
     String cart_token,
   ) async {
+    EasyLoading.show(status: 'loading...');
     try {
+      EasyLoading.show(status: 'loading...');
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(avl_payment_methods(cart_token)), // this
         ),
       );
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
         print(result.data);
+        EasyLoading.dismiss();
       }
 
       return "";
@@ -3201,6 +3358,7 @@ class GraphQLService {
   Future<String> set_payment_to_cart(
     String cart_token,
   ) async {
+    EasyLoading.show(status: 'loading...');
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -3208,8 +3366,10 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
+        EasyLoading.dismiss();
         print(result.data);
       }
 
@@ -3229,16 +3389,20 @@ class GraphQLService {
                     order_number
                   }
                 }
+               }
         ''';
   }
 
   Future<String> place_order() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var cart_token = prefs.getString('cart_token') ?? '';
+    String cart_token = prefs.getString('cart_token') ?? '';
 
     print(cart_token);
 
+    log(plc_ord(cart_token));
+
+    EasyLoading.show(status: 'loading...');
 
     try {
       QueryResult result = await client.mutate(
@@ -3248,13 +3412,23 @@ class GraphQLService {
       );
 
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
         Fluttertoast.showToast(
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
         log(jsonEncode(result.data));
+        print(result.data);
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('order_ID', result.data?['placeOrder']['order']['order_number']);
+
+        print('Order_ID');
+
+        print(result.data?['placeOrder']['order']['order_number']);
 
         EasyLoading.dismiss();
+        return result.data?['placeOrder']['order']['order_number'];
       }
 
       return "";

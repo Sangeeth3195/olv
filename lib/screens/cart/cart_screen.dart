@@ -385,17 +385,26 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           var token = prefs.getString('token') ?? '';
 
                           if (token.isEmpty) {
-                            Navigator.push(
+                            
+                            Fluttertoast.showToast(msg: 'Please login to continue checkout');
+                            
+                          /*  Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const LoginPage()),
-                            );
+                            );*/
+
                           } else {
                             CartProvider cartProvider =
                                 Provider.of<CartProvider>(context,
                                     listen: false);
 
                             context.go('/cart/continue');
+
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setDouble(
+                                'sub_total', widget.cartModel.cart!.prices!.subtotalExcludingTax!.value!);
+
                           }
                         },
                       ),
