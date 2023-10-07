@@ -70,9 +70,10 @@ class _CartScreenState extends State<CartScreen> {
       builder: (context, provider, _) {
         if (provider.cartModel.cart == null ||
             cartProvider!.cartModel.cart == null ||
-            cartProvider!.cartModel.cart!.items == null) {
+            cartProvider!.cartModel.cart!.items == null||
+            cartProvider!.cartModel.cart!.items!.isEmpty) {
           return const Center(
-            child: Text('No Cart'),
+            child: Text('You have no items in your Cart.'),
           );
         }
         return Scaffold(
