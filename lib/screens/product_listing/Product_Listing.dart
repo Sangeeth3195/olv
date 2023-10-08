@@ -496,7 +496,7 @@ class _HomeScreenState extends State<ProductListing> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DetailsScreen(
-                                      product: provider.pList[index]),
+                                      product: provider.pList[index]['sku']),
                                 ));
 
                             // Navigator.push(

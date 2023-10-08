@@ -11,6 +11,7 @@ import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/models/CountryModel.dart';
 import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/models/HomePageModel.dart';
+import 'package:omaliving/models/searchmodel.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
@@ -729,7 +730,7 @@ class GraphQLService {
     }
   }
 
-  Future<List<dynamic>> productsearch_suggestion(value) async {
+  Future<SearchModel> productsearch_suggestion(value) async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -768,21 +769,17 @@ class GraphQLService {
       if (result.hasException) {
         throw Exception(result.exception);
       } else {
-        List? res = result.data?['categoryList'];
 
-        if (res == null || res.isEmpty) {
-          return [];
-        }
-        print(res.first['children']);
-
-        return res.first['children'];
+        log(jsonEncode(result.data));
+        return SearchModel.fromJson(result.data!);
       }
     } catch (error) {
-      return [];
+      log(error.toString());
+      return SearchModel();
     }
   }
 
-  Future<List<dynamic>> productsearch(value) async {
+  Future<dynamic> productsearch(value) async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -966,14 +963,7 @@ class GraphQLService {
       if (result.hasException) {
         throw Exception(result.exception);
       } else {
-        List? res = result.data?['categoryList'];
-
-        if (res == null || res.isEmpty) {
-          return [];
-        }
-        print(res.first['children']);
-
-        return res.first['children'];
+        return result.data;
       }
     } catch (error) {
       return [];

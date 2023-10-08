@@ -20,7 +20,7 @@ class ProductDescription extends StatefulWidget {
     this.pressOnSeeMore,
   }) : super(key: key);
 
-  final Map<String, dynamic> product;
+  final String product;
   final GestureTapCallback? pressOnSeeMore;
 
   @override
@@ -50,16 +50,16 @@ class _ProductDescriptionState extends State<ProductDescription> {
     // TODO: implement initState
     super.initState();
     myProvider = Provider.of<MyProvider>(context, listen: false);
-    if (kDebugMode) {
-      print('name --> ' + widget.product['name']);
-      print('id --> ${widget.product['id']}');
-
-    }
+    // if (kDebugMode) {
+    //   print('name --> ' + widget.product['name']);
+    //   print('id --> ${widget.product['id']}');
+    //
+    // }
   }
 
   void getNavdata() async {
     final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateProductDescriptionData(widget.product['sku'].toString());
+    myProvider.updateProductDescriptionData(widget.product.toString());
   }
 
   void _onExpansionChanged(bool isExpanded) {
@@ -611,7 +611,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
                     if (provider.productData[0]['configurable_options'] ==
                         'configurable_options') {
-                      print(widget.product['sku'].toString());
+                      print(widget.product.toString());
 
                       print(provider.productData[0]['variants'][0]['product']
                           ['sku']);
@@ -623,7 +623,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       );
                     } else {
                       graphQLService.addProductToCart(
-                        widget.product['sku'].toString(),
+                        widget.product.toString(),
                         quantity.toString(),
                       );
                     }
@@ -670,7 +670,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
                         if (provider.productData[0]['configurable_options'] ==
                             'configurable_options') {
-                          print(widget.product['sku'].toString());
+                          print(widget.product.toString());
 
                           print(provider.productData[0]['variants'][0]['product']
                           ['sku']);
@@ -682,7 +682,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           );
                         } else {
                           graphQLService.addProductToCart(
-                            widget.product['sku'].toString(),
+                            widget.product.toString(),
                             quantity.toString(),
                           );
                         }
@@ -738,7 +738,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           onPressed: () async {
 
 
-                            print(widget.product['sku']!.toString());
+                            print(widget.product.toString());
 
                             if(myProvider!.customerModel?.customer?.email != null){
 
