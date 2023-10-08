@@ -13,7 +13,7 @@ import 'components/top_rounded_container.dart';
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key, required this.product}) : super(key: key);
 
-  final Map<String, dynamic> product;
+  final String product;
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -37,9 +37,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     print(widget.product);
 
-    print('sku ->' + widget.product['sku'].toString());
+    print('sku ->' + widget.product);
 
-    myProvider!.updateProductDescriptionData(widget.product['sku'].toString());
+    myProvider!.updateProductDescriptionData(widget.product);
 
     myProvider!.updateHeaderScreen(true);
   }
@@ -50,6 +50,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
       body: Consumer<MyProvider>(
         builder: (context,provider,_){
           if(provider.productData != null){
+            print(provider.productData);
+
             return Container(
               color: omaColor,
               child: ListView(
@@ -73,7 +75,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     child: Column(
                       children: [
                         ProductDescription(
-                          product: widget.product,
+                          product: provider.productData[0]['sku'],
                           pressOnSeeMore: () {},
                         ),
                       ],

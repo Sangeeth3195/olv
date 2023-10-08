@@ -92,7 +92,6 @@ class _BodyState extends State<Body> {
         child: homePageModel.typename != null
             ? Column(children: [
                 Container(
-                  height: 75,
                   padding: const EdgeInsets.all(5),
                   decoration: const BoxDecoration(
                     shape: BoxShape.rectangle,

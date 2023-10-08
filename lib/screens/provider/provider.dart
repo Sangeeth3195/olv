@@ -77,6 +77,28 @@ class MyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateSearchData(String id) async {
+    dynamic listData = await graphQLService.productsearch(id);
+    List? res = listData['products']['items'];
+    pList = res!;
+    aggrecation = listData['products']['aggregations'];
+
+    dynamic dataFromAPi =
+        await graphQLService.productsearch(id);
+    List? res1 = dataFromAPi['products']['items'];
+    _data = res1!;
+    aggrecation = dataFromAPi['products']['aggregations'];
+    final List<dynamic> postList =
+        dataFromAPi['products']['aggregations'];
+    aggregationList =
+        postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
+    final List<dynamic> itemList = dataFromAPi['products']['items'];
+    items = itemList.map((postJson) => Item.fromJson(postJson)).toList();
+    oldItems = itemList.map((postJson) => Item.fromJson(postJson)).toList();
+
+    notifyListeners();
+  }
+
   void updateDataWithFilter(int id, Map<String, dynamic> filter) async {
     EasyLoading.dismiss();
     dynamic listData = await graphQLService.getproductlistBySorting(
