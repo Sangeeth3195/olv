@@ -333,10 +333,9 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                               : null,
                           title: GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pop();
                               catId = navHeaderList[index]['id'];
                               print('item_id --> $catId');
-                              final myProvider = Provider.of<MyProvider>(
+                              /*final myProvider = Provider.of<MyProvider>(
                                   context,
                                   listen: false);
                               myProvider.updateData(catId);
@@ -344,7 +343,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                   .updateHeader(navHeaderList[index]['name']);
                               myProvider.isproduct = true;
                               myProvider.notifyListeners();
-                              context.go('/home/pdp');
+                              context.go('/home/pdp');*/
                             },
                             child: Text(
                               navHeaderList[index]['name'],

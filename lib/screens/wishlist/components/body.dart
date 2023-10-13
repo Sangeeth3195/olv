@@ -52,7 +52,7 @@ class _BodyState extends State<Body> {
             ? const Center(child: CircularProgressIndicator())
             : Container(
                 margin: const EdgeInsets.only(
-                    bottom: 55, left: 5, right: 5, top: 5),
+                    bottom: 0, left: 5, right: 5, top: 5),
                 child:
                     myProvider!.customerModel.customer!.wishlist!.items!.isEmpty
                         ? const Center(
@@ -182,21 +182,7 @@ class _BodyState extends State<Body> {
                               EasyLoading.show();
                               myProvider!.getuserdata();
                               EasyLoading.show();
-                                dynamic listData = await graphQLService
-                                    .remove_Product_from_wishlist(
-                                        wishlistId: myProvider!.customerModel
-                                            .customer!.wishlists![0].id!,
-                                        wishlistItemsIds: myProvider!
-                                            .customerModel
-                                            .customer!
-                                            .wishlist!
-                                            .items![position]
-                                            .id
-                                            .toString());
-                                EasyLoading.show();
-                                myProvider!.getuserdata();
-                                EasyLoading.show();
-                              }
+
                             },
                             child: const Icon(
                               Icons.favorite,
@@ -250,9 +236,7 @@ class _BodyState extends State<Body> {
           )),
     );
   }
-
 }
-
 
 class ProductCard extends StatefulWidget {
   const ProductCard({
