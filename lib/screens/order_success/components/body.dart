@@ -36,6 +36,9 @@ class _BodyState extends State<Body> {
     await SharedPreferences.getInstance();
 
     orderID = prefs!.getString('order_ID') ?? '';
+
+    print('orderID');
+    print(orderID);
   }
 
   @override

@@ -54,7 +54,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
             return Container(
               color: omaColor,
-              child: ListView(
+              child:
+
+
+              ListView(
                 children: [
                 /*  Container(
                     height: 70,
@@ -77,12 +80,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ProductDescription(
                           product: provider.productData[0]['sku'],
                           pressOnSeeMore: () {},
-                        ),
+                        )
                       ],
                     ),
                   ),
                 ],
-              ),
+              )
             );
 
           }else{

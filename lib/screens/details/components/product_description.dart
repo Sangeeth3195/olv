@@ -32,10 +32,19 @@ class _ProductDescriptionState extends State<ProductDescription> {
   GraphQLService graphQLService = GraphQLService();
   MyProvider? myProvider;
   bool _isExpanded = false;
+  bool _isExpanded1 = false;
+  int _selected = 0;
+
 
   void incrementQuantity() {
     quantity++;
     setState(() {});
+  }
+
+  void _changeColor(int index) {
+    setState(() {
+      _selected = index;
+    });
   }
 
   void decrementQuantity() {
@@ -68,6 +77,12 @@ class _ProductDescriptionState extends State<ProductDescription> {
     });
   }
 
+  void _onExpansionChanged1(bool isExpanded1) {
+    setState(() {
+      _isExpanded1 = isExpanded1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MyProvider>(
@@ -86,10 +101,10 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
-                        fontSize: 18)),
+                        fontSize: 16)),
               ),
               const SizedBox(
-                height: 16,
+                height: 12,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -101,28 +116,25 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                 ['minimum_price']['regular_price']['value']
                             .toString()
                         : '₹' +
-                            "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}"
-                                " - " +
-                            '₹' +
                             "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: headingColor,
-                        fontSize: 15)),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(10)),
-                child: const Text('OVERVIEW',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: headingColor)),
+                        color: Colors.black,
+                        fontSize: 16)),
               ),
               const SizedBox(
                 height: 12,
               ),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(
+              //       horizontal: getProportionateScreenWidth(10)),
+              //   child: const Text('OVERVIEW',
+              //       style: TextStyle(
+              //           fontWeight: FontWeight.bold, color: headingColor)),
+              // ),
+              // const SizedBox(
+              //   height: 12,
+              // ),
               Padding(
                 padding: EdgeInsets.only(
                   left: getProportionateScreenWidth(10),
@@ -134,29 +146,30 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     style: const TextStyle(
                         fontWeight: FontWeight.normal,
                         color: headingColor,
-                        height: 1.3,
+                        height: 1.5,
                         fontSize: 15)),
               ),
               const SizedBox(
-                height: 18,
+                height: 0,
               ),
 
               provider.productData[0]['configurable_options'] != null &&
-                  provider.productData[0]['configurable_options'][0]['label'] ==
+                      provider.productData[0]['configurable_options'][0]
+                              ['label'] ==
                           "size"
                   ? Row(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: getProportionateScreenWidth(10)),
-                          child: const Text('SIZE',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: headingColor)),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.symmetric(
+                        //       horizontal: getProportionateScreenWidth(10)),
+                        //   child: const Text('SIZE',
+                        //       style: TextStyle(
+                        //           fontWeight: FontWeight.bold,
+                        //           color: headingColor)),
+                        // ),
+                        // const SizedBox(
+                        //   width: 10,
+                        // ),
                         provider.productData[0]['__typename'] ==
                                 "ConfigurableProduct"
                             ? Row(
@@ -242,7 +255,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ],
                     )
                   : Container(),
-
 
               // provider.productData[0]['__typename'] == "ConfigurableProduct"
               //     ? Row(
@@ -444,24 +456,24 @@ class _ProductDescriptionState extends State<ProductDescription> {
               //       )
               //     : Container(),
 
-
               const SizedBox(
-                height: 18,
+                height: 5,
               ),
 
               provider.productData[0]['configurable_options'] != null &&
-                  provider.productData[0]['configurable_options'][0]['label'] ==
-                      "Color"
+                      provider.productData[0]['configurable_options'][0]
+                              ['label'] ==
+                          "Color"
                   ? Row(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: getProportionateScreenWidth(10)),
-                          child: const Text('COLOR',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: headingColor)),
-                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.symmetric(
+                        //       horizontal: getProportionateScreenWidth(10)),
+                        //   child: const Text('COLOR',
+                        //       style: TextStyle(
+                        //           fontWeight: FontWeight.bold,
+                        //           color: headingColor)),
+                        // ),
                         const SizedBox(
                           width: 10,
                         ),
@@ -482,19 +494,35 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                       itemBuilder: (context, index) {
                                         return GestureDetector(
                                           onTap: () {
-                                            // _changeColor(index);
+                                            _changeColor(index);
+
+                                            print('color code --> ' +
+                                                provider.productData[0][
+                                                'configurable_options']
+                                                [0]['values'][index]
+                                                ['value_index'].toString());
+
                                             print('color code --> ' +
                                                 provider.productData[0][
                                                             'configurable_options']
                                                         [0]['values'][index]
                                                     ['swatch_data']['value']);
+
                                           },
                                           child: Container(
                                             margin: const EdgeInsets.symmetric(
                                                 horizontal: 5),
                                             padding: const EdgeInsets.all(10),
+
+
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
+                                                border: Border.all(
+                                                    color: _selected == index
+                                                        ? Colors.brown
+                                                        : Colors.transparent,
+                                                    width:
+                                                    3.0),
                                               color: colorFromHex(provider
                                                               .productData[0][
                                                           'configurable_options']
@@ -514,7 +542,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   : Container(),
 
               const SizedBox(
-                height: 18,
+                height: 5,
               ),
               Row(
                 children: [
@@ -533,7 +561,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       color: omaColor,
                       border: Border.all(
                         color: headingColor, // Border color
-                        width: 0.0, // Border width
+                        width: 0.5, // Border width
                       ),
                       borderRadius: BorderRadius.circular(0.0),
                     ),
@@ -541,10 +569,11 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: 34,
+                          height: 40,
                           child: IconButton(
                             icon: const Icon(
                               Icons.remove,
+                              size: 18,
                               color: headingColor,
                             ),
                             onPressed: () {
@@ -552,30 +581,36 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             },
                           ),
                         ),
-                        Container(
-                          height: 34,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                              vertical: 8), // Adjust padding as needed
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: headingColor, // Border color
-                              width: 1.0, // Border width
+                        Center(
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                                vertical: 8), // Adjust padding as needed
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: headingColor, // Border color
+                                width: 1.0, // Border width
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                  0.0), // Adjust border radius as needed
                             ),
-                            borderRadius: BorderRadius.circular(
-                                0.0), // Adjust border radius as needed
-                          ),
-                          child: Text(
-                            quantity.toString(),
-                            style: const TextStyle(fontSize: 15),
+                            child: Center(
+                              child: Text(
+                                quantity.toString(),
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                            ),
                           ),
                         ),
                         SizedBox(
-                          height: 34,
+                          height: 40,
                           child: IconButton(
                             icon: const Icon(
                               Icons.add,
+                              size: 18,
                               color: headingColor,
                             ),
                             onPressed: () {
@@ -593,7 +628,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
               ),
               Container(
                 height: 40,
-
                 width: double.infinity,
                 // Set the container width to occupy the full width
                 margin:
@@ -601,11 +635,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 // Adjust margins as needed
                 child: ElevatedButton(
                   onPressed: () {
-
                     print(quantity.toString());
-                    // Button onPressed action
-                    // graphQLService.create_cart_non_user();
-                    // graphQLService.create_cart();
 
                     EasyLoading.show(status: 'loading...');
 
@@ -627,13 +657,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         quantity.toString(),
                       );
                     }
-
-
-
-                    // graphQLService.update_product_to_cart(
-                    //   widget.product['sku'].toString(),
-                    //   quantity.toStringAsFixed(0),
-                    // );
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(5),
@@ -662,6 +685,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         EasyLoading.show(status: 'loading...');
 
                         print(quantity.toString());
+
                         // Button onPressed action
                         // graphQLService.create_cart_non_user();
                         // graphQLService.create_cart();
@@ -672,12 +696,12 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             'configurable_options') {
                           print(widget.product.toString());
 
-                          print(provider.productData[0]['variants'][0]['product']
-                          ['sku']);
+                          print(provider.productData[0]['variants'][0]
+                              ['product']['sku']);
 
                           graphQLService.addProductToCart(
                             provider.productData[0]['variants'][0]['product']
-                            ['sku'],
+                                ['sku'],
                             quantity.toString(),
                           );
                         } else {
@@ -707,6 +731,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           widget.product['sku'].toString(),
                           '1',
                         );*/
+
                       },
                       style: ElevatedButton.styleFrom(
                         side: const BorderSide(color: headingColor),
@@ -736,22 +761,15 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ),
                       child: IconButton(
                           onPressed: () async {
-
-
                             print(widget.product.toString());
 
-                            if(myProvider!.customerModel?.customer?.email != null){
-
-
-                              setState(() {
-
-                              });
-
-                            }else{
-                              Fluttertoast.showToast(msg: 'Please Login for wishlist an item');
+                            if (myProvider!.customerModel?.customer?.email !=
+                                null) {
+                              setState(() {});
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: 'Please Login for wishlist an item');
                             }
-
-
                           },
                           icon: const Icon(
                             Icons.favorite_border,
@@ -759,75 +777,284 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           )))
                 ],
               ),
-              const SizedBox(
-                height: 12,
-              ),
+
               Padding(
-                padding: const EdgeInsets.all(5),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: HtmlExpansionTile(
-                  title: 'Detail',
+                  title: 'DETAIL',
                   htmlContent: '''${product[0]['detail']}''',
                 ),
               ),
+
               Card(
                 color: omaColor,
-              elevation: 0,
+                elevation: 0,
                 borderOnForeground: false,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: ExpansionTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    leading: _isExpanded
+                        ? const Icon(
+                            Icons.remove,
+                            size: 20,
+                          ) // Icon when expanded
+                        : const Icon(
+                            Icons.add,
+                            size: 20,
+                          ),
+                    childrenPadding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    expandedCrossAxisAlignment: CrossAxisAlignment.end,
+                    maintainState: true,
+                    onExpansionChanged: _onExpansionChanged,
+                    // trailing: _isExpanded
+                    //     ? const Icon(Icons.remove) // Icon when expanded
+                    //     : const Icon(Icons.add),
 
+                    title: const Padding(
+                      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                      child: Align(
+                        alignment: Alignment(-1.5, 0),
+                        child: Text(
+                          "DIMENSIONS",
+                          style: TextStyle(
+                              color: headingColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15),
+                        ),
+                      ),
+                    ),
 
-                child:  Padding(
-                padding: const EdgeInsets.fromLTRB(0,0,0,0),
-                child: ExpansionTile(
-                  onExpansionChanged: _onExpansionChanged,
-                  trailing: _isExpanded
-                      ? const Icon(Icons.remove) // Icon when expanded
-                      : const Icon(Icons.add),
-                  title: const Text(
-                    'Dimensions',
-                    style: TextStyle(color: headingColor),
+                    children: [
+                      SingleChildScrollView(
+                        padding: const EdgeInsets.fromLTRB(0.0, 0, 0, 15),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            product[0]['height'] == null
+                                ? Container()
+                                : Text('Height: ' + product[0]['height']),
+                            product[0]['diameter'] == null
+                                ? Container()
+                                : Text('Diameter: ' + product[0]['diameter']),
+                            product[0]['capacity'] == null
+                                ? Container()
+                                : Text('Capacity: ' + product[0]['capacity']),
+                            product[0]['width'] == null
+                                ? Container()
+                                : Text('Width: ' + product[0]['width']),
+                            product[0]['length'] == null
+                                ? Container()
+                                : Text('Length: ' + product[0]['length']),
+                            product[0]['overall'] == null
+                                ? Container()
+                                : Text('Overall: ' + product[0]['overall']),
+                            product[0]['depth'] == null
+                                ? Container()
+                                : Text('Depth: ' + product[0]['depth']),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(0),
+                child: ExpansionTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  leading: _isExpanded1
+                      ? const Icon(
+                          Icons.remove,
+                          size: 20,
+                          color: headingColor,
+                        ) // Icon when expanded
+                      : const Icon(
+                          Icons.add,
+                          size: 20,
+                          color: headingColor,
+                        ),
+                  childrenPadding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  expandedCrossAxisAlignment: CrossAxisAlignment.end,
+                  maintainState: true,
+                  onExpansionChanged: _onExpansionChanged1,
+                  // trailing: _isExpanded
+                  //     ? const Icon(Icons.remove) // Icon when expanded
+                  //     : const Icon(Icons.add),
+                  title: const Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Align(
+                      alignment: Alignment(-1.5, 0),
+                      child: Text(
+                        'CARE & MAINTENANCE',
+                        style: TextStyle(
+                            color: headingColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15),
+                      ),
+                    ),
+                  ),
+
                   children: [
                     SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(5.0,0,0,20),
-                      child: Column(
-                        children: [
-                          product[0]['height'] == null
-                              ? Container()
-                              : Text('Height: ' + product[0]['height']),
-                          product[0]['diameter'] == null
-                              ? Container()
-                              : Text('Diameter: ' + product[0]['diameter']),
-                          product[0]['capacity'] == null
-                              ? Container()
-                              : Text('Capacity: ' + product[0]['capacity']),
-                          product[0]['width'] == null
-                              ? Container()
-                              : Text('Width: ' + product[0]['width']),
-                          product[0]['length'] == null
-                              ? Container()
-                              : Text('Length: ' + product[0]['length']),
-                          product[0]['overall'] == null
-                              ? Container()
-                              : Text('Overall: ' + product[0]['overall']),
-                          product[0]['depth'] == null
-                              ? Container()
-                              : Text('Depth: ' + product[0]['depth']),
-                        ],
+                      padding: const EdgeInsets.all(5.0),
+                      child: Html(
+                        data: '${product[0]['care']}',
+                        style: {
+                          "body": Style(
+                            fontSize: FontSize(14.0),
+                            fontWeight: FontWeight.normal,
+                          ),
+                        },
                       ),
                     ),
                   ],
                 ),
+                // child: HtmlExpansionTile(
+                //   title: 'CARE & MAINTENANCE',
+                //   htmlContent: '''${product[0]['care']}''',
+                // ),
               ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(5),
-                child: HtmlExpansionTile(
-                  title: 'Care & Maintenance',
-                  htmlContent: '''${product[0]['care']}''',
-                ),
-              ),
+
               const SizedBox(
                 height: 12,
+              ),
+
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(10)),
+                child: const Text('Related Products',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: blackColor)),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                height: 250,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: provider.productData[0]['related_products'].length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: 200,
+                      // color: colors[index],
+                      margin: const EdgeInsets.all(8.0),
+                      child: Stack(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFF4F2EE),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(defaultBorderRadius)),
+                                ),
+                                child: Image.network(
+                                  provider.productData[0]['related_products']
+                                          [index]['media_gallery'][0]['url']
+                                      .toString(),
+                                  height: 150,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                    child: Text(
+                                      '',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          color: blackColor,
+                                          height: 1.5,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 0.0),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                    child: Text(
+                                      provider.productData[0]
+                                          ['related_products'][index]['name'],
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: blackColor,
+                                          height: 1.5,
+                                          fontSize: 13),
+                                    ),
+                                  ),
+                                  // const SizedBox(height: 10.0),
+
+                                  // Padding(
+                                  //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                  //   child:   Text("fjdkf"),
+                                  //
+                                  // ),
+
+                                  /*Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                        '₹$price',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: headingColor,
+                            height: 1.2,
+                            fontSize: 13),
+                      ),
+                    ),*/
+
+                                  const SizedBox(height: 10.0),
+
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                                    child: Text(
+                                      provider.productData[0]
+                                              ['related_products'][index]
+                                              ['price_range']['minimum_price']
+                                              ['regular_price']['value']
+                                          .toString(),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.normal,
+                                          color: headingColor,
+                                          height: 1.2,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          const Positioned(
+                              top: 0,
+                              right: 5,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 2.0, vertical: 6),
+                                child: Icon(
+                                  Icons.favorite_border,
+                                  color: blackColor,
+                                  size: 22,
+                                ),
+                              )),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           );
@@ -876,32 +1103,56 @@ class _HtmlExpansionTileState extends State<HtmlExpansionTile> {
   Widget build(BuildContext context) {
     return Card(
       color: omaColor,
-
       elevation: 0,
-        child: ExpansionTile(
-      onExpansionChanged: _onExpansionChanged,
-      trailing: _isExpanded
-          ? const Icon(Icons.remove) // Icon when expanded
-          : const Icon(Icons.add),
-      title: Text(widget.title,
-          style: const TextStyle(
-
-              fontWeight: FontWeight.w500, color: headingColor)),
-      children: [
-        SingleChildScrollView(
-          padding: const EdgeInsets.all(5.0),
-          child: Html(
-            data: widget.htmlContent,
-            style: {
-              "body": Style(
-                fontSize: FontSize(14.0),
-                fontWeight: FontWeight.normal,
+      child: ExpansionTile(
+        controlAffinity: ListTileControlAffinity.leading,
+        leading: _isExpanded
+            ? const Icon(
+                Icons.remove,
+                size: 20,
+                color: headingColor,
+              ) // Icon when expanded
+            : const Icon(
+                Icons.add,
+                size: 20,
+                color: headingColor,
               ),
-            },
+        childrenPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+        expandedCrossAxisAlignment: CrossAxisAlignment.end,
+        maintainState: true,
+        onExpansionChanged: _onExpansionChanged,
+        // trailing: _isExpanded
+        //     ? const Icon(Icons.remove) // Icon when expanded
+        //     : const Icon(Icons.add),
+        title: Padding(
+          padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+          child: Align(
+            alignment: const Alignment(-1.5, 0),
+            child: Text(
+              widget.title,
+              style: const TextStyle(
+                  color: headingColor,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
+            ),
           ),
         ),
-      ],
-    ),
+
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(5.0),
+            child: Html(
+              data: widget.htmlContent,
+              style: {
+                "body": Style(
+                  fontSize: FontSize(14.0),
+                  fontWeight: FontWeight.normal,
+                ),
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

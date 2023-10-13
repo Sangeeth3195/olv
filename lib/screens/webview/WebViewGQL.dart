@@ -54,10 +54,7 @@ class _CommonWebViewState extends State<CommonWebViewGraphql> {
                   children: [
                     Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child:
-
-                            /*getcustomwebview.data != null || getcustomwebview.data['cmsPage']['content'] != null ?*/
-                            HtmlWidget(
+                        child: HtmlWidget(
                           getcustomwebview.data!['cmsPage']['content']!,
                           customStylesBuilder: (element) {
                             if (element.classes.contains('foo')) {

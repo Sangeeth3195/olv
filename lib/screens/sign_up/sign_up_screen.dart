@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/LoginPage.dart';
@@ -468,6 +469,8 @@ class _SignInState extends State<SignIn> {
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      EasyLoading.show(status: 'loading...');
+
                       graphQLService.createuser(
                           loginfullnameController.text.toString(),
                           loginlastnameController.text.toString(),

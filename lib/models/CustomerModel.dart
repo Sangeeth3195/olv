@@ -237,6 +237,7 @@ class Product {
   String? sku;
   String? name;
   List<ConfigurableOption>? configurableOptions;
+  List<DynamicAttributes>? dynamicAttributes;
   List<MediaGallery>? mediaGallery;
   PriceRange? priceRange;
 
@@ -245,6 +246,7 @@ class Product {
     this.sku,
     this.name,
     this.configurableOptions,
+    this.dynamicAttributes,
     this.mediaGallery,
     this.priceRange,
   });
@@ -254,6 +256,7 @@ class Product {
     sku: json["sku"],
     name: json["name"],
     configurableOptions: json["configurable_options"] == null ? [] : List<ConfigurableOption>.from(json["configurable_options"]!.map((x) => ConfigurableOption.fromJson(x))),
+    dynamicAttributes: json["dynamicAttributes"] == null ? [] : List<DynamicAttributes>.from(json["dynamicAttributes"]!.map((x) => DynamicAttributes.fromJson(x))),
     mediaGallery: json["media_gallery"] == null ? [] : List<MediaGallery>.from(json["media_gallery"]!.map((x) => MediaGallery.fromJson(x))),
     priceRange: json["price_range"] == null ? null : PriceRange.fromJson(json["price_range"]),
   );
@@ -263,6 +266,7 @@ class Product {
     "sku": sku,
     "name": name,
     "configurable_options": configurableOptions == null ? [] : List<dynamic>.from(configurableOptions!.map((x) => x.toJson())),
+    "dynamicAttributes": dynamicAttributes == null ? [] : List<dynamic>.from(dynamicAttributes!.map((x) => x.toJson())),
     "media_gallery": mediaGallery == null ? [] : List<dynamic>.from(mediaGallery!.map((x) => x.toJson())),
     "price_range": priceRange?.toJson(),
   };
@@ -373,6 +377,29 @@ enum ValueTypename {
 final valueTypenameValues = EnumValues({
   "ConfigurableProductOptionsValues": ValueTypename.CONFIGURABLE_PRODUCT_OPTIONS_VALUES
 });
+
+class DynamicAttributes {
+  String? attributeCode;
+  String? attributeLabel;
+  String? attributeValue;
+
+  DynamicAttributes(
+      {this.attributeCode, this.attributeLabel, this.attributeValue});
+
+  DynamicAttributes.fromJson(Map<String, dynamic> json) {
+    attributeCode = json['attribute_code'];
+    attributeLabel = json['attribute_label'];
+    attributeValue = json['attribute_value'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['attribute_code'] = this.attributeCode;
+    data['attribute_label'] = this.attributeLabel;
+    data['attribute_value'] = this.attributeValue;
+    return data;
+  }
+}
 
 class MediaGallery {
   MediaGalleryTypename? typename;

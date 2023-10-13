@@ -128,10 +128,10 @@ class _MyHomePageState extends State<CheckoutCard> {
     cart_token = prefs!.getString('cart_token') ?? '';
 
     if(sub_total!  >= 10000 ){
-     graphQLService.set_shipping_method_to_cart(cart_token,'freeshipping');
+     graphQLService.set_shipping_method_to_cart(context,cart_token,'freeshipping');
 
     }else{
-      graphQLService.set_shipping_method_to_cart(cart_token,'flatrate');
+      graphQLService.set_shipping_method_to_cart(context,cart_token,'flatrate');
 
     }
   }

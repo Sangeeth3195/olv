@@ -49,86 +49,72 @@ class Products {
 }
 
 class Item {
-  ItemTypename? typename;
   int? id;
   String? name;
   String? sku;
-  StockStatus? stockStatus;
+  String? stockStatus;
   String? brands;
-  List<GetPriceRange>? getPriceRange;
   List<TextAttribute>? textAttributes;
   ImageProduct? image;
 
   Item({
-    this.typename,
     this.id,
     this.name,
     this.sku,
     this.stockStatus,
     this.brands,
-    this.getPriceRange,
     this.textAttributes,
     this.image,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
-    typename: itemTypenameValues.map[json["__typename"]]!,
     id: json["id"],
     name: json["name"],
     sku: json["sku"],
-    stockStatus: stockStatusValues.map[json["stock_status"]]!,
+    stockStatus: json["stock_status"]!,
     brands: json["brands"],
-    getPriceRange: json["getPriceRange"] == null ? [] : List<GetPriceRange>.from(json["getPriceRange"]!.map((x) => GetPriceRange.fromJson(x))),
     textAttributes: json["textAttributes"] == null ? [] : List<TextAttribute>.from(json["textAttributes"]!.map((x) => TextAttribute.fromJson(x))),
     image: json["image"] == null ? null : ImageProduct.fromJson(json["image"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "__typename": itemTypenameValues.reverse[typename],
     "id": id,
     "name": name,
     "sku": sku,
-    "stock_status": stockStatusValues.reverse[stockStatus],
+    "stock_status": stockStatus,
     "brands": brands,
-    "getPriceRange": getPriceRange == null ? [] : List<dynamic>.from(getPriceRange!.map((x) => x.toJson())),
     "textAttributes": textAttributes == null ? [] : List<dynamic>.from(textAttributes!.map((x) => x.toJson())),
     "image": image?.toJson(),
   };
 }
 
 class GetPriceRange {
-  String? typename;
   String? oldpricevalue;
   String? normalpricevalue;
 
   GetPriceRange({
-    this.typename,
     this.oldpricevalue,
     this.normalpricevalue,
   });
 
   factory GetPriceRange.fromJson(Map<String, dynamic> json) => GetPriceRange(
-    typename: json["__typename"],
     oldpricevalue: json["oldpricevalue"],
     normalpricevalue: json["normalpricevalue"],
   );
 
   Map<String, dynamic> toJson() => {
-    "__typename": typename,
     "oldpricevalue": oldpricevalue,
     "normalpricevalue": normalpricevalue,
   };
 }
 
 class ImageProduct {
-  ImageTypename? typename;
   String? url;
   String? label;
   dynamic position;
   dynamic disabled;
 
   ImageProduct({
-    this.typename,
     this.url,
     this.label,
     this.position,
@@ -136,7 +122,6 @@ class ImageProduct {
   });
 
   factory ImageProduct.fromJson(Map<String, dynamic> json) => ImageProduct(
-    typename: imageTypenameValues.map[json["__typename"]]!,
     url: json["url"],
     label: json["label"],
     position: json["position"],
@@ -144,7 +129,6 @@ class ImageProduct {
   );
 
   Map<String, dynamic> toJson() => {
-    "__typename": imageTypenameValues.reverse[typename],
     "url": url,
     "label": label,
     "position": position,
@@ -152,75 +136,30 @@ class ImageProduct {
   };
 }
 
-enum ImageTypename {
-  PRODUCT_IMAGE
-}
-
-final imageTypenameValues = EnumValues({
-  "ProductImage": ImageTypename.PRODUCT_IMAGE
-});
-
-enum StockStatus {
-  IN_STOCK
-}
-
-final stockStatusValues = EnumValues({
-  "IN_STOCK": StockStatus.IN_STOCK
-});
-
 class TextAttribute {
-  TextAttributeTypename? typename;
-  Weight? weight;
+  String? weight;
   String? normalprice;
   dynamic specicalprice;
 
   TextAttribute({
-    this.typename,
     this.weight,
     this.normalprice,
     this.specicalprice,
   });
 
   factory TextAttribute.fromJson(Map<String, dynamic> json) => TextAttribute(
-    typename: textAttributeTypenameValues.map[json["__typename"]]!,
-    weight: weightValues.map[json["weight"]]!,
+    weight: json["weight"]!,
     normalprice: json["normalprice"],
     specicalprice: json["specicalprice"],
   );
 
   Map<String, dynamic> toJson() => {
-    "__typename": textAttributeTypenameValues.reverse[typename],
-    "weight": weightValues.reverse[weight],
+    "weight": weight,
     "normalprice": normalprice,
     "specicalprice": specicalprice,
   };
 }
 
-enum TextAttributeTypename {
-  TEXT_ATTRIBUTES
-}
-
-final textAttributeTypenameValues = EnumValues({
-  "TextAttributes": TextAttributeTypename.TEXT_ATTRIBUTES
-});
-
-enum Weight {
-  THE_000_GM
-}
-
-final weightValues = EnumValues({
-  "0.00 GM": Weight.THE_000_GM
-});
-
-enum ItemTypename {
-  CONFIGURABLE_PRODUCT,
-  SIMPLE_PRODUCT
-}
-
-final itemTypenameValues = EnumValues({
-  "ConfigurableProduct": ItemTypename.CONFIGURABLE_PRODUCT,
-  "SimpleProduct": ItemTypename.SIMPLE_PRODUCT
-});
 
 class EnumValues<T> {
   Map<String, T> map;
