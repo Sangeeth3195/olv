@@ -164,7 +164,7 @@ class Item {
   List<DynamicAttribute> dynamicAttributes;
   String urlKey;
   SmallImage smallImage;
-  int wishlist=0;
+  bool wishlist=false;
 
   Item({
     required this.id,
@@ -184,7 +184,7 @@ class Item {
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
     id: json["id"],
-    wishlist: json["wishlist"]??0,
+    wishlist: json["is_wishlisted"]??false,
     name: json["name"],
     typename: json["__typename"],
     sku: json["sku"],
@@ -542,6 +542,11 @@ class Product {
   int attributeSetId;
   int weight;
   PriceRange priceRange;
+  SmallImage smallImage;
+  List<TextAttribute> textAttributes;
+  List<GetPriceRange> getPriceRange;
+
+
 
   Product({
     required this.typename,
@@ -551,6 +556,9 @@ class Product {
     required this.attributeSetId,
     required this.weight,
     required this.priceRange,
+    required this.smallImage,
+    required this.textAttributes,
+    required this.getPriceRange,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -561,6 +569,10 @@ class Product {
     attributeSetId: json["attribute_set_id"],
     weight: json["weight"]??0,
     priceRange: PriceRange.fromJson(json["price_range"]),
+    smallImage: SmallImage.fromJson(json["small_image"]),
+    textAttributes: json["textAttributes"]==null?[]:List<TextAttribute>.from(json["textAttributes"].map((x) => TextAttribute.fromJson(x))),
+    getPriceRange: json["getPriceRange"]==null?[]:List<GetPriceRange>.from(json["getPriceRange"].map((x) => GetPriceRange.fromJson(x))),
+
   );
 
   Map<String, dynamic> toJson() => {

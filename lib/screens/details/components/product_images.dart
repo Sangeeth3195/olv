@@ -7,10 +7,12 @@ import '../../../components/size_config.dart';
 class ProductImages extends StatefulWidget {
   const ProductImages({
     Key? key,
-    required this.product,
+    required this.product, required this.isConfigurableProduct, required this.configurableProductIndex,
   }) : super(key: key);
 
   final dynamic product;
+  final bool isConfigurableProduct;
+  final int configurableProductIndex;
 
   @override
   _ProductImagesState createState() => _ProductImagesState();
@@ -30,7 +32,7 @@ class _ProductImagesState extends State<ProductImages> {
             aspectRatio: 1,
             child: Hero(
               tag: widget.product[0]['id'].toString(),
-              child: widget.product[0]['media_gallery'].length == 0?Image.asset('assets/images/placeholder.png'):Image.network(widget.product[0]['media_gallery'][selectedImage]['url']),
+              child: widget.product[0]['media_gallery'].length == 0?Image.asset('assets/images/placeholder.png'):Image.network(widget.isConfigurableProduct?widget.product[0]['variants'][widget.configurableProductIndex]['product']['media_gallery'][selectedImage]['url']:widget.product[0]['media_gallery'][selectedImage]['url']),
             ),
           ),
         ),
@@ -38,7 +40,7 @@ class _ProductImagesState extends State<ProductImages> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-              ...List.generate(widget.product[0]['media_gallery'].length,
+              ...List.generate(widget.isConfigurableProduct?widget.product[0]['variants'][widget.configurableProductIndex]['product']['media_gallery'].length:widget.product[0]['media_gallery'].length,
                 (index) => buildSmallProductPreview(index)),
           ],
         )
@@ -65,7 +67,7 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.network(widget.product[0]['media_gallery'][index]['url']),
+        child: Image.network(widget.isConfigurableProduct?widget.product[0]['variants'][widget.configurableProductIndex]['product']['media_gallery'][index]['url']:widget.product[0]['media_gallery'][index]['url']),
       ),
     );
   }

@@ -205,6 +205,7 @@ class GraphQLService {
                               ... on PhysicalProductInterface {
                                 weight
                               }
+                              
                               price_range{
                                 minimum_price{
                                   regular_price{
@@ -214,6 +215,20 @@ class GraphQLService {
                                 }
                               }
                               
+                               small_image{
+                            url
+                            label
+                        }
+                              
+                               getPriceRange{
+                            oldpricevalue  
+                            normalpricevalue
+                          }
+                           textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
                             }
                             attributes {
                               uid

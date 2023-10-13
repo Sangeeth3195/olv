@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -44,12 +46,75 @@ class _ProductCardState extends State<ProductCard> {
   int _selected = 0;
   MyProvider? myProvider;
    String? wishListID;
+
+   late String image, title;
+   late String price;
+   late Color bgColor;
+   Item? item;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     myProvider = Provider.of<MyProvider>(context, listen: false);
+
+    log(widget.item!.wishlist.toString());
+    if(widget.item!.typename != "SimpleProduct"){
+      _changeColor(0, widget
+          .item!
+          .configurableOptions[0]
+          .values[0]
+          .valueIndex);
+    }else{
+      title = widget.title;
+      image = widget.item!.smallImage.url;
+      price=  widget.item!.getPriceRange.isEmpty?widget.item!.textAttributes[0].normalprice:widget.item!.getPriceRange[0].normalpricevalue;
+    }
   }
+
+  void _changeColor(int index, int valueIndex) {
+    setState(() {
+      _selected = index;
+    });
+
+
+
+    for(final variants in widget.item!.variants){
+      for (final attributes in variants.attributes){
+        if(attributes.valueIndex==valueIndex){
+          log(variants.product.toJson().toString());
+          setState(() {
+            title = variants.product.name;
+            image = variants.product.smallImage.url;
+            // price=  widget.item!.getPriceRange.isEmpty?widget.item!.textAttributes[0].normalprice:widget.item!.getPriceRange[0].normalpricevalue;
+            price=  variants.product.getPriceRange.isEmpty?variants.product.textAttributes[0].normalprice:variants.product.getPriceRange[0].normalpricevalue;
+          });
+        }
+
+      }
+    }
+    // widget.item!.variants.map((e) {
+    //   log(e.typename);
+    //   e.attributes.map((attributes) {
+    //     log(attributes.typename);
+    //     if(attributes.valueIndex==valueIndex){
+    //       log(attributes.typename);
+    //
+    //       setState(() {
+    //         title = e.product.name;
+    //         image = e.product.smallImage.url;
+    //         price=  e.product.typename == "SimpleProduct"
+    //             ? e.product.priceRange.minimumPrice
+    //             .regularPrice.value
+    //             .toString()
+    //             : "${e.product.priceRange.minimumPrice.regularPrice.value}"
+    //             " - ${e.product.priceRange.minimumPrice.regularPrice.value}";
+    //
+    //       });
+    //     }
+    //   });
+    // });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +144,7 @@ class _ProductCardState extends State<ProductCard> {
                         Radius.circular(defaultBorderRadius)),
                   ),
                   child: Image.network(
-                    widget.item!.smallImage.url,
+                    image,
                     height: 150,
                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                       return Image.asset('assets/omalogo.png',height: 150,);
@@ -107,7 +172,7 @@ class _ProductCardState extends State<ProductCard> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
-                        widget.title,
+                        title??'',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: blackColor,
@@ -118,11 +183,7 @@ class _ProductCardState extends State<ProductCard> {
                     const SizedBox(height: 10.0),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.item!.getPriceRange.isEmpty
-                          ? Text(widget.item!.textAttributes[0].normalprice
-                              .toString())
-                          : Text(widget.item!.getPriceRange[0].normalpricevalue
-                              .toString()),
+                      child: Text(price),
                     ),
 
                     /*Padding(
@@ -183,7 +244,15 @@ class _ProductCardState extends State<ProductCard> {
                                         itemBuilder: (context, index) {
                                           return GestureDetector(
                                             onTap: () {
-                                              _changeColor(index);
+                                              log(widget
+                                                  .item!
+                                                  .configurableOptions[0]
+                                                  .values[index].toJson().toString());
+                                              _changeColor(index,widget
+                                                  .item!
+                                                  .configurableOptions[0]
+                                                  .values[index]
+                                                  .valueIndex);
                                             },
                                             child: Container(
                                               margin:
@@ -224,7 +293,15 @@ class _ProductCardState extends State<ProductCard> {
                                         itemBuilder: (context, index) {
                                           return GestureDetector(
                                             onTap: () {
-                                              _changeColor(index);
+                                              log(widget
+                                                  .item!
+                                                  .configurableOptions[0]
+                                                  .values[index].toJson().toString());
+                                              _changeColor(index,widget
+                                                  .item!
+                                                  .configurableOptions[0]
+                                                  .values[index]
+                                                  .valueIndex);
                                             },
                                             child: Container(
                                               margin:
@@ -300,8 +377,8 @@ class _ProductCardState extends State<ProductCard> {
                   onTap: () async{
 
                     if(myProvider!.customerModel?.customer?.email != null){
-                      if(widget.item!.wishlist ==0){
-                        widget.item!.wishlist =1;
+                      if(!widget.item!.wishlist){
+                        widget.item!.wishlist =true;
                         dynamic listData = await graphQLService
                             .add_Product_from_wishlist(
                           wishlistId: myProvider!.customerModel.customer!.wishlists![0].id!,
@@ -309,7 +386,7 @@ class _ProductCardState extends State<ProductCard> {
                           qty:"1",
                         );
                       }else{
-                        widget.item!.wishlist =0;
+                        widget.item!.wishlist =false;
                         dynamic listData = await graphQLService
                             .remove_Product_from_wishlist(
                             wishlistId: myProvider!.customerModel.customer!.wishlists![0].id!,
@@ -327,8 +404,8 @@ class _ProductCardState extends State<ProductCard> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
                     child: Icon(
-                      widget.item!.wishlist ==0?Icons.favorite_border:Icons.favorite,
-                      color: blackColor,
+                      widget.item!.wishlist?Icons.favorite:Icons.favorite_border,
+                      color: widget.item!.wishlist?Colors.red:blackColor,
                       size: 22,
                     ),
                   ),
@@ -340,11 +417,6 @@ class _ProductCardState extends State<ProductCard> {
     );
   }
 
-  void _changeColor(int index) {
-    setState(() {
-      _selected = index;
-    });
-  }
 
   Color colorFromHex(String hexColor) {
     // Remove the '#' character from the hex color code, if present.
