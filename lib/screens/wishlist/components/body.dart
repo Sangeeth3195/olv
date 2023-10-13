@@ -166,11 +166,22 @@ class _BodyState extends State<Body> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              if (kDebugMode) {
-                                print(myProvider!.customerModel.customer!
-                                    .wishlist!.items![position].id
-                                    .toString());
+                              print(myProvider!.customerModel
+                                  .customer!.wishlist!.items![position].id
+                                  .toString());
 
+                              dynamic listData = await graphQLService
+                                  .remove_Product_from_wishlist(
+                                  wishlistId: myProvider!.customerModel.customer!.wishlists![0].id!,
+                                  wishlistItemsIds: myProvider!.customerModel
+                                      .customer!
+                                      .wishlist!
+                                      .items![position]
+                                      .id
+                                      .toString());
+                              EasyLoading.show();
+                              myProvider!.getuserdata();
+                              EasyLoading.show();
                                 dynamic listData = await graphQLService
                                     .remove_Product_from_wishlist(
                                         wishlistId: myProvider!.customerModel

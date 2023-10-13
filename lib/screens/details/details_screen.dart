@@ -72,17 +72,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   const SizedBox(
                     height: 20,
                   ),*/
-                  ProductImages(product: provider.productData),
-                  TopRoundedContainer(
-                    color: omaColor,
-                    child: Column(
-                      children: [
-                        ProductDescription(
-                          product: provider.productData[0]['sku'],
-                          pressOnSeeMore: () {},
-                        )
-                      ],
-                    ),
+                  ProductDescription(
+                    product: provider.productData[0]['sku'],
+                    pressOnSeeMore: () {},
                   ),
                 ],
               )
