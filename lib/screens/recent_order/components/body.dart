@@ -205,7 +205,7 @@ class Body extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Row(children: [
                       Text(
-                        ' - ₹ ${ordersItem.total!.discounts?[0].amount!.value! ?? '0'}',
+                        ordersItem.total!.discounts!.isEmpty ?'0': ' - ₹ ${ordersItem.total!.discounts?[0].amount!.value! ?? '0'}',
                         style: const TextStyle(color: Colors.black),
                       )
                     ]),
