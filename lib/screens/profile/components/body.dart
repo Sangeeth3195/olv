@@ -74,6 +74,7 @@ class _BodyState extends State<Body> {
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
+                    fontFamily: "Gotham",
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -81,7 +82,8 @@ class _BodyState extends State<Body> {
                   //TODO: take from profile info
                   provider.customerModel.customer?.email ?? '',
                   style: const TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w500),
+                      color: Colors.black,
+                      fontFamily: "Gotham",fontWeight: FontWeight.w500, fontSize: 14,),
                 ),
               ),
               const SizedBox(height: 20),

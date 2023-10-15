@@ -10,6 +10,7 @@ class CartProvider with ChangeNotifier {
   CartModel cartModel = CartModel();
   SharedPreferences? prefs;
   var cart_token;
+  bool is_yes = false;
 
   void getCartData() async {
 
@@ -25,6 +26,11 @@ class CartProvider with ChangeNotifier {
 
     dynamic data = await graphQLService.get_cart_list();
     cartModel = CartModel.fromJson(data);
+
+    print('cartModel');
+    print(cartModel.cart!.prices!.grandTotal!.value);
+
+    // if(cartModel.cart!.prices!.grandTotal!.value! >= 10000)
 
     notifyListeners();
   }
@@ -71,14 +77,14 @@ class CartProvider with ChangeNotifier {
     // getCartData();
   }
 
-  void shp_free() async {
-    graphQLService.set_shipping_method_to_cart(cart_token, 'freeshipping');
-    getCartData();
-  }
-
-  void shp_flat() async {
-    graphQLService.set_shipping_method_to_cart(cart_token, 'flatrate');
-    getCartData();
-  }
+  // void shp_free() async {
+  //   graphQLService.set_shipping_method_to_cart(cart_token, 'freeshipping');
+  //   getCartData();
+  // }
+  //
+  // void shp_flat() async {
+  //   graphQLService.set_shipping_method_to_cart(cart_token, 'flatrate');
+  //   getCartData();
+  // }
 
 }

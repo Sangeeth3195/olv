@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/models/CartModel.dart';
 import 'package:omaliving/screens/cart/CartProvider.dart';
@@ -133,10 +134,24 @@ class _BodyState extends State<CartCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          const SizedBox(
+            height: 8,
+          ),
+          Text(
+            widget.item.product!.dynamicAttributes![0].attributeValue ?? '',
+            style: const TextStyle(
+                fontSize: 12, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
           Text(
             widget.item.product!.name ?? '',
             style: const TextStyle(
-                fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
+                fontSize: 14,
+                color: Colors.black,
+                height: 1.5,
+                fontWeight: FontWeight.w600),
           ),
           const SizedBox(
             height: 5,
@@ -170,8 +185,8 @@ class _BodyState extends State<CartCard> {
                         InkWell(
                           onTap: () {
                             decrementQuantity();
-                            cartProvider!.updateItem(
-                                widget.item!.uid!, quantity);
+                            cartProvider!
+                                .updateItem(widget.item!.uid!, quantity);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -188,8 +203,8 @@ class _BodyState extends State<CartCard> {
                         InkWell(
                           onTap: () {
                             incrementQuantity();
-                            cartProvider!.updateItem(
-                                widget.item!.uid!, quantity);
+                            cartProvider!
+                                .updateItem(widget.item!.uid!, quantity);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -224,15 +239,13 @@ class _BodyState extends State<CartCard> {
                             builder: (context) => const LoginPage()),
                       );
                     } else {
+                      EasyLoading.show(status: 'loading...');
                       cartProvider!.removeItem(widget.item!.id!);
                       cartProvider!.addToWishList(
-                          sku: widget.item!.product!.sku!,
-                          qty: widget.item!.quantity!.toString(),
-                          // wishlistId:''
-
+                        sku: widget.item!.product!.sku!,
+                        qty: widget.item!.quantity!.toString(),
+                        // wishlistId:''
                       );
-
-
                     }
                   },
                   child: const Row(
@@ -256,6 +269,7 @@ class _BodyState extends State<CartCard> {
               ),
               GestureDetector(
                 onTap: () {
+                  EasyLoading.show(status: 'loading...');
                   cartProvider!.removeItem(widget.item!.id!);
                 },
                 child: const Row(

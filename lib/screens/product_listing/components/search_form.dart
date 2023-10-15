@@ -32,7 +32,7 @@ class _SearchFormState extends State<SearchForm> {
   GraphQLService graphQLService = GraphQLService();
 
   Future<SearchModel> getData(value) async {
-    searchModel=await graphQLService.productsearch_suggestion(value);
+    searchModel = await graphQLService.productsearch_suggestion(value);
     return searchModel;
   }
 
@@ -41,11 +41,9 @@ class _SearchFormState extends State<SearchForm> {
     return Card(
       elevation: 1,
       child: Form(
-        child:                AutocompleteBasicExample(),
-
+        child: AutocompleteBasicExample(),
       ),
     );
-
 
     return Card(
       elevation: 1,
@@ -57,9 +55,7 @@ class _SearchFormState extends State<SearchForm> {
               onChanged: (txt) {
                 if (txt.length > 1) {
                   getData(txt);
-                  setState(() {
-
-                  });
+                  setState(() {});
                 }
               },
               style: const TextStyle(fontSize: 16),
@@ -125,20 +121,22 @@ class _SearchFormState extends State<SearchForm> {
                 ),*/
               ),
             ),
-            searchModel.products==null?Container():ListView.builder(
-                itemCount: searchModel.products!.items!.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 60,
-                      child: ListTile(
-                        tileColor: Colors.grey.withOpacity(0.5),
-                        title: Text('Comment $index'),
-                      ),
-                    ),
-                  );
-                })
+            searchModel.products == null
+                ? Container()
+                : ListView.builder(
+                    itemCount: searchModel.products!.items!.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          height: 60,
+                          child: ListTile(
+                            tileColor: Colors.grey.withOpacity(0.5),
+                            title: Text('Comment $index'),
+                          ),
+                        ),
+                      );
+                    })
           ],
         ),
       ),
@@ -149,9 +147,9 @@ class _SearchFormState extends State<SearchForm> {
 class AutocompleteBasicExample extends StatefulWidget {
   const AutocompleteBasicExample({super.key});
 
-
   @override
-  State<AutocompleteBasicExample> createState() => _AutocompleteBasicExampleState();
+  State<AutocompleteBasicExample> createState() =>
+      _AutocompleteBasicExampleState();
 }
 
 class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
@@ -170,73 +168,66 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
     super.initState();
   }
 
-  List list = [
-    "Flutter",
-    "React",
-    "Ionic",
-    "Xamarin",
-  ];
-  static const List<String> _kOptions = <String>[
-    'aardvark',
-    'bobcat',
-    'chameleon',
-  ];
-
-
   Future<SearchModel> getData(value) async {
     searchModel = await graphQLService.productsearch_suggestion(value);
-    setState(() {
-
-    });
+    setState(() {});
     return searchModel;
   }
+
   @override
   Widget build(BuildContext context) {
     return Autocomplete<Item>(
       optionsViewBuilder: (context, onSelected, options) {
         return Container(
           color: Colors.white,
-
           child: Column(
             children: [
-              searchModel.products ==null?Container(
-                height: 100,
-                child: Center(child: Text('No Data')),
-              ): Expanded(
-                child: ListView.builder(
-                    itemCount: searchModel.products!.items!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 60,
-                          child: Container(
-                            color: Colors.white,
-                            child: ListTile(
-                              onTap: (){
-                                navToProductDeatils(searchModel.products!.items![index].sku??'');
-                              },
-                              tileColor: Colors.white,
-                              title: Text(searchModel.products!.items![index].name??''),
-                              leading : Image.network(searchModel.products!.items![index].image!.url??''),
-
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-              ),
+              searchModel.products == null
+                  ? Container(
+                      height: 100,
+                      child: Center(child: Text('No Data')),
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                          itemCount: searchModel.products!.items!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                height: 60,
+                                child: Container(
+                                  color: Colors.white,
+                                  child: ListTile(
+                                    onTap: () {
+                                      navToProductDeatils(searchModel
+                                              .products!.items![index].sku ??
+                                          '');
+                                    },
+                                    tileColor: Colors.white,
+                                    title: Text(searchModel
+                                            .products!.items![index].name ??
+                                        ''),
+                                    
+                                    leading: Image.network(searchModel.products!
+                                            .items![index].image!.url ??
+                                        ''),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
             ],
           ),
         );
       },
-      optionsBuilder: (TextEditingValue textEditingValue) async{
+      optionsBuilder: (TextEditingValue textEditingValue) async {
         if (textEditingValue.text == '') {
           return const Iterable<Item>.empty();
         }
 
-        if(textEditingValue.text.length>=3){
-         await  getData(textEditingValue.text);
+        if (textEditingValue.text.length >= 3) {
+          await getData(textEditingValue.text);
         }
 
         return searchModel.products!.items!.where((Item option) {
@@ -244,7 +235,10 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
         });
       },
       optionsMaxHeight: 100,
-      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted){
+      fieldViewBuilder: (BuildContext context,
+          TextEditingController textEditingController,
+          FocusNode focusNode,
+          VoidCallback onFieldSubmitted) {
         return TextFormField(
           controller: textEditingController,
           focusNode: focusNode,
@@ -268,12 +262,10 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
                 onPressed: () {
                   print('search button pressed');
                   FocusScopeNode currentFocus = FocusScope.of(context);
-                  final myProvider = Provider.of<MyProvider>(
-                      context,
-                      listen: false);
+                  final myProvider =
+                      Provider.of<MyProvider>(context, listen: false);
                   myProvider.updateSearchData(textEditingController.text);
-                  myProvider
-                      .updateHeader('search');
+                  myProvider.updateHeader('search');
                   myProvider.isproduct = true;
                   myProvider.notifyListeners();
                   context.go('/home/pdp');
@@ -322,19 +314,15 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
                       color: Colors.black),
                 ),*/
           ),
-
         );
-
       },
       onSelected: (Item selection) {
         debugPrint('You just selected $selection');
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DetailsScreen(
-                  product:selection.sku??''),
+              builder: (context) => DetailsScreen(product: selection.sku ?? ''),
             ));
-
       },
     );
   }
@@ -343,12 +331,9 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DetailsScreen(
-              product:s??''),
+          builder: (context) => DetailsScreen(product: s ?? ''),
         ));
-
   }
-
 }
 
 class _AsyncAutocomplete extends StatefulWidget {
@@ -376,48 +361,13 @@ class _AsyncAutocompleteState extends State<_AsyncAutocomplete> {
     super.initState();
   }
 
-  List list = [
-    "Flutter",
-    "React",
-    "Ionic",
-    "Xamarin",
-  ];
-
   Future<SearchModel> getData(value) async {
     searchModel = await graphQLService.productsearch_suggestion(value);
     return searchModel;
   }
-  static const List<String> _kOptions = <String>[
-    'aardvark',
-    'bobcat',
-    'chameleon',
-  ];
 
   @override
   Widget build(BuildContext context) {
-    // GFSearchBar(
-    //   searchList: searchModel.products.items,
-    //   searchQueryBuilder: (query, list) {
-    //     return list
-    //         .where((item) =>
-    //         item.toLowerCase().contains(query.toLowerCase()))
-    //         .toList();
-    //   },
-    //   overlaySearchListItemBuilder: (item) {
-    //     return Container(
-    //       padding: const EdgeInsets.all(8),
-    //       child: Text(
-    //         item,
-    //         style: const TextStyle(fontSize: 18),
-    //       ),
-    //     );
-    //   },
-    //   onItemSelected: (item) {
-    //     setState(() {
-    //       print('$item');
-    //     });
-    //   },
-    // );
 
     return Autocomplete<SearchModel>(
       optionsViewBuilder: (context, onSelected, options) {
@@ -436,8 +386,8 @@ class _AsyncAutocompleteState extends State<_AsyncAutocomplete> {
               );
             });
       },
+      
       optionsBuilder: (TextEditingValue textEditingValue) async {
-
         _searchingWithQuery = textEditingValue.text;
         getData(textEditingValue.text);
         final Iterable<SearchModel> options =
@@ -466,11 +416,6 @@ class _AsyncAutocompleteState extends State<_AsyncAutocomplete> {
 
 // Mimics a remote API.
 class _FakeAPI {
-  static const List<String> _kOptions = <String>[
-    'aardvark',
-    'bobcat',
-    'chameleon',
-  ];
 
   GraphQLService graphQLService = GraphQLService();
 
@@ -479,7 +424,8 @@ class _FakeAPI {
     if (query == '') {
       return const Iterable<SearchModel>.empty();
     }
-    SearchModel searchModel = await GraphQLService().productsearch_suggestion(query);
+    SearchModel searchModel =
+        await GraphQLService().productsearch_suggestion(query);
     return Iterable<SearchModel>.generate(searchModel.products!.items!.length);
   }
 }

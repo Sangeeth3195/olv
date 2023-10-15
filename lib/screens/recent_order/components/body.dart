@@ -15,27 +15,14 @@ class Body extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /* const Padding(
-            padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
-            child: Text(
-              "My Recent Orders",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 13,
-                  height: 1.5,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-          const SizedBox(height: 5,),*/
-
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                 Expanded(
+                Expanded(
                   child: Text(
-                    "Order ID: ${ordersItem.orderNumber??00}",
+                    "Order ID: ${ordersItem.orderNumber ?? 00}",
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -96,10 +83,10 @@ class Body extends StatelessWidget {
                     style: TextStyle(fontSize: 13),
                   )),
                 ],
-                rows:  [
+                rows: [
                   DataRow(cells: [
                     DataCell(Text(
-                      ordersItem.items![0].productName??'',
+                      ordersItem.items![0].productName ?? '',
                       style: const TextStyle(fontSize: 13),
                     )),
                     DataCell(Text(
@@ -107,7 +94,8 @@ class Body extends StatelessWidget {
                       style: const TextStyle(fontSize: 13),
                     )),
                     DataCell(Text(
-                      ordersItem.items![0].productSalePrice!.value.toString()??'',
+                      ordersItem.items![0].productSalePrice!.value.toString() ??
+                          '',
                       style: const TextStyle(fontSize: 13),
                     )),
                   ]),
@@ -132,7 +120,7 @@ class Body extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-           Padding(
+          Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
             child: Row(
               children: <Widget>[
@@ -152,7 +140,7 @@ class Body extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Row(children: [
                       Text(
-                        '₹ ${ordersItem.total!.subtotal!.value??''}',
+                        '₹ ${ordersItem.total!.subtotal!.value ?? ''}',
                         style: const TextStyle(color: Colors.black),
                       ),
                     ]),
@@ -164,7 +152,7 @@ class Body extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-           Padding(
+          Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
             child: Row(
               children: <Widget>[
@@ -184,7 +172,7 @@ class Body extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Row(children: [
                       Text(
-                        '₹ ${ordersItem.total!.totalShipping!.value??''}',
+                        '₹ ${ordersItem.total!.totalShipping!.value ?? ''}',
                         style: const TextStyle(color: Colors.black),
                       ),
                     ]),
@@ -196,16 +184,17 @@ class Body extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-           const Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 15, 0),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
             child: Row(
               children: <Widget>[
-                Expanded(
+                const Expanded(
                   // Place `Expanded` inside `Row`
+
                   child: SizedBox(
                     height: 15, // <-- Your height
                     child: Text(
-                      'Discount',
+                      "Discount",
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
@@ -213,15 +202,15 @@ class Body extends StatelessWidget {
                 SizedBox(
                   height: 30, // <-- Your height
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Row(children: [
                       Text(
-                        '- ₹ 0',
-                        style: TextStyle(color: Colors.black),
-                      ),
+                        ' - ₹ ${ordersItem.total!.discounts?[0].amount!.value! ?? '0'}',
+                        style: const TextStyle(color: Colors.black),
+                      )
                     ]),
                   ),
-                ),
+                )
               ],
             ),
           ),
@@ -229,11 +218,11 @@ class Body extends StatelessWidget {
             height: 5,
           ),
           Padding(
-            padding:  const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: Container(
               color: const Color(0xFFFFF2E1),
               height: 50,
-              child:  Padding(
+              child: Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Row(
                   children: <Widget>[
@@ -254,7 +243,7 @@ class Body extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: Row(children: [
                           Text(
-                            '₹ ${ordersItem.total!.grandTotal!.value??''}',
+                            '₹ ${ordersItem.total!.grandTotal!.value ?? ''}',
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
@@ -268,7 +257,7 @@ class Body extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-           const Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
             child: Row(
               children: [
@@ -285,14 +274,14 @@ class Body extends StatelessWidget {
             ),
           ),
           Padding(
-            padding:  const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                     const Expanded(
+                    const Expanded(
                       child: Text(
                         'Shipping Address',
                         style: TextStyle(
@@ -301,7 +290,9 @@ class Body extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const SizedBox(width: 40,),
+                    const SizedBox(
+                      width: 40,
+                    ),
                     Expanded(
                       child: TextButton(
                         onPressed: () {},
@@ -324,27 +315,41 @@ class Body extends StatelessWidget {
                   height: 0,
                 ),
                 Row(
-
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                     Expanded(
-                       child: Text(
-                         "${ordersItem.shippingAddress!.street![0]??''}",
-                         style: const TextStyle(
-                             color: Colors.black,
-                             fontSize: 13,
-                             height: 1.5,
-                             fontWeight: FontWeight.w500),
-                       ),
-                     ),
-                    const SizedBox(width: 40,),
+                    Expanded(
+                      child: Text(
 
+                        "${ordersItem.shippingAddress!.firstname!} "
+                        "${ordersItem.shippingAddress!.lastname!} \n"
+                        "${ordersItem.shippingAddress!.street![0]}, "
+                        "${ordersItem.shippingAddress!.city!} \n"
+                            "${ordersItem.shippingAddress!.region!}, "
+                            "${ordersItem.shippingAddress!.postcode!} \n"
+                            "Tel: ${ordersItem.shippingAddress!.telephone!}",
+
+
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            height: 1.5,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 40,
+                    ),
                     Expanded(
                       child: TextButton(
                         onPressed: () {},
-                        child:  Text(
-                          '${ordersItem.shippingMethod??''}',
-                          style: const TextStyle(color: Colors.black, fontSize: 14),
+                        child: Row(
+                          children: [
+                            Text(
+                              ordersItem.shippingMethod ?? '',
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 14),
+                            ),
+                          ],
                         ),
                       ),
                     )
@@ -370,8 +375,9 @@ class Body extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const SizedBox(width: 40,),
-
+                    const SizedBox(
+                      width: 40,
+                    ),
                     Expanded(
                       child: TextButton(
                         onPressed: () {},
@@ -393,9 +399,16 @@ class Body extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                     Expanded(
+                    Expanded(
                       child: Text(
-                        "${ordersItem.billingAddress!.street![0].toString()??''}",
+
+                        "${ordersItem.billingAddress!.firstname!} "
+                            "${ordersItem.billingAddress!.lastname!} \n"
+                            "${ordersItem.billingAddress!.street![0]}, "
+                            "${ordersItem.billingAddress!.city!} \n"
+                            "${ordersItem.billingAddress!.region!}, "
+                            "${ordersItem.billingAddress!.postcode!} \n"
+                            "Tel: ${ordersItem.billingAddress!.telephone!}",
                         style: const TextStyle(
                             color: Colors.black,
                             fontSize: 13,
@@ -403,16 +416,20 @@ class Body extends StatelessWidget {
                             fontWeight: FontWeight.w500),
                       ),
                     ),
-                    const SizedBox(width: 40,),
-
+                    const SizedBox(
+                      width: 40,
+                    ),
                     Expanded(
                       child: TextButton(
                         onPressed: () {},
-                        child:  Row(
+                        child: Row(
                           children: [
                             Text(
-                              "${ordersItem.paymentMethods!.first.name!.toString()??''}",
-                              style: const TextStyle(color: Colors.black, fontSize: 14),
+                              ordersItem.paymentMethods!.first.name!
+                                      .toString() ??
+                                  '',
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 14),
                             ),
                           ],
                         ),

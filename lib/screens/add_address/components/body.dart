@@ -111,7 +111,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'First Name',
+                  'First Name\*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -132,7 +132,7 @@ class _BodyState extends State<Body> {
                   decoration: InputDecoration(
                       contentPadding:
                           const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      hintText: "Email",
+                      hintText: "First Name",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0))),
                 ),
@@ -143,7 +143,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'Last Name',
+                  'Last Name\*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -175,7 +175,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'Phone Number',
+                  'Phone Number\*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -236,7 +236,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'Street Address',
+                  'Street Address\*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -271,7 +271,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'City',
+                  'City\*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -303,7 +303,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'State',
+                  'State\*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -355,7 +355,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'Zip/Postal Code',
+                  'Zip/Postal Code\*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -387,7 +387,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'Country',
+                  'Country\*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,

@@ -19,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../MainLayout.dart';
 import '../models/OrderModel.dart';
+import '../screens/cart/CartProvider.dart';
 import 'graphql_config.dart';
 
 class GraphQLService {
@@ -153,7 +154,7 @@ class GraphQLService {
                       oma_subclass:{in:[]}
                       }
                       sort: {name: ASC}
-                      pageSize:"${16}"
+                      pageSize:"${8}"
                       ) {
                       aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
                         attribute_code
@@ -247,7 +248,7 @@ class GraphQLService {
                             normalprice
                             specicalprice
                       }
-                       dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                       dynamicAttributes(fields:["brands"]){
                              attribute_code
                             attribute_label
                             attribute_value
@@ -383,7 +384,7 @@ class GraphQLService {
                             normalprice
                             specicalprice
                       }
-                       dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                       dynamicAttributes(fields:["brands","oma_subclass"]){
                              attribute_code
                             attribute_label
                             attribute_value
@@ -474,7 +475,7 @@ class GraphQLService {
                               normalprice
                               specicalprice
                         }
-                         dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                         dynamicAttributes(fields:["brands","oma_subclass"]){
                                attribute_code
                               attribute_label
                               attribute_value
@@ -759,10 +760,7 @@ class GraphQLService {
                       sku
                       stock_status
                       brands
-                      getPriceRange{
-                            oldpricevalue  
-                            normalpricevalue
-                          }
+                   
                        textAttributes{
                             weight
                             normalprice
@@ -782,9 +780,10 @@ class GraphQLService {
       );
 
       if (result.hasException) {
+        EasyLoading.dismiss();
         throw Exception(result.exception);
       } else {
-
+        EasyLoading.dismiss();
         log(jsonEncode(result.data));
         return SearchModel.fromJson(result.data!);
       }
@@ -886,38 +885,7 @@ class GraphQLService {
                           }
                         }
                       }
-                      price_range {
-                        minimum_price {
-                          regular_price {
-                            value
-                            currency
-                          }
-                          final_price {
-                            value
-                            currency
-                          }
-                          fixed_product_taxes {
-                            label
-                            amount {
-                              value
-                              currency
-                            }
-                          }
-                        }
-                        maximum_price {
-                          discount {
-                            amount_off
-                            percent_off
-                          }
-                          fixed_product_taxes {
-                            label
-                            amount {
-                              value
-                              currency
-                            }
-                          }
-                        }
-                      }
+                     
                       gift_message_available
                       url_rewrites {
                         parameters {
@@ -976,9 +944,12 @@ class GraphQLService {
       );
 
       if (result.hasException) {
+        EasyLoading.dismiss();
         throw Exception(result.exception);
       } else {
+        EasyLoading.dismiss();
         return result.data;
+
       }
     } catch (error) {
       return [];
@@ -1013,11 +984,6 @@ class GraphQLService {
   Future<String> createuser(String firstname, String lastname, String email,
       String password, bool issub, BuildContext context) async {
     try {
-      print(firstname);
-      print(lastname);
-      print(email);
-      print(password);
-      print(issub);
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(
@@ -1025,19 +991,24 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
         Fluttertoast.showToast(
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
-        print(result.data?['createCustomerV2']['customer']);
+
+        Fluttertoast.showToast(msg: 'Your account has been created successfully.');
 
         EasyLoading.dismiss();
 
-        context.go('/home');
+        // context.go('/login');
+        Navigator.pop(context);
 
-        // Navigator.of(context).pushAndRemoveUntil(
-        //     MaterialPageRoute(builder: (context) => MainLayout()),
-        //     (Route<dynamic> route) => false);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const LoginPage()),
+        );
       }
 
       return "";
@@ -1148,6 +1119,7 @@ class GraphQLService {
             MaterialPageRoute(builder: (context) => MainLayout()),
             (Route<dynamic> route) => false);*/
 
+        Navigator.of(context).pop();
         context.go('/home');
 
         Fluttertoast.showToast(msg: 'Login successfully');
@@ -1565,6 +1537,11 @@ class GraphQLService {
                     product {
                       sku
                       name
+                      dynamicAttributes(fields:["brands","oma_subclass"]){
+                       attribute_code
+                      attribute_label
+                      attribute_value
+                      }
                       ... on BundleProduct {
                         sku
                         dynamic_sku
@@ -1628,10 +1605,15 @@ class GraphQLService {
       );
       if (result.hasException) {
         EasyLoading.dismiss();
+        print('login check');
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        await preferences.clear();
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
         EasyLoading.dismiss();
         log(jsonEncode(result.data));
+        print('login check');
+
         print(result.data?['customer']['addresses']);
         return CustomerModel.fromJson(result.data!);
       }
@@ -1750,6 +1732,12 @@ class GraphQLService {
                         }
                         order_date
                         total {
+                           discounts {
+                            label
+                            amount {
+                              value
+                            }
+                          }
                           total_shipping {
                             value
                             currency
@@ -1941,6 +1929,8 @@ class GraphQLService {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
         EasyLoading.dismiss();
+        print('password update');
+        print(result.data);
         return "200";
       }
 
@@ -2034,7 +2024,7 @@ class GraphQLService {
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
         log(jsonEncode(result.data));
-
+        Fluttertoast.showToast(msg: 'Item moved to your wishlist');
         EasyLoading.dismiss();
       }
 
@@ -2149,6 +2139,7 @@ class GraphQLService {
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
         log(jsonEncode(result.data));
+        Fluttertoast.showToast(msg: 'Item removed from your wishlist');
         EasyLoading.dismiss();
       }
 
@@ -2342,9 +2333,11 @@ class GraphQLService {
       if (result.hasException) {
         EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
+        Fluttertoast.showToast(msg: 'Item not added to cart');
       } else if (result.data != null) {
         EasyLoading.dismiss();
         print(result.data);
+        Fluttertoast.showToast(msg: 'Item added to your cart');
       }
 
       return "";
@@ -2380,7 +2373,7 @@ class GraphQLService {
                         sku
                         uid
                         name
-                        dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                        dynamicAttributes(fields:["brands","oma_subclass"]){
                              attribute_code
                             attribute_label
                             attribute_value
@@ -2393,7 +2386,7 @@ class GraphQLService {
                       }
                       }
                     }
-                   
+                    
                    shipping_addresses {
                       available_shipping_methods {
                         amount {
@@ -2500,7 +2493,7 @@ class GraphQLService {
                       sku
                       uid
                       name
-                      dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                      dynamicAttributes(fields:["brands","oma_subclass"]){
                            attribute_code
                           attribute_label
                           attribute_value
@@ -2521,6 +2514,7 @@ class GraphQLService {
                     }
                     }
                   }
+                  
                  shipping_addresses {
                     available_shipping_methods {
                       amount {
@@ -2633,7 +2627,7 @@ class GraphQLService {
                         sku
                         uid
                         name
-                        dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                        dynamicAttributes(fields:["brands","oma_subclass"]){
                              attribute_code
                             attribute_label
                             attribute_value
@@ -2716,6 +2710,7 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
+        Fluttertoast.showToast(msg: 'Item removed from your cart');
         print(result.data);
       }
       return "";
@@ -2744,7 +2739,7 @@ class GraphQLService {
                         sku
                         uid
                         name
-                        dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                        dynamicAttributes(fields:["brands","oma_subclass"]){
                              attribute_code
                             attribute_label
                             attribute_value
@@ -2822,7 +2817,6 @@ class GraphQLService {
     }
   }
 
-
   /// Step 4 - I - Merge Cart
   static String merge_crt(
       String cart_token,
@@ -2843,7 +2837,7 @@ class GraphQLService {
                         sku
                         uid
                         name
-                        dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                        dynamicAttributes(fields:["brands","oma_subclass"]){
                              attribute_code
                             attribute_label
                             attribute_value
@@ -3104,6 +3098,7 @@ class GraphQLService {
   }
 
   Future<String> set_shipping_method_to_cart(
+    BuildContext context,
     String cart_token,
     String cpn,
   ) async {
@@ -3123,6 +3118,10 @@ class GraphQLService {
 
         print('ratedata');
         log(jsonEncode(result.data));
+
+        CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+        cartProvider.getCartData();
+
       }
       return "";
     } catch (e) {
@@ -3154,7 +3153,7 @@ class GraphQLService {
                       sku
                       uid
                       name
-                      dynamicAttributes(fields:["oma_collection","oma_subclass"]){
+                      dynamicAttributes(fields:["brands","oma_subclass"]){
                            attribute_code
                           attribute_label
                           attribute_value

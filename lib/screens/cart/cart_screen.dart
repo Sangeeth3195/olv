@@ -70,7 +70,7 @@ class _CartScreenState extends State<CartScreen> {
       builder: (context, provider, _) {
         if (provider.cartModel.cart == null ||
             cartProvider!.cartModel.cart == null ||
-            cartProvider!.cartModel.cart!.items == null||
+            cartProvider!.cartModel.cart!.items == null ||
             cartProvider!.cartModel.cart!.items!.isEmpty) {
           return const Center(
             child: Text('You have no items in your Cart.'),
@@ -166,7 +166,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                       ],
                     ),
                     const SizedBox(
-                      height: 18.0,
+                      height: 10.0,
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -195,7 +195,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                                 primary: headingColor,
                                 textStyle: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontStyle: FontStyle.normal),
                                 // shape: const StadiumBorder(),
                               ),
@@ -227,25 +227,25 @@ class _CheckoutCardState extends State<CheckoutCard> {
                         ),
                       ],
                     ),
-                    SizedBox(height: getProportionateScreenHeight(20)),
+                    SizedBox(height: getProportionateScreenHeight(15)),
                     const Row(
                       children: [
                         Text(
                           "Payment Summary",
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 12,
                     ),
                     Row(
                       children: <Widget>[
                         const Expanded(
                           // Place `Expanded` inside `Row`
                           child: SizedBox(
-                            height: 15, // <-- Your height
+                            height: 14, // <-- Your height
                             child: Text(
                               'Subtotal',
                               style: TextStyle(color: Colors.black),
@@ -253,7 +253,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           ),
                         ),
                         SizedBox(
-                          height: 30, // <-- Your height
+                          height: 22, // <-- Your height
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
@@ -282,7 +282,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           ),
                         ),
                         SizedBox(
-                          height: 30, // <-- Your height
+                          height: 22, // <-- Your height
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
@@ -311,7 +311,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           ),
                         ),
                         SizedBox(
-                          height: 30, // <-- Your height
+                          height: 22, // <-- Your height
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [
@@ -330,7 +330,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                     Container(
                       // color: const Color(0xFFFFF2E1),
                       color: kPrimaryLightColor,
-                      height: 50,
+                      height: 45,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: Row(
@@ -366,7 +366,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 12),
                     SizedBox(
                       child: DefaultButton(
                         text: "Continue to Checkout",
@@ -385,15 +385,14 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           var token = prefs.getString('token') ?? '';
 
                           if (token.isEmpty) {
-                            
-                            Fluttertoast.showToast(msg: 'Please login to continue checkout');
-                            
-                          /*  Navigator.push(
+                            Fluttertoast.showToast(
+                                msg: 'Please login to continue checkout');
+
+                            /*  Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const LoginPage()),
                             );*/
-
                           } else {
                             CartProvider cartProvider =
                                 Provider.of<CartProvider>(context,
@@ -401,10 +400,12 @@ class _CheckoutCardState extends State<CheckoutCard> {
 
                             context.go('/cart/continue');
 
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
                             prefs.setDouble(
-                                'sub_total', widget.cartModel.cart!.prices!.subtotalExcludingTax!.value!);
-
+                                'sub_total',
+                                widget.cartModel.cart!.prices!
+                                    .subtotalExcludingTax!.value!);
                           }
                         },
                       ),

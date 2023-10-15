@@ -117,8 +117,8 @@ class _HomeScreenState extends State<ProductListing> {
                         ),
                       ),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Column(
                             children: [
@@ -286,7 +286,7 @@ class _HomeScreenState extends State<ProductListing> {
                                 // styling the button
                                 style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),
-                                  padding: const EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(2),
                                   // Button color
                                   backgroundColor: filter,
                                   // Splash color
@@ -459,7 +459,7 @@ class _HomeScreenState extends State<ProductListing> {
                             // styling the button
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
-                              padding: const EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(2),
                               // Button color
                               backgroundColor: filter,
                               // Splash color

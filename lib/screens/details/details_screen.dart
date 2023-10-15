@@ -54,7 +54,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
             return Container(
               color: omaColor,
-              child: ListView(
+              child:
+
+
+              ListView(
                 children: [
                 /*  Container(
                     height: 70,
@@ -74,7 +77,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     pressOnSeeMore: () {},
                   ),
                 ],
-              ),
+              )
             );
 
           }else{

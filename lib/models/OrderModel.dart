@@ -115,6 +115,7 @@ class OrdersItem {
     "shipping_address": shippingAddress?.toJson(),
     "billing_address": billingAddress?.toJson(),
     "items": items == null ? [] : List<dynamic>.from(items!.map((x) => x.toJson())),
+
     "order_date": orderDate?.toIso8601String(),
     "total": total?.toJson(),
   };
@@ -248,27 +249,69 @@ final statusValues = EnumValues({
 });
 
 class Total {
+  List<Discounts>? discounts;
   GrandTotal? totalShipping;
   GrandTotal? subtotal;
   GrandTotal? grandTotal;
 
   Total({
+    this.discounts,
     this.totalShipping,
     this.subtotal,
     this.grandTotal,
   });
 
   factory Total.fromJson(Map<String, dynamic> json) => Total(
+    discounts: json["discounts"] == null ? [] : List<Discounts>.from(json["discounts"]!.map((x) => Discounts.fromJson(x))),
     totalShipping: json["total_shipping"] == null ? null : GrandTotal.fromJson(json["total_shipping"]),
     subtotal: json["subtotal"] == null ? null : GrandTotal.fromJson(json["subtotal"]),
     grandTotal: json["grand_total"] == null ? null : GrandTotal.fromJson(json["grand_total"]),
   );
 
   Map<String, dynamic> toJson() => {
+    "discounts": discounts == null ? [] : List<dynamic>.from(discounts!.map((x) => x.toJson())),
     "total_shipping": totalShipping?.toJson(),
     "subtotal": subtotal?.toJson(),
     "grand_total": grandTotal?.toJson(),
   };
+}
+
+class Discounts {
+  String? label;
+  Amount? amount;
+
+  Discounts({this.label, this.amount});
+
+  Discounts.fromJson(Map<String, dynamic> json) {
+    label = json['label'];
+    amount =
+    json['amount'] != null ? Amount.fromJson(json['amount']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['label'] = label;
+    if (amount != null) {
+      data['amount'] = amount!.toJson();
+    }
+    return data;
+  }
+}
+
+class Amount {
+  double? value;
+
+  Amount({this.value});
+
+  Amount.fromJson(Map<String, dynamic> json) {
+    value = json['value'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['value'] = value;
+    return data;
+  }
 }
 
 class EnumValues<T> {
@@ -282,3 +325,4 @@ class EnumValues<T> {
     return reverseMap;
   }
 }
+

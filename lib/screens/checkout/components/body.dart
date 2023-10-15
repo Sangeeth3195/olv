@@ -32,9 +32,14 @@ class _BodyState extends State<Body> {
   }
 
   void getData() async {
+
+    print('add address');
+
     MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
+
     CartProvider cartProvider =
         Provider.of<CartProvider>(context, listen: false);
+
     if (myProvider.customerModel.customer != null) {
       myProvider.customerModel.customer!.addresses!.forEach((element) {
         if (element.defaultShipping!) {
@@ -61,7 +66,9 @@ class _BodyState extends State<Body> {
     myProvider.graphQLService.Set_billing_Address_to_cart(
       cartProvider.cart_token,billingAddress!,);
 
-    setState(() {});
+    setState(() {
+
+    });
   }
 
   @override

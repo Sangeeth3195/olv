@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +5,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/constants.dart';
-import 'package:omaliving/demo/btm.dart';
-import 'package:omaliving/screens/360view.dart';
 import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
 import 'package:omaliving/screens/sign_up/sign_up_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,6 +59,7 @@ class _LoginPageState extends State<LoginPage>
                           "Login Account",
                           textScaleFactor: 1.0,
                           style: TextStyle(
+                            fontFamily: 'Gotham',
                             color: Colors.black,
                             fontSize: 24.0,
                             fontWeight: FontWeight.bold,
@@ -246,42 +242,22 @@ class _SignInState extends State<SignIn> {
     passwordVisible = true;
   }
 
- /* Future<UserCredential?> signInWithFacebook() async {
-    final LoginResult result = await FacebookAuth.instance.login();
-    if (result.status == LoginStatus.success) {
-      // Create a credential from the access token
-      final OAuthCredential credential =
-          FacebookAuthProvider.credential(result.accessToken!.token);
-      // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    }
-    return null;
-  }*/
-
   void _handleGoogleSignIn() async {
     try {
       _googleSignIn.signIn().then((userData) {
         setState(() {
-          // _isLoggedIn = true;
           _userObj = userData!;
         });
+        graphQLService.Social_Login(
+            _userObj.displayName.toString(),
+            _userObj.displayName.toString(),
+            _userObj.email.toString(),
+            _userObj.id,
+            true,
+            context);
       }).catchError((e) {
         print(e);
       });
-
-      print(_userObj.email.toString());
-      print(_userObj.displayName.toString());
-      print(_userObj.id.toString());
-
-      graphQLService.Social_Login(
-          _userObj.displayName.toString(),
-          _userObj.displayName.toString(),
-          _userObj.email.toString(),
-          _userObj.id,
-          true,
-          context);
-
-      // User signed in, you can proceed with the app logic
     } catch (error) {
       if (kDebugMode) {
         print('Error signing in: $error');
