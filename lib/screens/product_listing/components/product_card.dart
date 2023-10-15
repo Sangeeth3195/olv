@@ -47,9 +47,9 @@ class _ProductCardState extends State<ProductCard> {
   MyProvider? myProvider;
    String? wishListID;
 
-   late String image, title;
-   late String price;
-   late Color bgColor;
+   String? image, title;
+   String? price;
+   Color? bgColor;
    Item? item;
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _ProductCardState extends State<ProductCard> {
           .valueIndex);
     }else{
       title = widget.title;
-      image = widget.item!.smallImage.url;
+      image = widget.item?.smallImage.url??'';
       price=  widget.item!.getPriceRange.isEmpty?widget.item!.textAttributes[0].normalprice:widget.item!.getPriceRange[0].normalpricevalue;
     }
   }
@@ -81,7 +81,6 @@ class _ProductCardState extends State<ProductCard> {
     for(final variants in widget.item!.variants){
       for (final attributes in variants.attributes){
         if(attributes.valueIndex==valueIndex){
-          log(variants.product.toJson().toString());
           setState(() {
             title = variants.product.name;
             image = variants.product.smallImage.url;
@@ -144,7 +143,7 @@ class _ProductCardState extends State<ProductCard> {
                         Radius.circular(defaultBorderRadius)),
                   ),
                   child: Image.network(
-                    image,
+                    image??'',
                     height: 150,
                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                       return Image.asset('assets/omalogo.png',height: 150,);
@@ -183,7 +182,7 @@ class _ProductCardState extends State<ProductCard> {
                     const SizedBox(height: 10.0),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(price),
+                      child: Text(price??''),
                     ),
 
                     /*Padding(

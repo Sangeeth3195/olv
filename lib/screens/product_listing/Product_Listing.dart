@@ -104,9 +104,16 @@ class _HomeScreenState extends State<ProductListing> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 1, horizontal: 5),
-                        child: SectionTitle(
-                          title: provider.title,
-                          pressSeeAll: () {},
+                        child: Container(
+                          width: MediaQuery.of(context).size.width-148,
+                          child: Text(
+                            provider.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                              color: headingColor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ),
                       Row(

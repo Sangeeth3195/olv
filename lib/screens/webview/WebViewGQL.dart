@@ -18,7 +18,7 @@ class CommonWebViewGraphql extends StatefulWidget {
 class _CommonWebViewState extends State<CommonWebViewGraphql> {
   GraphQLService graphQLService = GraphQLService();
 
-  dynamic getcustomwebview = [];
+  dynamic getcustomwebview;
 
   @override
   void initState() {
@@ -45,8 +45,8 @@ class _CommonWebViewState extends State<CommonWebViewGraphql> {
             style: const TextStyle(color: Colors.black, fontSize: 16),
           ),
         ),
-        body: (getcustomwebview!.data.length == null ||
-                getcustomwebview!.data!['cmsPage']['content']! == null)
+        body: (getcustomwebview == null ||getcustomwebview?.data.length == null ||
+                getcustomwebview?.data!['cmsPage']['content']! == null)
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(vertical: 0),

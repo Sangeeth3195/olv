@@ -237,7 +237,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                                       side: const BorderSide(
                                                         color: omaColor,
                                                       ),
-                                                    ),
+                                                     ),
                                                   ));
                                             },
                                           ),

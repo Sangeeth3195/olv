@@ -37,12 +37,15 @@ class _ProductImagesState extends State<ProductImages> {
           ),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-              ...List.generate(widget.isConfigurableProduct?widget.product[0]['variants'][widget.configurableProductIndex]['product']['media_gallery'].length:widget.product[0]['media_gallery'].length,
-                (index) => buildSmallProductPreview(index)),
-          ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+                ...List.generate(widget.isConfigurableProduct?widget.product[0]['variants'][widget.configurableProductIndex]['product']['media_gallery'].length:widget.product[0]['media_gallery'].length,
+                  (index) => buildSmallProductPreview(index)),
+            ],
+          ),
         )
       ],
     );
@@ -57,7 +60,7 @@ class _ProductImagesState extends State<ProductImages> {
       },
       child: AnimatedContainer(
         duration: defaultDuration,
-        margin: const EdgeInsets.only(right: 15),
+        margin: const EdgeInsets.only(right: 15,left: 15),
         padding: const EdgeInsets.all(0),
         height: getProportionateScreenWidth(48),
         width: getProportionateScreenWidth(48),
