@@ -1177,16 +1177,17 @@ class GraphQLService {
   static String changepws(String email, String token, String password) {
     return '''
             mutation {
-              resetPassword(
-              email: "$email",
-              resetPasswordToken: "$token",
-              newPassword: "$password"
-            )
+              changeCustomerPassword(
+                currentPassword: ""
+                newPassword: "$password"
+              ) {
+                email
+              }
             }
         ''';
   }
 
-  Future<String> chnagepassword(
+  Future<String> changepassword(
       String email, String token, String password, BuildContext context) async {
     try {
       QueryResult result = await client.mutate(
@@ -1899,31 +1900,28 @@ class GraphQLService {
 
   static String update_custor_password({
     required String password,
+    required String old_password,
   }) {
     return '''
             mutation {
-              updateCustomer(
-                  input: {
-                    password: "$password"
-                  }
-                ) {
-                  customer {
-                    firstname
-                    is_subscribed
-                  }
-                }
+              changeCustomerPassword(
+                currentPassword: "$old_password"
+                newPassword: "$password"
+              ) {
+                email
+              }
             }
         ''';
   }
 
-  Future<String> update_reset_password({required String password}) async {
+  Future<String> update_reset_password({required String password,required String old_password}) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(update_custor_password(password: password)), // this
+          document: gql(update_custor_password(password: password,old_password: old_password)), // this
         ),
       );
-      log(update_custor_password(password: password).toString());
+      log(update_custor_password(password: password,old_password: old_password).toString());
       if (result.hasException) {
         EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);

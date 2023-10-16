@@ -140,15 +140,15 @@ class _BodyState extends State<CartCard> {
           Text(
             widget.item.product!.dynamicAttributes![0].attributeValue ?? '',
             style: const TextStyle(
-                fontSize: 12, color: Colors.black, fontWeight: FontWeight.w500),
+                fontSize: 11, color: Colors.black, fontWeight: FontWeight.w500),
           ),
           const SizedBox(
-            height: 5,
+            height: 0,
           ),
           Text(
             widget.item.product!.name ?? '',
             style: const TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 color: Colors.black,
                 height: 1.5,
                 fontWeight: FontWeight.w600),
@@ -164,7 +164,7 @@ class _BodyState extends State<CartCard> {
                   height: 15, // <-- Your height
                   child: Text(
                     '₹ ${widget.item.product!.priceRange!.minimumPrice!.regularPrice!.value.toString()}',
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black,fontSize: 13),
                   ),
                 ),
               ),
@@ -178,9 +178,9 @@ class _BodyState extends State<CartCard> {
                       ),
                       borderRadius: const BorderRadius.all(Radius.circular(5))),
                   child: SizedBox(
-                    height: 30, // <-- Your height
+                    height: 25, // <-- Your height
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Row(children: [
                         InkWell(
                           onTap: () {
@@ -256,7 +256,7 @@ class _BodyState extends State<CartCard> {
                       ),
                       Icon(
                         Icons.arrow_forward_outlined,
-                        size: 14,
+                        size: 13,
                         color: headingColor,
                       ),
                     ],
@@ -276,7 +276,7 @@ class _BodyState extends State<CartCard> {
                   children: [
                     Icon(
                       Icons.delete_outline,
-                      size: 18,
+                      size: 16,
                       color: headingColor,
                     ),
                     SizedBox(
@@ -286,7 +286,7 @@ class _BodyState extends State<CartCard> {
                       'Remove',
                       style: TextStyle(
                           color: headingColor,
-                          fontSize: 13,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold),
                     ),
                   ],

@@ -84,7 +84,7 @@ class _MyHomePageState extends State<CheckoutCard> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => const OrderSuccess()));
+            builder: (context) => OrderSuccess(text: orderID,)));
 
     Fluttertoast.showToast(msg: 'Payment Successful');
 

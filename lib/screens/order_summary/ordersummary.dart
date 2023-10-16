@@ -90,7 +90,7 @@ class CheckoutCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const OrderSuccess()),
+                              builder: (context) => OrderSuccess(text: 'orderID',)),
                         );
                       },
                       child: const Text(

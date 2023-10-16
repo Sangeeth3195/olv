@@ -146,7 +146,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
         title: Padding(
           padding: const EdgeInsets.all(2.0),
           child: Center(
-            child: Image.asset('assets/omalogo.png', height: 30, width: 100),
+            child: Image.asset('assets/omalogo.png', height: 22, width: 80),
           ),
         ),
         actions: [
@@ -154,7 +154,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
             icon: const Icon(
               Icons.notifications,
               color: Colors.black54,
-              size: 22,
+              size: 20,
             ),
             onPressed: () {
               /*getNavdata();*/
@@ -190,15 +190,13 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     _selectedIndex = 4;
                   });
                   _onTap(4);
-
                 }
-
               },
               child: const CircleAvatar(
                 backgroundColor: Colors.black,
                 radius: 12,
                 child: CircleAvatar(
-                  radius: 25,
+                  radius: 24,
                   backgroundImage: AssetImage('assets/images/photo.jpg'),
                 ),
               ),
@@ -216,6 +214,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                   .pushNamed("/loginpage");
             },
           ),*/
+
         ],
       ),
       body: widget.navigationShell,
@@ -232,8 +231,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               leading: IconButton(
                 icon: const Icon(
                   Icons.close,
-                  size: 22,
-                  color: Colors.black,
+                  size: 20,
+                  color: Colors.black54,
                 ),
                 onPressed: () {
                   Navigator.pop(context); // Close the navigation drawer
@@ -243,15 +242,15 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 padding: const EdgeInsets.all(2.0),
                 child: Center(
                   child:
-                      Image.asset('assets/omalogo.png', height: 30, width: 100),
+                      Image.asset('assets/omalogo.png', height: 22, width: 80),
                 ),
               ),
               actions: [
                 IconButton(
                   icon: const Icon(
                     Icons.notifications,
-                    color: blackColor,
-                    size: 22,
+                    color: Colors.black54,
+                    size: 20,
                   ),
                   onPressed: () {
                     getNavdata();
@@ -333,9 +332,10 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                               : null,
                           title: GestureDetector(
                             onTap: () {
+                              Navigator.of(context).pop();
                               catId = navHeaderList[index]['id'];
                               print('item_id --> $catId');
-                              /*final myProvider = Provider.of<MyProvider>(
+                              final myProvider = Provider.of<MyProvider>(
                                   context,
                                   listen: false);
                               myProvider.updateData(catId);
@@ -343,13 +343,13 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                   .updateHeader(navHeaderList[index]['name']);
                               myProvider.isproduct = true;
                               myProvider.notifyListeners();
-                              context.go('/home/pdp');*/
+                              context.go('/home/pdp');
                             },
                             child: Text(
                               navHeaderList[index]['name'],
                               style: const TextStyle(
                                   color: navTextColor,
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w800,
                                   fontStyle: FontStyle.normal),
                             ),
@@ -399,7 +399,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                             [itemIndex]['name'],
                                         style: const TextStyle(
                                             color: navTextColor,
-                                            fontSize: 13,
+                                            fontSize: 12,
                                             fontWeight: FontWeight.w700,
                                             fontStyle: FontStyle.normal),
                                       ),
@@ -459,7 +459,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: navTextColor,
-                                                    fontSize: 15,
+                                                    fontSize: 12,
                                                     fontWeight: FontWeight.w500,
                                                     fontStyle:
                                                         FontStyle.normal),

@@ -47,7 +47,7 @@ class _BodyState extends State<Body> {
             padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
             child: Divider(
               color: Colors.grey,
-              thickness: 0.3,
+              thickness: 0.2,
             ),
           ),
           SettingsMenu(
@@ -65,7 +65,7 @@ class _BodyState extends State<Body> {
             padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
             child: Divider(
               color: Colors.grey,
-              thickness: 0.3,
+              thickness: 0.2,
             ),
           ),
           SettingsMenu(
@@ -84,7 +84,7 @@ class _BodyState extends State<Body> {
             padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
             child: Divider(
               color: Colors.grey,
-              thickness: 0.3,
+              thickness: 0.2,
             ),
           ),
           SettingsMenu(
@@ -103,7 +103,7 @@ class _BodyState extends State<Body> {
             padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
             child: Divider(
               color: Colors.grey,
-              thickness: 0.3,
+              thickness: 0.2,
             ),
           ),
           SettingsMenu(
@@ -121,7 +121,7 @@ class _BodyState extends State<Body> {
             padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
             child: Divider(
               color: Colors.grey,
-              thickness: 0.3,
+              thickness: 0.2,
             ),
           ),
           SettingsMenu(
@@ -139,7 +139,7 @@ class _BodyState extends State<Body> {
             padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
             child: Divider(
               color: Colors.grey,
-              thickness: 0.3,
+              thickness: 0.2,
             ),
           ),
           SettingsMenu(
@@ -160,7 +160,7 @@ class _BodyState extends State<Body> {
           ),
           const Text(
             'Version 1.0',
-            style: TextStyle(fontSize: 12.0, color: Colors.black),
+            style: TextStyle(fontSize: 12.0, color: Colors.black54),
           )
         ],
       ),

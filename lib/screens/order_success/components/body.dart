@@ -12,12 +12,12 @@ import '../../../constants.dart';
 import '../../provider/provider.dart';
 
 class Body extends StatefulWidget {
-  const Body({super.key});
+
+  const Body(String text, {super.key});
 
   @override
   _BodyState createState() => _BodyState();
 }
-
 
 class _BodyState extends State<Body> {
 
@@ -61,7 +61,7 @@ class _BodyState extends State<Body> {
               height: 25,
             ),
             Text(
-              "Order ID: $orderID",
+              "Order ID: ",
               style: const TextStyle(fontSize: 13),
             ),
             const SizedBox(

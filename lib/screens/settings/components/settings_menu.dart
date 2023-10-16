@@ -17,7 +17,7 @@ class SettingsMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 0),
       child: TextButton(
         style: TextButton.styleFrom(
           primary: kPrimaryColor,
@@ -31,6 +31,7 @@ class SettingsMenu extends StatelessWidget {
             Icon(
               icon,
               color: Colors.black,
+              size: 22,
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -39,7 +40,7 @@ class SettingsMenu extends StatelessWidget {
               style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
-                  fontSize: 14),
+                  fontSize: 12),
             )),
             /*const Icon(
               Icons.arrow_forward_ios,

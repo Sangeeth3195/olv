@@ -76,8 +76,6 @@ class _ProductCardState extends State<ProductCard> {
       _selected = index;
     });
 
-
-
     for(final variants in widget.item!.variants){
       for (final attributes in variants.attributes){
         if(attributes.valueIndex==valueIndex){
@@ -164,7 +162,7 @@ class _ProductCardState extends State<ProductCard> {
                             fontWeight: FontWeight.normal,
                             color: blackColor,
                             height: 1.5,
-                            fontSize: 12),
+                            fontSize: 11),
                       ),
                     ),
                     const SizedBox(height: 0.0),
@@ -176,7 +174,7 @@ class _ProductCardState extends State<ProductCard> {
                             fontWeight: FontWeight.bold,
                             color: blackColor,
                             height: 1.5,
-                            fontSize: 13),
+                            fontSize: 12),
                       ),
                     ),
                     const SizedBox(height: 10.0),
@@ -197,7 +195,7 @@ class _ProductCardState extends State<ProductCard> {
                         ),
                       ),*/
 
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 5.0),
                     widget.item!.textAttributes[0].specicalprice.toString() == null
                         ? Padding(
                             padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
@@ -361,7 +359,7 @@ class _ProductCardState extends State<ProductCard> {
                               fontWeight: FontWeight.normal,
                               color: headingColor,
                               height: 1.5,
-                              fontSize: 13),
+                              fontSize: 12),
                         ),
                       ),
                     ),

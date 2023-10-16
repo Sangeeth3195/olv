@@ -120,7 +120,7 @@ class _BodyState extends State<Body> {
     );
   }
 
-  gridItem(BuildContext context, int position, wishList) {
+  /*gridItem(BuildContext context, int position, wishList) {
     return GestureDetector(
       onTap: () {
         if (kDebugMode) {
@@ -235,7 +235,8 @@ class _BodyState extends State<Body> {
             )),
           )),
     );
-  }
+  }*/
+
 }
 
 class ProductCard extends StatefulWidget {
@@ -258,7 +259,6 @@ class ProductCard extends StatefulWidget {
   final int ids;
   final String dy_val;
 
-
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
@@ -269,7 +269,6 @@ class _ProductCardState extends State<ProductCard> {
   int wishlist=0;
 
   String cart_token = '';
-  int _selected = 0;
   MyProvider? myProvider;
   String? wishListID;
   @override
@@ -328,10 +327,10 @@ class _ProductCardState extends State<ProductCard> {
                             fontWeight: FontWeight.normal,
                             color: Colors.black54,
                             height: 1.5,
-                            fontSize: 12),
+                            fontSize: 11),
                       ),
                     ),
-                    const SizedBox(height: 2.0),
+                    const SizedBox(height: 0.0),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
@@ -340,15 +339,15 @@ class _ProductCardState extends State<ProductCard> {
                             fontWeight: FontWeight.bold,
                             color: Colors.black54,
                             height: 1.5,
-                            fontSize: 13),
+                            fontSize: 12),
                       ),
                     ),
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 5.0),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: widget.price.isEmpty
-                          ? Text("₹${widget.price}",style: const TextStyle(fontSize: 15,color: Colors.black),)
-                          : Text("₹${widget.price}",style: const TextStyle(fontSize: 15,color: Colors.black),),
+                          ? Text("₹${widget.price}",style: const TextStyle(fontSize: 13,color: Colors.black),)
+                          : Text("₹${widget.price}",style: const TextStyle(fontSize: 13,color: Colors.black),),
                     ),
                   ],
                 )
@@ -359,10 +358,6 @@ class _ProductCardState extends State<ProductCard> {
                 right: 5,
                 child: InkWell(
                   onTap: () async{
-
-                    print(widget.title);
-
-                    print(widget.ids.toString());
                     dynamic listData = await graphQLService
                         .remove_Product_from_wishlist(
                         wishlistId: myProvider!.customerModel
@@ -371,7 +366,6 @@ class _ProductCardState extends State<ProductCard> {
                     EasyLoading.show();
                     myProvider!.getuserdata();
                     EasyLoading.show();
-
                   },
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),

@@ -475,7 +475,14 @@ class _SignInState extends State<SignIn> {
                         loginPasswordController.text.toString(),
                         context);
 
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setString('loginPassword', loginPasswordController.text.toString());
+
                     if (result == "200") {
+
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('loginPassword', loginPasswordController.text.toString());
+
                       EasyLoading.dismiss();
                       getuserdata();
                     } else {

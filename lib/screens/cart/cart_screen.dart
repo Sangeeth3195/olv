@@ -159,7 +159,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                         Text(
                           "Apply Coupon code",
                           style: TextStyle(
-                            fontSize: 14.0,
+                            fontSize: 13.0,
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -233,7 +233,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                         Text(
                           "Payment Summary",
                           style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                              fontSize: 13, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -245,7 +245,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                         const Expanded(
                           // Place `Expanded` inside `Row`
                           child: SizedBox(
-                            height: 14, // <-- Your height
+                            height: 13, // <-- Your height
                             child: Text(
                               'Subtotal',
                               style: TextStyle(color: Colors.black),
@@ -259,7 +259,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             child: Row(children: [
                               Text(
                                 '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value.toString()}',
-                                style: const TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black,fontSize: 13),
                               ),
                             ]),
                           ),
@@ -277,7 +277,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             height: 15, // <-- Your height
                             child: Text(
                               'Standard Shipping',
-                              style: TextStyle(color: Colors.black),
+                              style: TextStyle(color: Colors.black,fontSize: 13),
                             ),
                           ),
                         ),
@@ -288,7 +288,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             child: Row(children: [
                               Text(
                                 '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value! > 10000 ? 0 : 500}',
-                                style: const TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black,fontSize: 13),
                               ),
                             ]),
                           ),
@@ -306,7 +306,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             height: 15, // <-- Your height
                             child: Text(
                               'Discount',
-                              style: TextStyle(color: Colors.black),
+                              style: TextStyle(color: Colors.black,fontSize: 13),
                             ),
                           ),
                         ),
@@ -317,7 +317,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             child: Row(children: [
                               Text(
                                 '- ₹ ${widget.cartModel.cart!.prices!.discounts!.isEmpty ? 0 : widget.cartModel.cart!.prices!.discounts![0].amount!.value}',
-                                style: const TextStyle(color: Colors.black),
+                                style: const TextStyle(color: Colors.black,fontSize: 13),
                               ),
                             ]),
                           ),
@@ -343,7 +343,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                                   'Order Total',
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,fontSize: 14),
                                 ),
                               ),
                             ),
@@ -357,7 +357,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                                     '₹ ${widget.cartModel.cart!.prices!.grandTotal!.value.toString()}',
                                     style: const TextStyle(
                                         color: Colors.black,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,fontSize: 14),
                                   ),
                                 ]),
                               ),

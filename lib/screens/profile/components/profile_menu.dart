@@ -17,7 +17,7 @@ class ProfileMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
       child: TextButton(
         style: TextButton.styleFrom(
           primary: kPrimaryColor,
@@ -31,15 +31,16 @@ class ProfileMenu extends StatelessWidget {
             Icon(
               icon,
               color: Colors.black,
+              size: 22,
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: 14),
             Expanded(
                 child: Text(
                   text,
                   style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w400,
-                      fontSize: 14),
+                      fontSize: 13),
                 )),
             /*const Icon(
               Icons.arrow_forward_ios,

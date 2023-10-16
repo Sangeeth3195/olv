@@ -36,6 +36,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
   GraphQLService graphQLService = GraphQLService();
   MyProvider? myProvider;
   bool _isExpanded = false;
+  bool _isExpanded1 = false;
+  bool _isExpanded2 = false;
   bool isConfiguredProduct = false;
   int configurableProductIndex = 0;
   int configurableProductSizeIndex = 0;
@@ -83,6 +85,18 @@ class _ProductDescriptionState extends State<ProductDescription> {
   void _onExpansionChanged(bool isExpanded) {
     setState(() {
       _isExpanded = isExpanded;
+    });
+  }
+
+  void _onExpansionChanged1(bool isExpanded) {
+    setState(() {
+      _isExpanded1 = isExpanded;
+    });
+  }
+
+  void _onExpansionChanged2(bool isExpanded) {
+    setState(() {
+      _isExpanded2 = isExpanded;
     });
   }
 
@@ -820,7 +834,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                           .add_Product_from_wishlist(
                                         wishlistId: myProvider!.customerModel
                                             .customer!.wishlists![0].id!,
-                                        sku: provider.productData[0]['id']
+                                        sku: provider.productData[0]['sku']
                                             .toString(),
                                         qty: "1",
                                       );
@@ -833,14 +847,16 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                                   .wishlists![0]
                                                   .id!,
                                               wishlistItemsIds: provider
-                                                  .productData[0]['id']
+                                                  .productData[0]['sku']
                                                   .toString());
                                     }
 
                                     isWishListed = !isWishListed!;
 
                                     print(isWishListed);
+
                                     setState(() {});
+
                                   } else {
                                     Fluttertoast.showToast(
                                         msg:
@@ -862,84 +878,196 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(5),
-                      child: HtmlExpansionTile(
-                        title: 'Detail',
-                        htmlContent: '''${product[0]['detail']}''',
-                      ),
-                    ),
-                    Card(
-                      color: omaColor,
-                      elevation: 0,
-                      borderOnForeground: false,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: ExpansionTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          leading: _isExpanded
-                              ? const Icon(
-                                  Icons.remove,
-                                  size: 20,
-                                  color: headingColor,
-                                ) // Icon when expanded
-                              : const Icon(
-                                  Icons.add,
-                                  size: 20,
-                                  color: headingColor,
-                                ),
-                          childrenPadding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 0),
-                          expandedCrossAxisAlignment: CrossAxisAlignment.end,
-                          maintainState: true,
-                          onExpansionChanged: _onExpansionChanged,
-                          title: const Text(
-                            'Dimensions',
-                            style: const TextStyle(
-                                color: headingColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15),
-                          ),
-                          children: [
-                            SingleChildScrollView(
-                              padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 20),
-                              child: Column(
-                                children: [
-                                  product[0]['height'] == null
-                                      ? Container()
-                                      : Text('Height: ' + product[0]['height']),
-                                  product[0]['diameter'] == null
-                                      ? Container()
-                                      : Text('Diameter: ' +
-                                          product[0]['diameter']),
-                                  product[0]['capacity'] == null
-                                      ? Container()
-                                      : Text('Capacity: ' +
-                                          product[0]['capacity']),
-                                  product[0]['width'] == null
-                                      ? Container()
-                                      : Text('Width: ' + product[0]['width']),
-                                  product[0]['length'] == null
-                                      ? Container()
-                                      : Text('Length: ' + product[0]['length']),
-                                  product[0]['overall'] == null
-                                      ? Container()
-                                      : Text(
-                                          'Overall: ' + product[0]['overall']),
-                                  product[0]['depth'] == null
-                                      ? Container()
-                                      : Text('Depth: ' + product[0]['depth']),
-                                ],
-                              ),
-                            ),
-                          ],
+                      child: ExpansionTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        leading: _isExpanded
+                            ? const Icon(
+                          Icons.remove,
+                          size: 20,
+                          color: headingColor,
+                        ) // Icon when expanded
+                            : const Icon(
+                          Icons.add,
+                          size: 20,
+                          color: headingColor,
                         ),
+                        childrenPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                        expandedCrossAxisAlignment: CrossAxisAlignment.end,
+                        maintainState: true,
+                        onExpansionChanged: _onExpansionChanged,
+                        // trailing: _isExpanded
+                        //     ? const Icon(Icons.remove) // Icon when expanded
+                        //     : const Icon(Icons.add),
+                        title: const Padding(
+                          padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          child: Align(
+                            alignment: Alignment(-1.5, 0),
+                            child: Text(
+                              'Detail',
+                              style: TextStyle(
+                                  color: headingColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
+                            ),
+                          ),
+                        ),
+
+                        children: [
+                          SingleChildScrollView(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Html(
+                              data: '''${product[0]['detail']}''',
+                              style: {
+                                "body": Style(
+                                  fontSize: FontSize(14.0),
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              },
+                            ),
+                          ),
+                        ],
                       ),
+
+
+                      // HtmlExpansionTile(
+                      //   title: 'Detail',
+                      //   htmlContent: '''${product[0]['detail']}''',
+                      // ),
+
                     ),
                     Padding(
                       padding: const EdgeInsets.all(5),
-                      child: HtmlExpansionTile(
-                        title: 'Care & Maintenance',
-                        htmlContent: '''${product[0]['care']}''',
+                      child: ExpansionTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        leading: _isExpanded1
+                            ? const Icon(
+                          Icons.remove,
+                          size: 20,
+                          color: headingColor,
+                        ) // Icon when expanded
+                            : const Icon(
+                          Icons.add,
+                          size: 20,
+                          color: headingColor,
+                        ),
+                        childrenPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                        expandedCrossAxisAlignment: CrossAxisAlignment.end,
+                        maintainState: true,
+                        onExpansionChanged: _onExpansionChanged1,
+                        // trailing: _isExpanded
+                        //     ? const Icon(Icons.remove) // Icon when expanded
+                        //     : const Icon(Icons.add),
+                        title: const Padding(
+                          padding: EdgeInsets.fromLTRB(22, 0, 0, 0),
+                          child: Align(
+                            alignment: Alignment(-1.5, 0),
+                            child: Text(
+                              'Dimensions',
+                              style: TextStyle(
+                                  color: headingColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
+                            ),
+                          ),
+                        ),
+
+                        children: [
+                          SingleChildScrollView(
+                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 20),
+                            child: Column(
+                              children: [
+                                product[0]['height'] == null
+                                    ? Container()
+                                    : Text('Height: ' + product[0]['height']),
+                                product[0]['diameter'] == null
+                                    ? Container()
+                                    : Text('Diameter: ' +
+                                    product[0]['diameter']),
+                                product[0]['capacity'] == null
+                                    ? Container()
+                                    : Text('Capacity: ' +
+                                    product[0]['capacity']),
+                                product[0]['width'] == null
+                                    ? Container()
+                                    : Text('Width: ' + product[0]['width']),
+                                product[0]['length'] == null
+                                    ? Container()
+                                    : Text('Length: ' + product[0]['length']),
+                                product[0]['overall'] == null
+                                    ? Container()
+                                    : Text(
+                                    'Overall: ' + product[0]['overall']),
+                                product[0]['depth'] == null
+                                    ? Container()
+                                    : Text('Depth: ' + product[0]['depth']),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
+
+                      // HtmlExpansionTile(
+                      //   title: 'Care & Maintenance',
+                      //   htmlContent: '''${product[0]['care']}''',
+                      // ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: ExpansionTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        leading: _isExpanded2
+                            ? const Icon(
+                          Icons.remove,
+                          size: 20,
+                          color: headingColor,
+                        ) // Icon when expanded
+                            : const Icon(
+                          Icons.add,
+                          size: 20,
+                          color: headingColor,
+                        ),
+                        childrenPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                        expandedCrossAxisAlignment: CrossAxisAlignment.end,
+                        maintainState: true,
+                        onExpansionChanged: _onExpansionChanged2,
+                        // trailing: _isExpanded
+                        //     ? const Icon(Icons.remove) // Icon when expanded
+                        //     : const Icon(Icons.add),
+                        title: const Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          child: Align(
+                            alignment: Alignment(-1.5, 0),
+                            child: Text(
+                              'Care & Maintenance',
+                              style: TextStyle(
+                                  color: headingColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
+                            ),
+                          ),
+                        ),
+
+                        children: [
+                          SingleChildScrollView(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Html(
+                              data: '''${product[0]['care']}''',
+                              style: {
+                                "body": Style(
+                                  fontSize: FontSize(14.0),
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // HtmlExpansionTile(
+                      //   title: 'Care & Maintenance',
+                      //   htmlContent: '''${product[0]['care']}''',
+                      // ),
                     ),
                     const SizedBox(
                       height: 12,
