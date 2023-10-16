@@ -57,13 +57,16 @@ class _ProductCardState extends State<ProductCard> {
     super.initState();
     myProvider = Provider.of<MyProvider>(context, listen: false);
 
-    log(widget.item!.wishlist.toString());
     if(widget.item!.typename != "SimpleProduct"){
-      _changeColor(0, widget
-          .item!
-          .configurableOptions[0]
-          .values[0]
-          .valueIndex);
+     try{
+       _changeColor(0, widget
+           .item!
+           .configurableOptions[0]
+           .values[0]
+           .valueIndex);
+     }catch(e){
+       print(e);
+     }
     }else{
       title = widget.title;
       image = widget.item?.smallImage.url??'';
