@@ -41,7 +41,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     myProvider!.updateProductDescriptionData(widget.product);
 
-    myProvider!.updateHeaderScreen(true);
   }
 
   @override

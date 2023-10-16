@@ -37,9 +37,7 @@ class _BodyState extends State<Body> {
 
   void getuserdata() async {
     myProvider = Provider.of<MyProvider>(context, listen: false);
-
     myProvider!.getuserdata();
-    myProvider!.notifyListeners();
   }
 
   @override
