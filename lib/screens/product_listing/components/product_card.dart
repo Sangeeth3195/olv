@@ -65,7 +65,7 @@ class _ProductCardState extends State<ProductCard> {
            .values[0]
            .valueIndex);
      }catch(e){
-       print(e)
+       print(e);
        title = widget.title;
        image = widget.item?.smallImage.url??'';
        price=  widget.item!.getPriceRange.isEmpty?widget.item!.textAttributes[0].normalprice:widget.item!.getPriceRange[0].normalpricevalue;
