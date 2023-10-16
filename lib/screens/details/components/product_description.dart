@@ -108,16 +108,17 @@ class _ProductDescriptionState extends State<ProductDescription> {
         if (product == null) {
           return Container();
         } else {
-          // log(product.toString());
+          log(provider.productData[0]['__typename']);
+
 
           // print('restart');
           if (isWishListed == null) {
             isWishListed = provider.productData[0]['is_wishlisted'];
           }
-          if (provider.productData[0]['__typename'] == "SimpleProduct") {
-            isConfiguredProduct = false;
-          } else {
+          if (provider.productData[0]['__typename'] == "ConfigurableProduct") {
             isConfiguredProduct = true;
+          } else {
+            isConfiguredProduct = false;
           }
           print(isConfiguredProduct);
           return Column(

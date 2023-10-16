@@ -146,6 +146,7 @@ class MyProvider extends ChangeNotifier {
   }
 
   void updateProductDescriptionData(String id) async {
+    productData=null;
     productData = await graphQLService.getproductdescription(id: id);
     notifyListeners();
   }
