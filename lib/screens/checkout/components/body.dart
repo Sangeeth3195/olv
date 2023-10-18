@@ -132,7 +132,12 @@ class _BodyState extends State<Body> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               const AddEditAddress()),
-                                    );
+                                    ).then((value) {
+                                      MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
+                                      myProvider.getuserdata();
+                                      getData();
+
+                                    });
                                   },
                                   child: const Row(
                                     children: [
@@ -196,8 +201,12 @@ class _BodyState extends State<Body> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const AddEditAddress()),
-                                    );
+                                               AddEditAddress()),
+                                    ).then((value){
+                                      MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
+                                      myProvider.getuserdata();
+                                      getData();
+                                    });
                                   },
                                   child: const Row(
                                     children: [
