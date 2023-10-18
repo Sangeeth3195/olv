@@ -40,7 +40,9 @@ class _BodyState extends State<Body> {
       backgroundColor: Colors.white,
       body: (customerModel.customer == null ||
               customerModel.customer!.addresses == null)
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(
+        child: Text('Your address list is empty'),
+      )
           : ListView.builder(
               itemCount: customerModel.customer!.addresses!.length,
               itemBuilder: (context, index) {

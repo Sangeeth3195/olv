@@ -41,7 +41,9 @@ class _BodyState extends State<Body> {
 
       body: (ordersModel.customer == null ||
               ordersModel.customer!.orders == null)
-          ? const Center()
+          ? const Center(
+        child: Text('Your order list is empty'),
+      )
           : ListView.builder(
               itemCount: ordersModel.customer!.orders!.items!.length,
               itemBuilder: (context, index) {

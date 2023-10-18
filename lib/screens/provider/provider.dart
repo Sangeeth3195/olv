@@ -75,6 +75,7 @@ class MyProvider extends ChangeNotifier {
     oldItems = itemList.map((postJson) => Item.fromJson(postJson)).toList();
 
     notifyListeners();
+
   }
 
   void updateSearchData(String id) async {
