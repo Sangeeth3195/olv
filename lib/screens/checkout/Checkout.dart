@@ -61,6 +61,7 @@ class _MyHomePageState extends State<CheckoutCard> {
   SharedPreferences? prefs;
   var cart_token;
   var orderID;
+  bool buttonEnable=false;
 
   void handlePaymentErrorResponse(PaymentFailureResponse response){
     /*
@@ -113,10 +114,27 @@ class _MyHomePageState extends State<CheckoutCard> {
     customerModel = await graphQLService.get_customer_details();
 
     print(customerModel.customer?.addresses?.length);
+    int count=0;
+    customerModel.customer?.addresses?.forEach((element) {
+      if (element.defaultShipping!) {
+        count++;
+      }
+      if (element.defaultBilling!) {
+        count++;
+      }
+    });
+    print(count);
+    if(count<2){
+      buttonEnable=true;
+    }else{
+      buttonEnable=false;
+    }
     setState(() {
       mob_number = customerModel.customer?.addresses?[0].telephone;
       email = customerModel.customer?.email ?? '';
     });
+
+
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     double? sub_total = prefs.getDouble('sub_total');
@@ -195,7 +213,8 @@ class _MyHomePageState extends State<CheckoutCard> {
                                 fontStyle: FontStyle.normal),
                             // shape: const StadiumBorder(),
                           ),
-                          onPressed: () async {
+
+                          onPressed: buttonEnable?null:() async {
 
                             EasyLoading.show(status: 'loading...');
 
