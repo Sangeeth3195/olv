@@ -39,7 +39,6 @@ class _BodyState extends State<Body> {
 
     CartProvider cartProvider =
         Provider.of<CartProvider>(context, listen: false);
-    await myProvider.getuserdata();
     if (myProvider.customerModel.customer != null) {
       myProvider.customerModel.customer!.addresses!.forEach((element) {
         if (element.defaultShipping!) {
@@ -50,7 +49,7 @@ class _BodyState extends State<Body> {
         }
       });
     } else {
-      // myProvider.getuserdata();
+      await myProvider.getuserdata();
       myProvider.customerModel.customer!.addresses!.forEach((element) {
         if (element.defaultShipping!) {
           shippingAddress = element;
@@ -132,9 +131,9 @@ class _BodyState extends State<Body> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               const AddEditAddress()),
-                                    ).then((value) {
+                                    ).then((value) async{
                                       MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
-                                      myProvider.getuserdata();
+                                      await myProvider.getuserdata();
                                       getData();
 
                                     });
@@ -202,9 +201,9 @@ class _BodyState extends State<Body> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                                AddEditAddress()),
-                                    ).then((value){
+                                    ).then((value)async{
                                       MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
-                                      myProvider.getuserdata();
+                                      await myProvider.getuserdata();
                                       getData();
                                     });
                                   },
