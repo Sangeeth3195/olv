@@ -46,7 +46,7 @@ class MyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getuserdata() async {
+  Future<void> getuserdata() async {
     customerModel = await graphQLService.get_customer_details();
     print(customerModel.customer?.addresses?.length);
 

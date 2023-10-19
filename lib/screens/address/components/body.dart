@@ -50,7 +50,9 @@ class _BodyState extends State<Body> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>  AddAddress(arguments: customerModel.customer?.addresses?[index],)),
-                    );
+                    ).then((value) {
+                      getData();
+                    });
 
                     // context.go("/addaddress");
                     // Navigator.of(context, rootNavigator: true)

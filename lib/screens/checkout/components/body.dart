@@ -39,7 +39,7 @@ class _BodyState extends State<Body> {
 
     CartProvider cartProvider =
         Provider.of<CartProvider>(context, listen: false);
-
+    await myProvider.getuserdata();
     if (myProvider.customerModel.customer != null) {
       myProvider.customerModel.customer!.addresses!.forEach((element) {
         if (element.defaultShipping!) {
@@ -50,7 +50,7 @@ class _BodyState extends State<Body> {
         }
       });
     } else {
-      myProvider.getuserdata();
+      // myProvider.getuserdata();
       myProvider.customerModel.customer!.addresses!.forEach((element) {
         if (element.defaultShipping!) {
           shippingAddress = element;

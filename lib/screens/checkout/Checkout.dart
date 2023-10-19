@@ -61,7 +61,7 @@ class _MyHomePageState extends State<CheckoutCard> {
   SharedPreferences? prefs;
   var cart_token;
   var orderID;
-  bool buttonEnable=false;
+  bool buttonEnable=true;
 
   void handlePaymentErrorResponse(PaymentFailureResponse response){
     /*
@@ -129,11 +129,12 @@ class _MyHomePageState extends State<CheckoutCard> {
     }else{
       buttonEnable=false;
     }
+    print(buttonEnable);
     setState(() {
-      mob_number = customerModel.customer?.addresses?[0].telephone;
-      email = customerModel.customer?.email ?? '';
-    });
 
+    });
+    mob_number = customerModel.customer?.addresses?[0].telephone;
+    email = customerModel.customer?.email ?? '';
 
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
