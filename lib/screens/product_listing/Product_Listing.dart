@@ -104,7 +104,7 @@ class _HomeScreenState extends State<ProductListing> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 1, horizontal: 5),
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width-148,
                           child: Text(
                             provider.title,
