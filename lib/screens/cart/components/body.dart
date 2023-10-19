@@ -35,7 +35,11 @@ class _BodyState extends State<Body> {
             itemCount: widget.cartModel.cart!.items!.length,
             itemBuilder: (context, index) =>  Padding(
               padding: const EdgeInsets.symmetric(vertical: 2),
-              child: CartCard(item: widget.cartModel.cart!.items![index]),
+              child: InkWell(
+                  onTap: (){
+                    context.go('/cart/pdp',extra: widget.cartModel.cart!.items![index].product!.sku.toString());
+                  },
+                  child: CartCard(item: widget.cartModel.cart!.items![index])),
             ),
           )),
     );

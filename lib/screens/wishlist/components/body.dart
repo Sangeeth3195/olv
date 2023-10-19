@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
@@ -92,6 +93,7 @@ class _BodyState extends State<Body> {
                             dy_val :  myProvider!.customerModel.customer!.wishlist!.items![index].product!.dynamicAttributes![0].attributeValue.toString(),
                             bgColor: demo_product[0].colors[0],
                             press: () {
+                              context.go("/wishlist/pdp", extra: myProvider!.customerModel.customer!.wishlist!.items![index].product!.sku!.toString());
 
                             },
                           ),

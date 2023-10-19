@@ -6,6 +6,7 @@ import 'package:omaliving/screens/account/Account.dart';
 import 'package:omaliving/screens/address/address.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/checkout/Checkout.dart';
+import 'package:omaliving/screens/details/details_screen.dart';
 import 'package:omaliving/screens/discover/discovers.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
@@ -75,6 +76,21 @@ final router = GoRouter(
             builder: (context, state) {
               return const Wishlist();
             },
+            routes: <RouteBase>[
+              GoRoute(
+                path: 'pdp',
+                builder: (context, state) {
+
+                  // Map<String, String> args =
+                  // state.extra as Map<String, String>;
+
+                  print(state.extra);
+                  return  DetailsScreen(
+                    product : state.extra.toString(),
+                  );
+                },
+              )
+            ],
           ),
         ]),
 
@@ -94,6 +110,20 @@ final router = GoRouter(
                     return const Checkout();
                   },
                 ),
+                GoRoute(
+                  path: 'pdp',
+                  builder: (context, state) {
+
+                    // Map<String, String> args =
+                    // state.extra as Map<String, String>;
+
+                    print(state.extra);
+                    return  DetailsScreen(
+                      product : state.extra.toString(),
+                    );
+                  },
+                )
+
               ]),
         ]),
 
