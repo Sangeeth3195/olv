@@ -653,6 +653,7 @@ class GraphQLService {
                                             id
                                             name
                                             sku
+                                            is_wishlisted
                                             media_gallery {
                                                   url
                                                   label
@@ -897,6 +898,7 @@ class GraphQLService {
                         id
                         name
                         sku
+                        is_wishlisted
                       }
                       upsell_products {
                         id

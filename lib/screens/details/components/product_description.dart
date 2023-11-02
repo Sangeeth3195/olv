@@ -7,6 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omaliving/models/Product_detail.dart';
 import 'package:omaliving/screens/details/components/product_images.dart';
 import 'package:omaliving/screens/details/components/top_rounded_container.dart';
@@ -1095,7 +1096,28 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         itemCount:
                             provider.productData[0]['related_products'].length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
+                          return buildRelatedProducts(context, provider, index);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  GestureDetector buildRelatedProducts(BuildContext context, MyProvider provider, int index) {
+    return GestureDetector(
+                          onTap: (){
+                            context.go("/wishlist/pdp", extra: provider.productData[0]
+                            ['related_products'][index]['sku'].toString());
+
+                          },
+                          child: Container(
                             width: 200,
                             // color: colors[index],
                             margin: const EdgeInsets.all(8.0),
@@ -1164,16 +1186,16 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                         // ),
 
                                         /*Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
-                        '₹$price',
-                        style: const TextStyle(
+                    padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    child: Text(
+                      '₹$price',
+                      style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: headingColor,
                             height: 1.2,
                             fontSize: 13),
-                      ),
-                    ),*/
+                    ),
+                  ),*/
 
                                         const SizedBox(height: 10.0),
 
@@ -1198,32 +1220,61 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                     )
                                   ],
                                 ),
-                                const Positioned(
+                                Positioned(
                                     top: 0,
                                     right: 5,
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 2.0, vertical: 6),
-                                      child: Icon(
-                                        Icons.favorite_border,
-                                        color: blackColor,
-                                        size: 22,
+                                      child: IconButton(
+                                        onPressed: () async{
+
+                                          if (myProvider!
+                                              .customerModel?.customer?.email !=
+                                              null) {
+                                            if (provider.productData[0]['related_products'][index]['is_wishlisted'] ?? false) {
+                                              dynamic listData = await graphQLService
+                                                  .add_Product_from_wishlist(
+                                                wishlistId: myProvider!.customerModel
+                                                    .customer!.wishlists![0].id!,
+                                                sku: provider.productData[0]['related_products'][index]['sku'].toString(),
+                                                qty: "1",
+                                              );
+                                            } else {
+                                              dynamic listData = await graphQLService
+                                                  .remove_Product_from_wishlist(
+                                                  wishlistId: myProvider!
+                                                      .customerModel
+                                                      .customer!
+                                                      .wishlists![0]
+                                                      .id!,
+                                                  wishlistItemsIds: provider.productData[0]['related_products'][index]['sku'].toString()                                                     .toString());
+                                            }
+
+                                            provider.productData[0]['related_products'][index]['is_wishlisted']= !provider.productData[0]['related_products'][index]['is_wishlisted'];
+                                            setState(() {
+
+                                            });
+
+
+                                          } else {
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                'Please Login for wishlist an item');
+                                          }
+
+                                        },
+                                        icon: Icon(
+                                          provider.productData[0]['related_products'][index]['is_wishlisted']?Icons.favorite:Icons.favorite_border,
+                                          color: provider.productData[0]['related_products'][index]['is_wishlisted']?Colors.red:blackColor,
+                                          size: 22,
+                                        ),
                                       ),
                                     )),
                               ],
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        }
-      },
-    );
+                          ),
+                        );
   }
 
   Color colorFromHex(String hexColor) {
