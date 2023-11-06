@@ -5,6 +5,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/360view.dart';
+import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:omaliving/screens/details/components/product_description.dart';
 import 'package:omaliving/screens/product_listing/components/product_card.dart';
 import 'package:omaliving/screens/provider/provider.dart';
@@ -163,6 +164,7 @@ class _DetailsPageState extends State<DetailsPage>
                       graphQLService.update_product_to_cart(
                         widget.product['sku'].toString(),
                         quantity.toStringAsFixed(0),
+                        context: context
                       );
                     },
                     style: ElevatedButton.styleFrom(
