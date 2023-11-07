@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/models/ProductListJson.dart';
+import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,12 +52,14 @@ class _ProductCardState extends State<ProductCard> {
    String? price;
    Color? bgColor;
    Item? item;
+  CartProvider? cartProvider ;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     myProvider = Provider.of<MyProvider>(context, listen: false);
-
+    cartProvider = Provider.of<CartProvider>(context, listen: false);
     if(widget.item!.typename != "SimpleProduct"){
      try{
        _changeColor(0, widget
@@ -356,6 +359,7 @@ class _ProductCardState extends State<ProductCard> {
                         graphQLService.addProductToCart(
                           widget.item!.sku.toString(),
                           '1',
+                          context: context
                         );
                       },
                       child: const Padding(
@@ -388,13 +392,14 @@ class _ProductCardState extends State<ProductCard> {
                           wishlistId: myProvider!.customerModel.customer!.wishlists![0].id!,
                           sku: widget.item!.sku.toString(),
                           qty:"1",
+                          context: context
                         );
                       }else{
                         widget.item!.wishlist =false;
                         dynamic listData = await graphQLService
                             .remove_Product_from_wishlist(
                             wishlistId: myProvider!.customerModel.customer!.wishlists![0].id!,
-                            wishlistItemsIds: widget.item!.id.toString());
+                            wishlistItemsIds: widget.item!.id.toString(),context: context);
 
                       }
                       setState(() {

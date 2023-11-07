@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/models/CartModel.dart';
+import 'package:omaliving/screens/provider/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider with ChangeNotifier {
@@ -11,6 +13,7 @@ class CartProvider with ChangeNotifier {
   SharedPreferences? prefs;
   var cart_token;
   bool is_yes = false;
+  int cartNumbers=0;
 
   void getCartData() async {
 
@@ -32,6 +35,12 @@ class CartProvider with ChangeNotifier {
 
     // if(cartModel.cart!.prices!.grandTotal!.value! >= 10000)
 
+    if(cartModel.cart != null ||
+        cartModel.cart != null ||
+        cartModel.cart!.items != null ||
+        cartModel.cart!.items!.isEmpty){
+      cartNumbers=cartModel.cart!.items!.length;
+    }
     notifyListeners();
   }
 

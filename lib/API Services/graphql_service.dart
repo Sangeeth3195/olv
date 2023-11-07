@@ -941,7 +941,6 @@ class GraphQLService {
                   }
                 }
             """),
-
         ),
       );
 
@@ -951,7 +950,6 @@ class GraphQLService {
       } else {
         EasyLoading.dismiss();
         return result.data;
-
       }
     } catch (error) {
       return [];
@@ -998,8 +996,8 @@ class GraphQLService {
         Fluttertoast.showToast(
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
-
-        Fluttertoast.showToast(msg: 'Your account has been created successfully.');
+        Fluttertoast.showToast(
+            msg: 'Your account has been created successfully.');
 
         EasyLoading.dismiss();
 
@@ -1008,8 +1006,7 @@ class GraphQLService {
 
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => const LoginPage()),
+          MaterialPageRoute(builder: (context) => const LoginPage()),
         );
       }
 
@@ -1055,11 +1052,9 @@ class GraphQLService {
         prefs.setString(
             'token', result.data?['generateCustomerToken']['token']);
 
-        var cartToken=prefs.getString('cart_token');
-        if(cartToken?.isNotEmpty==true){
-
+        var cartToken = prefs.getString('cart_token');
+        if (cartToken?.isNotEmpty == true) {
           assign_Customer_To_Guest_Cart(cartToken!);
-
         }
 
         Navigator.of(context).pop();
@@ -1117,7 +1112,7 @@ class GraphQLService {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', result.data?['createCustomerV3']['token']);
 
-      /*  Navigator.of(context).pushAndRemoveUntil(
+        /*  Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => MainLayout()),
             (Route<dynamic> route) => false);*/
 
@@ -1916,14 +1911,17 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> update_reset_password({required String password,required String old_password}) async {
+  Future<String> update_reset_password(
+      {required String password, required String old_password}) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(update_custor_password(password: password,old_password: old_password)), // this
+          document: gql(update_custor_password(
+              password: password, old_password: old_password)), // this
         ),
       );
-      log(update_custor_password(password: password,old_password: old_password).toString());
+      log(update_custor_password(password: password, old_password: old_password)
+          .toString());
       if (result.hasException) {
         EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
@@ -2005,18 +2003,23 @@ class GraphQLService {
   }
 
   Future<String> add_Product_from_wishlist(
-      {required String sku, required String qty,required String wishlistId,}) async {
+      {required String sku,
+      required String qty,
+      required String wishlistId,
+      BuildContext? context}) async {
     try {
       print(sku);
       print(qty);
 
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(addProductfromwishlist(sku: sku, qty: qty,wishlistId: wishlistId)), // this
+          document: gql(addProductfromwishlist(
+              sku: sku, qty: qty, wishlistId: wishlistId)), // this
         ),
       );
 
-      log(addProductfromwishlist(sku: sku, qty: qty,wishlistId: wishlistId).toString());
+      log(addProductfromwishlist(sku: sku, qty: qty, wishlistId: wishlistId)
+          .toString());
 
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
@@ -2024,6 +2027,9 @@ class GraphQLService {
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
         log(jsonEncode(result.data));
+        if (context != null) {
+         getWishListNumbers(context);
+        }
         Fluttertoast.showToast(msg: 'Item moved to your wishlist');
         EasyLoading.dismiss();
       }
@@ -2115,7 +2121,7 @@ class GraphQLService {
   }
 
   Future<String> remove_Product_from_wishlist(
-      {required String wishlistId, required String wishlistItemsIds}) async {
+      {required String wishlistId, required String wishlistItemsIds,BuildContext? context}) async {
     try {
       print(wishlistId);
       print(wishlistItemsIds);
@@ -2139,6 +2145,10 @@ class GraphQLService {
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
         log(jsonEncode(result.data));
+        if (context != null) {
+          getWishListNumbers(context);
+        }
+
         Fluttertoast.showToast(msg: 'Item removed from your wishlist');
         EasyLoading.dismiss();
       }
@@ -2164,10 +2174,12 @@ class GraphQLService {
   Future<String> create_cart() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var cartToken=prefs.getString('token');
+      var cartToken = prefs.getString('token');
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(cartToken?.isNotEmpty==true?crt_cart_Logged_in():crt_cart()), // this
+          document: gql(cartToken?.isNotEmpty == true
+              ? crt_cart_Logged_in()
+              : crt_cart()), // this
         ),
       );
       if (result.hasException) {
@@ -2175,12 +2187,10 @@ class GraphQLService {
       } else if (result.data != null) {
         print(result.data);
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        if(cartToken?.isNotEmpty==true){
+        if (cartToken?.isNotEmpty == true) {
           prefs.setString('cart_token', result.data?['customerCart']['id']);
-
-        }else{
+        } else {
           prefs.setString('cart_token', result.data?['createEmptyCart']);
-
         }
       }
 
@@ -2212,7 +2222,6 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-
         print('logged_in');
 
         print(result.data);
@@ -2225,7 +2234,6 @@ class GraphQLService {
         String old_token = prefs.getString('old_cart_token') ?? '';
 
         merge_cart(result.data?['customerCart']['id'], old_token);
-
       }
 
       return "";
@@ -2309,7 +2317,7 @@ class GraphQLService {
   Future<String> addProductToCart(
     String sku,
     String qty,
-  ) async {
+      {BuildContext? context}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var cart_token = prefs.getString('cart_token') ?? '';
@@ -2337,6 +2345,10 @@ class GraphQLService {
       } else if (result.data != null) {
         EasyLoading.dismiss();
         print(result.data);
+        if (context != null) {
+          getcartListNumbers(context);
+        }
+
         Fluttertoast.showToast(msg: 'Item added to your cart');
       }
 
@@ -2445,6 +2457,7 @@ class GraphQLService {
   Future<String> update_product_to_cart(
     String uid,
     String qty,
+  {BuildContext? context}
   ) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -2468,6 +2481,10 @@ class GraphQLService {
       } else if (result.data != null) {
         EasyLoading.dismiss();
         print(result.data);
+        if (context != null) {
+          getcartListNumbers(context);
+        }
+
       }
 
       return "";
@@ -2788,12 +2805,11 @@ class GraphQLService {
         ''';
   }
 
-    Future<String> assign_Customer_To_Guest_Cart(
+  Future<String> assign_Customer_To_Guest_Cart(
     String cart_token,
   ) async {
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('old_cart_token', cart_token);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('old_cart_token', cart_token);
 
     try {
       QueryResult result = await client.mutate(
@@ -2819,9 +2835,9 @@ class GraphQLService {
 
   /// Step 4 - I - Merge Cart
   static String merge_crt(
-      String cart_token,
-      String dest_id,
-      ) {
+    String cart_token,
+    String dest_id,
+  ) {
     return '''
             mutation {
                   mergeCarts(
@@ -2876,13 +2892,13 @@ class GraphQLService {
   }
 
   Future<String> merge_cart(
-      String cart_token,
-      String dest_id,
-      ) async {
+    String cart_token,
+    String dest_id,
+  ) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(merge_crt(cart_token,dest_id)), // this
+          document: gql(merge_crt(cart_token, dest_id)), // this
         ),
       );
       if (result.hasException) {
@@ -2959,7 +2975,6 @@ class GraphQLService {
 
   Future<String> set_shipping_address_to_cart(
       String cart_token, Address address) async {
-
     print(address.region!.regionCode!);
 
     print('address.regionId');
@@ -3036,11 +3051,12 @@ class GraphQLService {
   }
 
   Future<String> Set_billing_Address_to_cart(
-      String cart_token,Address address) async {
+      String cart_token, Address address) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(St_billing_Address_to_cart(cart_token,address)), // this
+          document:
+              gql(St_billing_Address_to_cart(cart_token, address)), // this
         ),
       );
 
@@ -3102,7 +3118,6 @@ class GraphQLService {
     String cart_token,
     String cpn,
   ) async {
-
     print(cart_token);
     print(cpn);
 
@@ -3115,13 +3130,12 @@ class GraphQLService {
       if (result.hasException) {
         print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
-
         print('ratedata');
         log(jsonEncode(result.data));
 
-        CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+        CartProvider cartProvider =
+            Provider.of<CartProvider>(context, listen: false);
         cartProvider.getCartData();
-
       }
       return "";
     } catch (e) {
@@ -3402,7 +3416,6 @@ class GraphQLService {
   }
 
   Future<String> place_order() async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String cart_token = prefs.getString('cart_token') ?? '';
 
@@ -3431,7 +3444,6 @@ class GraphQLService {
         EasyLoading.dismiss();
 
         return result.data?['placeOrder']['order']['order_number'];
-
       }
 
       return "";
@@ -3440,5 +3452,15 @@ class GraphQLService {
       return "";
     }
   }
+}
 
+void getWishListNumbers(BuildContext context) {
+  MyProvider myProvider =
+  Provider.of<MyProvider>(context, listen: false);
+  myProvider.getuserdata();
+}
+void getcartListNumbers(BuildContext context) {
+  CartProvider cartProvider =
+  Provider.of<CartProvider>(context, listen: false);
+  cartProvider.getCartData();
 }

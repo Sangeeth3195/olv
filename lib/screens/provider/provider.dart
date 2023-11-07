@@ -31,6 +31,9 @@ class MyProvider extends ChangeNotifier {
   int? bottombar;
   CustomerModel customerModel = CustomerModel();
 
+
+  int wishListNumbers=0;
+
   void updateHeader(String header) {
     title = header;
     notifyListeners();
@@ -52,8 +55,14 @@ class MyProvider extends ChangeNotifier {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('emailid', customerModel.customer?.email ?? '');
+    if(customerModel.customer != null ||
+        customerModel.customer!.wishlist != null ||
+        customerModel.customer!.wishlist!.items != null){
+      wishListNumbers=customerModel.customer!.wishlist!.items!.length;
+    }
     notifyListeners();
   }
+
 
   void updateData(int id) async {
     dynamic listData = await graphQLService.getproductlist(limit: 100, id: id);
@@ -75,6 +84,7 @@ class MyProvider extends ChangeNotifier {
     oldItems = itemList.map((postJson) => Item.fromJson(postJson)).toList();
 
     notifyListeners();
+
 
   }
 

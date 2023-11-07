@@ -719,11 +719,14 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                 provider.productData[0]['variants']
                                     [configurableProductIndex]['product']['sku'],
                                 quantity.toString(),
+                                context: context
                               );
                             } else {
                               graphQLService.addProductToCart(
                                 widget.product.toString(),
                                 quantity.toString(),
+                                  context: context
+
                               );
                             }
 
@@ -772,11 +775,13 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                             [configurableProductIndex]['product']
                                         ['sku'],
                                     quantity.toString(),
+                                    context: context
                                   );
                                 } else {
                                   graphQLService.addProductToCart(
                                     widget.product.toString(),
                                     quantity.toString(),
+                                    context: context
                                   );
                                 }
 
