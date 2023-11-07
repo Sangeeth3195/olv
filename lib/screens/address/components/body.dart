@@ -41,56 +41,70 @@ class _BodyState extends State<Body> {
       body: (customerModel.customer == null ||
               customerModel.customer!.addresses == null)
           ? const Center(
-        child: Text('Your address list is empty'),
-      )
-          : ListView.builder(
-              itemCount: customerModel.customer!.addresses!.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {
+              child: Text('Your address list is empty'),
+            )
+          : Container(
+              margin:
+                  const EdgeInsets.only(bottom: 0, left: 5, right: 5, top: 5),
+              child: customerModel.customer!.addresses!.isEmpty
+                  ? const Center(
+                      child: Text('Your address list is empty'),
+                    )
+                  : ListView.builder(
+                      itemCount: customerModel.customer!.addresses!.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddAddress(
+                                        arguments: customerModel
+                                            .customer?.addresses?[index],
+                                      )),
+                            ).then((value) {
+                              getData();
+                            });
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) =>  AddAddress(arguments: customerModel.customer?.addresses?[index],)),
-                    ).then((value) {
-                      getData();
-                    });
-
-                    // context.go("/addaddress");
-                    // Navigator.of(context, rootNavigator: true)
-                    //     .pushNamed("/addaddress",
-                    //         arguments:
-                    //             customerModel.customer?.addresses?[index])
-                    //     .then((value) => ({getData()}));
-
-                  },
-                  title: Text(
-                    customerModel.customer?.addresses?[index].firstname ?? '',
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                  subtitle: Text(
-                    customerModel.customer?.addresses?[index].street?.first ??
-                        '',
-                    style: const TextStyle(fontSize: 13),
-                  ),
-                  trailing: const SizedBox(
-                    width: 46,
-                    child: Row(
-                      children: [
-                        Text(
-                          'Edit |',
-                          style: TextStyle(color: Colors.black, fontSize: 12),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_outlined,
-                          size: 14,
-                          color: Colors.black,
-                        ),
-                      ],
+                            // context.go("/addaddress");
+                            // Navigator.of(context, rootNavigator: true)
+                            //     .pushNamed("/addaddress",
+                            //         arguments:
+                            //             customerModel.customer?.addresses?[index])
+                            //     .then((value) => ({getData()}));
+                          },
+                          title: Text(
+                            customerModel
+                                    .customer?.addresses?[index].firstname ??
+                                '',
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                          subtitle: Text(
+                            customerModel.customer?.addresses?[index].street
+                                    ?.first ??
+                                '',
+                            style: const TextStyle(fontSize: 13),
+                          ),
+                          trailing: const SizedBox(
+                            width: 46,
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Edit |',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_outlined,
+                                  size: 14,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                );
-              },
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -98,8 +112,7 @@ class _BodyState extends State<Body> {
 
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) =>  const AddAddress()),
+            MaterialPageRoute(builder: (context) => const AddAddress()),
           );
         },
         backgroundColor: headingColor,

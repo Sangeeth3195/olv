@@ -41,10 +41,20 @@ class _BodyState extends State<Body> {
 
       body: (ordersModel.customer == null ||
               ordersModel.customer!.orders == null)
+          ? const Center()
+          :
+
+
+    Container(
+      margin: const EdgeInsets.only(
+          bottom: 0, left: 5, right: 5, top: 5),
+      child:
+      ordersModel.customer!.orders!.items!.isEmpty
           ? const Center(
         child: Text('Your order list is empty'),
       )
-          : ListView.builder(
+          :
+      ListView.builder(
               itemCount: ordersModel.customer!.orders!.items!.length,
               itemBuilder: (context, index) {
                 return Padding(
@@ -203,6 +213,7 @@ class _BodyState extends State<Body> {
                 );
               },
             ),
+    )
     );
   }
 }

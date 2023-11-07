@@ -68,6 +68,7 @@ final router = GoRouter(
             },
           ),
         ]),
+
         StatefulShellBranch(routes: <RouteBase>[
           // Add this branch routes
           // each routes with its sub routes if available e.g shope/uuid/details
@@ -181,7 +182,6 @@ final router = GoRouter(
             ],
           ),
         ]),
-
 
         StatefulShellBranch(routes: <RouteBase>[
           // Add this branch routes
