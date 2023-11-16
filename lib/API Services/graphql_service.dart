@@ -96,14 +96,217 @@ class GraphQLService {
                       name
                       path
                       url_path
+                      image
                       url_key
+                        products (pageSize:4){total_count
+                        
+                         items {
+                        id
+                        name
+                        __typename
+                        sku
+                        is_wishlisted
+                        price_range {
+                          minimum_price {
+                            regular_price {
+                              value
+                              currency
+                            }
+                          }
+                        }
+                        ... on ConfigurableProduct {
+                            configurable_options {
+                            id
+                            attribute_id
+                            label
+                            position
+                            use_default
+                            attribute_code
+                            values {
+                              value_index
+                              label
+                              swatch_data{
+                                value
+                              }
+                            }
+                            product_id
+                          }
+                        variants {
+                            product {
+                              id
+                              name
+                              sku
+                              attribute_set_id
+                              ... on PhysicalProductInterface {
+                                weight
+                              }
+                              
+                              price_range{
+                                minimum_price{
+                                  regular_price{
+                                    value
+                                    currency
+                                  }
+                                }
+                              }
+                              
+                               small_image{
+                            url
+                            label
+                        }
+                              
+                               getPriceRange{
+                            oldpricevalue  
+                            normalpricevalue
+                          }
+                           textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                            }
+                            attributes {
+                              uid
+                              label
+                              code
+                              value_index
+                            }
+                  }
+                        }
+                        getPriceRange{
+                            oldpricevalue  
+                            normalpricevalue
+                          }
+                          textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                       dynamicAttributes(fields:["brands"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
+                        url_key
+                        small_image{
+                            url
+                            label
+                        }
+                      }
+                      total_count
+                      page_info {
+                        page_size
+                      }
+                   
+                        }
                       children {
                       id
                       level
                       name
                       path
                       url_path
+                      image
                       url_key
+                       products (pageSize:4){total_count
+                        
+                         items {
+                        id
+                        name
+                        __typename
+                        sku
+                        is_wishlisted
+                        price_range {
+                          minimum_price {
+                            regular_price {
+                              value
+                              currency
+                            }
+                          }
+                        }
+                        ... on ConfigurableProduct {
+                            configurable_options {
+                            id
+                            attribute_id
+                            label
+                            position
+                            use_default
+                            attribute_code
+                            values {
+                              value_index
+                              label
+                              swatch_data{
+                                value
+                              }
+                            }
+                            product_id
+                          }
+                        variants {
+                            product {
+                              id
+                              name
+                              sku
+                              attribute_set_id
+                              ... on PhysicalProductInterface {
+                                weight
+                              }
+                              
+                              price_range{
+                                minimum_price{
+                                  regular_price{
+                                    value
+                                    currency
+                                  }
+                                }
+                              }
+                              
+                               small_image{
+                            url
+                            label
+                        }
+                              
+                               getPriceRange{
+                            oldpricevalue  
+                            normalpricevalue
+                          }
+                           textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                            }
+                            attributes {
+                              uid
+                              label
+                              code
+                              value_index
+                            }
+                  }
+                        }
+                        getPriceRange{
+                            oldpricevalue  
+                            normalpricevalue
+                          }
+                          textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                       dynamicAttributes(fields:["brands"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
+                        url_key
+                        small_image{
+                            url
+                            label
+                        }
+                      }
+                      total_count
+                      page_info {
+                        page_size
+                      }
+                      }
                     }
                     }
                   }
@@ -2028,7 +2231,7 @@ class GraphQLService {
       } else if (result.data != null) {
         log(jsonEncode(result.data));
         if (context != null) {
-         getWishListNumbers(context);
+          getWishListNumbers(context);
         }
         Fluttertoast.showToast(msg: 'Item moved to your wishlist');
         EasyLoading.dismiss();
@@ -2121,7 +2324,9 @@ class GraphQLService {
   }
 
   Future<String> remove_Product_from_wishlist(
-      {required String wishlistId, required String wishlistItemsIds,BuildContext? context}) async {
+      {required String wishlistId,
+      required String wishlistItemsIds,
+      BuildContext? context}) async {
     try {
       print(wishlistId);
       print(wishlistItemsIds);
@@ -2314,9 +2519,7 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> addProductToCart(
-    String sku,
-    String qty,
+  Future<String> addProductToCart(String sku, String qty,
       {BuildContext? context}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -2454,11 +2657,8 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> update_product_to_cart(
-    String uid,
-    String qty,
-  {BuildContext? context}
-  ) async {
+  Future<String> update_product_to_cart(String uid, String qty,
+      {BuildContext? context}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var cart_token = prefs.getString('cart_token') ?? '';
@@ -2484,7 +2684,6 @@ class GraphQLService {
         if (context != null) {
           getcartListNumbers(context);
         }
-
       }
 
       return "";
@@ -3455,12 +3654,11 @@ class GraphQLService {
 }
 
 void getWishListNumbers(BuildContext context) {
-  MyProvider myProvider =
-  Provider.of<MyProvider>(context, listen: false);
+  MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
   myProvider.getuserdata();
 }
+
 void getcartListNumbers(BuildContext context) {
-  CartProvider cartProvider =
-  Provider.of<CartProvider>(context, listen: false);
+  CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
   cartProvider.getCartData();
 }
