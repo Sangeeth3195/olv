@@ -5,6 +5,7 @@ import 'package:omaliving/scaffold_with_navbar.dart';
 import 'package:omaliving/screens/account/Account.dart';
 import 'package:omaliving/screens/address/address.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
+import 'package:omaliving/screens/categoryDetails.dart';
 import 'package:omaliving/screens/checkout/Checkout.dart';
 import 'package:omaliving/screens/details/details_screen.dart';
 import 'package:omaliving/screens/discover/discovers.dart';
@@ -49,6 +50,14 @@ final router = GoRouter(
                   builder: (context, state) {
                     return const ProductListing(
                       id: 8989,
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: 'catDetails',
+                  builder: (context, state) {
+                    return  CategoryDetails(
+                      data: state.extra! as Map<String,dynamic>,
                     );
                   },
                 )

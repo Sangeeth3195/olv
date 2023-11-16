@@ -440,18 +440,21 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                       onTap: () {
                                         Navigator.of(context).pop();
                                         print('item_id --> $catId');
-                                        catId = navHeaderList[index]['children']
-                                            [itemIndex]['id'];
-                                        final myProvider =
-                                            Provider.of<MyProvider>(context,
-                                                listen: false);
-                                        myProvider.updateData(catId);
-                                        myProvider.updateHeader(
-                                            navHeaderList[index]['children']
-                                                [itemIndex]['name']);
-                                        myProvider.isproduct = true;
-                                        myProvider.notifyListeners();
-                                        context.go('/home/pdp');
+                                        context.go('/home/catDetails',extra: navHeaderList[index]['children']
+                                        [itemIndex]);
+
+                                        // catId = navHeaderList[index]['children']
+                                        //     [itemIndex]['id'];
+                                        // final myProvider =
+                                        //     Provider.of<MyProvider>(context,
+                                        //         listen: false);
+                                        // myProvider.updateData(catId);
+                                        // myProvider.updateHeader(
+                                        //     navHeaderList[index]['children']
+                                        //         [itemIndex]['name']);
+                                        // myProvider.isproduct = true;
+                                        // myProvider.notifyListeners();
+                                        // context.go('/home/pdp');
 
                                         // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
                                       },

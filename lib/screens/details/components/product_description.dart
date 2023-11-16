@@ -1259,6 +1259,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                                     .customer!.wishlists![0].id!,
                                                 sku: provider.productData[0]['related_products'][index]['sku'].toString(),
                                                 qty: "1",
+                                                context: context,
+
                                               );
                                             } else {
                                               dynamic listData = await graphQLService
@@ -1270,6 +1272,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                                       .id!,
                                                   wishlistItemsIds: provider.productData[0]['related_products'][index]['sku'].toString()                                                     .toString());
                                             }
+
 
                                             provider.productData[0]['related_products'][index]['is_wishlisted']= !provider.productData[0]['related_products'][index]['is_wishlisted'];
                                             setState(() {
