@@ -189,7 +189,7 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
                     )
                   : Expanded(
                       child: ListView.builder(
-                          itemCount: searchModel.products!.items!.length,
+                          itemCount: searchModel.products!.items!.length>=4?4:searchModel.products!.items!.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),

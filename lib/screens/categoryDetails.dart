@@ -210,6 +210,38 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                     ),
                   ),
                 ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  margin:EdgeInsets.all(12),
+                  child: SizedBox(
+                    width:MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+
+
+                        dynamic catId = widget.data['children'][parentIndex]['id'];
+                        final myProvider =
+                        Provider.of<MyProvider>(context,
+                            listen: false);
+                        myProvider.updateData(catId);
+                        myProvider.updateHeader(
+                            widget.data['children'][parentIndex]['name']);
+                        myProvider.isproduct = true;
+                        myProvider.notifyListeners();
+                        context.go('/home/pdp');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(5),
+                        primary: headingColor, // Set the background color
+                      ),
+                      child:  Text(
+                        "Shop All ("+widget.data['children'][parentIndex]['products']['total_count'].toString()+")",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                )
               ],
             );
           },
