@@ -546,7 +546,9 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           ],
         ),
       ),
-      bottomNavigationBar: Container(
+
+    );
+  }/*  bottomNavigationBar: Container(
         height: 65,
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: ClipRRect(
@@ -584,9 +586,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 controller: _tabController),
           ),
         ),
-      ),
-    );
-  }
+      ),*/
 
   void _onTap(index) async {
     if (index == 3) {
