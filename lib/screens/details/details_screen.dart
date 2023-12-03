@@ -52,7 +52,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
             print(provider.productData);
 
             return Container(
-              color: omaColor,
               child:
 
 

@@ -133,7 +133,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     configurableProductIndex: configurableProductIndex,
                     isConfigurableProduct: isConfiguredProduct),
                 TopRoundedContainer(
-                  color: omaColor,
+                  color: productDescribtionColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -146,8 +146,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                     [configurableProductIndex]['product']['name']
                                 : provider.productData[0]['name'],
                             style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
+                                fontWeight: FontWeight.w500,
+                                color: headingFontColor,
                                 fontSize: 18)),
                       ),
                       const SizedBox(
@@ -173,23 +173,23 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                         "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: headingColor,
+                                color: headingFontColor,
                                 fontSize: 15)),
                       ),
                       const SizedBox(
                         height: 16,
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: getProportionateScreenWidth(10)),
-                        child: const Text('OVERVIEW',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: headingColor)),
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(
+                      //       horizontal: getProportionateScreenWidth(10)),
+                      //   child: const Text('OVERVIEW',
+                      //       style: TextStyle(
+                      //           fontWeight: FontWeight.bold,
+                      //           color: headingColor)),
+                      // ),
+                      // const SizedBox(
+                      //   height: 12,
+                      // ),
                       Padding(
                         padding: EdgeInsets.only(
                           left: getProportionateScreenWidth(10),
@@ -208,7 +208,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                 fontWeight: FontWeight.normal,
                                 color: headingColor,
                                 height: 1.3,
-                                fontSize: 15)),
+                                fontSize: 13)),
                       ),
                       const SizedBox(
                         height: 0,
@@ -618,13 +618,13 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ),
                       Row(
                         children: [
-                          // Padding(
-                          //   padding: EdgeInsets.symmetric(
-                          //       horizontal: getProportionateScreenWidth(10)),
-                          //   child: const Text('QUANTITY',
-                          //       style: TextStyle(
-                          //           fontWeight: FontWeight.bold, color: headingColor)),
-                          // ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: getProportionateScreenWidth(10)),
+                            child: const Text('QUANTITY',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, color: headingColor)),
+                          ),
                           const SizedBox(
                             width: 12,
                           ),
@@ -641,7 +641,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  height: 34,
+                                  height: 44,
+                                  width: 50,
                                   child: IconButton(
                                     icon: const Icon(
                                       Icons.remove,
@@ -653,7 +654,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                   ),
                                 ),
                                 Container(
-                                  height: 34,
+                                  height: 44,
+                                  width: 50,
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0,
                                       vertical: 8), // Adjust padding as needed
@@ -666,13 +668,16 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                     borderRadius: BorderRadius.circular(
                                         0.0), // Adjust border radius as needed
                                   ),
-                                  child: Text(
-                                    quantity.toString(),
-                                    style: const TextStyle(fontSize: 15),
+                                  child: Center(
+                                    child: Text(
+                                      quantity.toString(),
+                                      style: const TextStyle(fontSize: 15),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 34,
+                                  height: 44,
+                                  width: 50,
                                   child: IconButton(
                                     icon: const Icon(
                                       Icons.add,
@@ -741,7 +746,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           ),
                           child: const Text(
                             'ADD TO CART',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
                           ),
                         ),
                       ),
@@ -751,60 +756,52 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       Row(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width - 80,
+                            width: MediaQuery.of(context).size.width -20,
                             height: 40,
                             // Set the container width to occupy the full width
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 10.0, vertical: 4),
                             // Adjust margins as needed
                             child: ElevatedButton(
-                              onPressed: () {
-                                EasyLoading.show(status: 'loading...');
+                              onPressed: () async {
+                                print(widget.product.toString());
 
-                                if (provider.productData[0]
-                                        ['configurable_options'] ==
-                                    'configurable_options') {
-                                  print(widget.product.toString());
+                                if (myProvider!
+                                    .customerModel?.customer?.email !=
+                                    null) {
+                                  if (isWishListed ?? false) {
+                                    dynamic listData = await graphQLService
+                                        .add_Product_from_wishlist(
+                                      wishlistId: myProvider!.customerModel
+                                          .customer!.wishlists![0].id!,
+                                      sku: provider.productData[0]['sku']
+                                          .toString(),
+                                      qty: "1",
+                                    );
+                                  } else {
+                                    dynamic listData = await graphQLService
+                                        .remove_Product_from_wishlist(
+                                        wishlistId: myProvider!
+                                            .customerModel
+                                            .customer!
+                                            .wishlists![0]
+                                            .id!,
+                                        wishlistItemsIds: provider
+                                            .productData[0]['sku']
+                                            .toString());
+                                  }
 
-                                  print(provider.productData[0]['variants']
-                                          [configurableProductIndex]['product']
-                                      ['sku']);
+                                  isWishListed = !isWishListed!;
 
-                                  graphQLService.addProductToCart(
-                                    provider.productData[0]['variants']
-                                            [configurableProductIndex]['product']
-                                        ['sku'],
-                                    quantity.toString(),
-                                    context: context
-                                  );
+                                  print(isWishListed);
+
+                                  setState(() {});
+
                                 } else {
-                                  graphQLService.addProductToCart(
-                                    widget.product.toString(),
-                                    quantity.toString(),
-                                    context: context
-                                  );
+                                  Fluttertoast.showToast(
+                                      msg:
+                                      'Please Login for wishlist an item');
                                 }
-
-                                /*if (provider.productData[0]['configurable_options'] !=
-                                    'configurable_options') {
-                                  print(widget.product['sku'].toString());
-
-                                  print(provider.productData[0]['variants'][0]
-                                      ['product']['sku']);
-
-                                  graphQLService.addProductToCart(
-                                    provider.productData[0]['variants'][0]['product']
-                                        ['sku'],
-                                    '1',
-                                  );
-                                } else {
-                                  print('widget.product.toString()');
-                                }
-
-                                graphQLService.addProductToCart(
-                                  widget.product['sku'].toString(),
-                                  '1',
-                                );*/
                               },
                               style: ElevatedButton.styleFrom(
                                 side: const BorderSide(color: headingColor),
@@ -813,85 +810,86 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                     5), // Set the background color
                               ),
                               child: const Text(
-                                "Buy Now",
+                                "ADD TO WISH LIST",
                                 style:
-                                    TextStyle(fontSize: 14, color: headingColor),
+                                    TextStyle(fontSize: 14, color: headingColor,fontWeight: FontWeight.normal),
                               ),
                             ),
                           ),
-                          Container(
-                              height: 40,
-                              // padding: const EdgeInsets.symmetric(
-                              //     horizontal: 1.0,
-                              //     vertical: 1), // Adjust padding as needed
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: headingColor, // Border color
-                                  width: 1.0, // Border width
-                                ),
-                                borderRadius: BorderRadius.circular(
-                                    0.0), // Adjust border radius as needed
-                              ),
-                              child: IconButton(
-                                  onPressed: () async {
-                                    print(widget.product.toString());
-
-                                    if (myProvider!
-                                            .customerModel?.customer?.email !=
-                                        null) {
-                                      if (isWishListed ?? false) {
-                                        dynamic listData = await graphQLService
-                                            .add_Product_from_wishlist(
-                                          wishlistId: myProvider!.customerModel
-                                              .customer!.wishlists![0].id!,
-                                          sku: provider.productData[0]['sku']
-                                              .toString(),
-                                          qty: "1",
-                                        );
-                                      } else {
-                                        dynamic listData = await graphQLService
-                                            .remove_Product_from_wishlist(
-                                                wishlistId: myProvider!
-                                                    .customerModel
-                                                    .customer!
-                                                    .wishlists![0]
-                                                    .id!,
-                                                wishlistItemsIds: provider
-                                                    .productData[0]['sku']
-                                                    .toString());
-                                      }
-
-                                      isWishListed = !isWishListed!;
-
-                                      print(isWishListed);
-
-                                      setState(() {});
-
-                                    } else {
-                                      Fluttertoast.showToast(
-                                          msg:
-                                              'Please Login for wishlist an item');
-                                    }
-                                  },
-                                  icon: Icon(
-                                    isWishListed ?? false
-                                        ? Icons.favorite
-                                        : Icons.favorite_border,
-                                    color: isWishListed ?? false
-                                        ? Colors.red
-                                        : themecolor,
-                                  )))
+                          // Container(
+                          //     height: 40,
+                          //     // padding: const EdgeInsets.symmetric(
+                          //     //     horizontal: 1.0,
+                          //     //     vertical: 1), // Adjust padding as needed
+                          //     decoration: BoxDecoration(
+                          //       color: Colors.white,
+                          //       border: Border.all(
+                          //         color: headingColor, // Border color
+                          //         width: 1.0, // Border width
+                          //       ),
+                          //       borderRadius: BorderRadius.circular(
+                          //           0.0), // Adjust border radius as needed
+                          //     ),
+                          //     child: IconButton(
+                          //         onPressed: () async {
+                          //           print(widget.product.toString());
+                          //
+                          //           if (myProvider!
+                          //                   .customerModel?.customer?.email !=
+                          //               null) {
+                          //             if (isWishListed ?? false) {
+                          //               dynamic listData = await graphQLService
+                          //                   .add_Product_from_wishlist(
+                          //                 wishlistId: myProvider!.customerModel
+                          //                     .customer!.wishlists![0].id!,
+                          //                 sku: provider.productData[0]['sku']
+                          //                     .toString(),
+                          //                 qty: "1",
+                          //               );
+                          //             } else {
+                          //               dynamic listData = await graphQLService
+                          //                   .remove_Product_from_wishlist(
+                          //                       wishlistId: myProvider!
+                          //                           .customerModel
+                          //                           .customer!
+                          //                           .wishlists![0]
+                          //                           .id!,
+                          //                       wishlistItemsIds: provider
+                          //                           .productData[0]['sku']
+                          //                           .toString());
+                          //             }
+                          //
+                          //             isWishListed = !isWishListed!;
+                          //
+                          //             print(isWishListed);
+                          //
+                          //             setState(() {});
+                          //
+                          //           } else {
+                          //             Fluttertoast.showToast(
+                          //                 msg:
+                          //                     'Please Login for wishlist an item');
+                          //           }
+                          //         },
+                          //         icon: Icon(
+                          //           isWishListed ?? false
+                          //               ? Icons.favorite
+                          //               : Icons.favorite_border,
+                          //           color: isWishListed ?? false
+                          //               ? Colors.red
+                          //               : themecolor,
+                          //         )))
                         ],
                       ),
                       const SizedBox(
                         height: 12,
                       ),
-                      Padding(
+                      Container(
+                        color: backgroundCategoryColor.withOpacity(0.9),
                         padding: const EdgeInsets.all(5),
+                        margin: EdgeInsets.all(10),
                         child: ExpansionTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          leading: _isExpanded
+                          trailing: _isExpanded
                               ? const Icon(
                             Icons.remove,
                             size: 20,
@@ -903,23 +901,20 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             color: headingColor,
                           ),
                           childrenPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                          expandedCrossAxisAlignment: CrossAxisAlignment.end,
-                          maintainState: true,
+                          // expandedCrossAxisAlignment: CrossAxisAlignment.end,
+                          // maintainState: true,
                           onExpansionChanged: _onExpansionChanged,
                           // trailing: _isExpanded
                           //     ? const Icon(Icons.remove) // Icon when expanded
                           //     : const Icon(Icons.add),
                           title: const Padding(
-                            padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-                            child: Align(
-                              alignment: Alignment(-1.5, 0),
-                              child: Text(
-                                'Detail',
-                                style: TextStyle(
-                                    color: headingColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15),
-                              ),
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Text(
+                              'Detail',
+                              style: TextStyle(
+                                  color: headingColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
                             ),
                           ),
 
@@ -946,11 +941,13 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         // ),
 
                       ),
-                      Padding(
+                      Container(
+                        color: backgroundCategoryColor.withOpacity(0.9),
                         padding: const EdgeInsets.all(5),
+                        margin: EdgeInsets.all(10),
                         child: ExpansionTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          leading: _isExpanded1
+                          controlAffinity: ListTileControlAffinity.trailing,
+                          trailing: _isExpanded1
                               ? const Icon(
                             Icons.remove,
                             size: 20,
@@ -969,22 +966,19 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           //     ? const Icon(Icons.remove) // Icon when expanded
                           //     : const Icon(Icons.add),
                           title: const Padding(
-                            padding: EdgeInsets.fromLTRB(22, 0, 0, 0),
-                            child: Align(
-                              alignment: Alignment(-1.5, 0),
-                              child: Text(
-                                'Dimensions',
-                                style: TextStyle(
-                                    color: headingColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15),
-                              ),
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Text(
+                              'Dimensions',
+                              style: TextStyle(
+                                  color: headingColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
                             ),
                           ),
 
                           children: [
                             SingleChildScrollView(
-                              padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 20),
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                               child: Column(
                                 children: [
                                   product[0]['height'] == null
@@ -1023,11 +1017,13 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         // ),
                       ),
 
-                      Padding(
+                      Container(
+                        color: backgroundCategoryColor.withOpacity(0.9),
+                        margin: EdgeInsets.all(10),
                         padding: const EdgeInsets.all(5),
                         child: ExpansionTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          leading: _isExpanded2
+                          controlAffinity: ListTileControlAffinity.trailing,
+                          trailing: _isExpanded2
                               ? const Icon(
                             Icons.remove,
                             size: 20,
@@ -1046,16 +1042,13 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           //     ? const Icon(Icons.remove) // Icon when expanded
                           //     : const Icon(Icons.add),
                           title: const Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                            child: Align(
-                              alignment: Alignment(-1.5, 0),
-                              child: Text(
-                                'Care & Maintenance',
-                                style: TextStyle(
-                                    color: headingColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15),
-                              ),
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Text(
+                              'Care & Maintenance',
+                              style: TextStyle(
+                                  color: headingColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
                             ),
                           ),
 

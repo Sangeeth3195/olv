@@ -25,9 +25,12 @@ class _ProductImagesState extends State<ProductImages> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: getProportionateScreenWidth(238),
+        Container(
+          color: omaColor,
+          margin: const EdgeInsets.all(16.0),
+          width: MediaQuery.of(context).size.width,
           child: AspectRatio(
             aspectRatio: 1,
             child: Hero(
@@ -40,7 +43,7 @@ class _ProductImagesState extends State<ProductImages> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
                 ...List.generate(widget.isConfigurableProduct?widget.product[0]['variants'][widget.configurableProductIndex]['product']['media_gallery'].length:widget.product[0]['media_gallery'].length,
                   (index) => buildSmallProductPreview(index)),
@@ -62,10 +65,10 @@ class _ProductImagesState extends State<ProductImages> {
         duration: defaultDuration,
         margin: const EdgeInsets.only(right: 15,left: 15),
         padding: const EdgeInsets.all(0),
-        height: getProportionateScreenWidth(48),
-        width: getProportionateScreenWidth(48),
+        height: getProportionateScreenWidth(80),
+        width: getProportionateScreenWidth(80),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: selectedImage == index?omaColor:Colors.white,
           borderRadius: BorderRadius.circular(2),
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),

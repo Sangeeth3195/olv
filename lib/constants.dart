@@ -18,6 +18,9 @@ const Color chip2Color = Color(0xFFEBE1D9);
 const Color navBackground = Color(0xFFF6F6F4);
 const Color navTextColor = Color(0xFF7F7671);
 const Color backgroundCategoryColor = Color(0xFFEDEBE7);
+const Color productDescribtionColor = Color(0xFFF7F7F7);
+const Color headingFontColor = Color(0xFF5B5559);
+const Color quantitityBackgroundColor = Color(0xFF8c7359);
 
 const double defaultPadding = 16.0;
 const double defaultBorderRadius = 5.0;
