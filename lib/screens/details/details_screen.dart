@@ -45,8 +45,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Consumer<MyProvider>(
+    return Consumer<MyProvider>(
         builder: (context,provider,_){
           if(provider.productData != null){
             print(provider.productData);
@@ -55,26 +54,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
               child:
 
 
-              ListView(
-                children: [
-                /*  Container(
-                    height: 70,
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      color: searchBackgroundColor,
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                    ),
-                    child: const SearchForm(),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),*/
-                  ProductDescription(
-                    product: provider.productData[0]['sku'],
-                    pressOnSeeMore: () {},
-                  ),
-                ],
+              ProductDescription(
+                product: provider.productData[0]['sku'],
+                pressOnSeeMore: () {},
               )
             );
 
@@ -83,7 +65,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
           }
 
         },
-      ),
     );
   }
 }
