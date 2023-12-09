@@ -25,7 +25,7 @@ class ProductListing extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<ProductListing> {
-  String _selectedOption = "Popularity";
+  String _selectedOption = "Most Relevant";
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> pList = [];
   int? _value = 0;
@@ -80,403 +80,478 @@ class _HomeScreenState extends State<ProductListing> {
       child: Scaffold(
         body: Consumer<MyProvider>(
           builder: (context, provider, _) {
-            return Column(
-              children: [
-                /*Container(
-                  height: 70,
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                    color: searchBackgroundColor,
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  /*Container(
+                    height: 70,
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      color: searchBackgroundColor,
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    ),
+                    child: const SearchForm(),
                   ),
-                  child: const SearchForm(),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),*/
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 1, horizontal: 5),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width-148,
-                          child: Text(
-                            provider.title,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                              color: headingColor,
-                              fontWeight: FontWeight.w500,
+                  const SizedBox(
+                    height: 20,
+                  ),*/
+
+
+                  Container(
+                    margin: EdgeInsets.only(top: 30),
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 1, horizontal: 5),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width-148,
+                            child: Text(
+                              provider.title,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                color: headingColor,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Column(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  showModalBottomSheet(
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                showModalBottomSheet(
                                     isScrollControlled: true,
-                                      context: context,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          // <-- SEE HERE
-                                          topLeft: Radius.circular(25.0),
-                                          topRight: Radius.circular(25.0),
-                                        ),
+                                    context: context,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        // <-- SEE HERE
+                                        topLeft: Radius.circular(25.0),
+                                        topRight: Radius.circular(25.0),
                                       ),
-                                      builder: (context) {
-                                        return FractionallySizedBox(
-                                          heightFactor: 0.8,
-                                          child: StatefulBuilder(builder: (BuildContext
-                                                  context,
-                                              StateSetter
-                                                  setState /*You can rename this!*/) {
-                                            return SingleChildScrollView(
-                                              child: Column(
-                                                children: [
-                                                  SizedBox(
-                                                    height:MediaQuery.of(context).size.height/1.75,
-                                                    child: ListView.builder(
-                                                      shrinkWrap: true,
-                                                      physics:
-                                                          const ClampingScrollPhysics(),
-                                                      itemCount:
-                                                          provider.aggregationList.length,
-                                                      // Replace with the actual number of items
-                                                      itemBuilder: (BuildContext context,
-                                                          int subitemIndex) {
-                                                        return Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            const SizedBox(height: 20,),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets.fromLTRB(
-                                                                      15.0, 0, 0, 5),
-                                                              child: Text(
-                                                                provider
-                                                                    .aggregationList[
-                                                                        subitemIndex]
-                                                                    .label,
-                                                                style: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight.w700,
-                                                                    color: blackColor,
-                                                                    height: 1.5,
-                                                                    fontSize: 12),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets.all(8.0),
-                                                              child: Wrap(
-                                                                // list of length 3
-                                                                children: List.generate(
-                                                                  provider
-                                                                      .aggregationList[subitemIndex].options
-                                                                      .length,
-                                                                  (int index) {
-                                                                    // choice chip allow us to
-                                                                    // set its properties.
-                                                                    return InputChip(
-                                                                      padding:
-                                                                          const EdgeInsets
-                                                                              .all(8),
-                                                                      label: Text(
-                                                                          provider.aggregationList[
-                                                                                          subitemIndex].options
-                                                                                  [index].label,
-                                                                          style: const TextStyle(
-                                                                              fontWeight:
-                                                                                  FontWeight
-                                                                                      .w200,
-                                                                              color:
-                                                                                  blackColor,
-                                                                              height: 1,
-                                                                              fontSize:
-                                                                                  16)),
-                                                                      // color of selected chip
-                                                                      selectedColor:
-                                                                          chipColor,
-
-                                                                      backgroundColor:
-                                                                          const Color(0xFFEFEFEF),
-                                                                      // selected chip value
-                                                                      selected:
-                                                                      provider.aggregationList[
-                                                                      subitemIndex].selected.contains(provider.aggregationList[
-                                                                      subitemIndex].options
-                                                                      [index].value),
-                                                                      // onselected method
-                                                                      onSelected:
-                                                                          (bool selected) {
-                                                                        setState(() {
-                                                                          if(selected){
-                                                                            provider.aggregationList[
-                                                                            subitemIndex].selected.add(provider.aggregationList[
-                                                                            subitemIndex].options
-                                                                            [index].value);
-                                                                          }else{
-                                                                            provider.aggregationList[
-                                                                            subitemIndex].selected.remove(provider.aggregationList[
-                                                                            subitemIndex].options
-                                                                            [index].value);
-                                                                          }
-                                                                        });
-                                                                        print(
-                                                                            provider.aggregationList[
-                                                                            subitemIndex].selected);
-                                                                      },
-                                                                    );
-                                                                  },
-                                                                ).toList(),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets.all(10),
-
-                                                    width:MediaQuery.of(context).size.width,
-                                                    child: ElevatedButton(
-                                                      onPressed: () {
-                                                        Map<String, dynamic> myMap = {
-                                                        };
-
-                                                        for(int i=0;i<provider.aggregationList.length;i++){
-                                                          myMap[provider.aggregationList[i].attributeCode]= "{in: "+provider.aggregationList[i].selected.toString()+"}";
-                                                        }
-
-                                                        log(myMap.toString());
-                                                        filterData(myMap);
-                                                        Navigator.of(context).pop();
-                                                        // Define the action to perform when the button is pressed
-                                                      },
-                                                      style: ElevatedButton.styleFrom(
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(16.0), // Set the corner radius here
-                                                        ),
-                                                        padding: const EdgeInsets.all(16.0), // Optional: Set padding for the button
-                                                        // Customize other properties like background color, elevation, etc.
-                                                      ),
-                                                      child: const Text('Apply'),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          }),
-                                        );
-                                      });
-                                },
-                                // styling the button
-                                style: ElevatedButton.styleFrom(
-                                  shape: const CircleBorder(),
-                                  padding: const EdgeInsets.all(2),
-                                  // Button color
-                                  backgroundColor: filter,
-                                  // Splash color
-                                  foregroundColor: omaColor,
-                                ),
-                                // icon of the button
-                                child: SvgPicture.asset(
-                                  "assets/icons/sort.svg",
-                                ),
-                              ),
-                            ],
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              showModalBottomSheet(
-                                  context: context,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                      // <-- SEE HERE
-                                      topLeft: Radius.circular(25.0),
-                                      topRight: Radius.circular(25.0),
                                     ),
-                                  ),
-                                  builder: (context) {
-                                    return StatefulBuilder(builder: (BuildContext
-                                            context,
-                                        StateSetter
+                                    builder: (context) {
+                                      return FractionallySizedBox(
+                                        heightFactor: 0.8,
+                                        child: StatefulBuilder(builder: (BuildContext
+                                        context,
+                                            StateSetter
                                             setState /*You can rename this!*/) {
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          const Center(
-                                            child: SizedBox(
-                                                width: 100,
-                                                child: Divider(
-                                                  thickness: 4.0,
-                                                )),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Container(
-                                                  margin:
-                                                      const EdgeInsets.only(right: 10),
-                                                  width: 24,
-                                                  height: 24,
-                                                  decoration: const BoxDecoration(
-                                                    color: Color(0xFFE6E6E6),
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  child: const Center(
-                                                    child: Icon(
-                                                      Icons.close,
-                                                      color: Colors.black,
-                                                      size: 24 * 0.6,
-                                                    ),
+                                          return SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  height:MediaQuery.of(context).size.height/1.75,
+                                                  child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    physics:
+                                                    const ClampingScrollPhysics(),
+                                                    itemCount:
+                                                    provider.aggregationList.length,
+                                                    // Replace with the actual number of items
+                                                    itemBuilder: (BuildContext context,
+                                                        int subitemIndex) {
+                                                      return Column(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          const SizedBox(height: 20,),
+                                                          Padding(
+                                                            padding:
+                                                            const EdgeInsets.fromLTRB(
+                                                                15.0, 0, 0, 5),
+                                                            child: Text(
+                                                              provider
+                                                                  .aggregationList[
+                                                              subitemIndex]
+                                                                  .label,
+                                                              style: const TextStyle(
+                                                                  fontWeight:
+                                                                  FontWeight.w700,
+                                                                  color: blackColor,
+                                                                  height: 1.5,
+                                                                  fontSize: 12),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                            const EdgeInsets.all(8.0),
+                                                            child: Wrap(
+                                                              // list of length 3
+                                                              children: List.generate(
+                                                                provider
+                                                                    .aggregationList[subitemIndex].options
+                                                                    .length,
+                                                                    (int index) {
+                                                                  // choice chip allow us to
+                                                                  // set its properties.
+                                                                  return InputChip(
+                                                                    padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                    label: Text(
+                                                                        provider.aggregationList[
+                                                                        subitemIndex].options
+                                                                        [index].label,
+                                                                        style: const TextStyle(
+                                                                            fontWeight:
+                                                                            FontWeight
+                                                                                .w200,
+                                                                            color:
+                                                                            blackColor,
+                                                                            height: 1,
+                                                                            fontSize:
+                                                                            16)),
+                                                                    // color of selected chip
+                                                                    selectedColor:
+                                                                    chipColor,
+
+                                                                    backgroundColor:
+                                                                    const Color(0xFFEFEFEF),
+                                                                    // selected chip value
+                                                                    selected:
+                                                                    provider.aggregationList[
+                                                                    subitemIndex].selected.contains(provider.aggregationList[
+                                                                    subitemIndex].options
+                                                                    [index].value),
+                                                                    // onselected method
+                                                                    onSelected:
+                                                                        (bool selected) {
+                                                                      setState(() {
+                                                                        if(selected){
+                                                                          provider.aggregationList[
+                                                                          subitemIndex].selected.add(provider.aggregationList[
+                                                                          subitemIndex].options
+                                                                          [index].value);
+                                                                        }else{
+                                                                          provider.aggregationList[
+                                                                          subitemIndex].selected.remove(provider.aggregationList[
+                                                                          subitemIndex].options
+                                                                          [index].value);
+                                                                        }
+                                                                      });
+                                                                      print(
+                                                                          provider.aggregationList[
+                                                                          subitemIndex].selected);
+                                                                    },
+                                                                  );
+                                                                },
+                                                              ).toList(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                15.0, 0, 0, 10),
-                                            child: Text(
-                                              'Sort By',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: blackColor,
-                                                  height: 1.5,
-                                                  fontSize: 16),
-                                            ),
-                                          ),
+                                                Container(
+                                                  margin: const EdgeInsets.all(10),
 
-                                          const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                15.0, 0, 0, 5),
-                                            child: Text(
-                                              'Price',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: blackColor,
-                                                  height: 1.5,
-                                                  fontSize: 12),
-                                            ),
-                                          ),
+                                                  width:MediaQuery.of(context).size.width,
+                                                  child: ElevatedButton(
+                                                    onPressed: () {
+                                                      Map<String, dynamic> myMap = {
+                                                      };
 
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Wrap(
-                                              // list of length 3
-                                              children: List.generate(
-                                                _options.length,
-                                                (int index) {
-                                                  // choice chip allow us to
-                                                  // set its properties.
-                                                  return ChoiceChip(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    label: Text(_options[index],
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w200,
-                                                            color: blackColor,
-                                                            height: 1,
-                                                            fontSize: 16)),
-                                                    // color of selected chip
-                                                    selectedColor: chipColor,
+                                                      for(int i=0;i<provider.aggregationList.length;i++){
+                                                        myMap[provider.aggregationList[i].attributeCode]= "{in: "+provider.aggregationList[i].selected.toString()+"}";
+                                                      }
 
-                                                    backgroundColor:
-                                                        const Color(0xFFEFEFEF),
-                                                    // selected chip value
-                                                    selected: _value == index,
-                                                    // onselected method
-                                                    onSelected: (bool selected) {
-                                                      setState(() {
-                                                        _value = selected
-                                                            ? index
-                                                            : null;
-                                                      });
-                                                      print(_value);
-                                                      provider.sort(_value!);
+                                                      log(myMap.toString());
+                                                      filterData(myMap);
                                                       Navigator.of(context).pop();
+                                                      // Define the action to perform when the button is pressed
                                                     },
-                                                  );
-                                                },
-                                              ).toList(),
+                                                    style: ElevatedButton.styleFrom(
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(16.0), // Set the corner radius here
+                                                      ),
+                                                      padding: const EdgeInsets.all(16.0), // Optional: Set padding for the button
+                                                      // Customize other properties like background color, elevation, etc.
+                                                    ),
+                                                    child: const Text('Apply'),
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                          ),
-
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          // Container(
-                                          //   margin: EdgeInsets.all(10),
-                                          //
-                                          //   width:MediaQuery.of(context).size.width,
-                                          //   child: ElevatedButton(
-                                          //     onPressed: () {
-                                          //       // Define the action to perform when the button is pressed
-                                          //       print('Button Pressed');
-                                          //     },
-                                          //     child: Text('Apply'),
-                                          //     style: ElevatedButton.styleFrom(
-                                          //       shape: RoundedRectangleBorder(
-                                          //         borderRadius: BorderRadius.circular(16.0), // Set the corner radius here
-                                          //       ),
-                                          //       padding: EdgeInsets.all(16.0), // Optional: Set padding for the button
-                                          //       // Customize other properties like background color, elevation, etc.
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                        ],
+                                          );
+                                        }),
                                       );
                                     });
+                              },
+                              // styling the button
+                              style: ElevatedButton.styleFrom(
+                                shape:  RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0.0),
+                                  side:  BorderSide(
+                                    color: themecolor,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.all(8),
+                                // Button color
+                                backgroundColor: omaColor,
+                                // Splash color
+                                foregroundColor: omaColor,
+                              ),
+                              // icon of the button
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icons/sort.svg",
+                                  ),
+                                  SizedBox(width: 10,),
+
+                                  Text(
+                                    "Filter",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                      color: headingColor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        Row(
+                          children: [
+                            Text(
+                              '116 Items',
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                color: headingColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(width: 10,),
+                            Container(
+                              height: 40,
+
+                              padding: EdgeInsets.all(8),
+                              margin: EdgeInsets.only(top: 5),
+                              decoration: BoxDecoration(
+                                color: omaColor,
+                                border: Border.all(
+                                  color: themecolor,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              child: DropdownButton<String>(
+                                value: _selectedOption,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    _selectedOption = newValue!;
                                   });
-                            },
-                            // styling the button
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              padding: const EdgeInsets.all(2),
-                              // Button color
-                              backgroundColor: filter,
-                              // Splash color
-                              foregroundColor: Colors.cyan,
+                                  provider.sort(newValue!);
+
+                                },
+                                underline: Container(),
+                                items: _options
+                                    .map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value,style: TextStyle(fontSize: 12),),
+                                  );
+                                }).toList(),
+                              ),
                             ),
-                            // icon of the button
-                            child: SvgPicture.asset(
-                              "assets/icons/filter.svg",
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //     showModalBottomSheet(
+                        //         context: context,
+                        //         shape: const RoundedRectangleBorder(
+                        //           borderRadius: BorderRadius.only(
+                        //             // <-- SEE HERE
+                        //             topLeft: Radius.circular(25.0),
+                        //             topRight: Radius.circular(25.0),
+                        //           ),
+                        //         ),
+                        //         builder: (context) {
+                        //           return StatefulBuilder(builder: (BuildContext
+                        //           context,
+                        //               StateSetter
+                        //               setState /*You can rename this!*/) {
+                        //             return Column(
+                        //               crossAxisAlignment:
+                        //               CrossAxisAlignment.start,
+                        //               mainAxisSize: MainAxisSize.min,
+                        //               children: <Widget>[
+                        //                 const Center(
+                        //                   child: SizedBox(
+                        //                       width: 100,
+                        //                       child: Divider(
+                        //                         thickness: 4.0,
+                        //                       )),
+                        //                 ),
+                        //                 Row(
+                        //                   mainAxisAlignment:
+                        //                   MainAxisAlignment.end,
+                        //                   crossAxisAlignment:
+                        //                   CrossAxisAlignment.end,
+                        //                   children: [
+                        //                     GestureDetector(
+                        //                       onTap: () {
+                        //                         Navigator.of(context).pop();
+                        //                       },
+                        //                       child: Container(
+                        //                         margin:
+                        //                         const EdgeInsets.only(right: 10),
+                        //                         width: 24,
+                        //                         height: 24,
+                        //                         decoration: const BoxDecoration(
+                        //                           color: Color(0xFFE6E6E6),
+                        //                           shape: BoxShape.circle,
+                        //                         ),
+                        //                         child: const Center(
+                        //                           child: Icon(
+                        //                             Icons.close,
+                        //                             color: Colors.black,
+                        //                             size: 24 * 0.6,
+                        //                           ),
+                        //                         ),
+                        //                       ),
+                        //                     ),
+                        //                   ],
+                        //                 ),
+                        //                 const Padding(
+                        //                   padding: EdgeInsets.fromLTRB(
+                        //                       15.0, 0, 0, 10),
+                        //                   child: Text(
+                        //                     'Sort By',
+                        //                     style: TextStyle(
+                        //                         fontWeight: FontWeight.w700,
+                        //                         color: blackColor,
+                        //                         height: 1.5,
+                        //                         fontSize: 16),
+                        //                   ),
+                        //                 ),
+                        //
+                        //                 const Padding(
+                        //                   padding: EdgeInsets.fromLTRB(
+                        //                       15.0, 0, 0, 5),
+                        //                   child: Text(
+                        //                     'Price',
+                        //                     style: TextStyle(
+                        //                         fontWeight: FontWeight.w700,
+                        //                         color: blackColor,
+                        //                         height: 1.5,
+                        //                         fontSize: 12),
+                        //                   ),
+                        //                 ),
+                        //
+                        //                 Padding(
+                        //                   padding: const EdgeInsets.all(8.0),
+                        //                   child: Wrap(
+                        //                     // list of length 3
+                        //                     children: List.generate(
+                        //                       _options.length,
+                        //                           (int index) {
+                        //                         // choice chip allow us to
+                        //                         // set its properties.
+                        //                         return ChoiceChip(
+                        //                           padding:
+                        //                           const EdgeInsets.all(8),
+                        //                           label: Text(_options[index],
+                        //                               style: const TextStyle(
+                        //                                   fontWeight:
+                        //                                   FontWeight.w200,
+                        //                                   color: blackColor,
+                        //                                   height: 1,
+                        //                                   fontSize: 16)),
+                        //                           // color of selected chip
+                        //                           selectedColor: chipColor,
+                        //
+                        //                           backgroundColor:
+                        //                           const Color(0xFFEFEFEF),
+                        //                           // selected chip value
+                        //                           selected: _value == index,
+                        //                           // onselected method
+                        //                           onSelected: (bool selected) {
+                        //                             setState(() {
+                        //                               _value = selected
+                        //                                   ? index
+                        //                                   : null;
+                        //                             });
+                        //                             print(_value);
+                        //                             provider.sort(_value!);
+                        //                             Navigator.of(context).pop();
+                        //                           },
+                        //                         );
+                        //                       },
+                        //                     ).toList(),
+                        //                   ),
+                        //                 ),
+                        //
+                        //                 const SizedBox(
+                        //                   height: 20,
+                        //                 ),
+                        //                 // Container(
+                        //                 //   margin: EdgeInsets.all(10),
+                        //                 //
+                        //                 //   width:MediaQuery.of(context).size.width,
+                        //                 //   child: ElevatedButton(
+                        //                 //     onPressed: () {
+                        //                 //       // Define the action to perform when the button is pressed
+                        //                 //       print('Button Pressed');
+                        //                 //     },
+                        //                 //     child: Text('Apply'),
+                        //                 //     style: ElevatedButton.styleFrom(
+                        //                 //       shape: RoundedRectangleBorder(
+                        //                 //         borderRadius: BorderRadius.circular(16.0), // Set the corner radius here
+                        //                 //       ),
+                        //                 //       padding: EdgeInsets.all(16.0), // Optional: Set padding for the button
+                        //                 //       // Customize other properties like background color, elevation, etc.
+                        //                 //     ),
+                        //                 //   ),
+                        //                 // ),
+                        //                 const SizedBox(
+                        //                   height: 20,
+                        //                 ),
+                        //               ],
+                        //             );
+                        //           });
+                        //         });
+                        //   },
+                        //   // styling the button
+                        //   style: ElevatedButton.styleFrom(
+                        //     shape: const CircleBorder(),
+                        //     padding: const EdgeInsets.all(2),
+                        //     // Button color
+                        //     backgroundColor: filter,
+                        //     // Splash color
+                        //     foregroundColor: Colors.cyan,
+                        //   ),
+                        //   // icon of the button
+                        //   child: SvgPicture.asset(
+                        //     "assets/icons/filter.svg",
+                        //   ),
+                        // ),
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: GridView.extent(
+
+                  GridView.extent(
                     primary: false,
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(2),
@@ -517,47 +592,47 @@ class _HomeScreenState extends State<ProductListing> {
                       ),
                     ),
                   ),
-                ),
 
-                /*Expanded(
-                  child: GridView.builder(
-                      primary: false,
-                      itemCount: pList.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 15.0,
-                          mainAxisSpacing: 15.0,
-                          childAspectRatio: 2 / 3),
-                      padding: const EdgeInsets.all(2),
-                      itemBuilder:  (BuildContext ctx, i) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: defaultPadding),
-                          child: ProductCard(
-                            title: provider.pList[i]['name'],
-                            image: provider.pList[i]['small_image']['url'],
-                            price: provider.pList[i]['__typename'] ==
-                                "SimpleProduct"
-                                ? provider.pList[i]['price_range']
-                            ['minimum_price']['regular_price']['value']
-                                .toString()
-                                : "${provider.pList[i]['price_range']['minimum_price']['regular_price']['value']}"
-                                " - ${provider.pList[i]['price_range']['minimum_price']['regular_price']['value']}",
-                            product: provider.pList[i],
-                            bgColor: demo_product[0].colors[0],
-                            press: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailsScreen(
-                                        product: provider.pList[i]),
-                                  ));
-                            },
-                          ),
-                        );
-                      }
-                  ),
-                )*/
-              ],
+                  /*Expanded(
+                    child: GridView.builder(
+                        primary: false,
+                        itemCount: pList.length,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 15.0,
+                            mainAxisSpacing: 15.0,
+                            childAspectRatio: 2 / 3),
+                        padding: const EdgeInsets.all(2),
+                        itemBuilder:  (BuildContext ctx, i) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: defaultPadding),
+                            child: ProductCard(
+                              title: provider.pList[i]['name'],
+                              image: provider.pList[i]['small_image']['url'],
+                              price: provider.pList[i]['__typename'] ==
+                                  "SimpleProduct"
+                                  ? provider.pList[i]['price_range']
+                              ['minimum_price']['regular_price']['value']
+                                  .toString()
+                                  : "${provider.pList[i]['price_range']['minimum_price']['regular_price']['value']}"
+                                  " - ${provider.pList[i]['price_range']['minimum_price']['regular_price']['value']}",
+                              product: provider.pList[i],
+                              bgColor: demo_product[0].colors[0],
+                              press: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailsScreen(
+                                          product: provider.pList[i]),
+                                    ));
+                              },
+                            ),
+                          );
+                        }
+                    ),
+                  )*/
+                ],
+              ),
             );
           },
         ),

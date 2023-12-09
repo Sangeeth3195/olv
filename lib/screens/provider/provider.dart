@@ -135,15 +135,15 @@ class MyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void sort(int value) {
-    if (value == 0) {
+  void sort(String value) {
+    if (value == "Most Relevant") {
       items = oldItems;
-    } else if (value == 1) {
+    } else if (value == "Product Name") {
       items.sort((a, b) => a.name.compareTo(b.name));
-    } else if (value == 2) {
+    } else if (value == "Low to high") {
       items.sort((a, b) => a.priceRange.minimumPrice.regularPrice.value
           .compareTo(b.priceRange.minimumPrice.regularPrice.value));
-    } else if (value == 3) {
+    } else if (value == "High to low") {
       items.sort((a, b) => a.priceRange.minimumPrice.regularPrice.value
           .compareTo(b.priceRange.minimumPrice.regularPrice.value));
       items = items.reversed.toList();
