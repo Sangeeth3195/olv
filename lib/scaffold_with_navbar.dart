@@ -398,12 +398,12 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                               final myProvider = Provider.of<MyProvider>(
                                   context,
                                   listen: false);
-                              myProvider.updateData(catId);
+                              // myProvider.updateData(catId);
                               myProvider
                                   .updateHeader(navHeaderList[index]['name']);
                               myProvider.isproduct = true;
                               myProvider.notifyListeners();
-                              context.go('/home/pdp');
+                              context.go('/home/pdp',extra: navHeaderList[index]);
                             },
                             child: Text(
                               navHeaderList[index]['name'],
@@ -448,7 +448,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                         // final myProvider =
                                         //     Provider.of<MyProvider>(context,
                                         //         listen: false);
-                                        // myProvider.updateData(catId);
+                                        // // myProvider.updateData(catId);
                                         // myProvider.updateHeader(
                                         //     navHeaderList[index]['children']
                                         //         [itemIndex]['name']);
@@ -503,7 +503,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                     Provider.of<MyProvider>(
                                                         context,
                                                         listen: false);
-                                                myProvider.updateData(catId);
+                                                // myProvider.updateData(catId);
                                                 myProvider.updateHeader(
                                                     navHeaderList[index][
                                                                         'children']
@@ -513,7 +513,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                         .toString());
                                                 myProvider.isproduct = true;
                                                 myProvider.notifyListeners();
-                                                context.go('/home/pdp');
+                                                context.go('/home/pdp',extra: navHeaderList[index]['children'][itemIndex]);
                                               },
                                               title: Text(
                                                 navHeaderList[index]['children']

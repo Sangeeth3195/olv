@@ -90,6 +90,7 @@ class GraphQLService {
                     path
                     url_path
                     url_key
+                    product_count
                     children {
                       id
                       level
@@ -97,6 +98,7 @@ class GraphQLService {
                       path
                       url_path
                       image
+                      product_count
                       url_key
                         products (pageSize:4){total_count
                         
@@ -357,7 +359,7 @@ class GraphQLService {
                       oma_subclass:{in:[]}
                       }
                       sort: {name: ASC}
-                      pageSize:"${8}"
+                      pageSize:"${limit}"
                       ) {
                       aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
                         attribute_code

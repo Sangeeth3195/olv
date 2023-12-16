@@ -15,9 +15,9 @@ import 'components/search_form.dart';
 import 'components/section_title.dart';
 
 class ProductListing extends StatefulWidget {
-  final int id;
+  final Map<String,dynamic> data;
 
-  const ProductListing({Key? key, required this.id}) : super(key: key);
+  const ProductListing({Key? key, required this.data}) : super(key: key);
   static const String routeName = "/home_screen";
 
   @override
@@ -55,11 +55,11 @@ class _HomeScreenState extends State<ProductListing> {
 
   void getNavdata() async {
     final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateData(widget.id);
+    myProvider.updateData(widget.data['id'],limit: widget.data['product_count']);
   }
   void filterData(Map<String, dynamic> filter) async {
     final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateDataWithFilter(widget.id,filter);
+    myProvider.updateDataWithFilter(widget.data['id'],filter);
   }
 
   @override
@@ -333,7 +333,7 @@ class _HomeScreenState extends State<ProductListing> {
                         Row(
                           children: [
                             Text(
-                              '116 Items',
+                              widget.data['product_count'].toString() + ' Items',
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.subtitle1!.copyWith(
                                 color: headingColor,
@@ -557,6 +557,7 @@ class _HomeScreenState extends State<ProductListing> {
                     padding: const EdgeInsets.all(2),
                     childAspectRatio: 0.60,
                     maxCrossAxisExtent: 300,
+                    cacheExtent: 10,
                     children: List.generate(
                       provider.items.length,
                       (index) => Padding(

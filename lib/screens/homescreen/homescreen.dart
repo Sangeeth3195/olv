@@ -45,8 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 break;
               case ProductListing.routeName:
                 builder = (BuildContext _) {
-                  // final id = (settings.arguments as Map)['id'];
-                  return ProductListing(id: 345453);
+                  final id = (settings.arguments as Map)['id'];
+                  return ProductListing(data: id);
                 };
                 break;
               default:

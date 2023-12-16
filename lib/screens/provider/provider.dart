@@ -64,16 +64,16 @@ class MyProvider extends ChangeNotifier {
   }
 
 
-  void updateData(int id) async {
-    dynamic listData = await graphQLService.getproductlist(limit: 100, id: id);
-    List? res = listData.data?['products']['items'];
-    pList = res!;
-    aggrecation = listData.data?['products']['aggregations'];
+  void updateData(int id,{int limit=8}) async {
+    // dynamic listData = await graphQLService.getproductlist(limit: limit, id: id);
+    // List? res = listData.data?['products']['items'];
+    // aggrecation = listData.data?['products']['aggregations'];
 
     dynamic dataFromAPi =
-        await graphQLService.getproductlist(limit: 100, id: id);
+        await graphQLService.getproductlist(limit: limit, id: id);
     List? res1 = dataFromAPi.data?['products']['items'];
     _data = res1!;
+    pList = res1!;
     aggrecation = dataFromAPi.data?['products']['aggregations'];
     final List<dynamic> postList =
         dataFromAPi.data?['products']['aggregations'];

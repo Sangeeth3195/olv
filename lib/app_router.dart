@@ -48,8 +48,9 @@ final router = GoRouter(
                 GoRoute(
                   path: 'pdp',
                   builder: (context, state) {
-                    return const ProductListing(
-                      id: 8989,
+                    print(state.extra!);
+                    return  ProductListing(
+                      data: state.extra! as Map<String,dynamic>,
                     );
                   },
                 ),
