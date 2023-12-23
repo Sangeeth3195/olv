@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/models/CustomerModel.dart';
-import 'package:omaliving/screens/order_success/OrderSuccess.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:omaliving/screens/settings/components/settings_menu.dart';
 import 'package:provider/provider.dart';
@@ -9,9 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../API Services/graphql_service.dart';
-import '../../../MainLayout.dart';
-import '../../order_summary/ordersummary.dart';
-import '../../webview/WebView.dart';
 import '../../webview/WebViewGQL.dart';
 
 class Body extends StatefulWidget {
@@ -176,17 +172,17 @@ class _BodyState extends State<Body> {
     }
   }*/
 
-  _launchURLBrowser(String _url) async {
-    final url = Uri.parse(_url);
-    try {
-      await launch(
-        _url,
-        enableJavaScript: true,
-      );
-      return true;
-    } catch (e) {
-      print(e.toString());
-      return false;
-    }
-  }
+  // _launchURLBrowser(String url) async {
+  //   final url = Uri.parse(url);
+  //   try {
+  //     await launch(
+  //       url,
+  //       enableJavaScript: true,
+  //     );
+  //     return true;
+  //   } catch (e) {
+  //     print(e.toString());
+  //     return false;
+  //   }
+  // }
 }

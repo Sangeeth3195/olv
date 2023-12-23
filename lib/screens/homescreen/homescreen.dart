@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/components/size_config.dart';
@@ -8,7 +7,6 @@ import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
-import '../address/address.dart';
 import 'components/body.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -86,7 +84,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   Widget build(BuildContext context) {
     return Consumer<MyProvider>(
       builder: (context, provider, _) {
-        return Body();
+        return const Body();
       },
     );
   }

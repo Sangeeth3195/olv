@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:imageview360/imageview360.dart';
 
 class Imageviewth extends StatefulWidget {
-  Imageviewth({Key? key}) : super(key: key);
+  const Imageviewth({Key? key}) : super(key: key);
 
   @override
   _DemoPageState createState() => _DemoPageState();

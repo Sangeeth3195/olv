@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
-import 'package:omaliving/screens/reset_password/reset_password.dart';
 
 import '../../../API Services/graphql_service.dart';
-import '../../../components/custom_surfix_icon.dart';
-import '../../../components/form_error.dart';
-import '../../../components/no_account_text.dart';
 import '../../../constants.dart';
-import '../../../components/default_button.dart';
 import '../../../components/size_config.dart';
 
 class Body extends StatelessWidget {

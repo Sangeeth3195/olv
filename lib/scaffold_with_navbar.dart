@@ -49,7 +49,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
     myProvider!.getuserdata();
     CartProvider cartProvider =
         Provider.of<CartProvider>(context, listen: false);
-    cartProvider!.getCartData();
+    cartProvider.getCartData();
   }
 
   void getNavdata() async {
@@ -128,19 +128,19 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     return cartProd.cartNumbers==0?Container():Positioned(
                       right: 0,
                       child: Container(
-                        padding: EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           minWidth: 16,
                           minHeight: 16,
                         ),
                         child: Text(
                           cartProd.cartNumbers.toString(),
                           // You can replace this with the actual badge count
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
                           ),
@@ -153,19 +153,19 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     ? Positioned(
                         right: 0,
                         child: provider.wishListNumbers==0?Container():Container(
-                          padding: EdgeInsets.all(2),
+                          padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(
                             color: Colors.red,
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          constraints: BoxConstraints(
+                          constraints: const BoxConstraints(
                             minWidth: 16,
                             minHeight: 16,
                           ),
                           child: Text(
                             provider.wishListNumbers.toString(),
                             // You can replace this with the actual badge count
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 10,
                             ),
@@ -190,7 +190,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _icons = const [
+    List<Widget> icons = const [
       Icon(Icons.home),
       Icon(FontAwesomeIcons.compass),
       Icon(FontAwesomeIcons.heart),

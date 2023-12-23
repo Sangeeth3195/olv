@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
@@ -11,13 +9,9 @@ import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/discover/discovers.dart';
 import 'package:omaliving/screens/homescreen/homescreen.dart';
-import 'package:omaliving/screens/otp/OTP.dart';
 import 'package:omaliving/screens/product_listing/Product_Listing.dart';
-import 'package:omaliving/screens/product_listing/components/search_form.dart';
 import 'package:omaliving/screens/profile/profile_screen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
-import 'package:omaliving/screens/recent_order/recentorder.dart';
-import 'package:omaliving/screens/settings/settings.dart';
 import 'package:omaliving/screens/wishlist/wishlist.dart';
 // import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -25,7 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainLayout extends StatefulWidget {
-  MainLayout({super.key});
+  const MainLayout({super.key});
 
   @override
   State<MainLayout> createState() => _MainLayoutState();
@@ -503,6 +497,8 @@ class _MainLayoutState extends State<MainLayout> {
 }
 
 class MyDrawer extends StatelessWidget {
+  const MyDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(

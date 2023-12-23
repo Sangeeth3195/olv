@@ -2,19 +2,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:getwidget/components/carousel/gf_items_carousel.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/360view.dart';
-import 'package:omaliving/screens/cart/CartProvider.dart';
-import 'package:omaliving/screens/details/components/product_description.dart';
-import 'package:omaliving/screens/product_listing/components/product_card.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'API Services/graphql_service.dart';
 import 'components/size_config.dart';
-import 'models/Product.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({Key? key, required this.product}) : super(key: key);
@@ -168,7 +163,7 @@ class _DetailsPageState extends State<DetailsPage>
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: headingColor, // Button background color
+                      backgroundColor: headingColor, // Button background color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             25.0), // Adjust the radius as needed
@@ -320,7 +315,7 @@ class _DetailsPageState extends State<DetailsPage>
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>  Imageviewth()),
+                                          builder: (context) =>  const Imageviewth()),
                                     );
                                   },
                                 child: Card(
@@ -358,8 +353,7 @@ class _DetailsPageState extends State<DetailsPage>
                                   TextSpan(
                                     children: [
                                       TextSpan(
-                                          text: '₹' +
-                                              "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
+                                          text: '₹' "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
                                           style: const TextStyle(
                                               color: headingColor,
                                               fontSize: 16)),

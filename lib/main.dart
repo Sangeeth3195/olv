@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -59,6 +58,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Gotham',
         primarySwatch: Colors.brown,
+        // expansionTileTheme: ExpansionTileThemeData(
+        //   tilePadding: EdgeInsets.zero,
+        //   iconColor: Colors.blue, // Customize the icon color if needed
+        // ),
       ),
       // home: SplashScreen(),
       routerConfig: router,

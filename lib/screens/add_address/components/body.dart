@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
@@ -72,10 +71,10 @@ class _BodyState extends State<Body> {
       streetAddressController.text = widget.arguments?.street?.first ?? '';
       cityController.text = widget.arguments?.city ?? '';
       postalController.text = widget.arguments?.postcode ?? '';
-      selectedCountrySuggestion = Country(id: countryModel.countries?[0]?.id);
+      selectedCountrySuggestion = Country(id: countryModel.countries?[0].id);
       if (countryModel.countries!.isNotEmpty) {
         countryController.text =
-            countryModel.countries?[0]?.fullNameEnglish ?? '';
+            countryModel.countries?[0].fullNameEnglish ?? '';
         for (int i = 0;
             i < countryModel.countries![0].availableRegions!.length;
             i++) {
@@ -111,7 +110,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'First Name\*',
+                  'First Name*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -143,7 +142,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'Last Name\*',
+                  'Last Name*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -175,7 +174,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'Phone Number\*',
+                  'Phone Number*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -236,7 +235,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'Street Address\*',
+                  'Street Address*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -271,7 +270,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'City\*',
+                  'City*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -303,7 +302,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'State\*',
+                  'State*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -355,7 +354,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'Zip/Postal Code\*',
+                  'Zip/Postal Code*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,
@@ -387,7 +386,7 @@ class _BodyState extends State<Body> {
               const Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 0.0),
                 child: Text(
-                  'Country\*',
+                  'Country*',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 14.0,

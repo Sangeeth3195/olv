@@ -18,7 +18,7 @@ class SectionTitle extends StatelessWidget {
         Text(
           title,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 color: headingColor,
                 fontWeight: FontWeight.w500,
               ),

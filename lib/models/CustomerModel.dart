@@ -393,10 +393,10 @@ class DynamicAttributes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['attribute_code'] = this.attributeCode;
-    data['attribute_label'] = this.attributeLabel;
-    data['attribute_value'] = this.attributeValue;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['attribute_code'] = attributeCode;
+    data['attribute_label'] = attributeLabel;
+    data['attribute_value'] = attributeValue;
     return data;
   }
 }

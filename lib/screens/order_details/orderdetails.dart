@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../components/size_config.dart';
-import '../../constants.dart';
 import 'components/body.dart';
 
 class Orderdetails extends StatelessWidget {

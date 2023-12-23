@@ -12,12 +12,10 @@ import 'package:omaliving/models/CountryModel.dart';
 import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/models/HomePageModel.dart';
 import 'package:omaliving/models/searchmodel.dart';
-import 'package:omaliving/screens/homescreen/homescreen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../MainLayout.dart';
 import '../models/OrderModel.dart';
 import '../screens/cart/CartProvider.dart';
 import 'graphql_config.dart';
@@ -62,7 +60,7 @@ class GraphQLService {
         EasyLoading.dismiss();
 
         log(jsonEncode(result.data));
-        return HomePageModel.fromJson(result.data!!);
+        return HomePageModel.fromJson(result.data!);
       }
     } catch (error) {
       return HomePageModel();
@@ -359,7 +357,7 @@ class GraphQLService {
                       oma_subclass:{in:[]}
                       }
                       sort: {name: ASC}
-                      pageSize:"${limit}"
+                      pageSize:"$limit"
                       ) {
                       aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
                         attribute_code
@@ -471,7 +469,7 @@ class GraphQLService {
                     }
                   }
             """),
-          variables: {
+          variables: const {
             'limit': 10,
           },
         ),
@@ -607,7 +605,7 @@ class GraphQLService {
                     }
                   }
             """),
-          variables: {
+          variables: const {
             'limit': 10,
           },
         ),
@@ -2438,9 +2436,9 @@ class GraphQLService {
         prefs.setString('cart_token', result.data?['customerCart']['id']);
 
         prefs = await SharedPreferences.getInstance();
-        String old_token = prefs.getString('old_cart_token') ?? '';
+        String oldToken = prefs.getString('old_cart_token') ?? '';
 
-        merge_cart(result.data?['customerCart']['id'], old_token);
+        merge_cart(result.data?['customerCart']['id'], oldToken);
       }
 
       return "";
@@ -2480,7 +2478,7 @@ class GraphQLService {
 
   /// Step 3 - I - add Product to Cart
   static String add_prd_to_cart(
-    String cart_token,
+    String cartToken,
     String sku,
     String qty,
   ) {
@@ -2488,7 +2486,7 @@ class GraphQLService {
             mutation {
                 addSimpleProductsToCart(
                   input: {
-                    cart_id: "$cart_token"
+                    cart_id: "$cartToken"
                     cart_items: [
                       {
                         data: {
@@ -2525,19 +2523,19 @@ class GraphQLService {
       {BuildContext? context}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var cart_token = prefs.getString('cart_token') ?? '';
+      var cartToken = prefs.getString('cart_token') ?? '';
 
-      print(cart_token);
+      print(cartToken);
 
-      if (cart_token == '') {
+      if (cartToken == '') {
         await create_cart();
-        cart_token = prefs.getString('cart_token') ?? '';
+        cartToken = prefs.getString('cart_token') ?? '';
       }
 
       QueryResult result = await client.mutate(
         MutationOptions(
           document: gql(add_prd_to_cart(
-            cart_token,
+            cartToken,
             sku,
             qty,
           )), // this
@@ -2566,7 +2564,7 @@ class GraphQLService {
 
   /// Step 3 - II - Update Product to Cart
   static String upt_prd_to_cart(
-    String cart_token,
+    String cartToken,
     String uid,
     String qty,
   ) {
@@ -2574,7 +2572,7 @@ class GraphQLService {
             mutation {
                   updateCartItems(
                     input: {
-                      cart_id: "$cart_token",
+                      cart_id: "$cartToken",
                       cart_items: [
                         {
                           cart_item_uid: "$uid"
@@ -2663,18 +2661,18 @@ class GraphQLService {
       {BuildContext? context}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var cart_token = prefs.getString('cart_token') ?? '';
+      var cartToken = prefs.getString('cart_token') ?? '';
 
-      print(cart_token);
+      print(cartToken);
 
-      if (cart_token == '') {
+      if (cartToken == '') {
         await create_cart();
-        cart_token = prefs.getString('cart_token') ?? '';
+        cartToken = prefs.getString('cart_token') ?? '';
       }
 
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(upt_prd_to_cart(cart_token, uid, qty)), // this
+          document: gql(upt_prd_to_cart(cartToken, uid, qty)), // this
         ),
       );
       if (result.hasException) {
@@ -2696,11 +2694,11 @@ class GraphQLService {
   }
 
   /// Step 3 - III - GET Cart List
-  static String gt_crt_list(String cart_token) {
+  static String gt_crt_list(String cartToken) {
     return '''
             {
                 cart(
-                  cart_id: "$cart_token"
+                  cart_id: "$cartToken"
                 ) {
                     id
                   items {
@@ -2791,18 +2789,18 @@ class GraphQLService {
   Future<dynamic> get_cart_list() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var cart_token = prefs.getString('cart_token') ?? '';
+      var cartToken = prefs.getString('cart_token') ?? '';
 
-      print(cart_token);
+      print(cartToken);
 
-      if (cart_token == '') {
+      if (cartToken == '') {
         await create_cart();
-        cart_token = prefs.getString('cart_token') ?? '';
+        cartToken = prefs.getString('cart_token') ?? '';
       }
 
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(gt_crt_list(cart_token)), // this
+          document: gql(gt_crt_list(cartToken)), // this
         ),
       );
       if (result.hasException) {
@@ -2823,14 +2821,14 @@ class GraphQLService {
 
   /// Step 3 - IV - Remove Item from Cart
   static String rmv_itm_frm_cart(
-    String cart_token,
+    String cartToken,
     String id,
   ) {
     return '''
             mutation {
                   removeItemFromCart(
                     input: {
-                      cart_id: "$cart_token",
+                      cart_id: "$cartToken",
                       cart_item_id: "$id"
                     }
                   )
@@ -2916,13 +2914,13 @@ class GraphQLService {
   }
 
   Future<String> remove_item_from_cart(
-    String cart_token,
+    String cartToken,
     String id,
   ) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(rmv_itm_frm_cart(cart_token, id)),
+          document: gql(rmv_itm_frm_cart(cartToken, id)),
         ),
       );
       if (result.hasException) {
@@ -2942,12 +2940,12 @@ class GraphQLService {
 
   /// Step 4 - assign Customer To Guest Cart
   static String assign_Customer_To_Guest_Crt(
-    String cart_token,
+    String cartToken,
   ) {
     return '''
             mutation {
                   assignCustomerToGuestCart(
-                    cart_id: "$cart_token"
+                    cart_id: "$cartToken"
                   ) {
                       items {
                       quantity
@@ -3007,15 +3005,15 @@ class GraphQLService {
   }
 
   Future<String> assign_Customer_To_Guest_Cart(
-    String cart_token,
+    String cartToken,
   ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('old_cart_token', cart_token);
+    prefs.setString('old_cart_token', cartToken);
 
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(assign_Customer_To_Guest_Crt(cart_token)), // this
+          document: gql(assign_Customer_To_Guest_Crt(cartToken)), // this
         ),
       );
       if (result.hasException) {
@@ -3036,14 +3034,14 @@ class GraphQLService {
 
   /// Step 4 - I - Merge Cart
   static String merge_crt(
-    String cart_token,
-    String dest_id,
+    String cartToken,
+    String destId,
   ) {
     return '''
             mutation {
                   mergeCarts(
-                    source_cart_id: "$cart_token",
-                    destination_cart_id:  "$dest_id",
+                    source_cart_id: "$cartToken",
+                    destination_cart_id:  "$destId",
                   ) {
                   
                      items {
@@ -3093,13 +3091,13 @@ class GraphQLService {
   }
 
   Future<String> merge_cart(
-    String cart_token,
-    String dest_id,
+    String cartToken,
+    String destId,
   ) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(merge_crt(cart_token, dest_id)), // this
+          document: gql(merge_crt(cartToken, destId)), // this
         ),
       );
       if (result.hasException) {
@@ -3119,13 +3117,13 @@ class GraphQLService {
   }
 
   /// Step 5 - Set Shipping Address On Cart
-  static String set_shipping_add_to_cart(String cart_token, Address address) {
+  static String set_shipping_add_to_cart(String cartToken, Address address) {
     try {
       return '''
             mutation {
                   setShippingAddressesOnCart(
                     input: {
-                      cart_id: "$cart_token"
+                      cart_id: "$cartToken"
                       shipping_addresses: [
                         {
                           address: {
@@ -3175,7 +3173,7 @@ class GraphQLService {
   }
 
   Future<String> set_shipping_address_to_cart(
-      String cart_token, Address address) async {
+      String cartToken, Address address) async {
     print(address.region!.regionCode!);
 
     print('address.regionId');
@@ -3185,7 +3183,7 @@ class GraphQLService {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(set_shipping_add_to_cart(cart_token, address)), // this
+          document: gql(set_shipping_add_to_cart(cartToken, address)), // this
         ),
       );
       if (result.hasException) {
@@ -3204,12 +3202,12 @@ class GraphQLService {
   }
 
   /// Step 6 - Set billing Address to cart
-  static String St_billing_Address_to_cart(String cart_token, Address address) {
+  static String St_billing_Address_to_cart(String cartToken, Address address) {
     return '''
             mutation {
                 setBillingAddressOnCart(
                   input: {
-                    cart_id: "$cart_token"
+                    cart_id: "$cartToken"
                     billing_address: {
                       address: {
                         firstname: "${address.firstname}"
@@ -3252,12 +3250,12 @@ class GraphQLService {
   }
 
   Future<String> Set_billing_Address_to_cart(
-      String cart_token, Address address) async {
+      String cartToken, Address address) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
           document:
-              gql(St_billing_Address_to_cart(cart_token, address)), // this
+              gql(St_billing_Address_to_cart(cartToken, address)), // this
         ),
       );
 
@@ -3279,18 +3277,18 @@ class GraphQLService {
 
   /// Step 7 - Set Shipping Method to cart
   static String st_shp_to_mtd_to_cart(
-    String cart_token,
-    String carrier_code,
+    String cartToken,
+    String carrierCode,
   ) {
     return '''
             mutation {
               setShippingMethodsOnCart(
                 input: {
-                  cart_id: "$cart_token",
+                  cart_id: "$cartToken",
                   shipping_methods: [
                     {
-                      carrier_code: "$carrier_code"
-                      method_code: "$carrier_code"
+                      carrier_code: "$carrierCode"
+                      method_code: "$carrierCode"
                     }
                   ]
                 }
@@ -3316,16 +3314,16 @@ class GraphQLService {
 
   Future<String> set_shipping_method_to_cart(
     BuildContext context,
-    String cart_token,
+    String cartToken,
     String cpn,
   ) async {
-    print(cart_token);
+    print(cartToken);
     print(cpn);
 
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(st_shp_to_mtd_to_cart(cart_token, cpn)),
+          document: gql(st_shp_to_mtd_to_cart(cartToken, cpn)),
         ),
       );
       if (result.hasException) {
@@ -3347,15 +3345,15 @@ class GraphQLService {
 
   /// Step 8 - I - apply Coupon To Cart
   static String apply_cpn_to_cart(
-    String cart_token,
-    String coupon_code,
+    String cartToken,
+    String couponCode,
   ) {
     return '''
             mutation {
                 applyCouponToCart(
                   input: {
-                    cart_id: "$cart_token"
-                    coupon_code: "$coupon_code"
+                    cart_id: "$cartToken"
+                    coupon_code: "$couponCode"
                   }
                 ) {
                   cart {
@@ -3439,13 +3437,13 @@ class GraphQLService {
   }
 
   Future<String> apply_coupon_to_cart(
-    String cart_token,
+    String cartToken,
     String cpn,
   ) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(apply_cpn_to_cart(cart_token, cpn)),
+          document: gql(apply_cpn_to_cart(cartToken, cpn)),
         ),
       );
       if (result.hasException) {
@@ -3463,12 +3461,12 @@ class GraphQLService {
   }
 
   /// Step 8 - II - Remove Coupon code To Cart
-  static String rmv_cpn_to_cart(String cart_token) {
+  static String rmv_cpn_to_cart(String cartToken) {
     return '''
           mutation {
   removeCouponFromCart(
     input:
-      { cart_id: "$cart_token"
+      { cart_id: "$cartToken"
        }
     ) {
     cart {
@@ -3493,11 +3491,11 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> remove_coupon_to_cart(String cart_token) async {
+  Future<String> remove_coupon_to_cart(String cartToken) async {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(rmv_cpn_to_cart(cart_token)),
+          document: gql(rmv_cpn_to_cart(cartToken)),
         ),
       );
       if (result.hasException) {
@@ -3516,11 +3514,11 @@ class GraphQLService {
 
   /// Step 9 - I - Available Payment methods
   static String avl_payment_methods(
-    String cart_token,
+    String cartToken,
   ) {
     return '''
             query query {
-                cart(cart_id: "$cart_token") {
+                cart(cart_id: "$cartToken") {
                   available_payment_methods {
                     code
                     title
@@ -3531,14 +3529,14 @@ class GraphQLService {
   }
 
   Future<String> available_payment_methods(
-    String cart_token,
+    String cartToken,
   ) async {
     EasyLoading.show(status: 'loading...');
     try {
       EasyLoading.show(status: 'loading...');
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(avl_payment_methods(cart_token)), // this
+          document: gql(avl_payment_methods(cartToken)), // this
         ),
       );
       if (result.hasException) {
@@ -3558,12 +3556,12 @@ class GraphQLService {
 
   /// Step 9 - II - Set Payment to Cart
   static String set_paymnt_to_cart(
-    String cart_token,
+    String cartToken,
   ) {
     return '''
             mutation {
                 setPaymentMethodOnCart(input: {
-                    cart_id: "$cart_token"
+                    cart_id: "$cartToken"
                     payment_method: {
                         code: "razorpay"
                     }
@@ -3579,13 +3577,13 @@ class GraphQLService {
   }
 
   Future<String> set_payment_to_cart(
-    String cart_token,
+    String cartToken,
   ) async {
     EasyLoading.show(status: 'loading...');
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(set_paymnt_to_cart(cart_token)), // this
+          document: gql(set_paymnt_to_cart(cartToken)), // this
         ),
       );
       if (result.hasException) {
@@ -3604,10 +3602,10 @@ class GraphQLService {
   }
 
   /// Step 10  - Place Order
-  static String plc_ord(String cart_token) {
+  static String plc_ord(String cartToken) {
     return '''
             mutation {
-                placeOrder(input: {cart_id: "$cart_token"}) {
+                placeOrder(input: {cart_id: "$cartToken"}) {
                   order {
                     order_number
                   }
@@ -3618,18 +3616,18 @@ class GraphQLService {
 
   Future<String> place_order() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String cart_token = prefs.getString('cart_token') ?? '';
+    String cartToken = prefs.getString('cart_token') ?? '';
 
-    print(cart_token);
+    print(cartToken);
 
-    log(plc_ord(cart_token));
+    log(plc_ord(cartToken));
 
     EasyLoading.show(status: 'loading...');
 
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document: gql(plc_ord(cart_token)), // this
+          document: gql(plc_ord(cartToken)), // this
         ),
       );
 

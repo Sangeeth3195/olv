@@ -46,7 +46,7 @@ class _MyStatefulWidgetState extends State<BTM>
 
   Widget _tabItem(Widget child, String label, {bool isSelected = false}) {
     return AnimatedContainer(
-        margin: EdgeInsets.all(0),
+        margin: const EdgeInsets.all(0),
         alignment: Alignment.center,
         duration: const Duration(milliseconds: 100),
         decoration: !isSelected
@@ -59,7 +59,7 @@ class _MyStatefulWidgetState extends State<BTM>
         child: Column(
           children: [
             child,
-            Text(label, style: TextStyle(fontSize: 8)),
+            Text(label, style: const TextStyle(fontSize: 8)),
           ],
         ));
   }
@@ -68,7 +68,7 @@ class _MyStatefulWidgetState extends State<BTM>
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _icons = const [
+    List<Widget> icons = const [
       Icon(Icons.home_outlined),
       Icon(Icons.explore_outlined),
       Icon(Icons.camera_alt_outlined)
@@ -100,9 +100,9 @@ class _MyStatefulWidgetState extends State<BTM>
                   borderSide: BorderSide.none,
                 ),
                 tabs: [
-                  for (int i = 0; i < _icons.length; i++)
+                  for (int i = 0; i < icons.length; i++)
                     _tabItem(
-                      _icons[i],
+                      icons[i],
                       _labels[i],
                       isSelected: i == _selectedIndex,
                     ),

@@ -638,7 +638,7 @@ class _SignInState extends State<SignIn> {
                                 TextStyle(fontSize: 15.0, color: Colors.black),
                           ),
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
+                            backgroundColor: Colors.white,
                             side: const BorderSide(
                                 color: Colors.grey, width: 1.0),
                             textStyle: const TextStyle(
@@ -845,7 +845,7 @@ class _SignUpState extends State<SignUp> {
                         style: TextStyle(fontSize: 15.0, color: Colors.white),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFF345288),
+                        backgroundColor: const Color(0xFF345288),
                         textStyle: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -873,7 +873,7 @@ class _SignUpState extends State<SignUp> {
                         style: TextStyle(fontSize: 15.0, color: Colors.black),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
+                        backgroundColor: Colors.white,
                         side: const BorderSide(color: Colors.grey, width: 1.5),
                         textStyle: const TextStyle(
                             color: Colors.white,

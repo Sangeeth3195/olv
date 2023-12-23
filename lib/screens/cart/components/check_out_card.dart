@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../../constants.dart';
 import '../../../components/default_button.dart';
 import '../../../components/size_config.dart';
-import '../../checkout/Checkout.dart';
 
 class CheckoutCard extends StatelessWidget {
   const CheckoutCard({
@@ -65,7 +62,7 @@ class CheckoutCard extends StatelessWidget {
                   children: [
                     IconTheme(
                       //new
-                      data: IconThemeData(color: Colors.black54), //new
+                      data: const IconThemeData(color: Colors.black54), //new
                       child: Container(
                         //modified
                         margin: const EdgeInsets.symmetric(horizontal: 8.0),

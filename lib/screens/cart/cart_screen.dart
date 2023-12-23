@@ -3,17 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
-import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/models/CartModel.dart';
 import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../components/default_button.dart';
-import '../../models/Cart.dart';
 import '../provider/provider.dart';
 import 'components/body.dart';
-import 'components/check_out_card.dart';
 
 /*class CartScreen extends StatelessWidget {
   static String routeName = "/cart";
@@ -30,13 +27,9 @@ import 'components/check_out_card.dart';
   }
 }*/
 
-import 'package:flutter/material.dart';
-import 'package:omaliving/screens/order_details/orderdetails.dart';
 
 import '../../components/size_config.dart';
 import '../../constants.dart';
-import '../order_success/OrderSuccess.dart';
-import 'components/body.dart';
 
 class CartScreen extends StatefulWidget {
   static String routeName = "/ordersummary";
@@ -50,6 +43,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   GraphQLService graphQLService = GraphQLService();
   CartProvider? cartProvider;
+  @override
   void initState() {
     super.initState();
     getNavdata();
@@ -192,7 +186,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             height: 45, // <-- Your height
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: headingColor,
+                                backgroundColor: headingColor,
                                 textStyle: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,

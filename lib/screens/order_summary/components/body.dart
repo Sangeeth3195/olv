@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:omaliving/constants.dart';
-import 'package:omaliving/screens/address/address.dart';
 
 import '../../../components/size_config.dart';
 
@@ -14,7 +13,7 @@ class Body extends StatefulWidget {
 enum Fruit { apple, banana }
 
 class _BodyState extends State<Body> {
-  Fruit? _fruit = Fruit.apple;
+  final Fruit _fruit = Fruit.apple;
 
   final List<String> items = List<String>.generate(5, (i) => '$i');
 

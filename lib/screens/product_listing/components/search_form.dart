@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/search_bar/gf_search_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/models/searchmodel.dart';
@@ -38,7 +37,7 @@ class _SearchFormState extends State<SearchForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return const Card(
       elevation: 1,
       child: Form(
         child: AutocompleteBasicExample(),
@@ -160,7 +159,7 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
   SearchModel searchModel = SearchModel();
 
   GraphQLService graphQLService = GraphQLService();
-  late Iterable<SearchModel> _lastOptions = <SearchModel>[];
+  late final Iterable<SearchModel> _lastOptions = <SearchModel>[];
 
   @override
   void initState() {
@@ -183,7 +182,7 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
           child: Column(
             children: [
               searchModel.products == null
-                  ? Container(
+                  ? const SizedBox(
                       height: 100,
                       child: Center(child: Text('No Data')),
                     )

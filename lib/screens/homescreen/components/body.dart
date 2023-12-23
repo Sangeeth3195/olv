@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:chewie/chewie.dart';
@@ -102,7 +101,7 @@ class _BodyState extends State<Body> {
                         navigate(context, ProductList.route,
                             isRootNavigator: false, arguments: {'id': '1'});
                       },
-                      child: SearchForm()),
+                      child: const SearchForm()),
                 ),
 
                 GestureDetector(
@@ -160,7 +159,7 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![1].title!,
-                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
                               color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -243,7 +242,7 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![3].title!,
-                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
                               color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -291,7 +290,7 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![4].title!,
-                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
                               color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -343,7 +342,7 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![5].title!,
-                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
                             ),
@@ -438,7 +437,7 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![7].title!,
-                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
                             ),
@@ -507,7 +506,7 @@ class _BodyState extends State<Body> {
                           homePageModel.getHomePageData![9].title!,
                           textAlign: TextAlign.center,
                           style:
-                              Theme.of(context).textTheme.subtitle1!.copyWith(
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -526,7 +525,7 @@ class _BodyState extends State<Body> {
                           homePageModel.getHomePageData![9].description!,
                           textAlign: TextAlign.center,
                           style:
-                              Theme.of(context).textTheme.subtitle1!.copyWith(
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
                                   ),

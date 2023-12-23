@@ -1,21 +1,12 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../API Services/graphql_service.dart';
-import '../../../components/size_config.dart';
 import '../../../constants.dart';
-import '../../../models/Cart.dart';
 import '../../../models/Product.dart';
-import '../../cart/components/cart_card.dart';
-import '../../details/details_screen.dart';
-import '../../product_listing/components/product_card.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -30,6 +21,7 @@ class _BodyState extends State<Body> {
   GraphQLService graphQLService = GraphQLService();
   MyProvider? myProvider;
 
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();

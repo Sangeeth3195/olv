@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants.dart';
 
@@ -20,8 +19,7 @@ class ProfilePic extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: TextButton(
               style: TextButton.styleFrom(
-                primary: kPrimaryColor,
-                padding: const EdgeInsets.all(10),
+                foregroundColor: kPrimaryColor, padding: const EdgeInsets.all(10),
                 //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                 // backgroundColor: const Color(0xFFF5F6F9),
               ),

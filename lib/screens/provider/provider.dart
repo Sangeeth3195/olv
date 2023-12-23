@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -73,7 +72,7 @@ class MyProvider extends ChangeNotifier {
         await graphQLService.getproductlist(limit: limit, id: id);
     List? res1 = dataFromAPi.data?['products']['items'];
     _data = res1!;
-    pList = res1!;
+    pList = res1;
     aggrecation = dataFromAPi.data?['products']['aggregations'];
     final List<dynamic> postList =
         dataFromAPi.data?['products']['aggregations'];

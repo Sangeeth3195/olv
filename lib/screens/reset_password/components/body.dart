@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../API Services/graphql_service.dart';
-import '../../../components/no_account_text.dart';
 import '../../../constants.dart';
 import '../../../components/size_config.dart';
 import '../../../models/CustomerModel.dart';
@@ -210,14 +209,14 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                   EasyLoading.show(status: 'loading...');
 
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  String? old_password1 = prefs.getString('loginPassword');
+                  String? oldPassword1 = prefs.getString('loginPassword');
 
                   print(confrmnewpasswordController.text);
-                  print(old_password1);
+                  print(oldPassword1);
 
                   String result;
                   result = await graphQLService.update_reset_password(password:confrmnewpasswordController.text.toString(),
-                      old_password:old_password1.toString());
+                      old_password:oldPassword1.toString());
 
                   if (result == "200") {
                     EasyLoading.dismiss();

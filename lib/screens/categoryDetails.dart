@@ -43,7 +43,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                 child: Text(
                   widget.data['name'],
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: headingColor,
                     fontWeight: FontWeight.w500,
                   ),
@@ -67,9 +67,9 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                 width: 200,
                 padding: const EdgeInsets.all(2),
                 margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: backgroundCategoryColor,
-                  borderRadius: const BorderRadius.all(
+                  borderRadius: BorderRadius.all(
                       Radius.circular(defaultBorderRadius)),
                 ),
                 child: Center(
@@ -79,7 +79,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                     children: [
                       Image.network(widget.data['children'][index]['image']??'https://www.omaliving.com/media/.renditions/catalog/category/category_thumbnail/RI006960_3.png',
                         height: 100,width: 100,),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                       GestureDetector(
                         onTap: (){
                           dynamic catId = widget.data['children'][index]['id'];
@@ -115,7 +115,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
         ListView.builder(
            itemCount: widget.data['children'].length,
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
 
           itemBuilder: (context,parentIndex){
             return Column(
@@ -127,7 +127,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                   child: Text(
                     widget.data['children'][parentIndex]['name'],
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: headingColor,
                       fontWeight: FontWeight.w500,
                     ),
@@ -156,9 +156,9 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 5),
                     child: Text(
-                      "Shop All ("+widget.data['children'][parentIndex]['products']['total_count'].toString()+")",
+                      "Shop All (${widget.data['children'][parentIndex]['products']['total_count']})",
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         color: headingColor,
                         fontWeight: FontWeight.w500,
                         decoration: TextDecoration.underline,
@@ -212,7 +212,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                 ),
                 Container(
                   padding: const EdgeInsets.all(5),
-                  margin:EdgeInsets.all(12),
+                  margin:const EdgeInsets.all(12),
                   child: SizedBox(
                     width:MediaQuery.of(context).size.width,
                     child: ElevatedButton(
@@ -232,12 +232,11 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                         context.go('/home/pdp');
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(5),
-                        primary: headingColor, // Set the background color
+                        padding: const EdgeInsets.all(5), backgroundColor: headingColor, // Set the background color
                       ),
                       child:  Text(
-                        "Shop All ("+widget.data['children'][parentIndex]['products']['total_count'].toString()+")",
-                        style: TextStyle(fontSize: 20),
+                        "Shop All (${widget.data['children'][parentIndex]['products']['total_count']})",
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ),
                   ),

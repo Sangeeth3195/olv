@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:omaliving/screens/order_details/orderdetails.dart';
 
 import '../../components/size_config.dart';
 import '../../constants.dart';
@@ -78,7 +77,7 @@ class CheckoutCard extends StatelessWidget {
                     height: 40, // <-- Your height
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: headingColor,
+                        backgroundColor: headingColor,
                         side: const BorderSide(color: Colors.grey, width: 1.0),
                         textStyle: const TextStyle(
                             color: Colors.white,
@@ -90,7 +89,7 @@ class CheckoutCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OrderSuccess(text: 'orderID',)),
+                              builder: (context) => const OrderSuccess(text: 'orderID',)),
                         );
                       },
                       child: const Text(

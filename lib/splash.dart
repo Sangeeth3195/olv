@@ -2,13 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/components/size_config.dart';
-import 'package:omaliving/screens/Information/information.dart';
-import 'package:omaliving/screens/newsletter/news_letter.dart';
-import 'package:omaliving/screens/reset_password/reset_password.dart';
-import 'package:omaliving/screens/settings/settings.dart';
-import 'package:omaliving/screens/wishlist/wishlist.dart';
 
-import 'demo/btm.dart';
 import 'constants.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -29,7 +23,7 @@ class SplashScreenState extends State<SplashScreen> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    MainLayout()))); // BottomNavbar
+                    const MainLayout()))); // BottomNavbar
   }
 
   @override

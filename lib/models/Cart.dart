@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:omaliving/models/Product_detail.dart';
 
-import 'Product.dart';
 
 class Cart {
   final ProductDetail product;

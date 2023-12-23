@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:omaliving/models/Product.dart';
-import 'package:omaliving/screens/details/details_screen.dart';
 
 import '../../../constants.dart';
 import 'product_card.dart';

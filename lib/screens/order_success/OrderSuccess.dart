@@ -3,11 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../constants.dart';
-import 'components/body.dart';
 
 class OrderSuccess extends StatelessWidget {
   final String text;
-  OrderSuccess({required this.text});
+  const OrderSuccess({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

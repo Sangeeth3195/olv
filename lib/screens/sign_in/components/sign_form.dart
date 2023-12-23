@@ -1,10 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:omaliving/screens/product_listing/Product_Listing.dart';
 
-import '../../../API Services/graphql_config.dart';
 import '../../../API Services/graphql_service.dart';
 import '../../../components/custom_surfix_icon.dart';
 import '../../../components/form_error.dart';

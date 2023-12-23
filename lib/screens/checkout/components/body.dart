@@ -6,8 +6,6 @@ import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../../components/size_config.dart';
-import '../../order_summary/ordersummary.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -40,24 +38,24 @@ class _BodyState extends State<Body> {
     CartProvider cartProvider =
         Provider.of<CartProvider>(context, listen: false);
     if (myProvider.customerModel.customer != null) {
-      myProvider.customerModel.customer!.addresses!.forEach((element) {
+      for (var element in myProvider.customerModel.customer!.addresses!) {
         if (element.defaultShipping!) {
           shippingAddress = element;
         }
         if (element.defaultBilling!) {
           billingAddress = element;
         }
-      });
+      }
     } else {
       await myProvider.getuserdata();
-      myProvider.customerModel.customer!.addresses!.forEach((element) {
+      for (var element in myProvider.customerModel.customer!.addresses!) {
         if (element.defaultShipping!) {
           shippingAddress = element;
         }
         if (element.defaultBilling!) {
           billingAddress = element;
         }
-      });
+      }
     }
     myProvider.graphQLService.set_shipping_address_to_cart(
         cartProvider.cart_token, shippingAddress!);
@@ -200,7 +198,7 @@ class _BodyState extends State<Body> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                               AddEditAddress()),
+                                               const AddEditAddress()),
                                     ).then((value)async{
                                       MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
                                       await myProvider.getuserdata();

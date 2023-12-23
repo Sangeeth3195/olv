@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/constants.dart';
-import 'package:omaliving/screens/address/address.dart';
-import 'package:omaliving/screens/order_success/OrderSuccess.dart';
 
 import '../../../components/size_config.dart';
-import '../../my_orders/Myorders.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});

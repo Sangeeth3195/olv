@@ -1,24 +1,16 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:go_router/go_router.dart';
 import 'package:omaliving/screens/cart/CartProvider.dart';
-import 'package:omaliving/screens/order_summary/ordersummary.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../API Services/graphql_service.dart';
-import '../../Razorpay.dart';
-import '../../components/default_button.dart';
 import '../../components/size_config.dart';
 import '../../constants.dart';
 import '../../models/CustomerModel.dart';
-import '../cart/components/check_out_card.dart';
-import '../order_details/orderdetails.dart';
 import '../order_success/OrderSuccess.dart';
 import 'components/body.dart';
 
@@ -36,13 +28,13 @@ class Checkout extends StatelessWidget {
         title: const Text('Shipping Address',style: TextStyle(color: Colors.black,fontSize: 16),),
       ),
       body: const Body(),
-      bottomNavigationBar: CheckoutCard(title: '',),
+      bottomNavigationBar: const CheckoutCard(title: '',),
     );
   }
 }
 
 class CheckoutCard extends StatefulWidget {
-  CheckoutCard({super.key, required this.title});
+  const CheckoutCard({super.key, required this.title});
 
   final String title;
 
@@ -104,6 +96,7 @@ class _MyHomePageState extends State<CheckoutCard> {
   }
 
 
+  @override
   void initState() {
     super.initState();
     getdata();
@@ -138,15 +131,15 @@ class _MyHomePageState extends State<CheckoutCard> {
 
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    double? sub_total = prefs.getDouble('sub_total');
+    double? subTotal = prefs.getDouble('sub_total');
 
-    print(sub_total);
+    print(subTotal);
 
     prefs =
     await SharedPreferences.getInstance();
-    cart_token = prefs!.getString('cart_token') ?? '';
+    cart_token = prefs.getString('cart_token') ?? '';
 
-    if(sub_total!  >= 10000 ){
+    if(subTotal!  >= 10000 ){
      graphQLService.set_shipping_method_to_cart(context,cart_token,'freeshipping');
 
     }else{
@@ -206,7 +199,7 @@ class _MyHomePageState extends State<CheckoutCard> {
                         height: 40, // <-- Your height
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: headingColor,
+                            backgroundColor: headingColor,
                             side: const BorderSide(color: Colors.grey, width: 1.0),
                             textStyle: const TextStyle(
                                 color: Colors.white,
@@ -229,8 +222,8 @@ class _MyHomePageState extends State<CheckoutCard> {
                             prefs.setString('order_ID', resultvalue);
 
                             prefs = await SharedPreferences.getInstance();
-                            cart_token = prefs!.getString('cart_token') ?? '';
-                            orderID = prefs!.getString('order_ID') ?? '';
+                            cart_token = prefs.getString('cart_token') ?? '';
+                            orderID = prefs.getString('order_ID') ?? '';
 
                             Razorpay razorpay = Razorpay();
                             var options = {

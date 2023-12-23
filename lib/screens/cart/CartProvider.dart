@@ -1,10 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/models/CartModel.dart';
-import 'package:omaliving/screens/provider/provider.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider with ChangeNotifier {

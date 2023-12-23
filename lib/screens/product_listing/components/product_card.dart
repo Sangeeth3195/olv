@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,7 +7,6 @@ import 'package:omaliving/models/ProductListJson.dart';
 import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../API Services/graphql_service.dart';
 import '../../../constants.dart';
@@ -384,7 +382,7 @@ class _ProductCardState extends State<ProductCard> {
                 child: InkWell(
                   onTap: () async{
 
-                    if(myProvider!.customerModel?.customer?.email != null){
+                    if(myProvider!.customerModel.customer?.email != null){
                       if(!widget.item!.wishlist){
                         widget.item!.wishlist =true;
                         dynamic listData = await graphQLService
@@ -411,7 +409,7 @@ class _ProductCardState extends State<ProductCard> {
                     }
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
                     child: Icon(
                       widget.item!.wishlist?Icons.favorite:Icons.favorite_border,
                       color: widget.item!.wishlist?Colors.red:blackColor,

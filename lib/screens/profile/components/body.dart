@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:omaliving/MainLayout.dart';
-import 'package:omaliving/screens/my_orders/Myorders.dart';
-import 'package:omaliving/screens/settings/settings.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +7,6 @@ import '../../../API Services/graphql_service.dart';
 import '../../../models/CustomerModel.dart';
 import '../../provider/provider.dart';
 import 'profile_menu.dart' as pmenu;
-import 'profile_pic.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});

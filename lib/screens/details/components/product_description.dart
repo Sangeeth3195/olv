@@ -1,14 +1,9 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:go_router/go_router.dart';
-import 'package:omaliving/models/Product_detail.dart';
 import 'package:omaliving/screens/details/components/product_images.dart';
 import 'package:omaliving/screens/details/components/top_rounded_container.dart';
 import 'package:omaliving/screens/provider/provider.dart';
@@ -115,9 +110,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
 
           // print('restart');
-          if (isWishListed == null) {
-            isWishListed = provider.productData[0]['is_wishlisted'];
-          }
+          isWishListed ??= provider.productData[0]['is_wishlisted'];
           if (provider.productData[0]['__typename'] == "ConfigurableProduct") {
             isConfiguredProduct = true;
           } else {
@@ -235,8 +228,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         // );
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(5),
-                        primary: headingColor, // Set the background color
+                        padding: const EdgeInsets.all(5), backgroundColor: headingColor, // Set the background color
                       ),
                       child: const Text(
                         'ADD TO CART',
@@ -264,7 +256,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             print(widget.product.toString());
 
                             if (myProvider!
-                                    .customerModel?.customer?.email !=
+                                    .customerModel.customer?.email !=
                                 null) {
                               if (isWishListed ?? false) {
                                 dynamic listData = await graphQLService
@@ -359,8 +351,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                               ['minimum_price']['regular_price']
                                               ['value']
                                           .toString()
-                                      : '₹' +
-                                          "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
+                                      : '₹' "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: headingFontColor,
@@ -931,8 +922,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                               // );
                             },
                             style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(5),
-                              primary: headingColor, // Set the background color
+                              padding: const EdgeInsets.all(5), backgroundColor: headingColor, // Set the background color
                             ),
                             child: const Text(
                               'ADD TO CART',
@@ -957,7 +947,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                   print(widget.product.toString());
 
                                   if (myProvider!
-                                      .customerModel?.customer?.email !=
+                                      .customerModel.customer?.email !=
                                       null) {
                                     if (isWishListed ?? false) {
                                       dynamic listData = await graphQLService
@@ -1077,7 +1067,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         Container(
                           color: backgroundCategoryColor.withOpacity(0.9),
                           padding: const EdgeInsets.all(5),
-                          margin: EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
                           child: ExpansionTile(
                             trailing: _isExpanded
                                 ? const Icon(
@@ -1134,7 +1124,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         Container(
                           color: backgroundCategoryColor.withOpacity(0.9),
                           padding: const EdgeInsets.all(5),
-                          margin: EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
                           child: ExpansionTile(
                             controlAffinity: ListTileControlAffinity.trailing,
                             trailing: _isExpanded1
@@ -1209,7 +1199,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
                         Container(
                           color: backgroundCategoryColor.withOpacity(0.9),
-                          margin: EdgeInsets.all(10),
+                          margin: const EdgeInsets.all(10),
                           padding: const EdgeInsets.all(5),
                           child: ExpansionTile(
                             controlAffinity: ListTileControlAffinity.trailing,
@@ -1428,13 +1418,13 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                     top: 0,
                                     right: 5,
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 2.0, vertical: 6),
                                       child: IconButton(
                                         onPressed: () async{
 
                                           if (myProvider!
-                                              .customerModel?.customer?.email !=
+                                              .customerModel.customer?.email !=
                                               null) {
                                             if (provider.productData[0]['related_products'][index]['is_wishlisted'] ?? false) {
                                               dynamic listData = await graphQLService
@@ -1505,7 +1495,7 @@ class HtmlExpansionTile extends StatefulWidget {
   final String title;
   final String htmlContent;
 
-  HtmlExpansionTile({required this.title, required this.htmlContent});
+  const HtmlExpansionTile({super.key, required this.title, required this.htmlContent});
 
   @override
   State<HtmlExpansionTile> createState() => _HtmlExpansionTileState();

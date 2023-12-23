@@ -22,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
             WidgetBuilder builder;
             switch (settings.name) {
               case '/':
-                builder = (BuildContext _) =>  Body();
+                builder = (BuildContext _) =>  const Body();
                 break;
               case ProfileEdit.route:
                 builder = (BuildContext _) => const ProfileEdit();
@@ -37,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
           }),
     );
 
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
       body: Body(),
     );

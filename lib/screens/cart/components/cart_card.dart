@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/LoginPage.dart';
@@ -7,16 +6,12 @@ import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../components/default_button.dart';
 import '../../../constants.dart';
-import '../../../models/Cart.dart';
 import '../../../components/size_config.dart';
-import '../../checkout/Checkout.dart';
-import '../../provider/provider.dart';
 
 class CartCard extends StatefulWidget {
   final Item item;
-  CartCard({super.key, required this.item});
+  const CartCard({super.key, required this.item});
 
   @override
   _BodyState createState() => _BodyState();
@@ -186,7 +181,7 @@ class _BodyState extends State<CartCard> {
                           onTap: () {
                             decrementQuantity();
                             cartProvider!
-                                .updateItem(widget.item!.uid!, quantity);
+                                .updateItem(widget.item.uid!, quantity);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -204,7 +199,7 @@ class _BodyState extends State<CartCard> {
                           onTap: () {
                             incrementQuantity();
                             cartProvider!
-                                .updateItem(widget.item!.uid!, quantity);
+                                .updateItem(widget.item.uid!, quantity);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -240,10 +235,10 @@ class _BodyState extends State<CartCard> {
                       );
                     } else {
                       EasyLoading.show(status: 'loading...');
-                      cartProvider!.removeItem(widget.item!.id!);
+                      cartProvider!.removeItem(widget.item.id!);
                       cartProvider!.addToWishList(
-                        sku: widget.item!.product!.sku!,
-                        qty: widget.item!.quantity!.toString(),
+                        sku: widget.item.product!.sku!,
+                        qty: widget.item.quantity!.toString(),
                         // wishlistId:''
                       );
                     }
@@ -270,7 +265,7 @@ class _BodyState extends State<CartCard> {
               GestureDetector(
                 onTap: () {
                   EasyLoading.show(status: 'loading...');
-                  cartProvider!.removeItem(widget.item!.id!);
+                  cartProvider!.removeItem(widget.item.id!);
                 },
                 child: const Row(
                   children: [
