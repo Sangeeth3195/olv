@@ -55,7 +55,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   void getNavdata() async {
     navHeaderList = await graphQLService.getCategory(limit: 100);
     setState(() {});
-
     print(navHeaderList.length);
   }
 
@@ -63,7 +62,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token') ?? '';
     setState(() {});
-
     return token;
   }
 
@@ -190,7 +188,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> icons = const [
+    List<Widget> _icons = const [
       Icon(Icons.home),
       Icon(FontAwesomeIcons.compass),
       Icon(FontAwesomeIcons.heart),
@@ -200,6 +198,120 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
     return Scaffold(
       key: _key,
       // Assign the key to Scaffold.
+      endDrawer:
+      Drawer(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 80,
+              child: DrawerHeader(
+                  padding: EdgeInsets.zero,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                   /* leading: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),*/
+                    title: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                      //  Icon(Icons.shopping_cart),
+                        Text(
+                          'My Cart',
+                        )
+                      ],
+                    ),
+                    onTap: () {},
+                  )),
+            ),
+
+            //const Expanded(child: CartContent())
+
+          ],
+        ),
+      ),
+
+    /*  Drawer(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            const Text('Top'),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
+                    child: SizedBox(
+                      height: 45.0,
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: headingColor,
+                              style: BorderStyle.solid,
+                              width: 1.0,
+                            ),
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  "VIEW CART",
+                                  style: TextStyle(
+                                    color: headingColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )),
+              ),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 0.0, right: 10.0, bottom: 0.0, left: 10.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(45),
+                  backgroundColor: themecolor,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0)),
+                ),
+                onPressed: () async {},
+                child: const Text(
+                  'PROCEED TO CHECKOUT',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+          ],
+        ),
+      ),*/
+
       appBar: AppBar(
         leading: _showLeading(context) ? _leadButton(context) : null,
         elevation: 0,
@@ -208,25 +320,19 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
         title: Padding(
           padding: const EdgeInsets.all(2.0),
           child: Center(
-            child: Image.asset('assets/omalogo.png', height: 22, width: 80),
+            child: Image.asset('assets/omalogo.png', height: 25, width: 80),
           ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.notifications,
-              color: Colors.black54,
-              size: 20,
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.filter),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             ),
-            onPressed: () {
-              /*getNavdata();*/
-            },
-          ),
-          const SizedBox(
-            width: 0,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
             child: GestureDetector(
               onTap: () async {
                 // print('object');
@@ -263,17 +369,32 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
             ),
           ),
 
-          /*IconButton(
+          /*  IconButton(
+            icon: const Icon(
+              Icons.notifications,
+              color: Colors.black54,
+              size: 20,
+            ),
+            onPressed: () {
+              */ /*getNavdata();*/ /*
+            },
+          ),*/
+
+          const SizedBox(
+            width: 0,
+          ),
+          IconButton(
             icon: const FaIcon(
               Icons.shopping_bag_sharp,
               size: 28,
               color: headingColor,
             ),
             onPressed: () {
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed("/loginpage");
+              CartProvider cartProvider =
+                  Provider.of<CartProvider>(context, listen: false);
+              cartProvider.getCartData();
             },
-          ),*/
+          ),
         ],
       ),
       body: widget.navigationShell,
@@ -305,27 +426,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 ),
               ),
               actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.notifications,
-                    color: Colors.black54,
-                    size: 20,
-                  ),
-                  onPressed: () {
-                    getNavdata();
-                    Navigator.of(context).pop();
-                    // Navigator.pushNamed(context, Settings.routeName);
-                  },
-                ),
-                // const SizedBox(
-                //   width: 12,
-                // ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   child: GestureDetector(
                     onTap: () async {
                       await getuserdata();
-
                       if (token.isEmpty) {
                         Navigator.push(
                           context,
@@ -354,6 +459,22 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     ),
                   ),
                 ),
+
+                IconButton(
+                  icon: const Icon(
+                    Icons.notifications,
+                    color: Colors.black54,
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    getNavdata();
+                    Navigator.of(context).pop();
+                    // Navigator.pushNamed(context, Settings.routeName);
+                  },
+                ),
+                // const SizedBox(
+                //   width: 12,
+                // ),
 
                 /*IconButton(
                   icon: const FaIcon(
@@ -440,8 +561,9 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                       onTap: () {
                                         Navigator.of(context).pop();
                                         print('item_id --> $catId');
-                                        context.go('/home/catDetails',extra: navHeaderList[index]['children']
-                                        [itemIndex]);
+                                        context.go('/home/catDetails',
+                                            extra: navHeaderList[index]
+                                                ['children'][itemIndex]);
 
                                         // catId = navHeaderList[index]['children']
                                         //     [itemIndex]['id'];
@@ -546,9 +668,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           ],
         ),
       ),
-
     );
-  }/*  bottomNavigationBar: Container(
+  } /*  bottomNavigationBar: Container(
         height: 65,
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: ClipRRect(
@@ -636,4 +757,137 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       );
     }
   }
+}
+
+/*class CartContent extends StatelessWidget {
+  const CartContent();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return StreamBuilder<CartState>(
+        initialData: bloc.state,
+        stream: bloc.observableState,
+        builder: (context, snapshot) {
+          final state = snapshot.data;
+
+          if (state is LoadingCartState) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ErrorCartState) {
+            return Center(child:Text(state.message));
+          } else {
+            return _renderCartContent(context, state);
+          }
+        });
+  }
+
+  Widget _renderCartContent(BuildContext context, LoadedCartState state){
+    totalPrice() => Column(children: <Widget>[
+      const Divider(),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          const Text(
+            'Total Price',
+          ),
+          Text(state.totalPrice)
+        ],
+      )
+    ]);
+
+    cartItems() => ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: state.items.length + 1,
+        itemBuilder: (context, index) {
+          if (index < state.items.length) {
+            final CartItemState cartItemState = state.items[index];
+
+            return CartContentItem(cartItemState);
+          } else {
+            return totalPrice();
+          }
+        });
+
+    emptyCartItems() => const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Text(
+          ' Empty Cart :('
+        ));
+
+    final content =
+    state.items.isNotEmpty ? cartItems() : emptyCartItems();
+
+    return content;
+  }
+}*/
+
+class CartContentItem extends StatelessWidget {
+  final CartItemState _cartItemState;
+  final TextEditingController _quantityController = TextEditingController();
+
+  CartContentItem(this._cartItemState);
+
+  @override
+  Widget build(BuildContext context) {
+    final imageWidget = Image.network(
+      _cartItemState.image,
+      height: 120.0,
+    );
+
+    final descriptionWidget = Column(children: <Widget>[
+      Text(
+        _cartItemState.title,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+      Row(
+        children: <Widget>[
+          Expanded(
+              child: TextField(
+                  controller: _quantityController,
+                  decoration: const InputDecoration(labelText: 'Quantity'),
+                  keyboardType: TextInputType.number,
+              )),
+          Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(_cartItemState.price))),
+        ],
+      )
+    ]);
+
+    return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Card(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                  flex: 2,
+                  child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16.0, top: 16.0, right: 8.0, bottom: 16.0),
+                      child: imageWidget)),
+              Expanded(flex: 3, child: descriptionWidget),
+              IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: (){
+
+                },
+              )
+            ],
+          ),
+        ));
+  }
+}
+
+
+class CartItemState {
+  final String id;
+  final String image;
+  final String title;
+  final String price;
+  final int quantity;
+
+  CartItemState(this.id, this.image, this.title, this.price, this.quantity);
 }

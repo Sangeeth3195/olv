@@ -123,9 +123,7 @@ class _BodyState extends State<Body> {
                               const BorderRadius.all(Radius.circular(0.0)),
                           child: ImageSlideshow(
                             indicatorColor: Colors.white,
-                            onPageChanged: (value) {
-                              debugPrint('Page changed: $value');
-                            },
+                            onPageChanged: (value) {},
                             autoPlayInterval: 3000,
                             isLoop: true,
                             children: [
@@ -211,9 +209,7 @@ class _BodyState extends State<Body> {
                     child: ImageSlideshow(
                       indicatorColor: Colors.transparent,
                       height: 200.0,
-                      onPageChanged: (value) {
-                        debugPrint('Page changed: $value');
-                      },
+                      onPageChanged: (value) {},
                       isLoop: false,
                       children: [
                         for (Sectiondatum item
@@ -307,9 +303,7 @@ class _BodyState extends State<Body> {
                     child: ImageSlideshow(
                       indicatorColor: Colors.transparent,
                       height: 200.0,
-                      onPageChanged: (value) {
-                        debugPrint('Page changed: $value');
-                      },
+                      onPageChanged: (value) {},
                       isLoop: false,
                       children: [
                         for (Sectiondatum item
@@ -364,9 +358,7 @@ class _BodyState extends State<Body> {
                     child: ImageSlideshow(
                       indicatorColor: Colors.transparent,
                       height: 200.0,
-                      onPageChanged: (value) {
-                        debugPrint('Page changed: $value');
-                      },
+                      onPageChanged: (value) {},
                       isLoop: false,
                       children: [
                         for (Sectiondatum item
