@@ -59,6 +59,12 @@ final router = GoRouter(
                       data: state.extra! as Map<String,dynamic>,
                     );
                   },
+                ),
+                GoRoute(
+                  path: 'cartScreen',
+                  builder: (context, state) {
+                    return  CartScreen(isFromActionBar: false);
+                  },
                 )
               ],
             ),
@@ -109,7 +115,7 @@ final router = GoRouter(
           GoRoute(
               path: '/cart',
               builder: (context, state) {
-                return const CartScreen();
+                return CartScreen(isFromActionBar: false,);
               },
               routes: <RouteBase>[
                 GoRoute(

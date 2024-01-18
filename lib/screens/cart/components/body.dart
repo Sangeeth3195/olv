@@ -7,7 +7,8 @@ import 'cart_card.dart';
 
 class Body extends StatefulWidget {
   final CartModel cartModel;
-  const Body( {super.key, required this.cartModel});
+  final bool isFromActionBar;
+  const Body( {super.key, required this.cartModel, required this.isFromActionBar});
 
   @override
   _BodyState createState() => _BodyState();
@@ -32,7 +33,7 @@ class _BodyState extends State<Body> {
                   onTap: (){
                     context.go('/cart/pdp',extra: widget.cartModel.cart!.items![index].product!.sku.toString());
                   },
-                  child: CartCard(item: widget.cartModel.cart!.items![index])),
+                  child: CartCard(item: widget.cartModel.cart!.items![index],isFromActionBar: widget.isFromActionBar,)),
             ),
           )),
     );

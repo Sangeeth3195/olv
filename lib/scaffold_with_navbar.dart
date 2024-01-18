@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'API Services/graphql_service.dart';
 import 'constants.dart';
+import 'screens/cart/cart_screen.dart';
 
 class ScaffoldWithNavbar extends StatefulWidget {
   const ScaffoldWithNavbar(this.navigationShell, {super.key});
@@ -198,8 +199,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
     return Scaffold(
       key: _key,
       // Assign the key to Scaffold.
-      endDrawer:
-      Drawer(
+      endDrawer: Drawer(
         child: Column(
           children: <Widget>[
             SizedBox(
@@ -224,9 +224,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                       ],
                     ),
                     onTap: () {},
-                  )),
-            ),
+                  )
 
+              ),
+            ),
+            Expanded(child: CartScreen(isFromActionBar: true,)),
             //const Expanded(child: CartContent())
 
           ],
@@ -399,6 +401,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       ),
       body: widget.navigationShell,
       drawer: Drawer(
+
         backgroundColor: navBackground,
         width:
             MediaQuery.of(context).size.width, // 75% of screen will be occupied

@@ -445,7 +445,7 @@ class _MainLayoutState extends State<MainLayout> {
       const HomeScreen(),
       const Discover(), //ProductListing (id: catId)
       const Wishlist(),
-      const CartScreen(),
+       CartScreen(isFromActionBar: false),
       const ProfileScreen() //Discover
     ];
   }
@@ -642,7 +642,7 @@ class _NavBarHandlerState extends State<NavBarHandler>
     HomeScreen(),
     Discover(), //ProductListing (id: catId)
     Wishlist(),
-    CartScreen(),
+    CartScreen(isFromActionBar: false,),
     ProfileScreen()
   ];
 

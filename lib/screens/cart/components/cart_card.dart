@@ -11,7 +11,8 @@ import '../../../components/size_config.dart';
 
 class CartCard extends StatefulWidget {
   final Item item;
-  const CartCard({super.key, required this.item});
+  final bool isFromActionBar;
+  const CartCard({super.key, required this.item, required this.isFromActionBar});
 
   @override
   _BodyState createState() => _BodyState();
@@ -216,7 +217,7 @@ class _BodyState extends State<CartCard> {
           const SizedBox(
             height: 10,
           ),
-          Row(
+          widget.isFromActionBar?Container():Row(
             children: <Widget>[
               Expanded(
                 // Place `Expanded` inside `Row`
