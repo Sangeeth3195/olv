@@ -315,26 +315,66 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       ),*/
 
       appBar: AppBar(
-        leading: _showLeading(context) ? _leadButton(context) : null,
+        leading: _showLeading(context) ? Column(
+          children: [
+            _leadButton(context),
+          ],
+        ) : Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.menu, size: 24,),
+              onPressed: () =>  _key.currentState?.openDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+            GestureDetector(
+              onTap: (){
+                _key.currentState?.openEndDrawer();
+              },
+              child: IconButton(
+                icon: const Icon(Icons.search, size: 30,),
+                onPressed: () => _key.currentState?.openEndDrawer(),
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              ),
+            ),
+
+          ],
+        ),
         elevation: 0,
         iconTheme: const IconThemeData(color: chipColor),
         backgroundColor: Colors.white,
         title: Padding(
           padding: const EdgeInsets.all(2.0),
-          child: Center(
-            child: Image.asset('assets/omalogo.png', height: 25, width: 80),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // IconButton(
+              //   icon: const Icon(Icons.search, size: 30,),
+              //   onPressed: () => _key.currentState?.openEndDrawer(),
+              //   tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              // ),
+
+              Image.asset('assets/omalogo.png', height: 25, width: 80),
+            ],
           ),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search, size: 30,),
+            onPressed: () => _key.currentState?.openEndDrawer(),
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          ),
           Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(Icons.filter),
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            builder: (context) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: const Icon(Icons.shopping_bag, size: 30,),
+                onPressed: () => Scaffold.of(context).openEndDrawer(),
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+            padding: const EdgeInsets.fromLTRB(0, 8, 15, 0),
             child: GestureDetector(
               onTap: () async {
                 // print('object');
@@ -364,7 +404,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 backgroundColor: Colors.black,
                 radius: 12,
                 child: CircleAvatar(
-                  radius: 24,
+                  radius: 30,
                   backgroundImage: AssetImage('assets/images/photo.jpg'),
                 ),
               ),
@@ -385,18 +425,18 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           const SizedBox(
             width: 0,
           ),
-          IconButton(
-            icon: const FaIcon(
-              Icons.shopping_bag_sharp,
-              size: 28,
-              color: headingColor,
-            ),
-            onPressed: () {
-              CartProvider cartProvider =
-                  Provider.of<CartProvider>(context, listen: false);
-              cartProvider.getCartData();
-            },
-          ),
+          // IconButton(
+          //   icon: const FaIcon(
+          //     Icons.shopping_bag_sharp,
+          //     size: 28,
+          //     color: headingColor,
+          //   ),
+          //   onPressed: () {
+          //     CartProvider cartProvider =
+          //         Provider.of<CartProvider>(context, listen: false);
+          //     cartProvider.getCartData();
+          //   },
+          // ),
         ],
       ),
       body: widget.navigationShell,
