@@ -50,6 +50,8 @@ class _BodyState extends State<Body> {
 
   getDate() async {
     homePageModel = await graphQLService.gethomepagedata();
+    setState(() {});
+
     if (homePageModel.typename != null) {
       videoPlayerController = VideoPlayerController.network(
           homePageModel.getHomePageData![8].link!);
@@ -75,7 +77,6 @@ class _BodyState extends State<Body> {
         },
       );
     }
-    setState(() {});
   }
 
   @override
