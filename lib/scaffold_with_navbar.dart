@@ -335,11 +335,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           ),
         ),
         actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.search, size: 30,),
-          //   onPressed: () => _key.currentState?.openEndDrawer(),
-          //   tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          // ),
+          IconButton(
+            icon: const Icon(Icons.search, size: 30,),
+            onPressed: () => _key.currentState?.openEndDrawer(),
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          ),
           Builder(
             builder: (context) => Padding(
               padding: const EdgeInsets.all(8.0),

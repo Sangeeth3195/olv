@@ -54,7 +54,7 @@ class _BodyState extends State<Body> {
 
     if (homePageModel.typename != null) {
       videoPlayerController = VideoPlayerController.network(
-          homePageModel.getHomePageData![8].link!);
+          homePageModel.getHomePageData![3].link!);
 
       await videoPlayerController!.initialize();
       _chewieController = ChewieController(
@@ -203,35 +203,35 @@ class _BodyState extends State<Body> {
                   ),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                    child: ImageSlideshow(
-                      indicatorColor: Colors.transparent,
-                      height: 200.0,
-                      onPageChanged: (value) {},
-                      isLoop: false,
-                      children: [
-                        for (Sectiondatum item
-                            in homePageModel.getHomePageData![2].sectiondata!)
-                          GestureDetector(
-                            onTap: () {
-                              final myProvider = Provider.of<MyProvider>(
-                                  context,
-                                  listen: false);
-                              myProvider.updateData(int.parse(item.link!));
-                              context.go('/home/pdp');
-                            },
-                            child: Image.network(
-                              "https://staging2.omaliving.com${item.attachmentmob!}",
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                //   child: ClipRRect(
+                //     borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                //     child: ImageSlideshow(
+                //       indicatorColor: Colors.transparent,
+                //       height: 200.0,
+                //       onPageChanged: (value) {},
+                //       isLoop: false,
+                //       children: [
+                //         for (Sectiondatum item
+                //             in homePageModel.getHomePageData![2].sectiondata!)
+                //           GestureDetector(
+                //             onTap: () {
+                //               final myProvider = Provider.of<MyProvider>(
+                //                   context,
+                //                   listen: false);
+                //               myProvider.updateData(int.parse(item.link!));
+                //               context.go('/home/pdp');
+                //             },
+                //             child: Image.network(
+                //               "https://staging2.omaliving.com${item.attachmentmob!}",
+                //               fit: BoxFit.cover,
+                //             ),
+                //           ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
 
                 Center(
                   child: Center(
@@ -474,8 +474,7 @@ class _BodyState extends State<Body> {
                     ).toList(),
                   ),
                 ),
-
-          homePageModel.getHomePageData?.length == 9? Container():Column(
+          Column(
                   children: [
                     _chewieController == null
                         ? const Center(child: CircularProgressIndicator())
@@ -492,7 +491,7 @@ class _BodyState extends State<Body> {
                             ),
                           ),
 
-                    Center(
+                    homePageModel.getHomePageData!.length !=10?Container(): Center(
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(10, 15, 10, 5),
@@ -511,7 +510,7 @@ class _BodyState extends State<Body> {
                       ),
                     ),
 
-                    Center(
+                    homePageModel.getHomePageData!.length !=10?Container():Center(
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
