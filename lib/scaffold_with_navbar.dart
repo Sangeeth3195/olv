@@ -315,11 +315,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       ),*/
 
       appBar: AppBar(
-        leading: _showLeading(context) ? Column(
-          children: [
-            _leadButton(context),
-          ],
-        ) : null,
+        leading: _showLeading(context) ? _leadButton(context) : null,
         elevation: 0,
         iconTheme: const IconThemeData(color: chipColor),
         backgroundColor: Colors.white,
