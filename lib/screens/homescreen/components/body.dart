@@ -474,57 +474,61 @@ class _BodyState extends State<Body> {
                   ),
                 ),
 
-                _chewieController == null
-                    ? const Center(child: CircularProgressIndicator())
-                    : SizedBox(
-                        height: 250,
+          homePageModel.getHomePageData?.length == 9? Container():Column(
+                  children: [
+                    _chewieController == null
+                        ? const Center(child: CircularProgressIndicator())
+                        : SizedBox(
+                            height: 250,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AspectRatio(
+                                aspectRatio: 16 / 2,
+                                child: Chewie(
+                                  controller: _chewieController!,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                    Center(
+                      child: Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AspectRatio(
-                            aspectRatio: 16 / 2,
-                            child: Chewie(
-                              controller: _chewieController!,
+                          padding: const EdgeInsets.fromLTRB(10, 15, 10, 5),
+                          child: Center(
+                            child: Text(
+                              homePageModel.getHomePageData![9].title!,
+                              textAlign: TextAlign.center,
+                              style:
+                                  Theme.of(context).textTheme.titleMedium!.copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                             ),
                           ),
                         ),
                       ),
+                    ),
 
-                Center(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 15, 10, 5),
+                    Center(
                       child: Center(
-                        child: Text(
-                          homePageModel.getHomePageData![9].title!,
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
+                          child: Center(
+                            child: Text(
+                              homePageModel.getHomePageData![9].description!,
+                              textAlign: TextAlign.center,
+                              style:
+                                  Theme.of(context).textTheme.titleMedium!.copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-
-                Center(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
-                      child: Center(
-                        child: Text(
-                          homePageModel.getHomePageData![9].description!,
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
               ])
             : const Center(child: CircularProgressIndicator()));

@@ -122,45 +122,7 @@ class _BodyState extends State<CartCard> {
           const SizedBox(
             height: 12,
           ),
-          Column(
-            children: [
-              Divider(),
-              SizedBox(height: 5,),
-              Row(
-                children: <Widget>[
-                  const Expanded(
-                    // Place `Expanded` inside `Row`
-                    child: Text(
-                      'Subtotal',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: headingColor,
-                        ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 22, // <-- Your height
-                    child: Padding(
-                      padding:  EdgeInsets.only(left: 10, right: 10),
-                      child: Row(children: [
-                        Text(
-                          '₹ ${cartProvider!.cartModel.cart!.prices!.subtotalExcludingTax!.value.toString()}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: headingColor,
-                            )                        ),
-                      ]),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
+          
         ],
       ),
     );

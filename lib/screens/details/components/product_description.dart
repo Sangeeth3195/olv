@@ -797,270 +797,270 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         const SizedBox(
                           height: 18,
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: getProportionateScreenWidth(10)),
-                              child: const Text('QUANTITY',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold, color: headingColor)),
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: omaColor,
-                                border: Border.all(
-                                  color: headingColor, // Border color
-                                  width: 0.0, // Border width
-                                ),
-                                borderRadius: BorderRadius.circular(0.0),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height: 44,
-                                    width: 50,
-                                    child: IconButton(
-                                      icon: const Icon(
-                                        Icons.remove,
-                                        color: headingColor,
-                                      ),
-                                      onPressed: () {
-                                        decrementQuantity();
-                                      },
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 44,
-                                    width: 50,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0,
-                                        vertical: 8), // Adjust padding as needed
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: headingColor, // Border color
-                                        width: 1.0, // Border width
-                                      ),
-                                      borderRadius: BorderRadius.circular(
-                                          0.0), // Adjust border radius as needed
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        quantity.toString(),
-                                        style: const TextStyle(fontSize: 15),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 44,
-                                    width: 50,
-                                    child: IconButton(
-                                      icon: const Icon(
-                                        Icons.add,
-                                        color: headingColor,
-                                      ),
-                                      onPressed: () {
-                                        incrementQuantity();
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          height: 40,
-
-                          width: double.infinity,
-                          // Set the container width to occupy the full width
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 4),
-                          // Adjust margins as needed
-                          child: ElevatedButton(
-                            onPressed: () {
-                              print(quantity.toString());
-                              // Button onPressed action
-                              // graphQLService.create_cart_non_user();
-                              // graphQLService.create_cart();
-
-                              EasyLoading.show(status: 'loading...');
-
-                              if (provider.productData[0]['configurable_options'] ==
-                                  'configurable_options') {
-                                print(widget.product.toString());
-
-                                print(provider.productData[0]['variants']
-                                    [configurableProductIndex]['product']['sku']);
-
-                                graphQLService.addProductToCart(
-                                  provider.productData[0]['variants']
-                                      [configurableProductIndex]['product']['sku'],
-                                  quantity.toString(),
-                                  context: context
-                                );
-                              } else {
-                                graphQLService.addProductToCart(
-                                  widget.product.toString(),
-                                  quantity.toString(),
-                                    context: context
-
-                                );
-                              }
-
-                              // graphQLService.update_product_to_cart(
-                              //   widget.product['sku'].toString(),
-                              //   quantity.toStringAsFixed(0),
-                              // );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(5), backgroundColor: headingColor, // Set the background color
-                            ),
-                            child: const Text(
-                              'ADD TO CART',
-                              style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width -20,
-                              height: 40,
-                              // Set the container width to occupy the full width
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 4),
-                              // Adjust margins as needed
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  print(widget.product.toString());
-
-                                  if (myProvider!
-                                      .customerModel.customer?.email !=
-                                      null) {
-                                    if (isWishListed ?? false) {
-                                      dynamic listData = await graphQLService
-                                          .add_Product_from_wishlist(
-                                        wishlistId: myProvider!.customerModel
-                                            .customer!.wishlists![0].id!,
-                                        sku: provider.productData[0]['sku']
-                                            .toString(),
-                                        qty: "1",
-                                      );
-                                    } else {
-                                      dynamic listData = await graphQLService
-                                          .remove_Product_from_wishlist(
-                                          wishlistId: myProvider!
-                                              .customerModel
-                                              .customer!
-                                              .wishlists![0]
-                                              .id!,
-                                          wishlistItemsIds: provider
-                                              .productData[0]['sku']
-                                              .toString());
-                                    }
-
-                                    isWishListed = !isWishListed!;
-
-                                    print(isWishListed);
-
-                                    setState(() {});
-
-                                  } else {
-                                    Fluttertoast.showToast(
-                                        msg:
-                                        'Please Login for wishlist an item');
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  side: const BorderSide(color: headingColor),
-                                  backgroundColor: Colors.white,
-                                  padding: const EdgeInsets.all(
-                                      5), // Set the background color
-                                ),
-                                child: const Text(
-                                  "ADD TO WISH LIST",
-                                  style:
-                                      TextStyle(fontSize: 14, color: headingColor,fontWeight: FontWeight.normal),
-                                ),
-                              ),
-                            ),
-                            // Container(
-                            //     height: 40,
-                            //     // padding: const EdgeInsets.symmetric(
-                            //     //     horizontal: 1.0,
-                            //     //     vertical: 1), // Adjust padding as needed
-                            //     decoration: BoxDecoration(
-                            //       color: Colors.white,
-                            //       border: Border.all(
-                            //         color: headingColor, // Border color
-                            //         width: 1.0, // Border width
-                            //       ),
-                            //       borderRadius: BorderRadius.circular(
-                            //           0.0), // Adjust border radius as needed
-                            //     ),
-                            //     child: IconButton(
-                            //         onPressed: () async {
-                            //           print(widget.product.toString());
-                            //
-                            //           if (myProvider!
-                            //                   .customerModel?.customer?.email !=
-                            //               null) {
-                            //             if (isWishListed ?? false) {
-                            //               dynamic listData = await graphQLService
-                            //                   .add_Product_from_wishlist(
-                            //                 wishlistId: myProvider!.customerModel
-                            //                     .customer!.wishlists![0].id!,
-                            //                 sku: provider.productData[0]['sku']
-                            //                     .toString(),
-                            //                 qty: "1",
-                            //               );
-                            //             } else {
-                            //               dynamic listData = await graphQLService
-                            //                   .remove_Product_from_wishlist(
-                            //                       wishlistId: myProvider!
-                            //                           .customerModel
-                            //                           .customer!
-                            //                           .wishlists![0]
-                            //                           .id!,
-                            //                       wishlistItemsIds: provider
-                            //                           .productData[0]['sku']
-                            //                           .toString());
-                            //             }
-                            //
-                            //             isWishListed = !isWishListed!;
-                            //
-                            //             print(isWishListed);
-                            //
-                            //             setState(() {});
-                            //
-                            //           } else {
-                            //             Fluttertoast.showToast(
-                            //                 msg:
-                            //                     'Please Login for wishlist an item');
-                            //           }
-                            //         },
-                            //         icon: Icon(
-                            //           isWishListed ?? false
-                            //               ? Icons.favorite
-                            //               : Icons.favorite_border,
-                            //           color: isWishListed ?? false
-                            //               ? Colors.red
-                            //               : themecolor,
-                            //         )))
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Padding(
+                        //       padding: EdgeInsets.symmetric(
+                        //           horizontal: getProportionateScreenWidth(10)),
+                        //       child: const Text('QUANTITY',
+                        //           style: TextStyle(
+                        //               fontWeight: FontWeight.bold, color: headingColor)),
+                        //     ),
+                        //     const SizedBox(
+                        //       width: 12,
+                        //     ),
+                        //     Container(
+                        //       decoration: BoxDecoration(
+                        //         color: omaColor,
+                        //         border: Border.all(
+                        //           color: headingColor, // Border color
+                        //           width: 0.0, // Border width
+                        //         ),
+                        //         borderRadius: BorderRadius.circular(0.0),
+                        //       ),
+                        //       child: Row(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: [
+                        //           SizedBox(
+                        //             height: 44,
+                        //             width: 50,
+                        //             child: IconButton(
+                        //               icon: const Icon(
+                        //                 Icons.remove,
+                        //                 color: headingColor,
+                        //               ),
+                        //               onPressed: () {
+                        //                 decrementQuantity();
+                        //               },
+                        //             ),
+                        //           ),
+                        //           Container(
+                        //             height: 44,
+                        //             width: 50,
+                        //             padding: const EdgeInsets.symmetric(
+                        //                 horizontal: 8.0,
+                        //                 vertical: 8), // Adjust padding as needed
+                        //             decoration: BoxDecoration(
+                        //               color: Colors.white,
+                        //               border: Border.all(
+                        //                 color: headingColor, // Border color
+                        //                 width: 1.0, // Border width
+                        //               ),
+                        //               borderRadius: BorderRadius.circular(
+                        //                   0.0), // Adjust border radius as needed
+                        //             ),
+                        //             child: Center(
+                        //               child: Text(
+                        //                 quantity.toString(),
+                        //                 style: const TextStyle(fontSize: 15),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //           SizedBox(
+                        //             height: 44,
+                        //             width: 50,
+                        //             child: IconButton(
+                        //               icon: const Icon(
+                        //                 Icons.add,
+                        //                 color: headingColor,
+                        //               ),
+                        //               onPressed: () {
+                        //                 incrementQuantity();
+                        //               },
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // const SizedBox(
+                        //   height: 15,
+                        // ),
+                        // Container(
+                        //   height: 40,
+                        //
+                        //   width: double.infinity,
+                        //   // Set the container width to occupy the full width
+                        //   margin: const EdgeInsets.symmetric(
+                        //       horizontal: 10.0, vertical: 4),
+                        //   // Adjust margins as needed
+                        //   child: ElevatedButton(
+                        //     onPressed: () {
+                        //       print(quantity.toString());
+                        //       // Button onPressed action
+                        //       // graphQLService.create_cart_non_user();
+                        //       // graphQLService.create_cart();
+                        //
+                        //       EasyLoading.show(status: 'loading...');
+                        //
+                        //       if (provider.productData[0]['configurable_options'] ==
+                        //           'configurable_options') {
+                        //         print(widget.product.toString());
+                        //
+                        //         print(provider.productData[0]['variants']
+                        //             [configurableProductIndex]['product']['sku']);
+                        //
+                        //         graphQLService.addProductToCart(
+                        //           provider.productData[0]['variants']
+                        //               [configurableProductIndex]['product']['sku'],
+                        //           quantity.toString(),
+                        //           context: context
+                        //         );
+                        //       } else {
+                        //         graphQLService.addProductToCart(
+                        //           widget.product.toString(),
+                        //           quantity.toString(),
+                        //             context: context
+                        //
+                        //         );
+                        //       }
+                        //
+                        //       // graphQLService.update_product_to_cart(
+                        //       //   widget.product['sku'].toString(),
+                        //       //   quantity.toStringAsFixed(0),
+                        //       // );
+                        //     },
+                        //     style: ElevatedButton.styleFrom(
+                        //       padding: const EdgeInsets.all(5), backgroundColor: headingColor, // Set the background color
+                        //     ),
+                        //     child: const Text(
+                        //       'ADD TO CART',
+                        //       style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
+                        //     ),
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   height: 6,
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Container(
+                        //       width: MediaQuery.of(context).size.width -20,
+                        //       height: 40,
+                        //       // Set the container width to occupy the full width
+                        //       margin: const EdgeInsets.symmetric(
+                        //           horizontal: 10.0, vertical: 4),
+                        //       // Adjust margins as needed
+                        //       child: ElevatedButton(
+                        //         onPressed: () async {
+                        //           print(widget.product.toString());
+                        //
+                        //           if (myProvider!
+                        //               .customerModel.customer?.email !=
+                        //               null) {
+                        //             if (isWishListed ?? false) {
+                        //               dynamic listData = await graphQLService
+                        //                   .add_Product_from_wishlist(
+                        //                 wishlistId: myProvider!.customerModel
+                        //                     .customer!.wishlists![0].id!,
+                        //                 sku: provider.productData[0]['sku']
+                        //                     .toString(),
+                        //                 qty: "1",
+                        //               );
+                        //             } else {
+                        //               dynamic listData = await graphQLService
+                        //                   .remove_Product_from_wishlist(
+                        //                   wishlistId: myProvider!
+                        //                       .customerModel
+                        //                       .customer!
+                        //                       .wishlists![0]
+                        //                       .id!,
+                        //                   wishlistItemsIds: provider
+                        //                       .productData[0]['sku']
+                        //                       .toString());
+                        //             }
+                        //
+                        //             isWishListed = !isWishListed!;
+                        //
+                        //             print(isWishListed);
+                        //
+                        //             setState(() {});
+                        //
+                        //           } else {
+                        //             Fluttertoast.showToast(
+                        //                 msg:
+                        //                 'Please Login for wishlist an item');
+                        //           }
+                        //         },
+                        //         style: ElevatedButton.styleFrom(
+                        //           side: const BorderSide(color: headingColor),
+                        //           backgroundColor: Colors.white,
+                        //           padding: const EdgeInsets.all(
+                        //               5), // Set the background color
+                        //         ),
+                        //         child: const Text(
+                        //           "ADD TO WISH LIST",
+                        //           style:
+                        //               TextStyle(fontSize: 14, color: headingColor,fontWeight: FontWeight.normal),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     // Container(
+                        //     //     height: 40,
+                        //     //     // padding: const EdgeInsets.symmetric(
+                        //     //     //     horizontal: 1.0,
+                        //     //     //     vertical: 1), // Adjust padding as needed
+                        //     //     decoration: BoxDecoration(
+                        //     //       color: Colors.white,
+                        //     //       border: Border.all(
+                        //     //         color: headingColor, // Border color
+                        //     //         width: 1.0, // Border width
+                        //     //       ),
+                        //     //       borderRadius: BorderRadius.circular(
+                        //     //           0.0), // Adjust border radius as needed
+                        //     //     ),
+                        //     //     child: IconButton(
+                        //     //         onPressed: () async {
+                        //     //           print(widget.product.toString());
+                        //     //
+                        //     //           if (myProvider!
+                        //     //                   .customerModel?.customer?.email !=
+                        //     //               null) {
+                        //     //             if (isWishListed ?? false) {
+                        //     //               dynamic listData = await graphQLService
+                        //     //                   .add_Product_from_wishlist(
+                        //     //                 wishlistId: myProvider!.customerModel
+                        //     //                     .customer!.wishlists![0].id!,
+                        //     //                 sku: provider.productData[0]['sku']
+                        //     //                     .toString(),
+                        //     //                 qty: "1",
+                        //     //               );
+                        //     //             } else {
+                        //     //               dynamic listData = await graphQLService
+                        //     //                   .remove_Product_from_wishlist(
+                        //     //                       wishlistId: myProvider!
+                        //     //                           .customerModel
+                        //     //                           .customer!
+                        //     //                           .wishlists![0]
+                        //     //                           .id!,
+                        //     //                       wishlistItemsIds: provider
+                        //     //                           .productData[0]['sku']
+                        //     //                           .toString());
+                        //     //             }
+                        //     //
+                        //     //             isWishListed = !isWishListed!;
+                        //     //
+                        //     //             print(isWishListed);
+                        //     //
+                        //     //             setState(() {});
+                        //     //
+                        //     //           } else {
+                        //     //             Fluttertoast.showToast(
+                        //     //                 msg:
+                        //     //                     'Please Login for wishlist an item');
+                        //     //           }
+                        //     //         },
+                        //     //         icon: Icon(
+                        //     //           isWishListed ?? false
+                        //     //               ? Icons.favorite
+                        //     //               : Icons.favorite_border,
+                        //     //           color: isWishListed ?? false
+                        //     //               ? Colors.red
+                        //     //               : themecolor,
+                        //     //         )))
+                        //   ],
+                        // ),
                         const SizedBox(
                           height: 12,
                         ),
