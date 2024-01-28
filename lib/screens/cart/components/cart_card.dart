@@ -221,9 +221,10 @@ class _BodyState extends State<CartCard> {
           const SizedBox(
             height: 10,
           ),
-          widget.isFromActionBar?Container():Row(
+          /*widget.isFromActionBar?Container():*/Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              Expanded(
+              widget.isFromActionBar?Container():Expanded(
                 // Place `Expanded` inside `Row`
                 child: GestureDetector(
                   onTap: () async {
@@ -249,6 +250,7 @@ class _BodyState extends State<CartCard> {
                     }
                   },
                   child: const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         'Move to wishlist |',
@@ -273,6 +275,8 @@ class _BodyState extends State<CartCard> {
                   cartProvider!.removeItem(widget.item.id!);
                 },
                 child: const Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.delete_outline,

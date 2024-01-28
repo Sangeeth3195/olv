@@ -315,74 +315,88 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       ),*/
 
       appBar: AppBar(
-        leading: _showLeading(context) ? _leadButton(context) : null,
+        leading: _showLeading(context) ? _leadButton(context) :          null /*Row(
+          children: [
+
+            SizedBox(width: 20,),
+            IconButton(
+              icon: const Icon(Icons.menu, size: 30,),
+              onPressed: () => _key.currentState?.openDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+            IconButton(
+              icon: const Icon(Icons.search, size: 30,),
+              onPressed: () => _key.currentState?.openEndDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+          ],
+        )*/,
         elevation: 0,
         iconTheme: const IconThemeData(color: chipColor),
         backgroundColor: Colors.white,
+        centerTitle: true,
         title: Padding(
           padding: const EdgeInsets.all(2.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // IconButton(
-              //   icon: const Icon(Icons.search, size: 30,),
-              //   onPressed: () => _key.currentState?.openEndDrawer(),
-              //   tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              // ),
-
-              Image.asset('assets/omalogo.png', height: 25, width: 80),
-            ],
-          ),
+          child: Image.asset('assets/omalogo.png', height: 25, width: 80),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search, size: 30,),
-            onPressed: () => _key.currentState?.openEndDrawer(),
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          Center(
+            child: GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: const Icon(Icons.search, size: 25,),
+              ),
+              onTap: () => _key.currentState?.openEndDrawer(),
+              // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
           ),
-          Builder(
-            builder: (context) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: const Icon(Icons.shopping_bag, size: 30,),
-                onPressed: () => Scaffold.of(context).openEndDrawer(),
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          Center(
+            child: Builder(
+              builder: (context) => Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: GestureDetector(
+                  child: const Icon(Icons.shopping_bag, size: 25,),
+                  onTap: () => Scaffold.of(context).openEndDrawer(),
+                  // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 15, 0),
-            child: GestureDetector(
-              onTap: () async {
-                // print('object');
-                // print(cart_token);
+            padding: const EdgeInsets.only(right: 12.0),
+            child: Center(
+              child: GestureDetector(
+                onTap: () async {
+                  // print('object');
+                  // print(cart_token);
 
-                // test = await graphQLService.assign_Customer_To_Guest_Cart("Xc357qa7yfvOEhyw8S1P7QkYyAQ3CIdP");
+                  // test = await graphQLService.assign_Customer_To_Guest_Cart("Xc357qa7yfvOEhyw8S1P7QkYyAQ3CIdP");
 
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const LoginPage()),
-                // );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => const LoginPage()),
+                  // );
 
-                await getuserdata();
-                if (token.isEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
-                  );
-                } else {
-                  setState(() {
-                    _selectedIndex = 4;
-                  });
-                  _onTap(4);
-                }
-              },
-              child: const CircleAvatar(
-                backgroundColor: Colors.black,
-                radius: 12,
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage('assets/images/photo.jpg'),
+                  await getuserdata();
+                  if (token.isEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                    );
+                  } else {
+                    setState(() {
+                      _selectedIndex = 4;
+                    });
+                    _onTap(4);
+                  }
+                },
+                child: const CircleAvatar(
+                  backgroundColor: Colors.black,
+                  radius: 12,
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: AssetImage('assets/images/photo.jpg'),
+                  ),
                 ),
               ),
             ),
