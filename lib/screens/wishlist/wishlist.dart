@@ -8,7 +8,16 @@ class Wishlist extends StatelessWidget {
   const Wishlist({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black,size: 20) ,
+        title: const Text(
+          'Wishlist',
+          style: TextStyle(color: Colors.black,fontSize: 16),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Body(),
     );

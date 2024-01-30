@@ -221,6 +221,13 @@ final router = GoRouter(
                 },
               ),
               GoRoute(
+                path: 'wishlist',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) {
+                  return const Wishlist();
+                },
+              ),
+              GoRoute(
                 path: 'address',
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) {

@@ -85,7 +85,7 @@ class _BodyState extends State<Body> {
                             style: const TextStyle(fontSize: 13),
                           ),
                           trailing: const SizedBox(
-                            width: 46,
+                            width: 70,
                             child: Row(
                               children: [
                                 Text(

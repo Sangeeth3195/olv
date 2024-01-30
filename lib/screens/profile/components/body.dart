@@ -118,7 +118,23 @@ class _BodyState extends State<Body> {
                   thickness: 0.3,
                 ),
               ),
+              pmenu.ProfileMenu(
+                text: "Wishlist",
+                icon: Icons.favorite,
+                press: () {
+                  context.go('/profile/wishlist');
 
+                  Navigator.of(context, rootNavigator: true)
+                      .pushNamed("/address");
+                },
+              ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
+                child: Divider(
+                  color: Colors.grey,
+                  thickness: 0.3,
+                ),
+              ),
               pmenu.ProfileMenu(
                 text: "Address",
                 icon: Icons.add_business_outlined,
