@@ -16,7 +16,12 @@ class Newsletter extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.black,size: 20),
         title: const Text(
           'Newsletter Subscription',
-          style: TextStyle(color: Colors.black,fontSize: 16),
+          style: TextStyle(
+              fontFamily: 'Gotham',
+              fontWeight: FontWeight.w500,
+              fontSize: 14.0,
+              color: Colors.black
+          ),
         ),
       ),
       body: const Body(),

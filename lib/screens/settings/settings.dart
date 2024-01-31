@@ -13,8 +13,17 @@ class Settings extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black,size: 18),
-        title: const Text('Settings',style: TextStyle(color: Colors.black,fontSize: 14),),
+        iconTheme: const IconThemeData(color: Colors.black, size: 18),
+        title: const Text(
+          'Settings',
+          style: TextStyle(
+              fontFamily: 'Gotham',
+              fontWeight: FontWeight.w500,
+              fontSize: 14.0,
+              color: Colors.black
+             // color: Colors.black, fontSize: 14
+          ),
+        ),
       ),
       body: const Body(),
     );

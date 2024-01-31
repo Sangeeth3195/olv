@@ -64,7 +64,10 @@ class _BodyState extends State<Body> {
                   ),
                   const Text(
                     'Subscribe to Promotional Emails',
-                    style: TextStyle(fontSize: 14.0),
+                    style: TextStyle(fontFamily: 'Gotham',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.0,
+                        color: Colors.black),
                   ),
                   const SizedBox(width: 5),
 

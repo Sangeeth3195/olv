@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:omaliving/screens/settings/components/settings_menu.dart';
@@ -156,7 +157,14 @@ class _BodyState extends State<Body> {
           ),
           const Text(
             'Version 1.0',
-            style: TextStyle(fontSize: 12.0, color: Colors.black54),
+            style: TextStyle(
+                // fontSize: 12.0,
+                // color: navTextColor
+              fontFamily: 'Gotham',
+              fontWeight: FontWeight.w500,
+              color: navTextColor,
+              fontSize: 11.0,
+            ),
           )
         ],
       ),
