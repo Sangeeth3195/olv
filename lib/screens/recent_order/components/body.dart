@@ -84,21 +84,23 @@ class Body extends StatelessWidget {
                   )),
                 ],
                 rows: [
-                  DataRow(cells: [
-                    DataCell(Text(
-                      ordersItem.items![0].productName ?? '',
-                      style: const TextStyle(fontSize: 13),
-                    )),
-                    DataCell(Text(
-                      ordersItem.items![0].quantityOrdered.toString(),
-                      style: const TextStyle(fontSize: 13),
-                    )),
-                    DataCell(Text(
-                      ordersItem.items![0].productSalePrice!.value.toString() ??
-                          '',
-                      style: const TextStyle(fontSize: 13),
-                    )),
-                  ]),
+                  for (var item in ordersItem.items!!)
+                    DataRow(cells: [
+                      DataCell(Text(
+                        item.productName ?? '',
+                        style: const TextStyle(fontSize: 13),
+                      )),
+                      DataCell(Text(
+                        item.quantityOrdered.toString(),
+                        style: const TextStyle(fontSize: 13),
+                      )),
+                      DataCell(Text(
+                        item.productSalePrice!.value.toString() ??
+                            '',
+                        style: const TextStyle(fontSize: 13),
+                      )),
+                    ]),
+
                 ],
               ),
             ),
@@ -337,7 +339,7 @@ class Body extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      width: 40,
+                      width: 30,
                     ),
                     Expanded(
                       child: TextButton(
