@@ -29,7 +29,7 @@ class SettingsMenu extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: Colors.black,
+              color: navTextColor,
               size: 22,
             ),
             const SizedBox(width: 16),
@@ -37,9 +37,14 @@ class SettingsMenu extends StatelessWidget {
                 child: Text(
               text,
               style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12),
+                  fontFamily: 'Gotham',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13.0,
+                  color: navTextColor
+                  // color: Colors.black,
+                  // fontWeight: FontWeight.w400,
+                  // fontSize: 12
+              ),
             )),
             /*const Icon(
               Icons.arrow_forward_ios,

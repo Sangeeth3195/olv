@@ -619,10 +619,16 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                             child: Text(
                               navHeaderList[index]['name'],
                               style: const TextStyle(
-                                  color: navTextColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w800,
-                                  fontStyle: FontStyle.normal),
+                                  fontFamily: 'Gotham',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13.0,
+                                  color: navTextColor
+
+                                  // color: navTextColor,
+                                  // fontSize: 12,
+                                  // fontWeight: FontWeight.w800,
+                                  // fontStyle: FontStyle.normal
+                              ),
                             ),
                           ),
                           children: <Widget>[
@@ -676,6 +682,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                         style: const TextStyle(
                                             color: navTextColor,
                                             fontSize: 12,
+                                            letterSpacing: 2,
                                             fontWeight: FontWeight.w700,
                                             fontStyle: FontStyle.normal),
                                       ),
@@ -705,8 +712,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                             child: ListTile(
                                               onTap: () {
                                                 Navigator.of(context).pop();
-
-                                                print('item_id --> $catId');
                                                 catId = navHeaderList[index]
                                                             ['children']
                                                         [itemIndex]['children']

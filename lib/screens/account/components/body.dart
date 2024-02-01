@@ -82,8 +82,12 @@ class _BodyState extends State<Body> {
               child: Text(
                 'First Name',
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14.0,
+                    fontFamily: 'Gotham',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.0,
+                    color: blackColor
+                  // color: Colors.black,
+                  // fontSize: 14.0,
                 ),
               ),
             ),

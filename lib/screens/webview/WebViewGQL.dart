@@ -39,13 +39,21 @@ class _CommonWebViewState extends State<CommonWebViewGraphql> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Colors.black, size: 18,),
+          iconTheme: const IconThemeData(
+            color: Colors.black,
+            size: 18,
+          ),
           title: Text(
             widget.title,
-            style: const TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.w500),
+            style: const TextStyle(
+                fontFamily: 'Gotham',
+                fontWeight: FontWeight.w500,
+                fontSize: 14.0,
+                color: Colors.black),
           ),
         ),
-        body: (getcustomwebview == null ||getcustomwebview?.data.length == null ||
+        body: (getcustomwebview == null ||
+                getcustomwebview?.data.length == null ||
                 getcustomwebview?.data!['cmsPage']['content']! == null)
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(

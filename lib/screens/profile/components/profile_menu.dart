@@ -29,17 +29,22 @@ class ProfileMenu extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: Colors.black,
-              size: 22,
+              color: navTextColor,
+              size: 23,
             ),
             const SizedBox(width: 14),
             Expanded(
                 child: Text(
                   text,
                   style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 13),
+                      fontFamily: 'Gotham',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.0,
+                      color: navTextColor
+                      // color: Colors.black,
+                      // fontWeight: FontWeight.w400,
+                      // fontSize: 13
+                  ),
                 )),
             /*const Icon(
               Icons.arrow_forward_ios,
