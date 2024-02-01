@@ -1257,7 +1257,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           height: 12,
                         ),
 
-                        Padding(
+                        provider.productData[0]['related_products'].length.toString() == "0"?Container() : Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: getProportionateScreenWidth(10)),
                           child: const Text('Related Products',
@@ -1270,7 +1270,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           height: 8,
                         ),
 
-                        SizedBox(
+                        provider.productData[0]['related_products'].length.toString() == "0"?Container():SizedBox(
                           height: 250,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
