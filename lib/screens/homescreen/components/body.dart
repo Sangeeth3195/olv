@@ -1,4 +1,3 @@
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chewie/chewie.dart';
@@ -30,8 +29,8 @@ class _BodyState extends State<Body> {
 
   HomePageModel homePageModel = HomePageModel();
   late VideoPlayerController? videoPlayerController;
-  final bool looping = false;
-  final bool autoplay = false;
+  final bool looping = true;
+  final bool autoplay = true;
 
   final List<String> imageList = [
     "https://www.omaliving.com/media/wysiwyg/image_18_.png",
@@ -47,7 +46,6 @@ class _BodyState extends State<Body> {
 
   int _current = 0;
 
-
   @override
   void initState() {
     super.initState();
@@ -60,7 +58,7 @@ class _BodyState extends State<Body> {
 
     if (homePageModel.typename != null) {
       videoPlayerController = VideoPlayerController.network(
-          homePageModel.getHomePageData![3].link!);
+          'https://omaliving.com/media/wysiwyg/homevideodesk4.MOV');
 
       await videoPlayerController!.initialize();
       _chewieController = ChewieController(
@@ -73,6 +71,8 @@ class _BodyState extends State<Body> {
         allowFullScreen: false,
         fullScreenByDefault: false,
         allowPlaybackSpeedChanging: false,
+        showControls: false,
+        showControlsOnInitialize: false,
         errorBuilder: (context, errorMessage) {
           return Center(
             child: Text(
@@ -111,7 +111,6 @@ class _BodyState extends State<Body> {
                 //       child: const SearchForm()),
                 // ),
 
-
                 GestureDetector(
                   onTap: () {
                     // navigate(context, ProductListing.routeName,
@@ -128,66 +127,72 @@ class _BodyState extends State<Body> {
                         child: ClipRRect(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(0.0)),
-
-                          child:
-                          Column(
-                              children: <Widget>[
-                                CarouselSlider(
-                                  items: [
-                                    for (Sectiondatum item in homePageModel
-                                        .getHomePageData![0].sectiondata!)
-                                      GestureDetector(
-                                        onTap: () {
-                                          final myProvider = Provider.of<MyProvider>(
-                                              context,
+                          child: Column(children: <Widget>[
+                            CarouselSlider(
+                              items: [
+                                for (Sectiondatum item in homePageModel
+                                    .getHomePageData![0].sectiondata!)
+                                  GestureDetector(
+                                    onTap: () {
+                                      final myProvider =
+                                          Provider.of<MyProvider>(context,
                                               listen: false);
-                                          myProvider
-                                              .updateData(int.parse(item.link!));
-                                          context.go('/home/pdp');
-                                        },
-                                        child: Image.network(
-                                          "https://staging2.omaliving.com${item.attachmentmob!}",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )
-                                  ],
-                                  carouselController: buttonCarouselController,
-                                  options: CarouselOptions(
-                                    autoPlay: true,
-                                    enlargeCenterPage: true,
-                                    viewportFraction: 0.9,
-                                    aspectRatio: 2.0,
-                                    initialPage: 0,
-                                    onPageChanged: (index, reason) {
-                                      setState(() {
-                                        _current = index;
-                                      });
+                                      myProvider
+                                          .updateData(int.parse(item.link!));
+                                      context.go('/home/pdp');
                                     },
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: homePageModel
-                                      .getHomePageData![0].sectiondata!.asMap().entries.map((entry) {
-                                    return GestureDetector(
-                                      onTap: () => buttonCarouselController.animateToPage(entry.key),
-                                      child: Container(
-                                        width: 10.0,
-                                        height: 10.0,
-                                        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: (Theme.of(context).brightness == Brightness.dark
+                                    child: Image.network(
+                                      "https://staging2.omaliving.com${item.attachmentmob!}",
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                              ],
+                              carouselController: buttonCarouselController,
+                              options: CarouselOptions(
+                                autoPlay: true,
+                                enlargeCenterPage: true,
+                                viewportFraction: 0.9,
+                                aspectRatio: 2.0,
+                                initialPage: 0,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _current = index;
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: homePageModel
+                                  .getHomePageData![0].sectiondata!
+                                  .asMap()
+                                  .entries
+                                  .map((entry) {
+                                return GestureDetector(
+                                  onTap: () => buttonCarouselController
+                                      .animateToPage(entry.key),
+                                  child: Container(
+                                    width: 10.0,
+                                    height: 10.0,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 4.0),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: (Theme.of(context).brightness ==
+                                                    Brightness.dark
                                                 ? headingColor
                                                 : headingColor)
-                                                .withOpacity(_current == entry.key ? 0.9 : 0.2)),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ]
-                          ),
+                                            .withOpacity(_current == entry.key
+                                                ? 0.9
+                                                : 0.2)),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ]),
                         ),
                       ),
                     ),
@@ -200,28 +205,32 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![1].title!.toUpperCase(),
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: headingTextColor,
-                              fontFamily: 'Gotham',
-                              fontSize: 20,
-                          fontWeight: FontWeight.w500
-                            ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(
+                                color: headingTextColor,
+                                fontFamily: 'Gotham',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
                 ),
-          Center(
+                Center(
                   child: Center(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![1].description!,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              fontSize: 11,
-                            color: describtionTextColor,
-                            fontFamily: 'Gotham',
-                            fontWeight: FontWeight.w400
-                            ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(
+                                fontSize: 11,
+                                color: describtionTextColor,
+                                fontFamily: 'Gotham',
+                                fontWeight: FontWeight.w400),
                       ),
                     ),
                   ),
@@ -233,7 +242,6 @@ class _BodyState extends State<Body> {
                     child: GFItemsCarousel(
                       rowCount: 3,
                       itemHeight: 250.0,
-
                       children:
                           homePageModel.getHomePageData![1].sectiondata!.map(
                         (url) {
@@ -253,19 +261,32 @@ class _BodyState extends State<Body> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(0.0)),
                                     child: Image.network(
-                                        "https://staging2.omaliving.com${url.attachment!}",
-                                        fit: BoxFit.cover,
-                                        width: 1000.0),
-                                  ),
-                                  SizedBox(height: 20,),
-                                  Text(
-                                    url.title??'',
-                                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                        fontSize: 13,
-                                        color: describtionTextColor,
-                                        fontFamily: 'Gotham',
-                                        fontWeight: FontWeight.w400
+                                      "https://staging2.omaliving.com${url.attachment!}",
+                                      fit: BoxFit.cover,
+                                      height: 175,
+                                      width: 1000.0,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Image.asset(
+                                          'assets/omalogo.png',
+                                          height: 175,
+                                        );
+                                      },
                                     ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    url.title ?? '',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                            fontSize: 13,
+                                            color: describtionTextColor,
+                                            fontFamily: 'Gotham',
+                                            fontWeight: FontWeight.w400),
                                   )
                                 ],
                               ),
@@ -273,6 +294,24 @@ class _BodyState extends State<Body> {
                           );
                         },
                       ).toList(),
+                    ),
+                  ),
+                ),
+
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
+                    backgroundColor:
+                        describtionTextColor, // Set the background color
+                  ),
+                  child: const Text(
+                    'SHOP NOW',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Gotham',
                     ),
                   ),
                 ),
@@ -307,17 +346,35 @@ class _BodyState extends State<Body> {
                 //   ),
                 // ),
 
+                _chewieController == null
+                    ? Center(child: Container())
+                    : SizedBox(
+                        height: 300,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AspectRatio(
+                            aspectRatio: 16 / 2,
+                            child: Chewie(
+                              controller: _chewieController!,
+                            ),
+                          ),
+                        ),
+                      ),
                 Center(
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                       child: Text(
                         homePageModel.getHomePageData![3].title!,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: describtionTextColor,
+                          height: 1.5,
+
+                              fontFamily: 'Gotham',
+                              fontSize: 20,
                             ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
@@ -327,7 +384,7 @@ class _BodyState extends State<Body> {
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                   child: GFItemsCarousel(
                     rowCount: 3,
-                    itemHeight: 175.0,
+                    itemHeight: 250.0,
                     children:
                         homePageModel.getHomePageData![3].sectiondata!.map(
                       (url) {
@@ -338,16 +395,39 @@ class _BodyState extends State<Body> {
                             myProvider.updateData(int.parse(url.link!));
                             context.go('/home/pdp');
                           },
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(0.0)),
-                              child: Image.network(
-                                  "https://staging2.omaliving.com${url.attachment!}",
-                                  fit: BoxFit.cover,
-                                  width: 1000.0),
-                            ),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(0.0)),
+                                  child: Image.network(
+                                    "https://staging2.omaliving.com${url.attachment!}",
+                                    fit: BoxFit.cover,
+                                    width: 1000.0,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.asset(
+                                        'assets/omalogo.png',
+                                        height: 175,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                url.title!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: describtionTextColor,
+                                      fontFamily: 'Gotham',
+                                      height: 1.5,
+                                      fontSize: 12,
+                                    ),
+                              )
+                            ],
                           ),
                         );
                       },
@@ -361,10 +441,13 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![4].title!,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: describtionTextColor,
+                              fontFamily: 'Gotham',
+                          height: 1.5,
+
                             ),
                       ),
                     ),
@@ -411,9 +494,11 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![5].title!,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: describtionTextColor,
+                              fontFamily: 'Gotham',
                             ),
                       ),
                     ),
@@ -426,35 +511,113 @@ class _BodyState extends State<Body> {
                   height: 0,
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                    child: ImageSlideshow(
-                      indicatorColor: Colors.transparent,
-                      height: 200.0,
-                      onPageChanged: (value) {},
-                      isLoop: false,
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                //   child: ClipRRect(
+                //     borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                //     child: ImageSlideshow(
+                //       indicatorColor: Colors.transparent,
+                //       height: 200.0,
+                //       onPageChanged: (value) {},
+                //       isLoop: false,
+                //       children: [
+                //         for (Sectiondatum item
+                //             in homePageModel.getHomePageData![5].sectiondata!)
+                //           GestureDetector(
+                //             onTap: () {
+                //               final myProvider = Provider.of<MyProvider>(
+                //                   context,
+                //                   listen: false);
+                //               myProvider.updateData(int.parse(item.link!));
+                //               context.go('/home/pdp');
+                //             },
+                //             child: Column(
+                //               crossAxisAlignment: CrossAxisAlignment.start,
+                //               children: [
+                //                 Image.network(
+                //                   "https://staging2.omaliving.com${item.attachment!}",
+                //                   fit: BoxFit.cover,
+                //                   errorBuilder: (context, error, stackTrace) {
+                //                     return Image.asset(
+                //                       'assets/omalogo.png',
+                //                       height: 175,
+                //                     );
+                //                   },
+                //                 ),
+                //                 Text(
+                //                   item.title!,
+                //                   style: Theme.of(context)
+                //                       .textTheme
+                //                       .subtitle1!
+                //                       .copyWith(
+                //                         fontWeight: FontWeight.w500,
+                //                         color: describtionTextColor,
+                //                         fontFamily: 'Gotham',
+                //                         fontSize: 15,
+                //                       ),
+                //                   textAlign: TextAlign.left,
+                //                 )
+                //               ],
+                //             ),
+                //           ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+            child: GFItemsCarousel(
+              rowCount: 3,
+              itemHeight: 250.0,
+              children:
+              homePageModel.getHomePageData![5].sectiondata!.map(
+                    (url) {
+                  return GestureDetector(
+                    onTap: () {
+                      final myProvider =
+                      Provider.of<MyProvider>(context, listen: false);
+                      myProvider.updateData(int.parse(url.link!));
+                      context.go('/home/pdp');
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        for (Sectiondatum item
-                            in homePageModel.getHomePageData![5].sectiondata!)
-                          GestureDetector(
-                            onTap: () {
-                              final myProvider = Provider.of<MyProvider>(
-                                  context,
-                                  listen: false);
-                              myProvider.updateData(int.parse(item.link!));
-                              context.go('/home/pdp');
-                            },
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                                Radius.circular(0.0)),
                             child: Image.network(
-                              "https://staging2.omaliving.com${item.attachment!}",
+                              "https://staging2.omaliving.com${url.attachment!}",
                               fit: BoxFit.cover,
+                              width: 1000.0,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  'assets/omalogo.png',
+                                  height: 175,
+                                );
+                              },
                             ),
                           ),
+                        ),
+                        Text(
+                          url.title!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(
+                            color: describtionTextColor,
+                            fontFamily: 'Gotham',
+                            fontSize: 12,
+                          ),
+                        )
                       ],
                     ),
-                  ),
-                ),
+                  );
+                },
+              ).toList(),
+            ),
+          ),
 
                 const SizedBox(
                   height: 5,
@@ -504,10 +667,11 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![7].title!,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
                       ),
                     ),
                   ),
@@ -521,7 +685,7 @@ class _BodyState extends State<Body> {
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20.0),
                   child: GFItemsCarousel(
                     rowCount: 2,
-                    itemHeight: 175.0,
+                    itemHeight: 200.0,
                     children:
                         homePageModel.getHomePageData![7].sectiondata!.map(
                       (url) {
@@ -532,78 +696,124 @@ class _BodyState extends State<Body> {
                             myProvider.updateData(int.parse(url.link!));
                             context.go('/home/pdp');
                           },
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(0.0, 0, 8, 0),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(0.0)),
-                              child: Image.network(
-                                  "https://staging2.omaliving.com${url.attachment!}",
-                                  fit: BoxFit.cover,
-                                  width: 1000.0),
-                            ),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(0.0, 0, 8, 0),
+                                child: ClipRRect(
+                                  borderRadius:
+                                      const BorderRadius.all(Radius.circular(0.0)),
+                                  child: Image.network(
+                                      "https://staging2.omaliving.com${url.attachment!}",
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                return Image.asset('assets/omalogo.png',height: 175,);
+                                },
+                                      width: 1000.0),
+                                ),
+                              ),
+                              Text(
+                                url.title!,
+                                style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                                  fontWeight: FontWeight.w500,
+
+                                  color: describtionTextColor,
+                                  fontFamily: 'Gotham',
+                                  fontSize: 12,
+                                ),
+                                textAlign: TextAlign.center,
+                              )
+                            ],
                           ),
                         );
                       },
                     ).toList(),
                   ),
                 ),
-          Column(
-                  children: [
-                    _chewieController == null
-                        ? const Center(child: CircularProgressIndicator())
-                        : SizedBox(
-                            height: 250,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: AspectRatio(
-                                aspectRatio: 16 / 2,
-                                child: Chewie(
-                                  controller: _chewieController!,
-                                ),
-                              ),
-                            ),
-                          ),
+                // Column(
+                //   children: [
+                //     _chewieController == null
+                //         ? const Center(child: CircularProgressIndicator())
+                //         : SizedBox(
+                //             height: 250,
+                //             child: Padding(
+                //               padding: const EdgeInsets.all(8.0),
+                //               child: AspectRatio(
+                //                 aspectRatio: 16 / 2,
+                //                 child: Chewie(
+                //                   controller: _chewieController!,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //     homePageModel.getHomePageData!.length != 10
+                //         ? Container()
+                //         : Center(
+                //             child: Center(
+                //               child: Padding(
+                //                 padding:
+                //                     const EdgeInsets.fromLTRB(10, 15, 10, 5),
+                //                 child: Center(
+                //                   child: Text(
+                //                     homePageModel.getHomePageData![9].title!,
+                //                     textAlign: TextAlign.center,
+                //                     style: Theme.of(context)
+                //                         .textTheme
+                //                         .titleMedium!
+                //                         .copyWith(
+                //                           color: Colors.black,
+                //                           fontWeight: FontWeight.w600,
+                //                         ),
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //     homePageModel.getHomePageData!.length != 10
+                //         ? Container()
+                //         : Center(
+                //             child: Center(
+                //               child: Padding(
+                //                 padding:
+                //                     const EdgeInsets.fromLTRB(15, 10, 15, 15),
+                //                 child: Center(
+                //                   child: Text(
+                //                     homePageModel
+                //                         .getHomePageData![9].description!,
+                //                     textAlign: TextAlign.center,
+                //                     style: Theme.of(context)
+                //                         .textTheme
+                //                         .titleMedium!
+                //                         .copyWith(
+                //                           color: Colors.black,
+                //                           fontWeight: FontWeight.w500,
+                //                         ),
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //   ],
+                // ),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              padding:
+              const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
+              backgroundColor:
+              describtionTextColor, // Set the background color
+            ),
+            child: const Text(
+              'SHOP NOW',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Gotham',
+              ),
+            ),
+          ),
+          SizedBox(height: 20,),
 
-                    homePageModel.getHomePageData!.length !=10?Container(): Center(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 15, 10, 5),
-                          child: Center(
-                            child: Text(
-                              homePageModel.getHomePageData![9].title!,
-                              textAlign: TextAlign.center,
-                              style:
-                                  Theme.of(context).textTheme.titleMedium!.copyWith(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    homePageModel.getHomePageData!.length !=10?Container():Center(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
-                          child: Center(
-                            child: Text(
-                              homePageModel.getHomePageData![9].description!,
-                              textAlign: TextAlign.center,
-                              style:
-                                  Theme.of(context).textTheme.titleMedium!.copyWith(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ])
             : const Center(child: CircularProgressIndicator()));
   }
