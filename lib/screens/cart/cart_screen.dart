@@ -29,7 +29,6 @@ import 'components/body.dart';
   }
 }*/
 
-
 import '../../components/size_config.dart';
 import '../../constants.dart';
 
@@ -70,103 +69,113 @@ class _CartScreenState extends State<CartScreen> {
             cartProvider!.cartModel.cart!.items == null ||
             cartProvider!.cartModel.cart!.items!.isEmpty) {
           return const Center(
-            child: Text('You have no items in your Cart.'),
+            child: Text(
+              'You have no items in your Cart.',
+              style: TextStyle(
+                  fontFamily: 'Gotham',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14.0,
+                  color: Colors.black),
+            ),
           );
         }
         return Scaffold(
-          body: Body(cartModel: provider.cartModel,isFromActionBar: widget.isFromActionBar??false,),
-          bottomNavigationBar: widget.isFromActionBar??false?
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-              width: double.infinity,
-              height: getProportionateScreenHeight(40),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white, shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                  backgroundColor: Colors.white,
-                   side:
-                BorderSide(
-                color: headingColor, // Set the border color here
-                  width: 2.0, // Set the border width here
-                ),
-                ),
-                onPressed: (){
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => const CartScreen(isFromActionBar: false)),
-                  // );
-                  Navigator.of(context).pop();
-                  context.go('/cart');
-                },
-                child: Text(
-                  'VIEW CART',
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(14),
-                    color: headingColor,
-                  ),
-                ),
-              ),
+          body: Body(
+            cartModel: provider.cartModel,
+            isFromActionBar: widget.isFromActionBar ?? false,
           ),
-            ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  child: DefaultButton(
-                    text: "PROCEED TO CHECKOUT",
-                    press: () async {
-                      final myProvider =
-                      Provider.of<MyProvider>(context, listen: false);
-                      myProvider.navBar = true;
-                      myProvider.notifyListeners();
+          bottomNavigationBar: widget.isFromActionBar ?? false
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: getProportionateScreenHeight(40),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(0)),
+                            backgroundColor: Colors.white,
+                            side: const BorderSide(
+                              color: headingColor, // Set the border color here
+                              width: 2.0, // Set the border width here
+                            ),
+                          ),
+                          onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => const CartScreen(isFromActionBar: false)),
+                            // );
+                            Navigator.of(context).pop();
+                            context.go('/cart');
+                          },
+                          child: Text(
+                            'VIEW CART',
+                            style: TextStyle(
+                              fontSize: getProportionateScreenWidth(13),
+                              color: headingColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        child: DefaultButton(
+                          text: "PROCEED TO CHECKOUT",
+                          press: () async {
+                            final myProvider =
+                                Provider.of<MyProvider>(context, listen: false);
+                            myProvider.navBar = true;
+                            myProvider.notifyListeners();
 
-                      /// set payment to cart
-                      cartProvider!.setpaymentoncart();
+                            /// set payment to cart
+                            cartProvider!.setpaymentoncart();
 
-                      SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
 
-                      var token = prefs.getString('token') ?? '';
+                            var token = prefs.getString('token') ?? '';
 
-                      if (token.isEmpty) {
-                        Fluttertoast.showToast(
-                            msg: 'Please login to continue checkout');
+                            if (token.isEmpty) {
+                              Fluttertoast.showToast(
+                                  msg: 'Please login to continue checkout');
 
-                        /*  Navigator.push(
+                              /*  Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const LoginPage()),
                               );*/
-                      } else {
-                        CartProvider cartProvider =
-                        Provider.of<CartProvider>(context,
-                            listen: false);
+                            } else {
+                              CartProvider cartProvider =
+                                  Provider.of<CartProvider>(context,
+                                      listen: false);
 
-                        context.go('/cart/continue');
+                              context.go('/cart/continue');
 
-                        SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                        prefs.setDouble(
-                            'sub_total',
-                            cartProvider!.cartModel.cart!.prices!
-                                .subtotalExcludingTax!.value!);
-                      }
-                    },
-                  ),
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setDouble(
+                                  'sub_total',
+                                  cartProvider!.cartModel.cart!.prices!
+                                      .subtotalExcludingTax!.value!);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : CheckoutCard(
+                  cartModel: provider.cartModel,
+                  cartProvider: cartProvider!,
                 ),
-              ),
-
-            ],
-          ):CheckoutCard(
-            cartModel: provider.cartModel,
-            cartProvider: cartProvider!,
-          ),
         );
       },
     );
@@ -332,7 +341,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           child: SizedBox(
                             height: 13, // <-- Your height
                             child: Text(
-                              'Subtotal',
+                              'Subtotal' ,
                               style: TextStyle(color: Colors.black),
                             ),
                           ),
@@ -344,7 +353,8 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             child: Row(children: [
                               Text(
                                 '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value.toString()}',
-                                style: const TextStyle(color: Colors.black,fontSize: 13),
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 13),
                               ),
                             ]),
                           ),
@@ -362,7 +372,8 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             height: 15, // <-- Your height
                             child: Text(
                               'Standard Shipping',
-                              style: TextStyle(color: Colors.black,fontSize: 13),
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 13),
                             ),
                           ),
                         ),
@@ -373,7 +384,8 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             child: Row(children: [
                               Text(
                                 '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value! > 10000 ? 0 : 500}',
-                                style: const TextStyle(color: Colors.black,fontSize: 13),
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 13),
                               ),
                             ]),
                           ),
@@ -391,7 +403,8 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             height: 15, // <-- Your height
                             child: Text(
                               'Discount',
-                              style: TextStyle(color: Colors.black,fontSize: 13),
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 13),
                             ),
                           ),
                         ),
@@ -402,7 +415,8 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             child: Row(children: [
                               Text(
                                 '- ₹ ${widget.cartModel.cart!.prices!.discounts!.isEmpty ? 0 : widget.cartModel.cart!.prices!.discounts![0].amount!.value}',
-                                style: const TextStyle(color: Colors.black,fontSize: 13),
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 13),
                               ),
                             ]),
                           ),
@@ -428,7 +442,8 @@ class _CheckoutCardState extends State<CheckoutCard> {
                                   'Order Total',
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold,fontSize: 14),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
                                 ),
                               ),
                             ),
@@ -442,7 +457,8 @@ class _CheckoutCardState extends State<CheckoutCard> {
                                     '₹ ${widget.cartModel.cart!.prices!.grandTotal!.value.toString()}',
                                     style: const TextStyle(
                                         color: Colors.black,
-                                        fontWeight: FontWeight.bold,fontSize: 14),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
                                   ),
                                 ]),
                               ),

@@ -64,13 +64,6 @@ class _BodyState extends State<Body> {
                             ).then((value) {
                               getData();
                             });
-
-                            // context.go("/addaddress");
-                            // Navigator.of(context, rootNavigator: true)
-                            //     .pushNamed("/addaddress",
-                            //         arguments:
-                            //             customerModel.customer?.addresses?[index])
-                            //     .then((value) => ({getData()}));
                           },
                           title: Text(
                             customerModel

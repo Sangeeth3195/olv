@@ -58,11 +58,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
     // TODO: implement initState
     super.initState();
     myProvider = Provider.of<MyProvider>(context, listen: false);
-    // if (kDebugMode) {
-    //   print('name --> ' + widget.product['name']);
-    //   print('id --> ${widget.product['id']}');
-    //
-    // }
   }
 
   void getNavdata() async {

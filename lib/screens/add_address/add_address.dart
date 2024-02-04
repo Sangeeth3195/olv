@@ -19,7 +19,10 @@ class AddAddress extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.black, size: 20),
         title: const Text(
           'Add Address',
-          style: TextStyle(color: Colors.black, fontSize: 16),
+          style: TextStyle(fontFamily: 'Gotham',
+              fontWeight: FontWeight.w500,
+              fontSize: 16.0,
+              color: Colors.black),
         ),
       ),
       body: Body(

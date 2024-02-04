@@ -183,7 +183,7 @@ class _BodyState extends State<Body> {
                   child: SizedBox(
                     height: 15, // <-- Your height
                     child: Text(
-                      'Subtotal',
+                      'Subtotal1',
                       style: TextStyle(color: Colors.black),
                     ),
                   ),

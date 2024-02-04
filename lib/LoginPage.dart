@@ -356,7 +356,7 @@ class _SignInState extends State<SignIn> {
                 decoration: InputDecoration(
                     suffixIcon: const Icon(
                       Icons.email_outlined,
-                      color: Colors.grey,
+                      color: Colors.black,
                       size: 18.0,
                     ),
                     contentPadding:
@@ -373,6 +373,7 @@ class _SignInState extends State<SignIn> {
                 'Password',
                 style: TextStyle(
                   color: Colors.black,
+                  fontFamily: "Gotham",
                   fontSize: 13.0,
                 ),
               ),
@@ -429,7 +430,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   const Text(
                     'Remember me',
-                    style: TextStyle(fontSize: 13.0,fontWeight: FontWeight.w600,color: Colors.black54),
+                    style: TextStyle(fontSize: 13.0, fontFamily: "Gotham",fontWeight: FontWeight.w500,color: Colors.black54),
                   ),
                   const Spacer(),
                   GestureDetector(
@@ -446,7 +447,7 @@ class _SignInState extends State<SignIn> {
 
                     child: const Text(
                       'Forgot Password?',
-                      style: TextStyle(fontSize: 13.0,color: headingColor,fontWeight: FontWeight.w600),
+                      style: TextStyle(fontSize: 13.0, fontFamily: "Gotham",color: headingColor,fontWeight: FontWeight.w500),
                     ),
                   )
                 ],
@@ -503,7 +504,14 @@ class _SignInState extends State<SignIn> {
                   child: Text.rich(
                     TextSpan(
                       children: [
-                        const TextSpan(text: 'Don’t have an account? ',style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500)),
+                        const TextSpan(text: 'Don’t have an account? ',
+                            style:
+                        TextStyle(
+
+                          fontFamily: "Gotham",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
+                        )),
                         TextSpan(
                           text: 'Create an Account',
                           recognizer: TapGestureRecognizer()
@@ -515,9 +523,11 @@ class _SignInState extends State<SignIn> {
                               );
                             },
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontFamily: "Gotham",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
                               color: headingColor,
-                              fontSize: 13.0),
+                              ),
                         ),
                       ],
                     ),
@@ -552,8 +562,9 @@ class _SignInState extends State<SignIn> {
                       'Or Sign in with',
                       style: TextStyle(
                         color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13.0,
+                        fontFamily: "Gotham",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
                       ),
                     ),
                   ),
@@ -625,7 +636,7 @@ class _SignInState extends State<SignIn> {
                   Expanded(
                     // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
                     child: SizedBox(
-                      height: 50, // <-- Your height
+                      height: 45, // <-- Your height
                       child: GestureDetector(
                         onTap: () {
                           // _handleSignIn();
@@ -635,7 +646,9 @@ class _SignInState extends State<SignIn> {
                           label: const Text(
                             'Google',
                             style:
-                                TextStyle(fontSize: 15.0, color: Colors.black),
+                                TextStyle( fontFamily: "Gotham",
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,),
                           ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,

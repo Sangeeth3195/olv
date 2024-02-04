@@ -23,15 +23,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Theme(
       data: ThemeData(
           colorScheme:
-          Theme.of(context).colorScheme.copyWith(primary: themecolor)),
+              Theme.of(context).colorScheme.copyWith(primary: themecolor)),
       child: Navigator(
           // key: homeKey,
           initialRoute: '/',
@@ -53,11 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return MaterialPageRoute(builder: builder, settings: settings);
           }),
     );
-
   }
-
-
-
 }
 
 class HomeScreenBody extends StatefulWidget {
@@ -80,6 +74,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
     navHeaderList = await graphQLService.getCategory(limit: 1000);
     setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MyProvider>(
@@ -89,4 +84,3 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
     );
   }
 }
-

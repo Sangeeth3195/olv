@@ -10,11 +10,10 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
-
     return Theme(
       data: ThemeData(
           colorScheme:
-          Theme.of(context).colorScheme.copyWith(primary: colors[2])),
+              Theme.of(context).colorScheme.copyWith(primary: colors[2])),
       child: Navigator(
           // key: profileKey,
           initialRoute: '/',
@@ -22,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
             WidgetBuilder builder;
             switch (settings.name) {
               case '/':
-                builder = (BuildContext _) =>  const Body();
+                builder = (BuildContext _) => const Body();
                 break;
               case ProfileEdit.route:
                 builder = (BuildContext _) => const ProfileEdit();
@@ -35,11 +34,6 @@ class ProfileScreen extends StatelessWidget {
             }
             return MaterialPageRoute(builder: builder, settings: settings);
           }),
-    );
-
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: Body(),
     );
   }
 }

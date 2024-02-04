@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
@@ -30,8 +29,7 @@ class MyProvider extends ChangeNotifier {
   int? bottombar;
   CustomerModel customerModel = CustomerModel();
 
-
-  int wishListNumbers=0;
+  int wishListNumbers = 0;
 
   void updateHeader(String header) {
     title = header;
@@ -54,20 +52,15 @@ class MyProvider extends ChangeNotifier {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('emailid', customerModel.customer?.email ?? '');
-    if(customerModel.customer != null ||
+    if (customerModel.customer != null ||
         customerModel.customer!.wishlist != null ||
-        customerModel.customer!.wishlist!.items != null){
-      wishListNumbers=customerModel.customer!.wishlist!.items!.length;
+        customerModel.customer!.wishlist!.items != null) {
+      wishListNumbers = customerModel.customer!.wishlist!.items!.length;
     }
     notifyListeners();
   }
 
-
-  void updateData(int id,{int limit=8}) async {
-    // dynamic listData = await graphQLService.getproductlist(limit: limit, id: id);
-    // List? res = listData.data?['products']['items'];
-    // aggrecation = listData.data?['products']['aggregations'];
-
+  void updateData(int id, {int limit = 8}) async {
     dynamic dataFromAPi =
         await graphQLService.getproductlist(limit: limit, id: id);
     List? res1 = dataFromAPi.data?['products']['items'];
@@ -83,8 +76,18 @@ class MyProvider extends ChangeNotifier {
     oldItems = itemList.map((postJson) => Item.fromJson(postJson)).toList();
 
     notifyListeners();
+  }
 
-
+  void updatebrandData(int id,int id1, {int limit = 2}) async {
+    dynamic dataFromAPi =
+    await graphQLService.getbrandFilter(limit: limit, id: id,id1: id1);
+    List? res1 = dataFromAPi.data?['products']['items'];
+    _data = res1!;
+    pList = res1;
+    final List<dynamic> itemList = dataFromAPi.data?['products']['items'];
+    items = itemList.map((postJson) => Item.fromJson(postJson)).toList();
+    oldItems = itemList.map((postJson) => Item.fromJson(postJson)).toList();
+    notifyListeners();
   }
 
   void updateSearchData(String id) async {
@@ -93,13 +96,11 @@ class MyProvider extends ChangeNotifier {
     pList = res!;
     aggrecation = listData['products']['aggregations'];
 
-    dynamic dataFromAPi =
-        await graphQLService.productsearch(id);
+    dynamic dataFromAPi = await graphQLService.productsearch(id);
     List? res1 = dataFromAPi['products']['items'];
     _data = res1!;
     aggrecation = dataFromAPi['products']['aggregations'];
-    final List<dynamic> postList =
-        dataFromAPi['products']['aggregations'];
+    final List<dynamic> postList = dataFromAPi['products']['aggregations'];
     aggregationList =
         postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
     final List<dynamic> itemList = dataFromAPi['products']['items'];
@@ -156,7 +157,7 @@ class MyProvider extends ChangeNotifier {
   }
 
   void updateProductDescriptionData(String id) async {
-    productData=null;
+    productData = null;
     productData = await graphQLService.getproductdescription(id: id);
     notifyListeners();
   }

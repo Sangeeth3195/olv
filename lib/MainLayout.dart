@@ -77,8 +77,7 @@ class _MainLayoutState extends State<MainLayout> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token') ?? '';
 
-    prefs =
-    await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance();
     cart_token = prefs.getString('cart_token') ?? '';
   }
 
@@ -147,9 +146,8 @@ class _MainLayoutState extends State<MainLayout> {
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             child: GestureDetector(
               onTap: () async {
-
-               print('object');
-               print(cart_token);
+                print('object');
+                print(cart_token);
 
                 // test = await graphQLService.assign_Customer_To_Guest_Cart(cart_token);
 
@@ -437,7 +435,6 @@ class _MainLayoutState extends State<MainLayout> {
       ),
       body: const NavBarHandler(),
     );
-
   }
 
   List<Widget> _buildScreens() {
@@ -445,7 +442,7 @@ class _MainLayoutState extends State<MainLayout> {
       const HomeScreen(),
       const Discover(), //ProductListing (id: catId)
       const Wishlist(),
-       CartScreen(isFromActionBar: false),
+      CartScreen(isFromActionBar: false),
       const ProfileScreen() //Discover
     ];
   }
@@ -642,7 +639,9 @@ class _NavBarHandlerState extends State<NavBarHandler>
     HomeScreen(),
     Discover(), //ProductListing (id: catId)
     Wishlist(),
-    CartScreen(isFromActionBar: false,),
+    CartScreen(
+      isFromActionBar: false,
+    ),
     ProfileScreen()
   ];
 

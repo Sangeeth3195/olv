@@ -188,7 +188,7 @@ class Item {
     name: json["name"],
     typename: json["__typename"],
     sku: json["sku"],
-    priceRange: PriceRange.fromJson(json["price_range"]),
+    priceRange: json["price_range"]==null ? PriceRange(typename: '', minimumPrice: MinimumPrice(typename: "",regularPrice: RegularPrice(typename: "",currency: "",value: 0))):PriceRange.fromJson(json["price_range"]),
     configurableOptions: json["configurable_options"]==null?[]:List<ConfigurableOption>.from(json["configurable_options"].map((x) => ConfigurableOption.fromJson(x))),
     variants: json["variants"]==null?[]:List<Variant>.from(json["variants"].map((x) => Variant.fromJson(x))),
     getPriceRange: json["getPriceRange"]==null?[]:List<GetPriceRange>.from(json["getPriceRange"].map((x) => GetPriceRange.fromJson(x))),

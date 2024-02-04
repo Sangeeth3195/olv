@@ -47,7 +47,10 @@ class _BodyState extends State<Body> {
                 child:
                     myProvider!.customerModel.customer!.wishlist!.items!.isEmpty
                         ? const Center(
-                            child: Text('You have no items in your wishlist'),
+                            child: Text('You have no items in your wishlist',style: TextStyle(  fontFamily: 'Gotham',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                                color: Colors.black),),
                           )
                         :
                     GridView.extent(

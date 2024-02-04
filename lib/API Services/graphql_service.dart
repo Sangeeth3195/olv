@@ -336,6 +336,113 @@ class GraphQLService {
     }
   }
 
+  Future<List<dynamic>> getbrands() async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                getBrandCollectionData {
+                  brand_id
+                  image
+                  name
+                  position
+                  show_collection
+                  option_id
+                  status
+                  brandtype
+                  showinmenu
+                  url
+                  collectiondata {
+                    collection_id
+                    collection_set_id
+                    collection_set_image
+                    entity_id
+                    image
+                    name
+                    position
+                    option_id
+                    status
+                  }
+                }
+              }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        EasyLoading.dismiss();
+        print('------------ Brand List Response ---------');
+        print(result);
+        List? res = result.data?['getBrandCollectionData'];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+
+        return res;
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  Future<List<dynamic>> get_cat_collection(String name) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                getCollectionSetData(
+                  filter: {
+                    name: {match: "$name" }
+                    }
+                  ) {
+                    collection_set_id
+                    name
+                    status
+                    image
+                    collections {
+                      collection_id
+                      name
+                      status
+                      image
+                      collection_set_image
+                      set_image
+                      position
+                      option_id
+                      brand_name
+                      brand_option_id
+                    }
+                  }
+              }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        EasyLoading.dismiss();
+        print('------------ Brand List Response ---------');
+        print(result);
+        List? res = result.data?['getBrandCollectionData'];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+
+        return res;
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
   Future<dynamic> getproductlist({
     required int limit,
     required int id,
@@ -471,6 +578,268 @@ class GraphQLService {
             """),
           variables: const {
             'limit': 10,
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        EasyLoading.dismiss();
+
+        return result;
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  Future<dynamic> getbrandFilter({
+    required int limit,
+    required int id,
+    required int id1,
+  }) async {
+    try {
+      EasyLoading.show(status: 'loading...');
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                  products(
+                  filter: {
+                    material: {in: [] }
+                    color:{in: []}
+                    brands:{in:["$id"]}
+                    oma_collection:{in:["$id1"]}
+                    oma_subclass: {in: []}
+                    }
+                    sort: {name: ASC}
+                    pageSize:16
+                    ){
+                    items {
+                      id
+                      name
+                      __typename
+                      sku
+                      brands
+                      ... on ConfigurableProduct {
+                          configurable_options {
+                          id
+                          attribute_id
+                          label
+                          position
+                          use_default
+                          attribute_code
+                          values {
+                            value_index
+                            label
+                            swatch_data{
+                              value
+                            }
+                          }
+                          product_id
+                        }
+                      variants {
+                          product {
+                            id
+                            name
+                            sku
+                            attribute_set_id
+                            ... on PhysicalProductInterface {
+                              weight
+                            }
+                            media_gallery {
+                        url
+                        label
+                        position
+                        disabled
+                        ... on ProductVideo {
+                          video_content {
+                            media_type
+                            video_provider
+                            video_url
+                            video_title
+                            video_description
+                            video_metadata
+                          }
+                        }
+                      }
+                            price_range{
+                              minimum_price{
+                                regular_price{
+                                  value
+                                  currency
+                                }
+                              }
+                            }
+                            
+                          }
+                          attributes {
+                            uid
+                            label
+                            code
+                            value_index
+                          }
+                }
+                      }
+                      
+                          textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                       dynamicAttributes(fields:["brands"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
+                      url_key
+                      small_image{
+                          url
+                          label
+                      }
+                    }
+                    total_count
+                    page_info {
+                      page_size
+                    }
+                  }
+                }
+            """),
+          variables: const {
+            'limit': 2,
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        EasyLoading.dismiss();
+
+        return result;
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  Future<dynamic> get_category_collection_filter({
+    required int limit,
+    required int id,
+    required int id1,
+  }) async {
+    try {
+      EasyLoading.show(status: 'loading...');
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                  products(
+                  filter: {
+                    material: {in: [] }
+                    color:{in: []}
+                    brands:{in:["$id"]}
+                    oma_collection:{in:["$id1"]}
+                    oma_subclass: {in: []}
+                    }
+                    sort: {name: ASC}
+                    pageSize:16
+                    ){
+                    items {
+                      id
+                      name
+                      __typename
+                      sku
+                      brands
+                      ... on ConfigurableProduct {
+                          configurable_options {
+                          id
+                          attribute_id
+                          label
+                          position
+                          use_default
+                          attribute_code
+                          values {
+                            value_index
+                            label
+                            swatch_data{
+                              value
+                            }
+                          }
+                          product_id
+                        }
+                      variants {
+                          product {
+                            id
+                            name
+                            sku
+                            attribute_set_id
+                            ... on PhysicalProductInterface {
+                              weight
+                            }
+                            media_gallery {
+                        url
+                        label
+                        position
+                        disabled
+                        ... on ProductVideo {
+                          video_content {
+                            media_type
+                            video_provider
+                            video_url
+                            video_title
+                            video_description
+                            video_metadata
+                          }
+                        }
+                      }
+                            price_range{
+                              minimum_price{
+                                regular_price{
+                                  value
+                                  currency
+                                }
+                              }
+                            }
+                            
+                          }
+                          attributes {
+                            uid
+                            label
+                            code
+                            value_index
+                          }
+                }
+                      }
+                      
+                          textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                       dynamicAttributes(fields:["brands"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
+                      url_key
+                      small_image{
+                          url
+                          label
+                      }
+                    }
+                    total_count
+                    page_info {
+                      page_size
+                    }
+                  }
+                }
+            """),
+          variables: const {
+            'limit': 2,
           },
         ),
       );
@@ -3254,8 +3623,7 @@ class GraphQLService {
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
-          document:
-              gql(St_billing_Address_to_cart(cartToken, address)), // this
+          document: gql(St_billing_Address_to_cart(cartToken, address)), // this
         ),
       );
 

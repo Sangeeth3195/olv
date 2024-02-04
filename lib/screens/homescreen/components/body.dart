@@ -1,4 +1,3 @@
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
@@ -158,11 +157,12 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![1].title!,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
                       ),
                     ),
                   ),
@@ -239,11 +239,12 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![3].title!,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
                       ),
                     ),
                   ),
@@ -287,11 +288,12 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![4].title!,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
                       ),
                     ),
                   ),
@@ -337,10 +339,11 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![5].title!,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
                       ),
                     ),
                   ),
@@ -430,10 +433,11 @@ class _BodyState extends State<Body> {
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![7].title!,
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
                       ),
                     ),
                   ),
@@ -474,7 +478,7 @@ class _BodyState extends State<Body> {
                     ).toList(),
                   ),
                 ),
-          Column(
+                Column(
                   children: [
                     _chewieController == null
                         ? const Center(child: CircularProgressIndicator())
@@ -490,48 +494,58 @@ class _BodyState extends State<Body> {
                               ),
                             ),
                           ),
-
-                    homePageModel.getHomePageData!.length !=10?Container(): Center(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 15, 10, 5),
-                          child: Center(
-                            child: Text(
-                              homePageModel.getHomePageData![9].title!,
-                              textAlign: TextAlign.center,
-                              style:
-                                  Theme.of(context).textTheme.titleMedium!.copyWith(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                    homePageModel.getHomePageData!.length != 10
+                        ? Container()
+                        : Center(
+                            child: Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 15, 10, 5),
+                                child: Center(
+                                  child: Text(
+                                    homePageModel.getHomePageData![9].title!,
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-
-                    homePageModel.getHomePageData!.length !=10?Container():Center(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
-                          child: Center(
-                            child: Text(
-                              homePageModel.getHomePageData![9].description!,
-                              textAlign: TextAlign.center,
-                              style:
-                                  Theme.of(context).textTheme.titleMedium!.copyWith(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                    homePageModel.getHomePageData!.length != 10
+                        ? Container()
+                        : Center(
+                            child: Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(15, 10, 15, 15),
+                                child: Center(
+                                  child: Text(
+                                    homePageModel
+                                        .getHomePageData![9].description!,
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ])
-            : const Center(child: CircularProgressIndicator()));
+            : const Center(child: CircularProgressIndicator())
+    );
   }
 
   Widget get header {

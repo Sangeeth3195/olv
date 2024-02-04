@@ -9,7 +9,8 @@ import 'cart_card.dart';
 class Body extends StatefulWidget {
   final CartModel cartModel;
   final bool isFromActionBar;
-  const Body( {super.key, required this.cartModel, required this.isFromActionBar});
+  const Body(
+      {super.key, required this.cartModel, required this.isFromActionBar});
 
   @override
   _BodyState createState() => _BodyState();
@@ -28,57 +29,68 @@ class _BodyState extends State<Body> {
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: widget.cartModel.cart!.items!.length,
-                  itemBuilder: (context, index) =>  Padding(
+                  itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: InkWell(
-                        onTap: (){
-                          context.go('/cart/pdp',extra: widget.cartModel.cart!.items![index].product!.sku.toString());
+                        onTap: () {
+                          context.go('/cart/pdp',
+                              extra: widget
+                                  .cartModel.cart!.items![index].product!.sku
+                                  .toString());
                         },
-                        child: CartCard(item: widget.cartModel.cart!.items![index],isFromActionBar: widget.isFromActionBar,)),
+                        child: CartCard(
+                          item: widget.cartModel.cart!.items![index],
+                          isFromActionBar: widget.isFromActionBar,
+                        )),
                   ),
                 ),
               )),
-          widget.isFromActionBar?Column(
-            children: [
-              Divider(),
-              // SizedBox(height: 5,),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    const Expanded(
-                      // Place `Expanded` inside `Row`
-                      child: Text(
-                        'Subtotal',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: headingColor,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 22, // <-- Your height
-                      child: Padding(
-                        padding:  EdgeInsets.only(left: 10, right: 10),
-                        child: Row(children: [
-                          Text(
-                              '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value.toString()}',
+          widget.isFromActionBar
+              ? Column(
+                  children: [
+                    const Divider(),
+                    // SizedBox(height: 5,),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          const Expanded(
+                            // Place `Expanded` inside `Row`
+                            child: Text(
+                              'SUBTOTAL :',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'Gotham',
                                 color: headingColor,
-                              )                        ),
-                        ]),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 22, // <-- Your height
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: Row(children: [
+                                Text(
+                                    '₹ ${widget.cartModel.cart!.prices!.subtotalExcludingTax!.value.toString()}',
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Gotham',
+                                      color: headingColor,
+                                    )),
+                              ]),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
-                ),
-              ),
-            ],
-          ):Container(),
+                )
+              : Container(),
           const SizedBox(
             height: 5,
           ),

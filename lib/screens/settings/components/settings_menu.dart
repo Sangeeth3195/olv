@@ -41,9 +41,6 @@ class SettingsMenu extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   fontSize: 13.0,
                   color: navTextColor
-                  // color: Colors.black,
-                  // fontWeight: FontWeight.w400,
-                  // fontSize: 12
               ),
             )),
             /*const Icon(

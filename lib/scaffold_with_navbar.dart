@@ -25,6 +25,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
     with SingleTickerProviderStateMixin {
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> navHeaderList = [];
+  List<dynamic> getbrandslist = [];
   late DateTime currentBackPressTime;
 
   int catId = 10071;
@@ -55,8 +56,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
 
   void getNavdata() async {
     navHeaderList = await graphQLService.getCategory(limit: 100);
+    getbrandslist = await graphQLService.getbrands();
     setState(() {});
-    print(navHeaderList.length);
+    print('getbrandslistlength');
+    print(getbrandslist.length);
+    print(getbrandslist[0]['name']);
   }
 
   Future<String> getuserdata() async {
@@ -71,7 +75,10 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       onTap: () {
         context.pop();
       },
-      child: const Icon(Icons.arrow_back),
+      child: const Icon(
+        Icons.arrow_back,
+        size: 20,
+      ),
     );
   }
 
@@ -124,53 +131,57 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
             ),
             label == 'cart'
                 ? Consumer<CartProvider>(builder: (context, cartProd, _) {
-                    return cartProd.cartNumbers==0?Container():Positioned(
-                      right: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 16,
-                          minHeight: 16,
-                        ),
-                        child: Text(
-                          cartProd.cartNumbers.toString(),
-                          // You can replace this with the actual badge count
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    );
+                    return cartProd.cartNumbers == 0
+                        ? Container()
+                        : Positioned(
+                            right: 0,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: Text(
+                                cartProd.cartNumbers.toString(),
+                                // You can replace this with the actual badge count
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
                   })
                 : label == 'WishList'
                     ? Positioned(
                         right: 0,
-                        child: provider.wishListNumbers==0?Container():Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          constraints: const BoxConstraints(
-                            minWidth: 16,
-                            minHeight: 16,
-                          ),
-                          child: Text(
-                            provider.wishListNumbers.toString(),
-                            // You can replace this with the actual badge count
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                        child: provider.wishListNumbers == 0
+                            ? Container()
+                            : Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 16,
+                                  minHeight: 16,
+                                ),
+                                child: Text(
+                                  provider.wishListNumbers.toString(),
+                                  // You can replace this with the actual badge count
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                       )
                     : Container()
           ],
@@ -200,20 +211,26 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       key: _key,
       // Assign the key to Scaffold.
       endDrawer: Drawer(
+        clipBehavior: Clip.none,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(0), bottomRight: Radius.circular(0)),
+        ),
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 80,
+              height: 0,
               child: DrawerHeader(
-                  padding: EdgeInsets.zero,
-                  child: ListTile(
+                child: Container(),
+
+                /*ListTile(
                     contentPadding: EdgeInsets.zero,
-                   /* leading: IconButton(
+                   */ /* leading: IconButton(
                       icon: const Icon(Icons.arrow_back_ios),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                    ),*/
+                    ),*/ /*
                     title: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -224,18 +241,19 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                       ],
                     ),
                     onTap: () {},
-                  )
-
+                  )*/
               ),
             ),
-            Expanded(child: CartScreen(isFromActionBar: true,)),
+            const Expanded(
+                child: CartScreen(
+              isFromActionBar: true,
+            )),
             //const Expanded(child: CartContent())
-
           ],
         ),
       ),
 
-    /*  Drawer(
+      /*  Drawer(
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
@@ -315,7 +333,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       ),*/
 
       appBar: AppBar(
-        leading: _showLeading(context) ? _leadButton(context) :          null /*Row(
+        leading: _showLeading(context) ? _leadButton(context) : null,
+        /*Row(
           children: [
 
             SizedBox(width: 20,),
@@ -330,14 +349,15 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             ),
           ],
-        )*/,
+        )*/
+
         elevation: 0,
         iconTheme: const IconThemeData(color: chipColor),
         backgroundColor: Colors.white,
         centerTitle: true,
         title: GestureDetector(
-          onTap: (){
-            if(GoRouter.of(context).location != "/home"){
+          onTap: () {
+            if (GoRouter.of(context).location != "/home") {
               context.go("/home");
             }
           },
@@ -349,12 +369,14 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
         actions: [
           Center(
             child: GestureDetector(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: const Icon(Icons.search, size: 25,),
+              child: const Padding(
+                padding: EdgeInsets.only(right: 12.0),
+                child: Icon(
+                  Icons.search,
+                  size: 25,
+                ),
               ),
-              onTap: () => _key.currentState?.openEndDrawer(),
-              // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              onTap: () {},
             ),
           ),
           Center(
@@ -362,9 +384,12 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               builder: (context) => Padding(
                 padding: const EdgeInsets.only(right: 12.0),
                 child: GestureDetector(
-                  child: Image.asset('assets/images/shopping_bag.png',width: 28,height: 22,),
+                  child: Image.asset(
+                    'assets/images/shopping_bag.png',
+                    width: 28,
+                    height: 22,
+                  ),
                   onTap: () => Scaffold.of(context).openEndDrawer(),
-                  // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                 ),
               ),
             ),
@@ -374,21 +399,12 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
             child: Center(
               child: GestureDetector(
                 onTap: () async {
-                  // print('object');
-                  // print(cart_token);
-
-                  // test = await graphQLService.assign_Customer_To_Guest_Cart("Xc357qa7yfvOEhyw8S1P7QkYyAQ3CIdP");
-
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const LoginPage()),
-                  // );
-
                   await getuserdata();
                   if (token.isEmpty) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
                     );
                   } else {
                     setState(() {
@@ -397,43 +413,21 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     _onTap(4);
                   }
                 },
-                child: Image.asset('assets/images/user.png',width: 28,height: 22,),
-
+                child: Image.asset(
+                  'assets/images/user.png',
+                  width: 28,
+                  height: 22,
+                ),
               ),
             ),
           ),
-
-          /*  IconButton(
-            icon: const Icon(
-              Icons.notifications,
-              color: Colors.black54,
-              size: 20,
-            ),
-            onPressed: () {
-              */ /*getNavdata();*/ /*
-            },
-          ),*/
-
           const SizedBox(
             width: 0,
           ),
-          // IconButton(
-          //   icon: const FaIcon(
-          //     Icons.shopping_bag_sharp,
-          //     size: 28,
-          //     color: headingColor,
-          //   ),
-          //   onPressed: () {
-          //     CartProvider cartProvider =
-          //         Provider.of<CartProvider>(context, listen: false);
-          //     cartProvider.getCartData();
-          //   },
-          // ),
         ],
       ),
       body: widget.navigationShell,
       drawer: Drawer(
-
         backgroundColor: navBackground,
         width:
             MediaQuery.of(context).size.width, // 75% of screen will be occupied
@@ -463,11 +457,17 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               actions: [
                 Center(
                   child: GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
-                      child: const Icon(Icons.search, size: 25,),
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 12.0),
+                      child: Icon(
+                        Icons.search,
+                        size: 25,
+                      ),
                     ),
-                    onTap: () => _key.currentState?.openEndDrawer(),
+
+                    onTap: () {},
+
+                    // onTap: () => _key.currentState?.openEndDrawer(),
                     // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                   ),
                 ),
@@ -476,7 +476,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     builder: (context) => Padding(
                       padding: const EdgeInsets.only(right: 12.0),
                       child: GestureDetector(
-                        child: Image.asset('assets/images/shopping_bag.png',width: 28,height: 22,),
+                        child: Image.asset(
+                          'assets/images/shopping_bag.png',
+                          width: 28,
+                          height: 22,
+                        ),
                         onTap: () => Scaffold.of(context).openEndDrawer(),
                         // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                       ),
@@ -502,7 +506,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                         if (token.isEmpty) {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const LoginPage()),
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
                           );
                         } else {
                           setState(() {
@@ -511,69 +516,14 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                           _onTap(4);
                         }
                       },
-                      child: Image.asset('assets/images/user.png',width: 28,height: 22,),
-
+                      child: Image.asset(
+                        'assets/images/user.png',
+                        width: 28,
+                        height: 22,
+                      ),
                     ),
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                //   child: GestureDetector(
-                //     onTap: () async {
-                //       await getuserdata();
-                //       if (token.isEmpty) {
-                //         Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //               builder: (context) => const LoginPage()),
-                //         );
-                //       } else {
-                //         setState(() {
-                //           _selectedIndex = 4;
-                //         });
-                //         _onTap(4);
-                //       }
-                //       // Navigator.push(
-                //       //   context,
-                //       //   MaterialPageRoute(
-                //       //       builder: (context) => const LoginPage()),
-                //       // );
-                //     },
-                //     child: const CircleAvatar(
-                //       backgroundColor: Colors.black,
-                //       radius: 12,
-                //       child: CircleAvatar(
-                //         radius: 25,
-                //         backgroundImage: AssetImage('assets/images/photo.jpg'),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                //
-                // IconButton(
-                //   icon: const Icon(
-                //     Icons.notifications,
-                //     color: Colors.black54,
-                //     size: 20,
-                //   ),
-                //   onPressed: () {
-                //     getNavdata();
-                //     Navigator.of(context).pop();
-                //     // Navigator.pushNamed(context, Settings.routeName);
-                //   },
-                // ),
-                // const SizedBox(
-                //   width: 12,
-                // ),
-
-                /*IconButton(
-                  icon: const FaIcon(
-                    Icons.shopping_bag_sharp,
-                    size: 28,
-                    color: headingColor,
-                  ),
-                  onPressed: () {},
-                ),*/
               ],
             ),
             ListView.separated(
@@ -584,7 +534,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                   color: navHeaderList[index]['include_in_menu'] != 1
                       ? Colors.transparent
                       : textColor,
-                  thickness: 0.3,
+                  thickness: 0.0,
                 );
               },
               itemCount: navHeaderList.length,
@@ -614,7 +564,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                   .updateHeader(navHeaderList[index]['name']);
                               myProvider.isproduct = true;
                               myProvider.notifyListeners();
-                              context.go('/home/pdp',extra: navHeaderList[index]);
+                              context.go('/home/pdp',
+                                  extra: navHeaderList[index]);
                             },
                             child: Text(
                               navHeaderList[index]['name'],
@@ -623,12 +574,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                   fontWeight: FontWeight.w500,
                                   fontSize: 13.0,
                                   color: navTextColor
-
-                                  // color: navTextColor,
-                                  // fontSize: 12,
-                                  // fontWeight: FontWeight.w800,
-                                  // fontStyle: FontStyle.normal
-                              ),
+                                  ),
                             ),
                           ),
                           children: <Widget>[
@@ -730,7 +676,10 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                         .toString());
                                                 myProvider.isproduct = true;
                                                 myProvider.notifyListeners();
-                                                context.go('/home/pdp',extra: navHeaderList[index]['children'][itemIndex]);
+                                                context.go('/home/pdp',
+                                                    extra: navHeaderList[index]
+                                                            ['children']
+                                                        [itemIndex]);
                                               },
                                               title: Text(
                                                 navHeaderList[index]['children']
@@ -760,11 +709,62 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 );
               },
             ),
+
+
+            ExpansionTile(
+              title: GestureDetector(
+                onTap: () {},
+                child: const Text(
+                  'BRANDS',
+                  style: TextStyle(
+                      fontFamily: 'Gotham',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13.0,
+                      color: navTextColor),
+                ),
+              ),
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: getbrandslist.length,
+                    itemBuilder:
+                        (BuildContext context, int itemIndex) {
+                      return ExpansionTile(
+                        trailing: const SizedBox(),
+                        title: GestureDetector(
+                          onTap: () {
+                            print(getbrandslist[itemIndex]);
+                            Navigator.of(context).pop();
+                            context.go('/home/product_listing_brand',
+                                extra: getbrandslist[itemIndex]);
+                          },
+                          child: Text(
+                            getbrandslist[itemIndex]['name'].toString(),
+                            style: const TextStyle(
+                                color: navTextColor,
+                                fontSize: 13,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.normal),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
     );
-  } /*  bottomNavigationBar: Container(
+  }
+
+  /*  bottomNavigationBar: Container(
         height: 65,
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: ClipRRect(
@@ -939,10 +939,10 @@ class CartContentItem extends StatelessWidget {
         children: <Widget>[
           Expanded(
               child: TextField(
-                  controller: _quantityController,
-                  decoration: const InputDecoration(labelText: 'Quantity'),
-                  keyboardType: TextInputType.number,
-              )),
+            controller: _quantityController,
+            decoration: const InputDecoration(labelText: 'Quantity'),
+            keyboardType: TextInputType.number,
+          )),
           Expanded(
               child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
@@ -966,16 +966,13 @@ class CartContentItem extends StatelessWidget {
               Expanded(flex: 3, child: descriptionWidget),
               IconButton(
                 icon: const Icon(Icons.clear),
-                onPressed: (){
-
-                },
+                onPressed: () {},
               )
             ],
           ),
         ));
   }
 }
-
 
 class CartItemState {
   final String id;

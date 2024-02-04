@@ -77,8 +77,11 @@ class _BodyState extends State<Body> {
                   //TODO: take from profile info
                   provider.customerModel.customer?.email ?? '',
                   style: const TextStyle(
-                      color: Colors.black,
-                      fontFamily: "Gotham",fontWeight: FontWeight.w500, fontSize: 14,),
+                    color: Colors.black,
+                    fontFamily: "Gotham",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -124,8 +127,8 @@ class _BodyState extends State<Body> {
                 press: () {
                   context.go('/profile/wishlist');
 
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed("/address");
+                  /* Navigator.of(context, rootNavigator: true)
+                      .pushNamed("/address");*/
                 },
               ),
               const Padding(
@@ -141,8 +144,8 @@ class _BodyState extends State<Body> {
                 press: () {
                   context.go('/profile/address');
 
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed("/address");
+                  /* Navigator.of(context, rootNavigator: true)
+                      .pushNamed("/address");*/
                 },
               ),
               const Padding(
@@ -172,8 +175,8 @@ class _BodyState extends State<Body> {
                 press: () {
                   context.go('/profile/resetpassword');
 
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed("/resetpassword");
+                  /* Navigator.of(context, rootNavigator: true)
+                      .pushNamed("/resetpassword");*/
                 },
               ),
               const Padding(
@@ -189,8 +192,8 @@ class _BodyState extends State<Body> {
                 press: () {
                   context.go('/profile/news');
 
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed("/newsletter");
+                  /* Navigator.of(context, rootNavigator: true)
+                      .pushNamed("/newsletter");*/
                 },
               ),
               const Padding(
@@ -206,8 +209,8 @@ class _BodyState extends State<Body> {
                 press: () {
                   context.go('/profile/settings');
 
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed("/settings");
+                  /*Navigator.of(context, rootNavigator: true)
+                      .pushNamed("/settings");*/
                 },
               ),
             ],

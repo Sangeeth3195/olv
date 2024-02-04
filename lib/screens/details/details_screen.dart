@@ -15,51 +15,35 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-    GraphQLService graphQLService=GraphQLService();
+  GraphQLService graphQLService = GraphQLService();
 
-   MyProvider? myProvider;
+  MyProvider? myProvider;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-     myProvider = Provider.of<MyProvider>(context, listen: false);
-
+    myProvider = Provider.of<MyProvider>(context, listen: false);
     getNavdata();
   }
+
   void getNavdata() async {
-
-
-    print(widget.product);
-
-    print('sku ->${widget.product}');
-
     myProvider!.updateProductDescriptionData(widget.product);
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MyProvider>(
-        builder: (context,provider,_){
-          if(provider.productData != null){
-            print(provider.productData);
-
-            return Container(
-              child:
-
-
-              ProductDescription(
-                product: provider.productData[0]['sku'],
-                pressOnSeeMore: () {},
-              )
-            );
-
-          }else{
-           return Container();
-          }
-
-        },
+      builder: (context, provider, _) {
+        if (provider.productData != null) {
+          return ProductDescription(
+            product: provider.productData[0]['sku'],
+            pressOnSeeMore: () {},
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 }

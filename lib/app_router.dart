@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/scaffold_with_navbar.dart';
+import 'package:omaliving/screens/Product_list_brand/Product_Listing_Brand.dart';
 import 'package:omaliving/screens/account/Account.dart';
 import 'package:omaliving/screens/address/address.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
@@ -47,23 +48,31 @@ final router = GoRouter(
                   path: 'pdp',
                   builder: (context, state) {
                     print(state.extra!);
-                    return  ProductListing(
-                      data: state.extra! as Map<String,dynamic>,
+                    return ProductListing(
+                      data: state.extra! as Map<String, dynamic>,
                     );
                   },
                 ),
                 GoRoute(
                   path: 'catDetails',
                   builder: (context, state) {
-                    return  CategoryDetails(
-                      data: state.extra! as Map<String,dynamic>,
+                    return CategoryDetails(
+                      data: state.extra! as Map<String, dynamic>,
                     );
                   },
                 ),
                 GoRoute(
                   path: 'cartScreen',
                   builder: (context, state) {
-                    return  CartScreen(isFromActionBar: false);
+                    return const CartScreen(isFromActionBar: false);
+                  },
+                ),
+                GoRoute(
+                  path: 'product_listing_brand',
+                  builder: (context, state) {
+                    return Product_Listing_Brand(
+                      data: state.extra! as Map<String, dynamic>,
+                    );
                   },
                 )
               ],
@@ -95,13 +104,12 @@ final router = GoRouter(
               GoRoute(
                 path: 'pdp',
                 builder: (context, state) {
-
                   // Map<String, String> args =
                   // state.extra as Map<String, String>;
 
                   print(state.extra);
-                  return  DetailsScreen(
-                    product : state.extra.toString(),
+                  return DetailsScreen(
+                    product: state.extra.toString(),
                   );
                 },
               )
@@ -115,7 +123,9 @@ final router = GoRouter(
           GoRoute(
               path: '/cart',
               builder: (context, state) {
-                return CartScreen(isFromActionBar: false,);
+                return CartScreen(
+                  isFromActionBar: false,
+                );
               },
               routes: <RouteBase>[
                 GoRoute(
@@ -128,17 +138,15 @@ final router = GoRouter(
                 GoRoute(
                   path: 'pdp',
                   builder: (context, state) {
-
                     // Map<String, String> args =
                     // state.extra as Map<String, String>;
 
                     print(state.extra);
-                    return  DetailsScreen(
-                      product : state.extra.toString(),
+                    return DetailsScreen(
+                      product: state.extra.toString(),
                     );
                   },
                 )
-
               ]),
         ]),
 
@@ -266,13 +274,11 @@ final router = GoRouter(
         return const Account();
       },
     ),
-
     GoRoute(
       path: '/login',
       builder: (BuildContext context, GoRouterState state) {
         return const LoginPage();
       },
     ),
-
   ],
 );
