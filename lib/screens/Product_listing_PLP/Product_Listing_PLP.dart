@@ -9,7 +9,6 @@ import 'package:omaliving/models/Product.dart';
 import 'package:omaliving/screens/details/details_screen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
-import 'components/product_card.dart';
 
 class Product_Listing_PLP extends StatefulWidget {
   const Product_Listing_PLP({

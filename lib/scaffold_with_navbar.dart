@@ -58,9 +58,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
     navHeaderList = await graphQLService.getCategory(limit: 100);
     getbrandslist = await graphQLService.getbrands();
     setState(() {});
-    print('getbrandslistlength');
-    print(getbrandslist.length);
-    print(getbrandslist[0]['name']);
   }
 
   Future<String> getuserdata() async {
@@ -657,29 +654,84 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                 horizontal: 20, vertical: 0),
                                             child: ListTile(
                                               onTap: () {
-                                                Navigator.of(context).pop();
-                                                catId = navHeaderList[index]
-                                                            ['children']
-                                                        [itemIndex]['children']
-                                                    [subitemIndex]['id'];
-                                                final myProvider =
-                                                    Provider.of<MyProvider>(
-                                                        context,
-                                                        listen: false);
-                                                // myProvider.updateData(catId);
-                                                myProvider.updateHeader(
-                                                    navHeaderList[index][
-                                                                        'children']
-                                                                    [itemIndex]
-                                                                ['children'][
-                                                            subitemIndex]['name']
-                                                        .toString());
-                                                myProvider.isproduct = true;
-                                                myProvider.notifyListeners();
-                                                context.go('/home/pdp',
-                                                    extra: navHeaderList[index]
-                                                            ['children']
-                                                        [itemIndex]);
+
+                                                if(navHeaderList[index]
+                                                ['children']
+                                                [itemIndex]['children']
+                                                [subitemIndex]['show_collection'] == 1){
+
+                                                  print('test_entry');
+
+                                                  print(navHeaderList[index]
+                                                  ['children']
+                                                  [itemIndex]['children']
+                                                  [subitemIndex]['show_collection']);
+
+                                                  print(navHeaderList[index]
+                                                  ['children']
+                                                  [itemIndex]['children']
+                                                  [subitemIndex]['name']);
+
+                                                  Navigator.of(context).pop();
+                                                  catId = navHeaderList[index]
+                                                  ['children']
+                                                  [itemIndex]['children']
+                                                  [subitemIndex]['id'];
+                                                  final myProvider =
+                                                  Provider.of<MyProvider>(
+                                                      context,
+                                                      listen: false);
+                                                  // myProvider.updateData(catId);
+                                                  myProvider.updateHeader(
+                                                      navHeaderList[index][
+                                                      'children']
+                                                      [itemIndex]
+                                                      ['children'][
+                                                      subitemIndex]['name']
+                                                          .toString());
+                                                  myProvider.isproduct = true;
+                                                  myProvider.notifyListeners();
+
+                                                  context.go('/home/cat_listing_filter',
+                                                      extra: navHeaderList[index]
+                                                      ['children']
+                                                      [itemIndex]);
+
+                                                }else {
+
+                                                  print(navHeaderList[index]
+                                                  ['children']
+                                                  [itemIndex]['children']
+                                                  [subitemIndex]['name']);
+
+                                                  Navigator.of(context).pop();
+                                                  catId = navHeaderList[index]
+                                                  ['children']
+                                                  [itemIndex]['children']
+                                                  [subitemIndex]['id'];
+                                                  final myProvider =
+                                                  Provider.of<MyProvider>(
+                                                      context,
+                                                      listen: false);
+                                                  // myProvider.updateData(catId);
+                                                  myProvider.updateHeader(
+                                                      navHeaderList[index][
+                                                      'children']
+                                                      [itemIndex]
+                                                      ['children'][
+                                                      subitemIndex]['name']
+                                                          .toString());
+                                                  myProvider.isproduct = true;
+                                                  myProvider.notifyListeners();
+                                                  context.go('/home/pdp',
+                                                      extra: navHeaderList[index]
+                                                      ['children']
+                                                      [itemIndex]);
+                                                }
+
+
+
+
                                               },
                                               title: Text(
                                                 navHeaderList[index]['children']

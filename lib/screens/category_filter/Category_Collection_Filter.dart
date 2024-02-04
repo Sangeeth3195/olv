@@ -1,20 +1,21 @@
-
 import 'package:flutter/material.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
+import 'package:omaliving/models/CollectionModel.dart';
 import 'package:omaliving/models/Product.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
-import '../Product_listing_PLP/Product_Listing_PLP.dart';
 
 class Category_Collection_Filter extends StatefulWidget {
   final Map<String, dynamic> data;
 
-  const Category_Collection_Filter({Key? key, required this.data}) : super(key: key);
+  const Category_Collection_Filter({Key? key, required this.data})
+      : super(key: key);
   static const String routeName = "/home_screen";
 
   @override
-  State<Category_Collection_Filter> createState() => _HomeScreenState(this.data);
+  State<Category_Collection_Filter> createState() =>
+      _HomeScreenState(this.data);
 }
 
 class _HomeScreenState extends State<Category_Collection_Filter> {
@@ -22,11 +23,13 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
   _HomeScreenState(this.data);
   GraphQLService graphQLService = GraphQLService();
   final GlobalKey<ScaffoldState> _childDrawerKey = GlobalKey();
+  Collectionmodel collectionmdl = Collectionmodel(data: null);
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getNavdata();
   }
 
   @override
@@ -36,10 +39,13 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
   }
 
   void getNavdata() async {
-    print(data.length);
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateData(widget.data['id'],
-        limit: widget.data['product_count']);
+    collectionmdl =
+        await graphQLService.get_cat_collection('DINNERWARE COLLECTION');
+
+    print('dinnerware');
+
+    print(collectionmdl.data);
+
   }
 
   @override
@@ -65,7 +71,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                   ),
                   Center(
                     child: Text(
-                      data['name'] ?? '',
+                      widget.data['children'][0]['name'] ?? '',
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -78,7 +84,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                   const SizedBox(
                     height: 10,
                   ),
-                  GridView.extent(
+                 /* GridView.extent(
                     primary: false,
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(2),
@@ -86,7 +92,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                     maxCrossAxisExtent: 300,
                     cacheExtent: 10,
                     children: List.generate(
-                      data['collectiondata'].length,
+                      collectionmdl.data!.getCollectionSetData!.length,
                       (index) => Padding(
                         padding: const EdgeInsets.all(3),
                         child: Column(
@@ -98,7 +104,10 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                                   const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0),
                               child: GestureDetector(
                                 onTap: () {
-                                  print(data['collectiondata'][index]['name']);
+
+
+
+                                  *//* print(data['collectiondata'][index]['name']);
                                   print(data['collectiondata'][index]
                                       ['option_id']);
                                   print(data['option_id']);
@@ -112,7 +121,8 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                                                 id: data['option_id'],
                                                 id1: data['collectiondata']
                                                     [index]['option_id']),
-                                      ));
+                                      ));*//*
+
                                 },
                                 child: Container(
                                   width: double.infinity,
@@ -122,8 +132,8 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                                         Radius.circular(defaultBorderRadius)),
                                   ),
                                   child: Image.network(
-                                    data['collectiondata'][index]['image'] ??
-                                        '',
+                                    // getbrandslist['collections'][index]['image'] ??
+                                    '',
                                     height: 180,
                                     errorBuilder: (BuildContext context,
                                         Object exception,
@@ -147,7 +157,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                                       const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                                   child: Center(
                                     child: Text(
-                                      data['collectiondata'][index]['name'],
+                                      'TTTT',
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontFamily: 'Gotham',
@@ -163,7 +173,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),

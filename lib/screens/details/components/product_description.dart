@@ -227,7 +227,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       ),
                       child: const Text(
                         'ADD TO CART',
-                        style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal),
+                        style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal,color: Colors.white),
                       ),
                     ),
                   ),

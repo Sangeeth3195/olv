@@ -161,7 +161,7 @@ class _BodyState extends State<Body> {
                                 },
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -177,7 +177,7 @@ class _BodyState extends State<Body> {
                                   child: Container(
                                     width: 10.0,
                                     height: 10.0,
-                                    margin: EdgeInsets.symmetric(
+                                    margin: const EdgeInsets.symmetric(
                                         vertical: 8.0, horizontal: 4.0),
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
@@ -274,7 +274,7 @@ class _BodyState extends State<Body> {
                                       },
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   Text(
@@ -812,7 +812,7 @@ class _BodyState extends State<Body> {
               ),
             ),
           ),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
 
               ])
             : const Center(child: CircularProgressIndicator()));

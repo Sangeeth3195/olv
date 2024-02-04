@@ -38,14 +38,6 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
     super.didChangeDependencies();
   }
 
-  void getNavdata() async {
-    print(data.length);
-
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateData(widget.data['id'],
-        limit: widget.data['product_count']);
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -102,11 +94,6 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                                   const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0),
                               child: GestureDetector(
                                 onTap: () {
-                                  print(data['collectiondata'][index]['name']);
-                                  print(data['collectiondata'][index]
-                                      ['option_id']);
-                                  print(data['option_id']);
-
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

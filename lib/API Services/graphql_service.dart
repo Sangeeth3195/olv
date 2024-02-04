@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:omaliving/LoginPage.dart';
+import 'package:omaliving/models/CollectionModel.dart';
 import 'package:omaliving/models/CountryModel.dart';
 import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/models/HomePageModel.dart';
@@ -93,6 +94,7 @@ class GraphQLService {
                       id
                       level
                       name
+                      show_collection
                       path
                       url_path
                       image
@@ -203,6 +205,7 @@ class GraphQLService {
                       id
                       level
                       name
+                      show_collection
                       path
                       url_path
                       image
@@ -390,7 +393,7 @@ class GraphQLService {
     }
   }
 
-  Future<List<dynamic>> get_cat_collection(String name) async {
+  Future<Collectionmodel> get_cat_collection(String name) async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -428,18 +431,13 @@ class GraphQLService {
         throw Exception(result.exception);
       } else {
         EasyLoading.dismiss();
-        print('------------ Brand List Response ---------');
-        print(result);
-        List? res = result.data?['getBrandCollectionData'];
 
-        if (res == null || res.isEmpty) {
-          return [];
-        }
-
-        return res;
+        log(jsonEncode(result.data));
+        return Collectionmodel.fromJson(result.data!);
       }
     } catch (error) {
-      return [];
+      print(error);
+      return Collectionmodel(data: null);
     }
   }
 
