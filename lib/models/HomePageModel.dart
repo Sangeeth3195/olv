@@ -29,13 +29,13 @@ class HomePageModel {
 }
 
 class GetHomePageDatum {
-  GetHomePageDatumTypename? typename;
+  String? typename;
   String? category;
   String? title;
   String? description;
   String? priority;
-  Skulist? skulist;
-  String? buttontext;
+  String? skulist;
+  Buttontext? buttontext;
   String? link;
   List<Sectiondatum>? sectiondata;
 
@@ -52,32 +52,42 @@ class GetHomePageDatum {
   });
 
   factory GetHomePageDatum.fromJson(Map<String, dynamic> json) => GetHomePageDatum(
-    typename: getHomePageDatumTypenameValues.map[json["__typename"]]!,
+    typename: json["__typename"],
     category: json["category"],
     title: json["title"],
     description: json["description"],
     priority: json["priority"],
-    skulist: skulistValues.map[json["skulist"]]!,
-    buttontext: json["buttontext"],
+    skulist: json["skulist"],
+    buttontext: buttontextValues.map[json["buttontext"]]!,
     link: json["link"],
     sectiondata: json["sectiondata"] == null ? [] : List<Sectiondatum>.from(json["sectiondata"]!.map((x) => Sectiondatum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "__typename": getHomePageDatumTypenameValues.reverse[typename],
+    "__typename": typename,
     "category": category,
     "title": title,
     "description": description,
     "priority": priority,
-    "skulist": skulistValues.reverse[skulist],
-    "buttontext": buttontext,
+    "skulist": skulist,
+    "buttontext": buttontextValues.reverse[buttontext],
     "link": link,
     "sectiondata": sectiondata == null ? [] : List<dynamic>.from(sectiondata!.map((x) => x.toJson())),
   };
 }
 
+enum Buttontext {
+  EMPTY,
+  SHOP_NOW
+}
+
+final buttontextValues = EnumValues({
+  "": Buttontext.EMPTY,
+  "SHOP NOW": Buttontext.SHOP_NOW
+});
+
 class Sectiondatum {
-  SectiondatumTypename? typename;
+  Typename? typename;
   String? title;
   String? description;
   String? priority;
@@ -98,7 +108,7 @@ class Sectiondatum {
   });
 
   factory Sectiondatum.fromJson(Map<String, dynamic> json) => Sectiondatum(
-    typename: sectiondatumTypenameValues.map[json["__typename"]]!,
+    typename: typenameValues.map[json["__typename"]]!,
     title: json["title"],
     description: json["description"],
     priority: json["priority"],
@@ -109,7 +119,7 @@ class Sectiondatum {
   );
 
   Map<String, dynamic> toJson() => {
-    "__typename": sectiondatumTypenameValues.reverse[typename],
+    "__typename": typenameValues.reverse[typename],
     "title": title,
     "description": description,
     "priority": priority,
@@ -120,44 +130,12 @@ class Sectiondatum {
   };
 }
 
-enum Buttontext {
-  DISCOVER_DECOR,
-  DISCOVER_TABLE_TOP,
-  EMPTY,
-  EXPLORE_KITCHENWARE
-}
-
-final buttontextValues = EnumValues({
-  "DISCOVER DECOR": Buttontext.DISCOVER_DECOR,
-  "DISCOVER TABLE TOP": Buttontext.DISCOVER_TABLE_TOP,
-  "": Buttontext.EMPTY,
-  "EXPLORE KITCHENWARE": Buttontext.EXPLORE_KITCHENWARE
-});
-
-enum SectiondatumTypename {
+enum Typename {
   SECTIONDATA
 }
 
-final sectiondatumTypenameValues = EnumValues({
-  "sectiondata": SectiondatumTypename.SECTIONDATA
-});
-
-enum Skulist {
-  EMPTY,
-  RI003874_RI002856_RI000444_RI004330
-}
-
-final skulistValues = EnumValues({
-  "": Skulist.EMPTY,
-  "ri003874,ri002856,ri000444,ri004330": Skulist.RI003874_RI002856_RI000444_RI004330
-});
-
-enum GetHomePageDatumTypename {
-  HOMEPAGEDATA
-}
-
-final getHomePageDatumTypenameValues = EnumValues({
-  "homepagedata": GetHomePageDatumTypename.HOMEPAGEDATA
+final typenameValues = EnumValues({
+  "sectiondata": Typename.SECTIONDATA
 });
 
 class EnumValues<T> {

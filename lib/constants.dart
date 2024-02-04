@@ -21,6 +21,8 @@ const Color backgroundCategoryColor = Color(0xFFEDEBE7);
 const Color productDescribtionColor = Color(0xFFF7F7F7);
 const Color headingFontColor = Color(0xFF5B5559);
 const Color quantitityBackgroundColor = Color(0xFF8c7359);
+const Color headingTextColor = Color(0xFF534335);
+const Color describtionTextColor = Color(0xFF524941);
 
 const double defaultPadding = 16.0;
 const double defaultBorderRadius = 5.0;
