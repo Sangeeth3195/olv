@@ -53,6 +53,7 @@ class _HomeScreenState extends State<ProductListing> {
   }
 
   void getNavdata() async {
+    print(widget.data);
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updateData(widget.data['id'],
         limit: widget.data['product_count']);

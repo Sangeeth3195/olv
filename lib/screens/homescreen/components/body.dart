@@ -134,12 +134,8 @@ class _BodyState extends State<Body> {
                                     .getHomePageData![0].sectiondata!)
                                   GestureDetector(
                                     onTap: () {
-                                      final myProvider =
-                                          Provider.of<MyProvider>(context,
-                                              listen: false);
-                                      myProvider
-                                          .updateData(int.parse(item.link!));
-                                      context.go('/home/pdp');
+                                      print(item.toJson());
+
                                     },
                                     child: Image.network(
                                       "https://staging2.omaliving.com${item.attachmentmob!}",
@@ -247,11 +243,12 @@ class _BodyState extends State<Body> {
                         (url) {
                           return GestureDetector(
                             onTap: () {
-                              final myProvider = Provider.of<MyProvider>(
-                                  context,
-                                  listen: false);
-                              myProvider.updateData(int.parse(url.link!));
-                              context.go('/home/pdp');
+                              final Map<String, dynamic> someMap = {
+                                "id": int.parse(url.link.toString()),
+                                "product_count": 2,
+                              };
+                              print(someMap);
+                              context.go('/home/pdp',extra: someMap);
                             },
                             child: Container(
                               margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
@@ -797,11 +794,7 @@ class _BodyState extends State<Body> {
                 // ),
           ElevatedButton(
             onPressed: () {
-              final Map<String, String> someMap = {
-                "id": homePageModel.getHomePageData![1].sectiondata![0].link!!,
-                "product_count": "2",
-              };
-              context.go('/home/pdp',extra: someMap);
+
 
             },
             style: ElevatedButton.styleFrom(
