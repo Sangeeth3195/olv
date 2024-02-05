@@ -393,7 +393,7 @@ class GraphQLService {
     }
   }
 
-  Future<Collectionmodel> get_cat_collection(String name) async {
+  Future<CollectionModel> get_cat_collection(String name) async {
     try {
       QueryResult result = await client.query(
         QueryOptions(
@@ -408,7 +408,6 @@ class GraphQLService {
                     collection_set_id
                     name
                     status
-                    image
                     collections {
                       collection_id
                       name
@@ -433,11 +432,11 @@ class GraphQLService {
         EasyLoading.dismiss();
 
         log(jsonEncode(result.data));
-        return Collectionmodel.fromJson(result.data!);
+        return CollectionModel.fromJson(result.data!);
       }
     } catch (error) {
       print(error);
-      return Collectionmodel(data: null);
+      return CollectionModel();
     }
   }
 
@@ -584,6 +583,8 @@ class GraphQLService {
         throw Exception(result.exception);
       } else {
         EasyLoading.dismiss();
+
+        print(result);
 
         return result;
       }

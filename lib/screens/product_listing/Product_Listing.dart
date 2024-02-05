@@ -97,15 +97,15 @@ class _HomeScreenState extends State<ProductListing> {
                                   fontWeight: FontWeight.bold,
                                   color: priceColor,
                                   height: 1.5,
-                                  fontSize: 20)),
+                                  fontSize: 18)),
                           Container(
-                            height: 35,
-                            width: 41,
+                            height: 30,
+                            width: 35,
                             color: priceColor,
                             child: IconButton(
                               icon: const Icon(
                                 Icons.close,
-                                size: 20,
+                                size: 16,
                                 color: Colors.white,
                               ),
                               onPressed: () {
@@ -123,7 +123,6 @@ class _HomeScreenState extends State<ProductListing> {
                         shrinkWrap: true,
                         physics: const ClampingScrollPhysics(),
                         itemCount: provider.aggregationList.length,
-                        // Replace with the actual number of items
                         itemBuilder: (BuildContext context, int subitemIndex) {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -143,7 +142,8 @@ class _HomeScreenState extends State<ProductListing> {
                                         fontWeight: FontWeight.w500,
                                         color: priceColor,
                                         height: 1.5,
-                                        fontSize: 15),
+                                        fontFamily: 'Gotham',
+                                        fontSize: 14),
                                   ),
                                 ),
                                 children: [
@@ -175,7 +175,6 @@ class _HomeScreenState extends State<ProductListing> {
                                           ? Container(
                                               color: priceColor,
                                               child: Wrap(
-                                                // list of length 3
                                                 children: List.generate(
                                                   provider
                                                       .aggregationList[
@@ -183,17 +182,11 @@ class _HomeScreenState extends State<ProductListing> {
                                                       .options
                                                       .length,
                                                   (int index) {
-                                                    // choice chip allow us to
-                                                    // set its properties.
                                                     return CheckboxListTile(
                                                       controlAffinity:
                                                           ListTileControlAffinity
                                                               .leading,
-
-                                                      // padding:
-                                                      // const EdgeInsets
-                                                      //     .all(8),
-                                                      title: Container(
+                                                      title: SizedBox(
                                                         height: 12,
                                                         width: 12,
                                                         child: Text(provider
@@ -201,17 +194,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                                 subitemIndex]
                                                             .options[index]
                                                             .value),
-                                                        // color: colorFromHex(provider.aggregationList[
-                                                        // subitemIndex].options
-                                                        // [index].value),
                                                       ),
-                                                      // color of selected chip
-                                                      // selectedColor:
-                                                      // chipColor,
-
-                                                      // backgroundColor:
-                                                      // const Color(0xFFEFEFEF),
-                                                      // selected chip value
                                                       value: provider
                                                           .aggregationList[
                                                               subitemIndex]
@@ -253,7 +236,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                             .aggregationList[
                                                                 subitemIndex]
                                                             .selected);
-                                                      }, /* value: null*/
+                                                      },
                                                     );
                                                   },
                                                 ).toList(),
@@ -274,30 +257,18 @@ class _HomeScreenState extends State<ProductListing> {
                                                     controlAffinity:
                                                         ListTileControlAffinity
                                                             .leading,
-
-                                                    // padding:
-                                                    // const EdgeInsets
-                                                    //     .all(8),
                                                     title: Text(
-                                                        provider
+                                                        "${provider
                                                                 .aggregationList[
                                                                     subitemIndex]
                                                                 .options[index]
-                                                                .label +
-                                                            " (${provider.aggregationList[subitemIndex].options[index].count}) ",
+                                                                .label} (${provider.aggregationList[subitemIndex].options[index].count}) ",
                                                         style: const TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w200,
                                                             color: blackColor,
                                                             height: 1,
                                                             fontSize: 12)),
-                                                    // color of selected chip
-                                                    // selectedColor:
-                                                    // chipColor,
-
-                                                    // backgroundColor:
-                                                    // const Color(0xFFEFEFEF),
-                                                    // selected chip value
                                                     value: provider
                                                         .aggregationList[
                                                             subitemIndex]
@@ -307,7 +278,6 @@ class _HomeScreenState extends State<ProductListing> {
                                                                 subitemIndex]
                                                             .options[index]
                                                             .value),
-                                                    // onselected method
                                                     onChanged:
                                                         (bool? selected) {
                                                       setState(() {
@@ -339,7 +309,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                           .aggregationList[
                                                               subitemIndex]
                                                           .selected);
-                                                    }, /* value: null*/
+                                                    },
                                                   );
                                                 },
                                               ).toList(),
@@ -351,10 +321,6 @@ class _HomeScreenState extends State<ProductListing> {
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return Container();
-                          return const Divider(
-                            height: 0.2,
-                            thickness: 1,
-                          );
                         },
                       ),
                     ),
@@ -411,7 +377,7 @@ class _HomeScreenState extends State<ProductListing> {
                     ),*/
 
                   Container(
-                    margin: const EdgeInsets.only(top: 30),
+                    margin: const EdgeInsets.only(top: 15),
                     padding: const EdgeInsets.all(5.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -701,11 +667,10 @@ class _HomeScreenState extends State<ProductListing> {
                                     child: Text(
                                       value,
                                       style: const TextStyle(
-                                        fontFamily: 'Gotham',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12.0,
-                                        color: navTextColor
-                                      ),
+                                          fontFamily: 'Gotham',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12.0,
+                                          color: navTextColor),
                                     ),
                                   );
                                 }).toList(),

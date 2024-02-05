@@ -48,6 +48,9 @@ dependencies:
   flutter_native_splash: ^2.3.6
   fwfh_text_style: ^2.23.8
 
+  #fwfh_text_style: ^2.23.8
+
+
 flutter_native_splash:
   image: assets/omalogo.png
   color: "42a5f5"

@@ -113,7 +113,7 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                                         Radius.circular(defaultBorderRadius)),
                                   ),
                                   child: Image.network(
-                                    data['collectiondata'][index]['image'] ??
+                                    "https://omaliving.com/media/wysiwyg/collection/${data['collectiondata'][index]['image']}" ??
                                         '',
                                     height: 180,
                                     errorBuilder: (BuildContext context,
@@ -152,25 +152,6 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                             )
                           ],
                         ),
-
-                        /*Product_Card_Custom(
-                          title: data['collectiondata'][index]['name'],
-                          image: data['collectiondata'][index]['image'],
-                          bgColor: demo_product[0].colors[0],
-                          press: () {
-
-                            print(data['collectiondata'][index]['name']);
-                            print(data['collectiondata'][index]['option_id']);
-                            print(data['option_id']);
-
-                            */ /* Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Product_Listing_PLP(
-                                    data: data['collectiondata'][index]),
-                                ));*/ /*
-                          },
-                        ),*/
                       ),
                     ),
                   ),

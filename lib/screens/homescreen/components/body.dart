@@ -28,6 +28,7 @@ class _BodyState extends State<Body> {
   GraphQLService graphQLService = GraphQLService();
 
   HomePageModel homePageModel = HomePageModel();
+  List<dynamic> navHeaderList = [];
   late VideoPlayerController? videoPlayerController;
   final bool looping = true;
   final bool autoplay = true;
@@ -53,6 +54,7 @@ class _BodyState extends State<Body> {
   }
 
   getDate() async {
+    navHeaderList = await graphQLService.getCategory(limit: 100);
     homePageModel = await graphQLService.gethomepagedata();
     setState(() {});
 
@@ -134,6 +136,10 @@ class _BodyState extends State<Body> {
                                     .getHomePageData![0].sectiondata!)
                                   GestureDetector(
                                     onTap: () {
+
+                                      print('item.link');
+                                      print(item.link);
+
                                       final myProvider =
                                           Provider.of<MyProvider>(context,
                                               listen: false);
@@ -142,8 +148,8 @@ class _BodyState extends State<Body> {
                                       context.go('/home/pdp');
                                     },
                                     child: Image.network(
-                                      "https://staging2.omaliving.com${item.attachmentmob!}",
-                                      fit: BoxFit.cover,
+                                      "https://staging2.omaliving.com${item.attachment!}",
+                                      fit: BoxFit.fill,
                                     ),
                                   )
                               ],
@@ -220,17 +226,17 @@ class _BodyState extends State<Body> {
                 Center(
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![1].description!,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
                             .copyWith(
-                                fontSize: 11,
+                                fontSize: 14,
                                 color: describtionTextColor,
                                 fontFamily: 'Gotham',
-                                fontWeight: FontWeight.w400),
+                                fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
@@ -247,11 +253,18 @@ class _BodyState extends State<Body> {
                         (url) {
                           return GestureDetector(
                             onTap: () {
+
+                              print('item.link');
+
+                              print(url.link);
+
                               final myProvider = Provider.of<MyProvider>(
                                   context,
                                   listen: false);
                               myProvider.updateData(int.parse(url.link!));
+
                               context.go('/home/pdp');
+
                             },
                             child: Container(
                               margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
@@ -275,7 +288,7 @@ class _BodyState extends State<Body> {
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 20,
+                                    height: 15,
                                   ),
                                   Text(
                                     url.title ?? '',
@@ -286,7 +299,7 @@ class _BodyState extends State<Body> {
                                             fontSize: 13,
                                             color: describtionTextColor,
                                             fontFamily: 'Gotham',
-                                            fontWeight: FontWeight.w400),
+                                            fontWeight: FontWeight.w500),
                                   )
                                 ],
                               ),
@@ -304,12 +317,14 @@ class _BodyState extends State<Body> {
                     padding:
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
                     backgroundColor:
-                        describtionTextColor, // Set the background color
+                        describtionTextColor,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)), // Set the background color
                   ),
                   child: const Text(
                     'SHOP NOW',
                     style: TextStyle(
                       fontSize: 14,
+                      color: Colors.white,
                       fontWeight: FontWeight.normal,
                       fontFamily: 'Gotham',
                     ),
@@ -349,7 +364,7 @@ class _BodyState extends State<Body> {
                 _chewieController == null
                     ? Center(child: Container())
                     : SizedBox(
-                        height: 300,
+                        height: 280,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: AspectRatio(
@@ -363,16 +378,15 @@ class _BodyState extends State<Body> {
                 Center(
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      padding: const EdgeInsets.fromLTRB(20, 5, 20, 15),
                       child: Text(
                         homePageModel.getHomePageData![3].title!,
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                               fontWeight: FontWeight.w500,
                               color: describtionTextColor,
-                          height: 1.5,
-
+                              height: 1.5,
                               fontFamily: 'Gotham',
-                              fontSize: 20,
+                              fontSize: 18,
                             ),
                         textAlign: TextAlign.center,
                       ),
@@ -384,7 +398,7 @@ class _BodyState extends State<Body> {
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                   child: GFItemsCarousel(
                     rowCount: 3,
-                    itemHeight: 250.0,
+                    itemHeight: 260.0,
                     children:
                         homePageModel.getHomePageData![3].sectiondata!.map(
                       (url) {
@@ -415,6 +429,8 @@ class _BodyState extends State<Body> {
                                   ),
                                 ),
                               ),
+
+                              const SizedBox(height: 15,),
                               Text(
                                 url.title!,
                                 style: Theme.of(context)
@@ -425,7 +441,9 @@ class _BodyState extends State<Body> {
                                       fontFamily: 'Gotham',
                                       height: 1.5,
                                       fontSize: 12,
+                                  fontWeight: FontWeight.w500,
                                     ),
+                                textAlign: TextAlign.center,
                               )
                             ],
                           ),
@@ -438,16 +456,15 @@ class _BodyState extends State<Body> {
                 Center(
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
                       child: Text(
                         homePageModel.getHomePageData![4].title!,
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                               color: describtionTextColor,
                               fontFamily: 'Gotham',
-                          height: 1.5,
-
+                              height: 1.5,
                             ),
                       ),
                     ),
@@ -460,7 +477,7 @@ class _BodyState extends State<Body> {
                     borderRadius: const BorderRadius.all(Radius.circular(0.0)),
                     child: ImageSlideshow(
                       indicatorColor: Colors.transparent,
-                      height: 200.0,
+                      height: 350.0,
                       onPageChanged: (value) {},
                       isLoop: false,
                       children: [
@@ -475,7 +492,7 @@ class _BodyState extends State<Body> {
                               context.go('/home/pdp');
                             },
                             child: Image.network(
-                              "https://staging2.omaliving.com${item.attachmentmob!}",
+                              "https://staging2.omaliving.com${item.attachment!}",
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -495,7 +512,7 @@ class _BodyState extends State<Body> {
                       child: Text(
                         homePageModel.getHomePageData![5].title!,
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                               color: describtionTextColor,
                               fontFamily: 'Gotham',
@@ -564,60 +581,62 @@ class _BodyState extends State<Body> {
                 //     ),
                 //   ),
                 // ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-            child: GFItemsCarousel(
-              rowCount: 3,
-              itemHeight: 250.0,
-              children:
-              homePageModel.getHomePageData![5].sectiondata!.map(
-                    (url) {
-                  return GestureDetector(
-                    onTap: () {
-                      final myProvider =
-                      Provider.of<MyProvider>(context, listen: false);
-                      myProvider.updateData(int.parse(url.link!));
-                      context.go('/home/pdp');
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.all(
-                                Radius.circular(0.0)),
-                            child: Image.network(
-                              "https://staging2.omaliving.com${url.attachment!}",
-                              fit: BoxFit.cover,
-                              width: 1000.0,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Image.asset(
-                                  'assets/omalogo.png',
-                                  height: 175,
-                                );
-                              },
-                            ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                  child: GFItemsCarousel(
+                    rowCount: 3,
+                    itemHeight: 260.0,
+                    children:
+                        homePageModel.getHomePageData![5].sectiondata!.map(
+                      (url) {
+                        return GestureDetector(
+                          onTap: () {
+                            final myProvider =
+                                Provider.of<MyProvider>(context, listen: false);
+                            myProvider.updateData(int.parse(url.link!));
+                            context.go('/home/pdp');
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(0.0)),
+                                  child: Image.network(
+                                    "https://staging2.omaliving.com${url.attachment!}",
+                                    fit: BoxFit.cover,
+                                    width: 1000.0,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.asset(
+                                        'assets/omalogo.png',
+                                        height: 175,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 15,),
+                              Text(
+                                url.title!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      color: describtionTextColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Gotham',
+                                      fontSize: 14,
+                                    ),
+                              )
+                            ],
                           ),
-                        ),
-                        Text(
-                          url.title!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                            color: describtionTextColor,
-                            fontFamily: 'Gotham',
-                            fontSize: 12,
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ).toList(),
-            ),
-          ),
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
 
                 const SizedBox(
                   height: 5,
@@ -627,7 +646,7 @@ class _BodyState extends State<Body> {
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                   child: GFItemsCarousel(
                     rowCount: 1,
-                    itemHeight: 175.0,
+                    itemHeight: 180.0,
                     children:
                         homePageModel.getHomePageData![6].sectiondata!.map(
                       (url) {
@@ -670,13 +689,32 @@ class _BodyState extends State<Body> {
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w600,
+                              fontFamily: 'Gotham',
+                              fontWeight: FontWeight.w600,
                                 ),
                       ),
                     ),
                   ),
                 ),
-
+          Center(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
+                child: Text(
+                  homePageModel.getHomePageData![7].description!,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(
+                      fontSize: 14,
+                      color: describtionTextColor,
+                      fontFamily: 'Gotham',
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+          ),
                 const SizedBox(
                   height: 0,
                 ),
@@ -685,7 +723,7 @@ class _BodyState extends State<Body> {
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20.0),
                   child: GFItemsCarousel(
                     rowCount: 2,
-                    itemHeight: 200.0,
+                    itemHeight: 280.0,
                     children:
                         homePageModel.getHomePageData![7].sectiondata!.map(
                       (url) {
@@ -701,26 +739,33 @@ class _BodyState extends State<Body> {
                               Container(
                                 margin: const EdgeInsets.fromLTRB(0.0, 0, 8, 0),
                                 child: ClipRRect(
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(0.0)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(0.0)),
                                   child: Image.network(
                                       "https://staging2.omaliving.com${url.attachment!}",
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) {
-                                return Image.asset('assets/omalogo.png',height: 175,);
-                                },
-                                      width: 1000.0),
+                                      fit: BoxFit.cover, errorBuilder:
+                                          (context, error, stackTrace) {
+                                    return Image.asset(
+                                      'assets/omalogo.png',
+                                      height: 175,
+                                    );
+                                  }, width: 1000.0),
                                 ),
+                              ),
+                              const SizedBox(
+                                height: 15,
                               ),
                               Text(
                                 url.title!,
-                                style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                                  fontWeight: FontWeight.w500,
-
-                                  color: describtionTextColor,
-                                  fontFamily: 'Gotham',
-                                  fontSize: 12,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: describtionTextColor,
+                                      fontFamily: 'Gotham',
+                                      fontSize: 12,
+                                    ),
                                 textAlign: TextAlign.center,
                               )
                             ],
@@ -730,6 +775,7 @@ class _BodyState extends State<Body> {
                     ).toList(),
                   ),
                 ),
+
                 // Column(
                 //   children: [
                 //     _chewieController == null
@@ -795,25 +841,29 @@ class _BodyState extends State<Body> {
                 //           ),
                 //   ],
                 // ),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              padding:
-              const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
-              backgroundColor:
-              describtionTextColor, // Set the background color
-            ),
-            child: const Text(
-              'SHOP NOW',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Gotham',
-              ),
-            ),
-          ),
-          const SizedBox(height: 20,),
-
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
+                    backgroundColor:
+                        describtionTextColor,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)), // Set the background color
+// Set the background color
+                  ),
+                  child: const Text(
+                    'SHOP NOW',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Gotham',
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
               ])
             : const Center(child: CircularProgressIndicator()));
   }

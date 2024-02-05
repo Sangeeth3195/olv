@@ -57,7 +57,7 @@ class _BodyState extends State<Body> {
                       primary: false,
                       shrinkWrap: true,
                       padding: const EdgeInsets.all(2),
-                      childAspectRatio: 0.75,
+                      childAspectRatio: 0.70,
                       maxCrossAxisExtent: 300,
                       children: List.generate(
                           myProvider!.customerModel.customer!
@@ -96,141 +96,11 @@ class _BodyState extends State<Body> {
                       ),
                     ),
 
-                    /*GridView.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2, childAspectRatio: 0.7),
-                            itemBuilder: (context, position) {
-                              return gridItem(
-                                  context,
-                                  position,
-                                  myProvider!.customerModel.customer!.wishlist!
-                                      .items![position]);
-                            },
-                            itemCount: myProvider!.customerModel.customer!
-                                .wishlist!.items!.length,
-                          ),*/
+
               );
       },
     );
   }
-
-  /*gridItem(BuildContext context, int position, wishList) {
-    return GestureDetector(
-      onTap: () {
-        if (kDebugMode) {
-          print(wishList);
-        }
-      },
-      child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: InkResponse(
-            onTap: () {
-              print(myProvider!.customerModel.customer!.wishlist!
-                  .items![position].product!.sku);
-
-              String? vxc = myProvider!.customerModel.customer!.wishlist!
-                  .items![position].product!.sku;
-            },
-            child: Material(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: SizedBox(
-                    height: 150.0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Image(
-                              image: NetworkImage(myProvider!
-                                  .customerModel
-                                  .customer!
-                                  .wishlist!
-                                  .items![position]
-                                  .product!
-                                  .mediaGallery![0]
-                                  .url
-                                  .toString()),
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              print(myProvider!.customerModel
-                                  .customer!.wishlist!.items![position].id
-                                  .toString());
-
-                              dynamic listData = await graphQLService
-                                  .remove_Product_from_wishlist(
-                                  wishlistId: myProvider!.customerModel.customer!.wishlists![0].id!,
-                                  wishlistItemsIds: myProvider!.customerModel
-                                      .customer!
-                                      .wishlist!
-                                      .items![position]
-                                      .id
-                                      .toString());
-                              EasyLoading.show();
-                              myProvider!.getuserdata();
-                              EasyLoading.show();
-
-                            },
-                            child: const Icon(
-                              Icons.favorite,
-                              color: Color(0xFFF4597D),
-                              size: 22.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(
-                    myProvider!.customerModel.customer!.wishlist!
-                            .items![position].product!.name ??
-                        '',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14.0,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                const SizedBox(
-                  height: 14.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10.0),
-                        child: Text(
-                          "₹ ${myProvider!.customerModel.customer!.wishlist!.items![position].product!.priceRange!.minimumPrice!.regularPrice!.value.toString()}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 14.0),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            )),
-          )),
-    );
-  }*/
 
 }
 

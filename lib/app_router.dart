@@ -48,7 +48,6 @@ final router = GoRouter(
                 GoRoute(
                   path: 'pdp',
                   builder: (context, state) {
-                    print(state.extra!);
                     return ProductListing(
                       data: state.extra! as Map<String, dynamic>,
                     );

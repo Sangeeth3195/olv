@@ -16,7 +16,7 @@ class Body extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 15, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -45,12 +45,12 @@ class Body extends StatelessWidget {
             height: 5,
           ),
           const Padding(
-            padding: EdgeInsets.fromLTRB(15, 0, 10, 0),
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: Text(
               "Items Ordered",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14,
+                  fontSize: 13,
                   height: 1.5,
                   fontWeight: FontWeight.w500),
             ),
@@ -59,7 +59,7 @@ class Body extends StatelessWidget {
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
             child: Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
@@ -84,7 +84,7 @@ class Body extends StatelessWidget {
                   )),
                 ],
                 rows: [
-                  for (var item in ordersItem.items!!)
+                  for (var item in ordersItem.items!)
                     DataRow(cells: [
                       DataCell(Text(
                         item.productName ?? '',
@@ -109,7 +109,7 @@ class Body extends StatelessWidget {
             height: 20,
           ),
           const Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: Row(
               children: [
                 Text(
@@ -123,7 +123,7 @@ class Body extends StatelessWidget {
             height: 15,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 15, 0),
             child: Row(
               children: <Widget>[
                 const Expanded(
@@ -155,7 +155,7 @@ class Body extends StatelessWidget {
             height: 5,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 15, 0),
             child: Row(
               children: <Widget>[
                 const Expanded(
@@ -187,7 +187,7 @@ class Body extends StatelessWidget {
             height: 5,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 15, 0),
             child: Row(
               children: <Widget>[
                 const Expanded(
@@ -220,7 +220,7 @@ class Body extends StatelessWidget {
             height: 5,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 15, 0),
             child: Container(
               color: const Color(0xFFFFF2E1),
               height: 50,
@@ -260,7 +260,7 @@ class Body extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           const Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: Row(
               children: [
                 Text(
@@ -276,7 +276,7 @@ class Body extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -288,7 +288,7 @@ class Body extends StatelessWidget {
                         'Shipping Address',
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -304,7 +304,7 @@ class Body extends StatelessWidget {
                               'Shipping Method',
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 15,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -349,7 +349,7 @@ class Body extends StatelessWidget {
                             Text(
                               ordersItem.shippingMethod ?? '',
                               style: const TextStyle(
-                                  color: Colors.black, fontSize: 14),
+                                  color: Colors.black, fontSize: 12),
                             ),
                           ],
                         ),
@@ -361,7 +361,7 @@ class Body extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -373,7 +373,7 @@ class Body extends StatelessWidget {
                         'Billing Address',
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -389,7 +389,7 @@ class Body extends StatelessWidget {
                               'Payment Method',
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 15,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -431,7 +431,7 @@ class Body extends StatelessWidget {
                                       .toString() ??
                                   '',
                               style: const TextStyle(
-                                  color: Colors.black, fontSize: 14),
+                                  color: Colors.black, fontSize: 13),
                             ),
                           ],
                         ),

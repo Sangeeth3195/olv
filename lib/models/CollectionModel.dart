@@ -1,97 +1,137 @@
-class Collectionmodel {
-  Collectionmodel({
-    required this.data,
+import 'dart:convert';
+
+CollectionModel collectionModelFromJson(String str) => CollectionModel.fromJson(json.decode(str));
+
+String collectionModelToJson(CollectionModel data) => json.encode(data.toJson());
+
+class CollectionModel {
+  // Data? data;
+  String? typename;
+  List<GetCollectionSetDatum>? getCollectionSetData;
+
+  CollectionModel({
+    this.typename,
+    this.getCollectionSetData,
   });
 
-  final Data? data;
+  factory CollectionModel.fromJson(Map<String, dynamic> json) => CollectionModel(
+    typename: json["__typename"],
+    getCollectionSetData: json["getCollectionSetData"] == null ? [] : List<GetCollectionSetDatum>.from(json["getCollectionSetData"]!.map((x) => GetCollectionSetDatum.fromJson(x))),
 
-  factory Collectionmodel.fromJson(Map<String, dynamic> json){
-    return Collectionmodel(
-      data: json["data"] == null ? null : Data.fromJson(json["data"]),
-    );
-  }
+    // getCollectionSetData: json["data"] == null ? null : Data.fromJson(json["data"]),
+  );
 
+  Map<String, dynamic> toJson() => {
+    "__typename": typename,
+    "data": getCollectionSetData == null ? [] :List<dynamic>.from(getCollectionSetData!.map((x) => x.toJson())),
+  };
 }
 
 class Data {
+  List<GetCollectionSetDatum>? getCollectionSetData;
+
   Data({
-    required this.getCollectionSetData,
+    this.getCollectionSetData,
   });
 
-  final List<GetCollectionSetDatum> getCollectionSetData;
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+    getCollectionSetData: json["getCollectionSetData"] == null ? [] : List<GetCollectionSetDatum>.from(json["getCollectionSetData"]!.map((x) => GetCollectionSetDatum.fromJson(x))),
+  );
 
-  factory Data.fromJson(Map<String, dynamic> json){
-    return Data(
-      getCollectionSetData: json["getCollectionSetData"] == null ? [] : List<GetCollectionSetDatum>.from(json["getCollectionSetData"]!.map((x) => GetCollectionSetDatum.fromJson(x))),
-    );
-  }
-
+  Map<String, dynamic> toJson() => {
+    "getCollectionSetData": getCollectionSetData == null ? [] : List<dynamic>.from(getCollectionSetData!.map((x) => x.toJson())),
+  };
 }
 
 class GetCollectionSetDatum {
+  int? collectionSetId;
+  String? name;
+  int? status;
+  List<Collection>? collections;
+
   GetCollectionSetDatum({
-    required this.collectionSetId,
-    required this.name,
-    required this.status,
-    required this.image,
-    required this.collections,
+    this.collectionSetId,
+    this.name,
+    this.status,
+    this.collections,
   });
 
-  final int? collectionSetId;
-  final String? name;
-  final int? status;
-  final dynamic image;
-  final List<Collection> collections;
+  factory GetCollectionSetDatum.fromJson(Map<String, dynamic> json) => GetCollectionSetDatum(
+    collectionSetId: json["collection_set_id"],
+    name: json["name"],
+    status: json["status"],
+    collections: json["collections"] == null ? [] : List<Collection>.from(json["collections"]!.map((x) => Collection.fromJson(x))),
+  );
 
-  factory GetCollectionSetDatum.fromJson(Map<String, dynamic> json){
-    return GetCollectionSetDatum(
-      collectionSetId: json["collection_set_id"],
-      name: json["name"],
-      status: json["status"],
-      image: json["image"],
-      collections: json["collections"] == null ? [] : List<Collection>.from(json["collections"]!.map((x) => Collection.fromJson(x))),
-    );
-  }
+  Map<String, dynamic> toJson() => {
+    "collection_set_id": collectionSetId,
+    "name": name,
+    "status": status,
+    "collections": collections == null ? [] : List<dynamic>.from(collections!.map((x) => x.toJson())),
+  };
 }
 
 class Collection {
+  int? collectionId;
+  String? name;
+  int? status;
+  String? image;
+  String? collectionSetImage;
+  String? setImage;
+  int? position;
+  int? optionId;
+  String? brandName;
+  int? brandOptionId;
+
   Collection({
-    required this.collectionId,
-    required this.name,
-    required this.status,
-    required this.image,
-    required this.collectionSetImage,
-    required this.setImage,
-    required this.position,
-    required this.optionId,
-    required this.brandName,
-    required this.brandOptionId,
+    this.collectionId,
+    this.name,
+    this.status,
+    this.image,
+    this.collectionSetImage,
+    this.setImage,
+    this.position,
+    this.optionId,
+    this.brandName,
+    this.brandOptionId,
   });
 
-  final int? collectionId;
-  final String? name;
-  final int? status;
-  final String? image;
-  final String? collectionSetImage;
-  final String? setImage;
-  final int? position;
-  final int? optionId;
-  final String? brandName;
-  final int? brandOptionId;
+  factory Collection.fromJson(Map<String, dynamic> json) => Collection(
+    collectionId: json["collection_id"] ,
+    name: json["name"],
+    status: json["status"],
+    image: json["image"],
+    collectionSetImage: json["collection_set_image"],
+    setImage: json["set_image"],
+    position: json["position"],
+    optionId: json["option_id"],
+    brandName: json["brand_name"],
+    brandOptionId: json["brand_option_id"],
+  );
 
-  factory Collection.fromJson(Map<String, dynamic> json){
-    return Collection(
-      collectionId: json["collection_id"],
-      name: json["name"],
-      status: json["status"],
-      image: json["image"],
-      collectionSetImage: json["collection_set_image"],
-      setImage: json["set_image"],
-      position: json["position"],
-      optionId: json["option_id"],
-      brandName: json["brand_name"],
-      brandOptionId: json["brand_option_id"],
-    );
+  Map<String, dynamic> toJson() => {
+    "collection_id": collectionId,
+    "name": name,
+    "status": status,
+    "image": image,
+    "collection_set_image": collectionSetImage,
+    "set_image": setImage,
+    "position": position,
+    "option_id": optionId,
+    "brand_name": brandName,
+    "brand_option_id": brandOptionId,
+  };
+}
+
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
   }
-
 }

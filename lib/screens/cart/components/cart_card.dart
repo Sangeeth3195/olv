@@ -122,7 +122,6 @@ class _BodyState extends State<CartCard> {
           const SizedBox(
             height: 12,
           ),
-          
         ],
       ),
     );
@@ -224,9 +223,8 @@ class _BodyState extends State<CartCard> {
           /*widget.isFromActionBar?Container():*/Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              widget.isFromActionBar?Container():Expanded(
-                // Place `Expanded` inside `Row`
-                child: GestureDetector(
+              widget.isFromActionBar?Container():
+                 GestureDetector(
                   onTap: () async {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
@@ -264,7 +262,7 @@ class _BodyState extends State<CartCard> {
                     ],
                   ),
                 ),
-              ),
+
               const SizedBox(
                 width: 10.0,
                 height: 0,

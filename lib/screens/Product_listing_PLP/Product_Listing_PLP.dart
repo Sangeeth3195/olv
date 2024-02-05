@@ -52,6 +52,9 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
   }
 
   void getNavdata() async {
+
+
+
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updatebrandData(widget.id, widget.id1, limit: 2);
   }

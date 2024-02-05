@@ -44,7 +44,10 @@ class _BodyState extends State<Body> {
                     const EdgeInsets.only(bottom: 0, left: 5, right: 5, top: 5),
                 child: ordersModel.customer!.orders!.items!.isEmpty
                     ? const Center(
-                        child: Text('Your order list is empty'),
+                        child: Text('Your order list is empty',style: TextStyle(  fontFamily: 'Gotham',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.0,
+                            color: Colors.black),),
                       )
                     : ListView.builder(
                         itemCount: ordersModel.customer!.orders!.items!.length,
@@ -54,8 +57,12 @@ class _BodyState extends State<Body> {
                             child: SizedBox(
                               height: 170,
                               child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
                                 // color: const Color(0xFFFCF6FD),
                                 borderOnForeground: true,
+
                                 elevation: 2,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,

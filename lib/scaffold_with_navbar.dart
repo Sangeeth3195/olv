@@ -459,6 +459,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                       child: Icon(
                         Icons.search,
                         size: 25,
+                        color: headingColor,
                       ),
                     ),
 
@@ -654,6 +655,13 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                 horizontal: 20, vertical: 0),
                                             child: ListTile(
                                               onTap: () {
+
+                                                print('showcollection');
+
+                                                print(navHeaderList[index]
+                                                ['children']
+                                                [itemIndex]['children']
+                                                [subitemIndex]['show_collection']);
 
                                                 if(navHeaderList[index]
                                                 ['children']
