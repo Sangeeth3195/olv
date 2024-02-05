@@ -25,26 +25,24 @@ class _BodyState extends State<Body> {
           Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: getProportionateScreenWidth(10)),
-              child: Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: widget.cartModel.cart!.items!.length,
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: InkWell(
-                        onTap: () {
-                          context.go('/cart/pdp',
-                              extra: widget
-                                  .cartModel.cart!.items![index].product!.sku
-                                  .toString());
-                        },
-                        child: CartCard(
-                          item: widget.cartModel.cart!.items![index],
-                          isFromActionBar: widget.isFromActionBar,
-                        )),
-                  ),
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.cartModel.cart!.items!.length,
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: InkWell(
+                      onTap: () {
+                        context.go('/cart/pdp',
+                            extra: widget
+                                .cartModel.cart!.items![index].product!.sku
+                                .toString());
+                      },
+                      child: CartCard(
+                        item: widget.cartModel.cart!.items![index],
+                        isFromActionBar: widget.isFromActionBar,
+                      )),
                 ),
               )),
           widget.isFromActionBar

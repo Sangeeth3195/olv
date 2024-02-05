@@ -148,17 +148,17 @@ class _BodyState extends State<Body> {
                                       context.go('/home/pdp');
                                     },
                                     child: Image.network(
-                                      "https://staging2.omaliving.com${item.attachment!}",
-                                      fit: BoxFit.fill,
+                                      "https://staging2.omaliving.com${item.attachmentmob!}",
+                                      fit: BoxFit.fitWidth,
                                     ),
                                   )
                               ],
                               carouselController: buttonCarouselController,
                               options: CarouselOptions(
                                 autoPlay: true,
-                                enlargeCenterPage: true,
-                                viewportFraction: 0.9,
-                                aspectRatio: 2.0,
+                                enlargeCenterPage: false,
+                                viewportFraction: 1,
+                                aspectRatio: 1,
                                 initialPage: 0,
                                 onPageChanged: (index, reason) {
                                   setState(() {
@@ -724,6 +724,7 @@ class _BodyState extends State<Body> {
                   child: GFItemsCarousel(
                     rowCount: 2,
                     itemHeight: 280.0,
+                    itemHeight: 240.0,
                     children:
                         homePageModel.getHomePageData![7].sectiondata!.map(
                       (url) {
@@ -841,29 +842,32 @@ class _BodyState extends State<Body> {
                 //           ),
                 //   ],
                 // ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
-                    backgroundColor:
-                        describtionTextColor,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)), // Set the background color
-// Set the background color
-                  ),
-                  child: const Text(
-                    'SHOP NOW',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Gotham',
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+          ElevatedButton(
+            onPressed: () {
+              final Map<String, String> someMap = {
+                "id": homePageModel.getHomePageData![1].sectiondata![0].link!!,
+                "product_count": "2",
+              };
+              context.go('/home/pdp',extra: someMap);
+
+            },
+            style: ElevatedButton.styleFrom(
+              padding:
+              const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
+              backgroundColor:
+              describtionTextColor, // Set the background color
+            ),
+            child: const Text(
+              'SHOP NOW',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Gotham',
+              ),
+            ),
+          ),
+          const SizedBox(height: 20,),
+
               ])
             : const Center(child: CircularProgressIndicator()));
   }
