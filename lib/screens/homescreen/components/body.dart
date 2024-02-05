@@ -143,16 +143,16 @@ class _BodyState extends State<Body> {
                                     },
                                     child: Image.network(
                                       "https://staging2.omaliving.com${item.attachmentmob!}",
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fitWidth,
                                     ),
                                   )
                               ],
                               carouselController: buttonCarouselController,
                               options: CarouselOptions(
                                 autoPlay: true,
-                                enlargeCenterPage: true,
-                                viewportFraction: 0.9,
-                                aspectRatio: 2.0,
+                                enlargeCenterPage: false,
+                                viewportFraction: 1,
+                                aspectRatio: 1,
                                 initialPage: 0,
                                 onPageChanged: (index, reason) {
                                   setState(() {
@@ -685,7 +685,7 @@ class _BodyState extends State<Body> {
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20.0),
                   child: GFItemsCarousel(
                     rowCount: 2,
-                    itemHeight: 200.0,
+                    itemHeight: 240.0,
                     children:
                         homePageModel.getHomePageData![7].sectiondata!.map(
                       (url) {
@@ -796,7 +796,14 @@ class _BodyState extends State<Body> {
                 //   ],
                 // ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              final Map<String, String> someMap = {
+                "id": homePageModel.getHomePageData![1].sectiondata![0].link!!,
+                "product_count": "2",
+              };
+              context.go('/home/pdp',extra: someMap);
+
+            },
             style: ElevatedButton.styleFrom(
               padding:
               const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
