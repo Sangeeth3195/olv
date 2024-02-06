@@ -171,17 +171,17 @@ class _BodyState extends State<Body> {
 
                                           /// Reorder
                                           /*  MaterialButton(
-                                  color: headingColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0.0),
-                                  ),
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "Reorder",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 13),
-                                  ),
-                                ),*/
+                                        color: headingColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(0.0),
+                                        ),
+                                        onPressed: () {},
+                                        child: const Text(
+                                          "Reorder",
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 13),
+                                        ),
+                                      ),*/
 
                                           const SizedBox(
                                             width: 4,
@@ -210,6 +210,7 @@ class _BodyState extends State<Body> {
                                             ),
                                             child: const Text(
                                               'View Order',
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: headingColor,
                                                   fontSize: 13),

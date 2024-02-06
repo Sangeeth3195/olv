@@ -204,7 +204,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       Icon(FontAwesomeIcons.cartPlus),
       Icon(FontAwesomeIcons.user),
     ];
-    return Scaffold(
+    return  Scaffold(
       key: _key,
       // Assign the key to Scaffold.
       endDrawer: Drawer(
@@ -566,7 +566,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                   extra: navHeaderList[index]);
                             },
                             child: Text(
-                              navHeaderList[index]['name'],
+                              navHeaderList[index]['name'].toUpperCase(),
                               style: const TextStyle(
                                   fontFamily: 'Gotham',
                                   fontWeight: FontWeight.w500,
@@ -803,7 +803,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                 extra: getbrandslist[itemIndex]);
                           },
                           child: Text(
-                            getbrandslist[itemIndex]['name'].toString(),
+                            getbrandslist[itemIndex]['name'].toUpperCase(),
                             style: const TextStyle(
                                 color: navTextColor,
                                 fontSize: 13,

@@ -78,7 +78,7 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                     primary: false,
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(2),
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 0.70,
                     maxCrossAxisExtent: 300,
                     cacheExtent: 10,
                     children: List.generate(

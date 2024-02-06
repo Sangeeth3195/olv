@@ -43,6 +43,12 @@ class _HomeScreenState extends State<ProductListing> {
     // TODO: implement initState
     super.initState();
     getNavdata();
+
+    print('widget');
+    print('widget');
+    print(widget.data['name']);
+    print(widget.data['id']);
+    print(widget.data);
   }
 
   @override
@@ -389,7 +395,7 @@ class _HomeScreenState extends State<ProductListing> {
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width - 148,
                             child: Text(
-                              provider.title,
+                              widget.data['name'],
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)
                                   .textTheme

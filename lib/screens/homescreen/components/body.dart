@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chewie/chewie.dart';
@@ -7,13 +9,14 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
-import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/HomePageModel.dart';
+import 'package:omaliving/models/InstaFeed.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
-import '../../product_listing/components/search_form.dart';
+
+import '../../../API Services/InstaFeedServicde.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -30,17 +33,9 @@ class _BodyState extends State<Body> {
   HomePageModel homePageModel = HomePageModel();
   List<dynamic> navHeaderList = [];
   late VideoPlayerController? videoPlayerController;
-  final bool looping = true;
-  final bool autoplay = true;
-
-  final List<String> imageList = [
-    "https://www.omaliving.com/media/wysiwyg/image_18_.png",
-    "https://www.omaliving.com/media/wysiwyg/image_24_.png",
-    "https://www.omaliving.com/media/wysiwyg/image_22_.png",
-    "https://www.omaliving.com/media/wysiwyg/image_21_.png",
-    "https://www.omaliving.com/media/wysiwyg/image_23_.png",
-    "https://www.omaliving.com/media/wysiwyg/image_19_.png"
-  ];
+  final bool looping = false;
+  final bool autoplay = false;
+  List<Instafeed> instafeed = <Instafeed>[];
 
   ChewieController? _chewieController;
   CarouselController buttonCarouselController = CarouselController();
@@ -51,11 +46,20 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
     getDate();
+    print('instafeed');
+    print(instafeed.length);
+  }
+
+  Future<void> getInstaData() async {
+    InstaFeed.getInstaPost().then((_feed) {
+      instafeed.addAll(_feed);
+    });
   }
 
   getDate() async {
     navHeaderList = await graphQLService.getCategory(limit: 100);
     homePageModel = await graphQLService.gethomepagedata();
+    getInstaData();
     setState(() {});
 
     if (homePageModel.typename != null) {
@@ -69,6 +73,7 @@ class _BodyState extends State<Body> {
         autoInitialize: true,
         autoPlay: autoplay,
         looping: looping,
+        allowMuting: true,
         showOptions: false,
         allowFullScreen: false,
         fullScreenByDefault: false,
@@ -136,8 +141,7 @@ class _BodyState extends State<Body> {
                                     .getHomePageData![0].sectiondata!)
                                   GestureDetector(
                                     onTap: () {
-
-                                      print('item.link');
+                                     /* print('item.link');
                                       print(item.link);
 
                                       final myProvider =
@@ -145,7 +149,13 @@ class _BodyState extends State<Body> {
                                               listen: false);
                                       myProvider
                                           .updateData(int.parse(item.link!));
-                                      context.go('/home/pdp');
+                                      context.go('/home/pdp');*/
+                                      final Map<String, String> someMap = {
+                                        "id": item.link!,
+                                        "name":item.title!,
+                                        "product_count": "20",
+                                      };
+                                      context.go('/home/pdp', extra: someMap);
                                     },
                                     child: Image.network(
                                       "https://staging2.omaliving.com${item.attachmentmob!}",
@@ -208,7 +218,7 @@ class _BodyState extends State<Body> {
                 Center(
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                       child: Text(
                         homePageModel.getHomePageData![1].title!.toUpperCase(),
                         style: Theme.of(context)
@@ -223,6 +233,27 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                 ),
+
+                Center(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Text(
+                        '130+',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(
+                                color: headingTextColor,
+                                fontFamily: 'Gotham',
+                                fontSize: 45,
+                                letterSpacing: 4,
+                                fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+
                 Center(
                   child: Center(
                     child: Padding(
@@ -233,7 +264,7 @@ class _BodyState extends State<Body> {
                             .textTheme
                             .titleMedium!
                             .copyWith(
-                                fontSize: 14,
+                                fontSize: 13,
                                 color: describtionTextColor,
                                 fontFamily: 'Gotham',
                                 fontWeight: FontWeight.w500),
@@ -253,8 +284,15 @@ class _BodyState extends State<Body> {
                         (url) {
                           return GestureDetector(
                             onTap: () {
+                              final Map<String, dynamic> someMap = {
+                                "id": int.parse(url.link.toString()),
+                                "name":url.title!,
+                                "product_count": 20,
+                              };
+                              print(someMap);
+                              context.go('/home/pdp', extra: someMap);
 
-                              print('item.link');
+                              /* print('item.link');
 
                               print(url.link);
 
@@ -263,8 +301,7 @@ class _BodyState extends State<Body> {
                                   listen: false);
                               myProvider.updateData(int.parse(url.link!));
 
-                              context.go('/home/pdp');
-
+                              context.go('/home/pdp');*/
                             },
                             child: Container(
                               margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
@@ -312,13 +349,23 @@ class _BodyState extends State<Body> {
                 ),
 
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    final Map<String, dynamic> someMap = {
+                      "id": int.parse(homePageModel
+                          .getHomePageData![1].sectiondata![0].link
+                          .toString()),
+                      "product_count": 20,
+                    };
+                    print(someMap);
+                    context.go('/home/pdp', extra: someMap);
+                  },
                   style: ElevatedButton.styleFrom(
                     padding:
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
-                    backgroundColor:
-                        describtionTextColor,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)), // Set the background color
+                    backgroundColor: describtionTextColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            0.0)), // Set the background color
                   ),
                   child: const Text(
                     'SHOP NOW',
@@ -330,36 +377,6 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                 ),
-
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
-                //   child: ClipRRect(
-                //     borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                //     child: ImageSlideshow(
-                //       indicatorColor: Colors.transparent,
-                //       height: 200.0,
-                //       onPageChanged: (value) {},
-                //       isLoop: false,
-                //       children: [
-                //         for (Sectiondatum item
-                //             in homePageModel.getHomePageData![2].sectiondata!)
-                //           GestureDetector(
-                //             onTap: () {
-                //               final myProvider = Provider.of<MyProvider>(
-                //                   context,
-                //                   listen: false);
-                //               myProvider.updateData(int.parse(item.link!));
-                //               context.go('/home/pdp');
-                //             },
-                //             child: Image.network(
-                //               "https://staging2.omaliving.com${item.attachmentmob!}",
-                //               fit: BoxFit.cover,
-                //             ),
-                //           ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
 
                 _chewieController == null
                     ? Center(child: Container())
@@ -397,17 +414,25 @@ class _BodyState extends State<Body> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                   child: GFItemsCarousel(
-                    rowCount: 3,
-                    itemHeight: 260.0,
+                    rowCount: 2,
+
+                    itemHeight: 280.0,
                     children:
                         homePageModel.getHomePageData![3].sectiondata!.map(
                       (url) {
                         return GestureDetector(
                           onTap: () {
-                            final myProvider =
+                          /*  final myProvider =
                                 Provider.of<MyProvider>(context, listen: false);
                             myProvider.updateData(int.parse(url.link!));
-                            context.go('/home/pdp');
+                            context.go('/home/pdp');*/
+                            final Map<String, dynamic> someMap = {
+                              "id": int.parse(url.link!
+                                  .toString()),
+                              "product_count": 20,
+                            };
+                            print(someMap);
+                            context.go('/home/pdp', extra: someMap);
                           },
                           child: Column(
                             children: [
@@ -429,8 +454,9 @@ class _BodyState extends State<Body> {
                                   ),
                                 ),
                               ),
-
-                              const SizedBox(height: 15,),
+                              const SizedBox(
+                                height: 15,
+                              ),
                               Text(
                                 url.title!,
                                 style: Theme.of(context)
@@ -441,7 +467,7 @@ class _BodyState extends State<Body> {
                                       fontFamily: 'Gotham',
                                       height: 1.5,
                                       fontSize: 12,
-                                  fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                 textAlign: TextAlign.center,
                               )
@@ -453,26 +479,26 @@ class _BodyState extends State<Body> {
                   ),
                 ),
 
-                Center(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
-                      child: Text(
-                        homePageModel.getHomePageData![4].title!,
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: describtionTextColor,
-                              fontFamily: 'Gotham',
-                              height: 1.5,
-                            ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Center(
+                //   child: Center(
+                //     child: Padding(
+                //       padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
+                //       child: Text(
+                //         homePageModel.getHomePageData![4].title!,
+                //         style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                //               fontSize: 18,
+                //               fontWeight: FontWeight.w500,
+                //               color: describtionTextColor,
+                //               fontFamily: 'Gotham',
+                //               height: 1.5,
+                //             ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
 
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                  padding: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 0),
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(0.0)),
                     child: ImageSlideshow(
@@ -485,11 +511,18 @@ class _BodyState extends State<Body> {
                             in homePageModel.getHomePageData![4].sectiondata!)
                           GestureDetector(
                             onTap: () {
-                              final myProvider = Provider.of<MyProvider>(
+                             /* final myProvider = Provider.of<MyProvider>(
                                   context,
                                   listen: false);
                               myProvider.updateData(int.parse(item.link!));
-                              context.go('/home/pdp');
+                              context.go('/home/pdp');*/
+                              final Map<String, dynamic> someMap = {
+                                "id": int.parse(item.link!
+                                    .toString()),
+                                "product_count": 20,
+                              };
+                              print(someMap);
+                              context.go('/home/pdp', extra: someMap);
                             },
                             child: Image.network(
                               "https://staging2.omaliving.com${item.attachment!}",
@@ -528,59 +561,6 @@ class _BodyState extends State<Body> {
                   height: 0,
                 ),
 
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                //   child: ClipRRect(
-                //     borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                //     child: ImageSlideshow(
-                //       indicatorColor: Colors.transparent,
-                //       height: 200.0,
-                //       onPageChanged: (value) {},
-                //       isLoop: false,
-                //       children: [
-                //         for (Sectiondatum item
-                //             in homePageModel.getHomePageData![5].sectiondata!)
-                //           GestureDetector(
-                //             onTap: () {
-                //               final myProvider = Provider.of<MyProvider>(
-                //                   context,
-                //                   listen: false);
-                //               myProvider.updateData(int.parse(item.link!));
-                //               context.go('/home/pdp');
-                //             },
-                //             child: Column(
-                //               crossAxisAlignment: CrossAxisAlignment.start,
-                //               children: [
-                //                 Image.network(
-                //                   "https://staging2.omaliving.com${item.attachment!}",
-                //                   fit: BoxFit.cover,
-                //                   errorBuilder: (context, error, stackTrace) {
-                //                     return Image.asset(
-                //                       'assets/omalogo.png',
-                //                       height: 175,
-                //                     );
-                //                   },
-                //                 ),
-                //                 Text(
-                //                   item.title!,
-                //                   style: Theme.of(context)
-                //                       .textTheme
-                //                       .subtitle1!
-                //                       .copyWith(
-                //                         fontWeight: FontWeight.w500,
-                //                         color: describtionTextColor,
-                //                         fontFamily: 'Gotham',
-                //                         fontSize: 15,
-                //                       ),
-                //                   textAlign: TextAlign.left,
-                //                 )
-                //               ],
-                //             ),
-                //           ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                   child: GFItemsCarousel(
@@ -591,10 +571,17 @@ class _BodyState extends State<Body> {
                       (url) {
                         return GestureDetector(
                           onTap: () {
-                            final myProvider =
+                            /*final myProvider =
                                 Provider.of<MyProvider>(context, listen: false);
                             myProvider.updateData(int.parse(url.link!));
-                            context.go('/home/pdp');
+                            context.go('/home/pdp');*/
+                            final Map<String, dynamic> someMap = {
+                              "id": int.parse(url.link!
+                                  .toString()),
+                              "product_count": 20,
+                            };
+                            print(someMap);
+                            context.go('/home/pdp', extra: someMap);
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -617,7 +604,9 @@ class _BodyState extends State<Body> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 15,),
+                              const SizedBox(
+                                height: 15,
+                              ),
                               Text(
                                 url.title!,
                                 style: Theme.of(context)
@@ -689,32 +678,34 @@ class _BodyState extends State<Body> {
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   color: Colors.black,
-                              fontFamily: 'Gotham',
-                              fontWeight: FontWeight.w600,
+                                  fontFamily: 'Gotham',
+                                  fontWeight: FontWeight.w600,
                                 ),
                       ),
                     ),
                   ),
                 ),
-          Center(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
-                child: Text(
-                  homePageModel.getHomePageData![7].description!,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(
-                      fontSize: 14,
-                      color: describtionTextColor,
-                      fontFamily: 'Gotham',
-                      fontWeight: FontWeight.w500),
+
+                Center(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
+                      child: Text(
+                        homePageModel.getHomePageData![7].description!,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(
+                                fontSize: 14,
+                                color: describtionTextColor,
+                                fontFamily: 'Gotham',
+                                fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
+
                 const SizedBox(
                   height: 0,
                 ),
@@ -724,16 +715,22 @@ class _BodyState extends State<Body> {
                   child: GFItemsCarousel(
                     rowCount: 2,
                     itemHeight: 280.0,
-                    itemHeight: 240.0,
                     children:
                         homePageModel.getHomePageData![7].sectiondata!.map(
                       (url) {
                         return GestureDetector(
                           onTap: () {
-                            final myProvider =
+                           /* final myProvider =
                                 Provider.of<MyProvider>(context, listen: false);
                             myProvider.updateData(int.parse(url.link!));
-                            context.go('/home/pdp');
+                            context.go('/home/pdp');*/
+                            final Map<String, dynamic> someMap = {
+                              "id": int.parse(url.link!
+                                  .toString()),
+                              "product_count": 20,
+                            };
+                            print(someMap);
+                            context.go('/home/pdp', extra: someMap);
                           },
                           child: Column(
                             children: [
@@ -777,97 +774,145 @@ class _BodyState extends State<Body> {
                   ),
                 ),
 
-                // Column(
-                //   children: [
-                //     _chewieController == null
-                //         ? const Center(child: CircularProgressIndicator())
-                //         : SizedBox(
-                //             height: 250,
-                //             child: Padding(
-                //               padding: const EdgeInsets.all(8.0),
-                //               child: AspectRatio(
-                //                 aspectRatio: 16 / 2,
-                //                 child: Chewie(
-                //                   controller: _chewieController!,
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //     homePageModel.getHomePageData!.length != 10
-                //         ? Container()
-                //         : Center(
-                //             child: Center(
-                //               child: Padding(
-                //                 padding:
-                //                     const EdgeInsets.fromLTRB(10, 15, 10, 5),
-                //                 child: Center(
-                //                   child: Text(
-                //                     homePageModel.getHomePageData![9].title!,
-                //                     textAlign: TextAlign.center,
-                //                     style: Theme.of(context)
-                //                         .textTheme
-                //                         .titleMedium!
-                //                         .copyWith(
-                //                           color: Colors.black,
-                //                           fontWeight: FontWeight.w600,
+                ElevatedButton(
+                  onPressed: () {
+                  /*  final Map<String, String> someMap = {
+                      "id": homePageModel
+                          .getHomePageData![1].sectiondata![0].link!!,
+                      "product_count": "20",
+                    };
+                    context.go('/home/pdp', extra: someMap);*/
+                    final Map<String, dynamic> someMap = {
+                      "id": int.parse(homePageModel
+                          .getHomePageData![1].sectiondata![0].link!
+                          .toString()),
+                      "product_count": 20,
+                    };
+                    print(someMap);
+                    context.go('/home/pdp', extra: someMap);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
+                    backgroundColor: describtionTextColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0.0)),
+                    // Set the background color
+                  ),
+                  child: const Text(
+                    'SHOP NOW',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Gotham',
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                Center(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                      child: Text(
+                        homePageModel.getHomePageData![8].title!,
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontFamily: 'Gotham',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                Center(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 15),
+                      child: Text(
+                        homePageModel.getHomePageData![8].description!,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(
+                                fontSize: 14,
+                                color: describtionTextColor,
+                                fontFamily: 'Gotham',
+                                fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // GestureDetector(
+                //   child: Padding(
+                //     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                //     child:
+                //         ListView.builder(
+                //         itemCount: instafeed[0].data.length,
+                //         itemBuilder: (context, index) {
+                //           GFItemsCarousel(
+                //             rowCount: 3,
+                //             itemHeight: 250.0,
+                //             children:
+                //             instafeed.map(
+                //                   (url) {
+                //                 return GestureDetector(
+                //                   onTap: () {
+                //
+                //                     print(instafeed[0].data[index].permalink);
+                //                     // final Map<String, dynamic> someMap = {
+                //                     //   "id": int.parse(url.link.toString()),
+                //                     //   "product_count": 2,
+                //                     // };
+                //                     // print(someMap);
+                //                     // context.go('/home/pdp', extra: someMap);
+                //                   },
+                //                   child: Container(
+                //                     margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
+                //                     child: Column(
+                //                       children: [
+                //                         ClipRRect(
+                //                           borderRadius: const BorderRadius.all(
+                //                               Radius.circular(0.0)),
+                //                           child: Image.network(
+                //                             "",
+                //                             fit: BoxFit.cover,
+                //                             height: 175,
+                //                             width: 1000.0,
+                //                             errorBuilder:
+                //                                 (context, error, stackTrace) {
+                //                               return Image.asset(
+                //                                 'assets/omalogo.png',
+                //                                 height: 175,
+                //                               );
+                //                             },
+                //                           ),
                 //                         ),
+                //                       ],
+                //                     ),
                 //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //     homePageModel.getHomePageData!.length != 10
-                //         ? Container()
-                //         : Center(
-                //             child: Center(
-                //               child: Padding(
-                //                 padding:
-                //                     const EdgeInsets.fromLTRB(15, 10, 15, 15),
-                //                 child: Center(
-                //                   child: Text(
-                //                     homePageModel
-                //                         .getHomePageData![9].description!,
-                //                     textAlign: TextAlign.center,
-                //                     style: Theme.of(context)
-                //                         .textTheme
-                //                         .titleMedium!
-                //                         .copyWith(
-                //                           color: Colors.black,
-                //                           fontWeight: FontWeight.w500,
-                //                         ),
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //   ],
+                //                 );
+                //               },
+                //             ).toList(),
+                //           );
+                //         }),
+                //
+                //
+                //
+                //   ),
                 // ),
-          ElevatedButton(
-            onPressed: () {
-              final Map<String, String> someMap = {
-                "id": homePageModel.getHomePageData![1].sectiondata![0].link!!,
-                "product_count": "2",
-              };
-              context.go('/home/pdp',extra: someMap);
 
-            },
-            style: ElevatedButton.styleFrom(
-              padding:
-              const EdgeInsets.symmetric(vertical: 5, horizontal: 40),
-              backgroundColor:
-              describtionTextColor, // Set the background color
-            ),
-            child: const Text(
-              'SHOP NOW',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Gotham',
-              ),
-            ),
-          ),
-          const SizedBox(height: 20,),
-
+                const SizedBox(
+                  height: 10,
+                ),
               ])
             : const Center(child: CircularProgressIndicator()));
   }
