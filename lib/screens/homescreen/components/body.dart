@@ -414,7 +414,7 @@ class _BodyState extends State<Body> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                   child: GFItemsCarousel(
-                    rowCount: 2,
+                    rowCount: 3,
 
                     itemHeight: 280.0,
                     children:
