@@ -115,7 +115,6 @@ class OrdersItem {
     "shipping_address": shippingAddress?.toJson(),
     "billing_address": billingAddress?.toJson(),
     "items": items == null ? [] : List<dynamic>.from(items!.map((x) => x.toJson())),
-
     "order_date": orderDate?.toIso8601String(),
     "total": total?.toJson(),
   };
@@ -304,7 +303,8 @@ class Amount {
   Amount({this.value});
 
   Amount.fromJson(Map<String, dynamic> json) {
-    value = json['value'];
+    value = json["value"]?.toDouble();
+
   }
 
   Map<String, dynamic> toJson() {

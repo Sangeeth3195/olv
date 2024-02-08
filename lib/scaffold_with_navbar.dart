@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:omaliving/screens/provider/provider.dart';
+import 'package:omaliving/webview.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -204,7 +205,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       Icon(FontAwesomeIcons.cartPlus),
       Icon(FontAwesomeIcons.user),
     ];
-    return  Scaffold(
+    return Scaffold(
       key: _key,
       // Assign the key to Scaffold.
       endDrawer: Drawer(
@@ -373,7 +374,10 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                   size: 25,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const TST()));
+              },
             ),
           ),
           Center(
@@ -571,8 +575,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                   fontFamily: 'Gotham',
                                   fontWeight: FontWeight.w500,
                                   fontSize: 13.0,
-                                  color: navTextColor
-                                  ),
+                                  color: navTextColor),
                             ),
                           ),
                           children: <Widget>[
@@ -655,91 +658,99 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                 horizontal: 20, vertical: 0),
                                             child: ListTile(
                                               onTap: () {
-
                                                 print('showcollection');
 
                                                 print(navHeaderList[index]
-                                                ['children']
-                                                [itemIndex]['children']
-                                                [subitemIndex]['show_collection']);
+                                                                    ['children']
+                                                                [itemIndex]
+                                                            ['children']
+                                                        [subitemIndex]
+                                                    ['show_collection']);
 
-                                                if(navHeaderList[index]
-                                                ['children']
-                                                [itemIndex]['children']
-                                                [subitemIndex]['show_collection'] == 1){
-
+                                                if (navHeaderList[index][
+                                                                        'children']
+                                                                    [itemIndex]
+                                                                ['children']
+                                                            [subitemIndex]
+                                                        ['show_collection'] ==
+                                                    1) {
                                                   print('test_entry');
 
-                                                  print(navHeaderList[index]
-                                                  ['children']
-                                                  [itemIndex]['children']
-                                                  [subitemIndex]['show_collection']);
+                                                  print(navHeaderList[index][
+                                                                      'children']
+                                                                  [itemIndex]
+                                                              ['children']
+                                                          [subitemIndex]
+                                                      ['show_collection']);
 
                                                   print(navHeaderList[index]
-                                                  ['children']
-                                                  [itemIndex]['children']
-                                                  [subitemIndex]['name']);
+                                                                  ['children']
+                                                              [itemIndex]
+                                                          ['children']
+                                                      [subitemIndex]['name']);
 
                                                   Navigator.of(context).pop();
                                                   catId = navHeaderList[index]
-                                                  ['children']
-                                                  [itemIndex]['children']
-                                                  [subitemIndex]['id'];
+                                                                  ['children']
+                                                              [itemIndex]
+                                                          ['children']
+                                                      [subitemIndex]['id'];
                                                   final myProvider =
-                                                  Provider.of<MyProvider>(
-                                                      context,
-                                                      listen: false);
+                                                      Provider.of<MyProvider>(
+                                                          context,
+                                                          listen: false);
                                                   // myProvider.updateData(catId);
                                                   myProvider.updateHeader(
                                                       navHeaderList[index][
-                                                      'children']
-                                                      [itemIndex]
-                                                      ['children'][
-                                                      subitemIndex]['name']
+                                                                          'children']
+                                                                      [
+                                                                      itemIndex]
+                                                                  ['children'][
+                                                              subitemIndex]['name']
                                                           .toString());
                                                   myProvider.isproduct = true;
                                                   myProvider.notifyListeners();
 
-                                                  context.go('/home/cat_listing_filter',
-                                                      extra: navHeaderList[index]
-                                                      ['children']
-                                                      [itemIndex]);
-
-                                                }else {
-
+                                                  context.go(
+                                                      '/home/cat_listing_filter',
+                                                      extra:
+                                                          navHeaderList[index]
+                                                                  ['children']
+                                                              [itemIndex]);
+                                                } else {
                                                   print(navHeaderList[index]
-                                                  ['children']
-                                                  [itemIndex]['children']
-                                                  [subitemIndex]['name']);
+                                                                  ['children']
+                                                              [itemIndex]
+                                                          ['children']
+                                                      [subitemIndex]['name']);
 
                                                   Navigator.of(context).pop();
                                                   catId = navHeaderList[index]
-                                                  ['children']
-                                                  [itemIndex]['children']
-                                                  [subitemIndex]['id'];
+                                                                  ['children']
+                                                              [itemIndex]
+                                                          ['children']
+                                                      [subitemIndex]['id'];
                                                   final myProvider =
-                                                  Provider.of<MyProvider>(
-                                                      context,
-                                                      listen: false);
+                                                      Provider.of<MyProvider>(
+                                                          context,
+                                                          listen: false);
                                                   // myProvider.updateData(catId);
                                                   myProvider.updateHeader(
                                                       navHeaderList[index][
-                                                      'children']
-                                                      [itemIndex]
-                                                      ['children'][
-                                                      subitemIndex]['name']
+                                                                          'children']
+                                                                      [
+                                                                      itemIndex]
+                                                                  ['children'][
+                                                              subitemIndex]['name']
                                                           .toString());
                                                   myProvider.isproduct = true;
                                                   myProvider.notifyListeners();
                                                   context.go('/home/pdp',
-                                                      extra: navHeaderList[index]
-                                                      ['children']
-                                                      [itemIndex]);
+                                                      extra:
+                                                          navHeaderList[index]
+                                                                  ['children']
+                                                              [itemIndex]);
                                                 }
-
-
-
-
                                               },
                                               title: Text(
                                                 navHeaderList[index]['children']
@@ -769,8 +780,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 );
               },
             ),
-
-
             ExpansionTile(
               title: GestureDetector(
                 onTap: () {},
@@ -785,14 +794,13 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               ),
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 0),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     itemCount: getbrandslist.length,
-                    itemBuilder:
-                        (BuildContext context, int itemIndex) {
+                    itemBuilder: (BuildContext context, int itemIndex) {
                       return ExpansionTile(
                         trailing: const SizedBox(),
                         title: GestureDetector(

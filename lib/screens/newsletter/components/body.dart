@@ -14,7 +14,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
   GraphQLService graphQLService = GraphQLService();
   CustomerModel customerModel = CustomerModel();
 
@@ -30,14 +29,8 @@ class _BodyState extends State<Body> {
   void getuserdata() async {
     EasyLoading.show(status: 'loading...');
     customerModel = await graphQLService.get_customer_details();
-    print(customerModel.customer?.addresses?.length);
-
-    print(customerModel.customer!.issubscribed!);
-
     setState(() {
-
       isChecked = customerModel.customer!.issubscribed!;
-
     });
   }
 
@@ -63,14 +56,14 @@ class _BodyState extends State<Body> {
                     },
                   ),
                   const Text(
-                    'Subscribe to Promotional Emails',
-                    style: TextStyle(fontFamily: 'Gotham',
+                    'General Subscription',
+                    style: TextStyle(
+                        fontFamily: 'Gotham',
                         fontWeight: FontWeight.w500,
                         fontSize: 14.0,
                         color: Colors.black),
                   ),
                   const SizedBox(width: 5),
-
                 ],
               ),
               const SizedBox(height: 15),
@@ -79,36 +72,29 @@ class _BodyState extends State<Body> {
                 child: DefaultButton(
                   text: 'Save',
                   press: () async {
-
                     EasyLoading.show(status: 'loading...');
-
                     String? nam = customerModel.customer?.firstname;
                     String? lm = customerModel.customer?.lastname;
                     String? em = customerModel.customer?.email;
-                    print(isChecked);
-
                     String result;
                     result = await graphQLService.update_customer_details_api(
                         firstname: nam!,
                         lastname: lm!,
                         email: em!,
                         isSubscribed: isChecked);
-
                     if (result == "200") {
                       EasyLoading.dismiss();
                       Navigator.of(context).pop();
-                      Fluttertoast.showToast(
-                          msg: "Subscribed Successfully");
+                      Fluttertoast.showToast(msg: "Subscribed Successfully");
                     } else {
                       EasyLoading.dismiss();
                       Fluttertoast.showToast(msg: "Subscribed updation failed");
                     }
                   },
                 ),
-              ),  //Row
+              ), //Row
             ],
           ), //Column
-          //SizedBox
         ), //Padding
       ), //Card
     );
@@ -121,5 +107,4 @@ class _BodyState extends State<Body> {
       });
     }
   }
-
 }

@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:omaliving/LoginPage.dart';
+import 'package:omaliving/models/CategoryInfo.dart';
 import 'package:omaliving/models/CollectionModel.dart';
 import 'package:omaliving/models/CountryModel.dart';
 import 'package:omaliving/models/CustomerModel.dart';
@@ -336,6 +337,51 @@ class GraphQLService {
       }
     } catch (error) {
       return [];
+    }
+  }
+
+  Future<CategoryInfo> getCategoryInfo(String id) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                category(id: "$id") {
+                  id
+                  level
+                  name
+                  products {
+                    total_count
+                    page_info {
+                      current_page
+                      page_size
+                    }
+                  }
+                  children_count
+                  children {
+                    id
+                    level
+                    name
+                    path
+                  }
+                }
+              }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        EasyLoading.dismiss();
+
+        log(jsonEncode(result.data));
+        return CategoryInfo.fromJson(result.data!);
+      }
+    } catch (error) {
+      print(error);
+      return CategoryInfo();
     }
   }
 
@@ -2333,9 +2379,7 @@ class GraphQLService {
         print(result.exception?.graphqlErrors[0].message);
         EasyLoading.dismiss();
       } else if (result.data != null) {
-        log(jsonEncode(result.data));
         EasyLoading.dismiss();
-
         return OrderModel.fromJson(result.data!);
       }
       EasyLoading.dismiss();

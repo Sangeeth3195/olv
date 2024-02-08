@@ -8,6 +8,7 @@ import 'package:omaliving/models/Product.dart';
 import 'package:omaliving/screens/details/details_screen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
+import '../../models/CategoryInfo.dart';
 import 'components/product_card.dart';
 
 class ProductListing extends StatefulWidget {
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<ProductListing> {
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> pList = [];
   final int _value = 0;
+  CategoryInfo getcategoryInfo = CategoryInfo();
 
   var selectedColor = 0;
 
@@ -36,7 +38,7 @@ class _HomeScreenState extends State<ProductListing> {
   ];
 
   final GlobalKey<ScaffoldState> _childDrawerKey = GlobalKey();
-  RangeValues _currentRangeValues = RangeValues(50, 200);
+  RangeValues _currentRangeValues = const RangeValues(50, 200);
 
   @override
   void initState() {
@@ -49,6 +51,7 @@ class _HomeScreenState extends State<ProductListing> {
     print(widget.data['name']);
     print(widget.data['id']);
     print(widget.data);
+
   }
 
   @override
@@ -60,9 +63,15 @@ class _HomeScreenState extends State<ProductListing> {
 
   void getNavdata() async {
     print(widget.data);
+    getcategoryInfo = await graphQLService.getCategoryInfo(widget.data['id'].toString());
+
+    print('getcategoryInfo');
+    print(widget.data['id']);
+
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updateData(widget.data['id'],
         limit: widget.data['product_count']);
+
   }
 
   void filterData(Map<String, dynamic> filter) async {
@@ -396,7 +405,7 @@ class _HomeScreenState extends State<ProductListing> {
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width - 148,
                             child: Text(
-                              widget.data['name'],
+                              widget.data['name'] ?? 'TEST',
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)
                                   .textTheme

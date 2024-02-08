@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
+import 'package:omaliving/models/CategoryInfo.dart';
 import 'package:omaliving/models/Product.dart';
 import 'package:omaliving/screens/details/details_screen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
@@ -34,6 +35,7 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
   List<dynamic> pList = [];
   var selectedColor = 0;
   MyProvider? myProvider;
+  CategoryInfo getcategoryInfo = CategoryInfo();
 
   final GlobalKey<ScaffoldState> _childDrawerKey = GlobalKey();
 
@@ -53,7 +55,11 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
 
   void getNavdata() async {
 
+    getcategoryInfo = await graphQLService.getCategoryInfo(widget.id.toString());
 
+    print('getcategoryInfo');
+    print('getcategoryInfo');
+    print(widget.id);
 
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updatebrandData(widget.id, widget.id1, limit: 2);

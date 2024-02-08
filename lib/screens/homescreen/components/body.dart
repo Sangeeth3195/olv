@@ -12,8 +12,7 @@ import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/HomePageModel.dart';
 import 'package:omaliving/models/InstaFeed.dart';
-import 'package:omaliving/screens/provider/provider.dart';
-import 'package:provider/provider.dart';
+
 import 'package:video_player/video_player.dart';
 
 import '../../../API Services/InstaFeedServicde.dart';
@@ -631,7 +630,104 @@ class _BodyState extends State<Body> {
                   height: 5,
                 ),
 
-                Padding(
+              GestureDetector(
+            onTap: () {
+              // navigate(context, ProductListing.routeName,
+              //     isRootNavigator: false,
+              //     arguments: {'id': '1'});
+            },
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                  child: ClipRRect(
+                    borderRadius:
+                    const BorderRadius.all(Radius.circular(0.0)),
+                    child: Column(children: <Widget>[
+                      CarouselSlider(
+                        items: [
+                          for (Sectiondatum item in homePageModel
+                              .getHomePageData![6].sectiondata!)
+                            GestureDetector(
+                              onTap: () {
+                                /* print('item.link');
+                                      print(item.link);
+
+                                      final myProvider =
+                                          Provider.of<MyProvider>(context,
+                                              listen: false);
+                                      myProvider
+                                          .updateData(int.parse(item.link!));
+                                      context.go('/home/pdp');*/
+                                final Map<String, String> someMap = {
+                                  "id": item.link!,
+                                  "name":item.title!,
+                                  "product_count": "20",
+                                };
+                                context.go('/home/pdp', extra: someMap);
+                              },
+                              child: Image.network(
+                                "https://staging2.omaliving.com${item.attachment!}",
+                                fit: BoxFit.fitWidth,
+                              ),
+                            )
+                        ],
+                        carouselController: buttonCarouselController,
+                        options: CarouselOptions(
+                          autoPlay: true,
+                          enlargeCenterPage: false,
+                          viewportFraction: 1,
+                          aspectRatio: 1,
+                          initialPage: 0,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _current = index;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: homePageModel
+                            .getHomePageData![6].sectiondata!
+                            .asMap()
+                            .entries
+                            .map((entry) {
+                          return GestureDetector(
+                            onTap: () => buttonCarouselController
+                                .animateToPage(entry.key),
+                            child: Container(
+                              width: 10.0,
+                              height: 10.0,
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 4.0),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: (Theme.of(context).brightness ==
+                                      Brightness.dark
+                                      ? headingColor
+                                      : headingColor)
+                                      .withOpacity(_current == entry.key
+                                      ? 0.9
+                                      : 0.2)),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ]),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+           /*     Padding(
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                   child: GFItemsCarousel(
                     rowCount: 1,
@@ -661,7 +757,7 @@ class _BodyState extends State<Body> {
                       },
                     ).toList(),
                   ),
-                ),
+                ),*/
 
                 // product with add to cart
 

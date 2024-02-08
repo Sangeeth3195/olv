@@ -13,15 +13,14 @@ class Newsletter extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black,size: 20),
+        iconTheme: const IconThemeData(color: Colors.black, size: 20),
         title: const Text(
           'Newsletter Subscription',
           style: TextStyle(
               fontFamily: 'Gotham',
               fontWeight: FontWeight.w500,
               fontSize: 14.0,
-              color: Colors.black
-          ),
+              color: Colors.black),
         ),
       ),
       body: const Body(),

@@ -95,12 +95,10 @@ class Body extends StatelessWidget {
                         style: const TextStyle(fontSize: 13),
                       )),
                       DataCell(Text(
-                        item.productSalePrice!.value.toString() ??
-                            '',
+                        item.productSalePrice!.value.toString() ?? '',
                         style: const TextStyle(fontSize: 13),
                       )),
                     ]),
-
                 ],
               ),
             ),
@@ -207,7 +205,9 @@ class Body extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Row(children: [
                       Text(
-                        ordersItem.total!.discounts!.isEmpty ?'0': ' - ₹ ${ordersItem.total!.discounts?[0].amount!.value! ?? '0'}',
+                        ordersItem.total!.discounts!.isEmpty
+                            ? '0'
+                            : ' - ₹ ${ordersItem.total!.discounts?[0].amount!.value! ?? '0'}',
                         style: const TextStyle(color: Colors.black),
                       )
                     ]),
@@ -321,16 +321,13 @@ class Body extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-
                         "${ordersItem.shippingAddress!.firstname!} "
                         "${ordersItem.shippingAddress!.lastname!} \n"
                         "${ordersItem.shippingAddress!.street![0]}, "
                         "${ordersItem.shippingAddress!.city!} \n"
-                            "${ordersItem.shippingAddress!.region!}, "
-                            "${ordersItem.shippingAddress!.postcode!} \n"
-                            "Tel: ${ordersItem.shippingAddress!.telephone!}",
-
-
+                        "${ordersItem.shippingAddress!.region!}, "
+                        "${ordersItem.shippingAddress!.postcode!} \n"
+                        "Tel: ${ordersItem.shippingAddress!.telephone!}",
                         style: const TextStyle(
                             color: Colors.black,
                             fontSize: 13,
@@ -348,6 +345,7 @@ class Body extends StatelessWidget {
                           children: [
                             Text(
                               ordersItem.shippingMethod ?? '',
+                              maxLines: 2,
                               style: const TextStyle(
                                   color: Colors.black, fontSize: 12),
                             ),
@@ -403,14 +401,13 @@ class Body extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-
                         "${ordersItem.billingAddress!.firstname!} "
-                            "${ordersItem.billingAddress!.lastname!} \n"
-                            "${ordersItem.billingAddress!.street![0]}, "
-                            "${ordersItem.billingAddress!.city!} \n"
-                            "${ordersItem.billingAddress!.region!}, "
-                            "${ordersItem.billingAddress!.postcode!} \n"
-                            "Tel: ${ordersItem.billingAddress!.telephone!}",
+                        "${ordersItem.billingAddress!.lastname!} \n"
+                        "${ordersItem.billingAddress!.street![0]}, "
+                        "${ordersItem.billingAddress!.city!} \n"
+                        "${ordersItem.billingAddress!.region!}, "
+                        "${ordersItem.billingAddress!.postcode!} \n"
+                        "Tel: ${ordersItem.billingAddress!.telephone!}",
                         style: const TextStyle(
                             color: Colors.black,
                             fontSize: 13,
