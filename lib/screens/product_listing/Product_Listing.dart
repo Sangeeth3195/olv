@@ -405,7 +405,7 @@ class _HomeScreenState extends State<ProductListing> {
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width - 148,
                             child: Text(
-                              widget.data['name'] ?? 'TEST',
+                              getcategoryInfo.category?.name??widget.data['name'] ,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)
                                   .textTheme
@@ -640,7 +640,7 @@ class _HomeScreenState extends State<ProductListing> {
                         Row(
                           children: [
                             Text(
-                              '${widget.data['product_count']} ITEMS',
+                              '${getcategoryInfo.category?.products?.totalCount??widget.data['product_count']} ITEMS',
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)
                                   .textTheme

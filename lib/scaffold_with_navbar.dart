@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/screens/cart/CartProvider.dart';
+import 'package:omaliving/screens/product_listing/components/search_form.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:omaliving/webview.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +40,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   String cart_token = '';
   var test;
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
+  final OverlayPortalController _tooltipController = OverlayPortalController();
 
   @override
   void initState() {
@@ -365,21 +367,63 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           ),
         ),
         actions: [
-          Center(
-            child: GestureDetector(
-              child: const Padding(
-                padding: EdgeInsets.only(right: 12.0),
-                child: Icon(
-                  Icons.search,
-                  size: 25,
-                ),
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const TST()));
+
+
+          IconButton(
+            onPressed: _tooltipController.toggle,
+            icon: OverlayPortal(
+              controller: _tooltipController,
+              overlayChildBuilder: (BuildContext context) {
+                return Container(
+                    width: 200,
+                    height: 200,
+                    child:                 Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      ),
+                      child: GestureDetector(
+                          onTap: () {
+                            // navigate(context, ProductList.route,
+                            //     isRootNavigator: false, arguments: {'id': '1'});
+                          },
+                          child: const SearchForm()),
+                    ));
+                return  Positioned(
+                  right: MediaQuery.of(context).size.width*0.22,
+                  top: MediaQuery.of(context).size.height*0.42,
+                  child: const ColoredBox(
+                    color: Colors.black,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'FlutterDevs is a protruding flutter app\ndevelopment company',
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                );
               },
+              child: Icon(Icons.search),
             ),
           ),
+          // Center(
+          //   child: GestureDetector(
+          //     child: const Padding(
+          //       padding: EdgeInsets.only(right: 12.0),
+          //       child: Icon(
+          //         Icons.search,
+          //         size: 25,
+          //       ),
+          //     ),
+          //     onTap: () {
+          //       Navigator.push(context,
+          //           MaterialPageRoute(builder: (context) => const TST()));
+          //     },
+          //   ),
+          // ),
           Center(
             child: Builder(
               builder: (context) => Padding(
