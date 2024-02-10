@@ -102,9 +102,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
           return Container();
         } else {
           log(provider.productData[0]['__typename']);
-
-
-          // print('restart');
           isWishListed ??= provider.productData[0]['is_wishlisted'];
           if (provider.productData[0]['__typename'] == "ConfigurableProduct") {
             isConfiguredProduct = true;
@@ -181,7 +178,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   ),
                   Container(
                     height: 40,
-                    width: MediaQuery.of(context).size.width-220,
+                    width: MediaQuery.of(context).size.width - 220,
                     // Set the container width to occupy the full width
                     margin: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 4),
@@ -200,43 +197,36 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           print(widget.product.toString());
 
                           print(provider.productData[0]['variants']
-                          [configurableProductIndex]['product']['sku']);
+                              [configurableProductIndex]['product']['sku']);
 
                           graphQLService.addProductToCart(
                               provider.productData[0]['variants']
-                              [configurableProductIndex]['product']['sku'],
+                                  [configurableProductIndex]['product']['sku'],
                               quantity.toString(),
-                              context: context
-                          );
+                              context: context);
                         } else {
                           graphQLService.addProductToCart(
-                              widget.product.toString(),
-                              quantity.toString(),
-                              context: context
-
-                          );
+                              widget.product.toString(), quantity.toString(),
+                              context: context);
                         }
-
-                        // graphQLService.update_product_to_cart(
-                        //   widget.product['sku'].toString(),
-                        //   quantity.toStringAsFixed(0),
-                        // );
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(5), backgroundColor: headingColor, // Set the background color
+                        padding: const EdgeInsets.all(5),
+                        backgroundColor:
+                            headingColor, // Set the background color
                       ),
                       child: const Text(
                         'ADD TO CART',
-                        style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal,color: Colors.white),
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white),
                       ),
                     ),
                   ),
                   Container(
                       height: 40,
                       width: 60,
-                      // padding: const EdgeInsets.symmetric(
-                      //     horizontal: 1.0,
-                      //     vertical: 1), // Adjust padding as needed
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
@@ -250,56 +240,42 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           onPressed: () async {
                             print(widget.product.toString());
 
-                            if (myProvider!
-                                    .customerModel.customer?.email !=
+                            if (myProvider!.customerModel.customer?.email !=
                                 null) {
                               if (isWishListed ?? false) {
                                 dynamic listData = await graphQLService
                                     .add_Product_from_wishlist(
                                   wishlistId: myProvider!.customerModel
                                       .customer!.wishlists![0].id!,
-                                  sku: provider.productData[0]['sku']
-                                      .toString(),
+                                  sku:
+                                      provider.productData[0]['sku'].toString(),
                                   qty: "1",
                                 );
                               } else {
                                 dynamic listData = await graphQLService
                                     .remove_Product_from_wishlist(
-                                        wishlistId: myProvider!
-                                            .customerModel
-                                            .customer!
-                                            .wishlists![0]
-                                            .id!,
+                                        wishlistId: myProvider!.customerModel
+                                            .customer!.wishlists![0].id!,
                                         wishlistItemsIds: provider
                                             .productData[0]['sku']
                                             .toString());
                               }
-
                               isWishListed = !isWishListed!;
-
-                              print(isWishListed);
-
                               setState(() {});
-
                             } else {
                               Fluttertoast.showToast(
-                                  msg:
-                                      'Please Login for wishlist an item');
+                                  msg: 'Please Login for wishlist an item');
                             }
                           },
                           icon: Icon(
                             isWishListed ?? false
                                 ? Icons.favorite
                                 : Icons.favorite_border,
-                            color: isWishListed ?? false
-                                ? Colors.red
-                                : themecolor,
+                            color:
+                                isWishListed ?? false ? Colors.red : themecolor,
                           )))
-
                 ],
               ),
-
-
             ],
             body: SingleChildScrollView(
               controller: scrollController,
@@ -320,7 +296,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           child: Text(
                               isConfiguredProduct
                                   ? provider.productData[0]['variants']
-                                      [configurableProductIndex]['product']['name']
+                                          [configurableProductIndex]['product']
+                                      ['name']
                                   : provider.productData[0]['name'],
                               style: const TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -346,7 +323,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                               ['minimum_price']['regular_price']
                                               ['value']
                                           .toString()
-                                      : '₹' "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
+                                      : '₹'
+                                          "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: headingFontColor,
@@ -390,9 +368,10 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           height: 0,
                         ),
 
-                        provider.productData[0]['configurable_options'] != null &&
-                                provider.productData[0]['configurable_options'][0]
-                                        ['label'] ==
+                        provider.productData[0]['configurable_options'] !=
+                                    null &&
+                                provider.productData[0]['configurable_options']
+                                        [0]['label'] ==
                                     "size"
                             ? Row(
                                 children: [
@@ -416,11 +395,12 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                               height: 50,
                                               child: ListView.builder(
                                                 shrinkWrap: true,
-                                                scrollDirection: Axis.horizontal,
+                                                scrollDirection:
+                                                    Axis.horizontal,
                                                 itemCount: provider
                                                     .productData[0]
-                                                        ['configurable_options'][0]
-                                                        ['values']
+                                                        ['configurable_options']
+                                                        [0]['values']
                                                     .length,
                                                 itemBuilder: (context, index) {
                                                   return GestureDetector(
@@ -428,28 +408,34 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                                         _changeSize(index);
                                                       },
                                                       child: Chip(
-                                                        backgroundColor: chipColor,
+                                                        backgroundColor:
+                                                            chipColor,
                                                         label: Padding(
-                                                          padding: const EdgeInsets
+                                                          padding:
+                                                              const EdgeInsets
                                                                   .symmetric(
-                                                              horizontal: 16.0),
+                                                                  horizontal:
+                                                                      16.0),
                                                           child: Text(
                                                             "${provider.productData[0]['configurable_options'][0]['values'][index]['swatch_data']['value']}",
-                                                            style: const TextStyle(
-                                                                color:
-                                                                    Colors.white),
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .white),
                                                           ),
                                                         ),
                                                         shape:
                                                             RoundedRectangleBorder(
                                                           borderRadius:
-                                                              BorderRadius.circular(
-                                                                  0.0),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      0.0),
                                                           // Adjust the border radius for rectangle shape
-                                                          side: const BorderSide(
+                                                          side:
+                                                              const BorderSide(
                                                             color: omaColor,
                                                           ),
-                                                         ),
+                                                        ),
                                                       ));
                                                 },
                                               ),
@@ -701,9 +687,10 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           height: 10,
                         ),
 
-                        provider.productData[0]['configurable_options'] != null &&
-                                provider.productData[0]['configurable_options'][0]
-                                        ['label'] ==
+                        provider.productData[0]['configurable_options'] !=
+                                    null &&
+                                provider.productData[0]['configurable_options']
+                                        [0]['label'] ==
                                     "Color"
                             ? Row(
                                 children: [
@@ -727,16 +714,19 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                               height: 50,
                                               child: ListView.builder(
                                                 shrinkWrap: true,
-                                                scrollDirection: Axis.horizontal,
+                                                scrollDirection:
+                                                    Axis.horizontal,
                                                 itemCount: provider
                                                     .productData[0]
-                                                        ['configurable_options'][0]
-                                                        ['values']
+                                                        ['configurable_options']
+                                                        [0]['values']
                                                     .length,
                                                 itemBuilder: (context, index) {
                                                   return GestureDetector(
                                                     onTap: () {
-                                                      print(provider.productData[0][
+                                                      print(provider
+                                                                  .productData[0]
+                                                              [
                                                               'configurable_options']
                                                           [0]['label']);
                                                       print(provider
@@ -754,26 +744,28 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                                     },
                                                     child: Container(
                                                       margin: const EdgeInsets
-                                                          .symmetric(horizontal: 5),
+                                                          .symmetric(
+                                                          horizontal: 5),
                                                       padding:
-                                                          const EdgeInsets.all(10),
+                                                          const EdgeInsets.all(
+                                                              10),
                                                       decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
                                                         border: Border.all(
-                                                            color:
-                                                                configurableProductIndex ==
-                                                                        index
-                                                                    ? Colors.red
-                                                                    : Colors
-                                                                        .transparent,
+                                                            color: configurableProductIndex ==
+                                                                    index
+                                                                ? Colors.red
+                                                                : Colors
+                                                                    .transparent,
                                                             width:
                                                                 2.0), // Using BorderSide with BoxDecoration
 
                                                         color: colorFromHex(provider
                                                                         .productData[0]
                                                                     [
-                                                                    'configurable_options']
-                                                                [0]['values'][index]
+                                                                    'configurable_options'][0]
+                                                                [
+                                                                'values'][index]
                                                             [
                                                             'swatch_data']['value']),
                                                       ),
@@ -1066,16 +1058,17 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           child: ExpansionTile(
                             trailing: _isExpanded
                                 ? const Icon(
-                              Icons.remove,
-                              size: 20,
-                              color: headingColor,
-                            ) // Icon when expanded
+                                    Icons.remove,
+                                    size: 20,
+                                    color: headingColor,
+                                  ) // Icon when expanded
                                 : const Icon(
-                              Icons.add,
-                              size: 20,
-                              color: headingColor,
-                            ),
-                            childrenPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                                    Icons.add,
+                                    size: 20,
+                                    color: headingColor,
+                                  ),
+                            childrenPadding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 0),
                             // expandedCrossAxisAlignment: CrossAxisAlignment.end,
                             // maintainState: true,
                             onExpansionChanged: _onExpansionChanged,
@@ -1109,12 +1102,10 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             ],
                           ),
 
-
                           // HtmlExpansionTile(
                           //   title: 'Detail',
                           //   htmlContent: '''${product[0]['detail']}''',
                           // ),
-
                         ),
                         Container(
                           color: backgroundCategoryColor.withOpacity(0.9),
@@ -1124,16 +1115,17 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             controlAffinity: ListTileControlAffinity.trailing,
                             trailing: _isExpanded1
                                 ? const Icon(
-                              Icons.remove,
-                              size: 20,
-                              color: headingColor,
-                            ) // Icon when expanded
+                                    Icons.remove,
+                                    size: 20,
+                                    color: headingColor,
+                                  ) // Icon when expanded
                                 : const Icon(
-                              Icons.add,
-                              size: 20,
-                              color: headingColor,
-                            ),
-                            childrenPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                                    Icons.add,
+                                    size: 20,
+                                    color: headingColor,
+                                  ),
+                            childrenPadding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 0),
                             expandedCrossAxisAlignment: CrossAxisAlignment.end,
                             maintainState: true,
                             onExpansionChanged: _onExpansionChanged1,
@@ -1158,25 +1150,27 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                   children: [
                                     product[0]['height'] == null
                                         ? Container()
-                                        : Text('Height: ' + product[0]['height']),
+                                        : Text(
+                                            'Height: ' + product[0]['height']),
                                     product[0]['diameter'] == null
                                         ? Container()
                                         : Text('Diameter: ' +
-                                        product[0]['diameter']),
+                                            product[0]['diameter']),
                                     product[0]['capacity'] == null
                                         ? Container()
                                         : Text('Capacity: ' +
-                                        product[0]['capacity']),
+                                            product[0]['capacity']),
                                     product[0]['width'] == null
                                         ? Container()
                                         : Text('Width: ' + product[0]['width']),
                                     product[0]['length'] == null
                                         ? Container()
-                                        : Text('Length: ' + product[0]['length']),
+                                        : Text(
+                                            'Length: ' + product[0]['length']),
                                     product[0]['overall'] == null
                                         ? Container()
-                                        : Text(
-                                        'Overall: ' + product[0]['overall']),
+                                        : Text('Overall: ' +
+                                            product[0]['overall']),
                                     product[0]['depth'] == null
                                         ? Container()
                                         : Text('Depth: ' + product[0]['depth']),
@@ -1200,16 +1194,17 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             controlAffinity: ListTileControlAffinity.trailing,
                             trailing: _isExpanded2
                                 ? const Icon(
-                              Icons.remove,
-                              size: 20,
-                              color: headingColor,
-                            ) // Icon when expanded
+                                    Icons.remove,
+                                    size: 20,
+                                    color: headingColor,
+                                  ) // Icon when expanded
                                 : const Icon(
-                              Icons.add,
-                              size: 20,
-                              color: headingColor,
-                            ),
-                            childrenPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                                    Icons.add,
+                                    size: 20,
+                                    color: headingColor,
+                                  ),
+                            childrenPadding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 0),
                             expandedCrossAxisAlignment: CrossAxisAlignment.end,
                             maintainState: true,
                             onExpansionChanged: _onExpansionChanged2,
@@ -1252,31 +1247,43 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           height: 12,
                         ),
 
-                        provider.productData[0]['related_products'].length.toString() == "0"?Container() : Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: getProportionateScreenWidth(10)),
-                          child: const Text('Related Products',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: blackColor)),
-                        ),
+                        provider.productData[0]['related_products'].length
+                                    .toString() ==
+                                "0"
+                            ? Container()
+                            : Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        getProportionateScreenWidth(10)),
+                                child: const Text('Related Products',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: blackColor)),
+                              ),
                         const SizedBox(
                           height: 8,
                         ),
 
-                        provider.productData[0]['related_products'].length.toString() == "0"?Container():SizedBox(
-                          height: 250,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount:
-                                provider.productData[0]['related_products'].length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return buildRelatedProducts(context, provider, index);
-                            },
-                          ),
-                        ),
+                        provider.productData[0]['related_products'].length
+                                    .toString() ==
+                                "0"
+                            ? Container()
+                            : SizedBox(
+                                height: 250,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: provider
+                                      .productData[0]['related_products']
+                                      .length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return buildRelatedProducts(
+                                        context, provider, index);
+                                  },
+                                ),
+                              ),
                       ],
                     ),
                   ),
@@ -1289,92 +1296,86 @@ class _ProductDescriptionState extends State<ProductDescription> {
     );
   }
 
-  GestureDetector buildRelatedProducts(BuildContext context, MyProvider provider, int index) {
+  GestureDetector buildRelatedProducts(
+      BuildContext context, MyProvider provider, int index) {
     return GestureDetector(
-                          onTap: (){
+      onTap: () {
+        myProvider!.updateProductDescriptionData(provider.productData[0]
+                ['related_products'][index]['sku']
+            .toString());
+        setState(() {
+          scrollController.animateTo(
+            0.0,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 500),
+          );
+        });
+        // Navigator.of(context).pop();
+        // context.go("/wishlist/pdp", extra: provider.productData[0]
+        // ['related_products'][index]['sku'].toString());
+      },
+      child: Container(
+        width: 250,
+        // color: colors[index],
+        margin: const EdgeInsets.all(8.0),
+        child: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF4F2EE),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(defaultBorderRadius)),
+                  ),
+                  child: Image.network(
+                    provider.productData[0]['related_products'][index]
+                            ['media_gallery'][0]['url']
+                        .toString(),
+                    height: 150,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                        '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: blackColor,
+                            height: 1.5,
+                            fontSize: 12),
+                      ),
+                    ),
+                    const SizedBox(height: 0.0),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                        provider.productData[0]['related_products'][index]
+                            ['name'],
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: blackColor,
+                            height: 1.5,
+                            fontSize: 13),
+                      ),
+                    ),
+                    // const SizedBox(height: 10.0),
 
-                            myProvider!.updateProductDescriptionData(provider.productData[0]
-                                ['related_products'][index]['sku'].toString());
-                            setState((){
-                              scrollController.animateTo(
-                                0.0,
-                                curve: Curves.easeOut,
-                                duration: const Duration(milliseconds: 500),
-                              );});
-                            // Navigator.of(context).pop();
-                            // context.go("/wishlist/pdp", extra: provider.productData[0]
-                            // ['related_products'][index]['sku'].toString());
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //   child:   Text("fjdkf"),
+                    //
+                    // ),
 
-                          },
-                          child: Container(
-                            width: 200,
-                            // color: colors[index],
-                            margin: const EdgeInsets.all(8.0),
-                            child: Stack(
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      decoration: const BoxDecoration(
-                                        color: Color(0xFFF4F2EE),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(
-                                                defaultBorderRadius)),
-                                      ),
-                                      child: Image.network(
-                                        provider.productData[0]
-                                                ['related_products'][index]
-                                                ['media_gallery'][0]['url']
-                                            .toString(),
-                                        height: 150,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                                          child: Text(
-                                            '',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                color: blackColor,
-                                                height: 1.5,
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 0.0),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              5.0, 0, 0, 0),
-                                          child: Text(
-                                            provider.productData[0]
-                                                    ['related_products'][index]
-                                                ['name'],
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: blackColor,
-                                                height: 1.5,
-                                                fontSize: 13),
-                                          ),
-                                        ),
-                                        // const SizedBox(height: 10.0),
-
-                                        // Padding(
-                                        //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                                        //   child:   Text("fjdkf"),
-                                        //
-                                        // ),
-
-                                        /*Padding(
+                    /*Padding(
                     padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                     child: Text(
                       '₹$price',
@@ -1386,87 +1387,114 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     ),
                   ),*/
 
-                                        const SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
 
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              5.0, 0, 0, 0),
-                                          child: Text(
-                                            provider.productData[0]
-                                                    ['related_products'][index]
-                                                    ['price_range']
-                                                    ['minimum_price']
-                                                    ['regular_price']['value']
-                                                .toString(),
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                color: headingColor,
-                                                height: 1.2,
-                                                fontSize: 12),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Positioned(
-                                    top: 0,
-                                    right: 5,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 2.0, vertical: 6),
-                                      child: IconButton(
-                                        onPressed: () async{
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                        '₹ ' +
+                            provider.productData[0]['related_products'][index]
+                                    ['price_range']['minimum_price']
+                                    ['regular_price']['value']
+                                .toString(),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: headingColor,
+                            height: 1.2,
+                            fontSize: 12),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        EasyLoading.show(status: 'loading...');
 
-                                          if (myProvider!
-                                              .customerModel.customer?.email !=
-                                              null) {
-                                            if (provider.productData[0]['related_products'][index]['is_wishlisted'] ?? false) {
-                                              dynamic listData = await graphQLService
-                                                  .add_Product_from_wishlist(
-                                                wishlistId: myProvider!.customerModel
-                                                    .customer!.wishlists![0].id!,
-                                                sku: provider.productData[0]['related_products'][index]['sku'].toString(),
-                                                qty: "1",
-                                                context: context,
+                        print(provider.productData[0]['related_products'][index]
+                                ['sku']
+                            .toString());
 
-                                              );
-                                            } else {
-                                              dynamic listData = await graphQLService
-                                                  .remove_Product_from_wishlist(
-                                                  wishlistId: myProvider!
-                                                      .customerModel
-                                                      .customer!
-                                                      .wishlists![0]
-                                                      .id!,
-                                                  wishlistItemsIds: provider.productData[0]['related_products'][index]['sku'].toString()                                                     .toString());
-                                            }
+                        graphQLService.addProductToCart(
+                            provider.productData[0]['related_products'][index]
+                                    ['sku']
+                                .toString(),
+                            '1',
+                            context: context);
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child: Text(
+                          "Add to Cart",
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: headingColor,
+                              height: 1.5,
+                              fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Positioned(
+                top: 0,
+                right: 5,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
+                  child: IconButton(
+                    onPressed: () async {
+                      if (myProvider!.customerModel.customer?.email != null) {
+                        if (provider.productData[0]['related_products'][index]
+                                ['is_wishlisted'] ??
+                            false) {
+                          dynamic listData =
+                              await graphQLService.add_Product_from_wishlist(
+                            wishlistId: myProvider!
+                                .customerModel.customer!.wishlists![0].id!,
+                            sku: provider.productData[0]['related_products']
+                                    [index]['sku']
+                                .toString(),
+                            qty: "1",
+                            context: context,
+                          );
+                        } else {
+                          dynamic listData =
+                              await graphQLService.remove_Product_from_wishlist(
+                                  wishlistId: myProvider!.customerModel
+                                      .customer!.wishlists![0].id!,
+                                  wishlistItemsIds: provider.productData[0]
+                                          ['related_products'][index]['sku']
+                                      .toString()
+                                      .toString());
+                        }
 
-
-                                            provider.productData[0]['related_products'][index]['is_wishlisted']= !provider.productData[0]['related_products'][index]['is_wishlisted'];
-                                            setState(() {
-
-                                            });
-
-
-                                          } else {
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                'Please Login for wishlist an item');
-                                          }
-
-                                        },
-                                        icon: Icon(
-                                          provider.productData[0]['related_products'][index]['is_wishlisted']?Icons.favorite:Icons.favorite_border,
-                                          color: provider.productData[0]['related_products'][index]['is_wishlisted']?Colors.red:blackColor,
-                                          size: 22,
-                                        ),
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        );
+                        provider.productData[0]['related_products'][index]
+                                ['is_wishlisted'] =
+                            !provider.productData[0]['related_products'][index]
+                                ['is_wishlisted'];
+                        setState(() {});
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: 'Please Login for wishlist an item');
+                      }
+                    },
+                    icon: Icon(
+                      provider.productData[0]['related_products'][index]
+                              ['is_wishlisted']
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: provider.productData[0]['related_products'][index]
+                              ['is_wishlisted']
+                          ? Colors.red
+                          : blackColor,
+                      size: 22,
+                    ),
+                  ),
+                )),
+          ],
+        ),
+      ),
+    );
   }
 
   Color colorFromHex(String hexColor) {
@@ -1490,7 +1518,8 @@ class HtmlExpansionTile extends StatefulWidget {
   final String title;
   final String htmlContent;
 
-  const HtmlExpansionTile({super.key, required this.title, required this.htmlContent});
+  const HtmlExpansionTile(
+      {super.key, required this.title, required this.htmlContent});
 
   @override
   State<HtmlExpansionTile> createState() => _HtmlExpansionTileState();

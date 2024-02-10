@@ -517,6 +517,10 @@ class GraphQLService {
                           label
                           value
                           count
+                          swatch_data {
+                              value
+                              type
+                          }
                         }
                       }
                       items {
@@ -932,6 +936,10 @@ class GraphQLService {
                           label
                           value
                           count
+                          swatch_data {
+                              value
+                              type
+                          }
                         }
                       }
                       items {
@@ -1378,7 +1386,6 @@ class GraphQLService {
                       sku
                       stock_status
                       brands
-                   
                        textAttributes{
                             weight
                             normalprice
