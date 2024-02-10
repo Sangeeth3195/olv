@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -41,7 +43,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   var test;
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
   final OverlayPortalController _tooltipController = OverlayPortalController();
-
+  bool isSearch = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -197,7 +199,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
     'cart',
     'Profile'
   ];
-
+  static const List<String> _kOptions = <String>[
+    'aardvark',
+    'bobcat',
+    'chameleon',
+  ];
   @override
   Widget build(BuildContext context) {
     List<Widget> _icons = const [
@@ -370,44 +376,14 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
 
 
           IconButton(
-            onPressed: _tooltipController.toggle,
-            icon: OverlayPortal(
-              controller: _tooltipController,
-              overlayChildBuilder: (BuildContext context) {
-                return Container(
-                    width: 200,
-                    height: 200,
-                    child:                 Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      ),
-                      child: GestureDetector(
-                          onTap: () {
-                            // navigate(context, ProductList.route,
-                            //     isRootNavigator: false, arguments: {'id': '1'});
-                          },
-                          child: const SearchForm()),
-                    ));
-                return  Positioned(
-                  right: MediaQuery.of(context).size.width*0.22,
-                  top: MediaQuery.of(context).size.height*0.42,
-                  child: const ColoredBox(
-                    color: Colors.black,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'FlutterDevs is a protruding flutter app\ndevelopment company',
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                );
-              },
-              child: Icon(Icons.search),
-            ),
+            onPressed: (){
+              // isSearch = !isSearch;
+              // setState(() {
+              //
+              // });
+              myProvider!.showHideSearch();
+            },
+            icon: Icon(Icons.search),
           ),
           // Center(
           //   child: GestureDetector(
@@ -471,7 +447,14 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           ),
         ],
       ),
-      body: widget.navigationShell,
+      body: widget.navigationShell /*Column(
+        children: [
+          isSearch?SearchForm():Container(),
+          SingleChildScrollView(child: Container(
+              height: MediaQuery.of(context).size.height-(isSearch?144:0),
+              child: widget.navigationShell)),
+        ],
+      )*/,
       drawer: Drawer(
         backgroundColor: navBackground,
         width:

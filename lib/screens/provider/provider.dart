@@ -12,6 +12,8 @@ class MyProvider extends ChangeNotifier {
 
   var navBar = false;
 
+  bool isSearch= false;
+
   List<dynamic> get data => _data;
 
   GraphQLService graphQLService = GraphQLService();
@@ -43,6 +45,11 @@ class MyProvider extends ChangeNotifier {
 
   void bottomBar(int bottomIndex) {
     bottombar = bottomIndex;
+    notifyListeners();
+  }
+
+  void showHideSearch(){
+    isSearch = !isSearch;
     notifyListeners();
   }
 
