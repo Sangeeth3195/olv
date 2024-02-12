@@ -54,13 +54,7 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
   }
 
   void getNavdata() async {
-
     getcategoryInfo = await graphQLService.getCategoryInfo(widget.id.toString());
-
-    print('getcategoryInfo');
-    print('getcategoryInfo');
-    print(widget.id);
-
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updatebrandData(widget.id, widget.id1, limit: 2);
   }
@@ -389,12 +383,13 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                                       GestureDetector(
                                         onTap: () async {
                                           print('object');
-
                                           EasyLoading.show(status: 'loading...');
                                           graphQLService.addProductToCart(
                                               provider
                                                   .items[index].sku.toString(), '1',
                                               context: context);
+                                          Scaffold.of(context).openEndDrawer();
+
                                         },
                                         child: const Padding(
                                           padding:

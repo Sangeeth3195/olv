@@ -154,6 +154,7 @@ class _DetailsPageState extends State<DetailsPage>
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       cart_token = prefs.getString('cart_token') ?? '';
+                      Scaffold.of(context).openEndDrawer();
 
                       print(cart_token);
                       graphQLService.update_product_to_cart(

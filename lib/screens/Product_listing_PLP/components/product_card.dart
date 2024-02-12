@@ -330,6 +330,8 @@ class _ProductCardState extends State<ProductCardPLP> {
                     GestureDetector(
                       onTap: () async {
                         EasyLoading.show(status: 'loading...');
+                        Scaffold.of(context).openEndDrawer();
+
                         graphQLService.addProductToCart(
                             widget.item!.sku.toString(), '1',
                             context: context);

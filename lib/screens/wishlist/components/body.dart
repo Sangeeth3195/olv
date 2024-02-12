@@ -60,7 +60,7 @@ class _BodyState extends State<Body> {
                             primary: false,
                             shrinkWrap: true,
                             padding: const EdgeInsets.all(2),
-                            childAspectRatio: 0.70,
+                            childAspectRatio: 0.65,
                             maxCrossAxisExtent: 300,
                             children: List.generate(
                               myProvider!.customerModel.customer!.wishlist!
@@ -70,6 +70,9 @@ class _BodyState extends State<Body> {
                                 child: ProductCard(
                                   title: myProvider!.customerModel.customer!
                                       .wishlist!.items![index].product!.name
+                                      .toString(),
+                                  sku: myProvider!.customerModel.customer!
+                                      .wishlist!.items![index].product!.sku!
                                       .toString(),
                                   image: myProvider!
                                       .customerModel
@@ -147,6 +150,7 @@ class ProductCard extends StatefulWidget {
     Key? key,
     required this.image,
     required this.title,
+    required this.sku,
     required this.price,
     required this.price1,
     required this.spl_to_date,
@@ -156,7 +160,7 @@ class ProductCard extends StatefulWidget {
     required this.ids,
     required this.dy_val,
   }) : super(key: key);
-  final String image, title;
+  final String image, title, sku;
   final VoidCallback press;
   final String price;
   final String price1;
@@ -193,19 +197,19 @@ class _ProductCardState extends State<ProductCard> {
 
     print(date);
 
-    if(dt1.compareTo(dt2) == 0){
+    if (dt1.compareTo(dt2) == 0) {
       print("Both date time are at same moment.");
     }
 
-    if(dt1.compareTo(dt2) < 0){
+    if (dt1.compareTo(dt2) < 0) {
       print("DT1 is before DT2");
     }
 
-    if(dt1.compareTo(dt2) > 0){
+    if (dt1.compareTo(dt2) > 0) {
       print("DT1 is after DT2");
     }
 
-    if(dt1.compareTo(date) > 0){
+    if (dt1.compareTo(date) > 0) {
       print("DT1 is after DT332");
     }
 
@@ -219,7 +223,6 @@ class _ProductCardState extends State<ProductCard> {
     }else {
       print("DT1 is else DT2");
     }*/
-
   }
 
   @override
@@ -305,19 +308,49 @@ class _ProductCardState extends State<ProductCard> {
                                   fontSize: 13, color: Colors.black),
                             ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: widget.price.isEmpty
                           ? Text(
-                        widget.price1,
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      )
+                              widget.price1,
+                              style: const TextStyle(
+                                  fontSize: 13, color: Colors.black),
+                            )
                           : Text(
-                        widget.price1,
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
+                              widget.price1,
+                              style: const TextStyle(
+                                  fontSize: 13, color: Colors.black),
+                            ),
+                    ),
+                    const SizedBox(height: 5.0),
+                    GestureDetector(
+                      onTap: () async {
+                        EasyLoading.show(status: 'loading...');
+
+                        print(widget.sku.toString());
+                        graphQLService.addProductToCart(
+                            widget.sku.toString(), '1',
+                            context: context);
+
+                        dynamic listData =
+                            await graphQLService.remove_Product_from_wishlist(
+                                wishlistId: myProvider!
+                                    .customerModel.customer!.wishlists![0].id!,
+                                wishlistItemsIds: widget.ids.toString());
+                        EasyLoading.show();
+                        myProvider!.getuserdata();
+                        EasyLoading.show();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child: Text(
+                          "Add to Cart",
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: headingColor,
+                              height: 1.5,
+                              fontSize: 12),
+                        ),
                       ),
                     ),
                   ],

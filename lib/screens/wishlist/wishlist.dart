@@ -22,7 +22,7 @@ class Wishlist extends StatelessWidget {
         ),
       ),
       backgroundColor: Colors.white,
-      body: Body(),
+      body: const Body(),
     );
   }
 }

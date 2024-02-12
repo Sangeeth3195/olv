@@ -1106,11 +1106,11 @@ class GraphQLService {
                               normalprice
                               specicalprice
                         }
-                         dynamicAttributes(fields:["brands","oma_subclass"]){
-                               attribute_code
-                              attribute_label
-                              attribute_value
-                        }
+                        dynamicAttributes(fields:["brands"]){
+                         attribute_code
+                        attribute_label
+                        attribute_value
+                         }
                         description {
                           html
                         }

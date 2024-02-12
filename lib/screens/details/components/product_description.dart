@@ -47,10 +47,15 @@ class _ProductDescriptionState extends State<ProductDescription> {
   }
 
   void decrementQuantity() {
-    if (quantity > 0) {
-      quantity--;
-    }
-    setState(() {});
+    // if (quantity > 0) {
+    //   quantity--;
+    // }
+    setState(() {
+      if (quantity > 0 && quantity != 1) {
+        // will stop at 1
+        quantity--;
+      }
+    });
   }
 
   @override
@@ -189,6 +194,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         // Button onPressed action
                         // graphQLService.create_cart_non_user();
                         // graphQLService.create_cart();
+                        Scaffold.of(context).openEndDrawer();
 
                         EasyLoading.show(status: 'loading...');
 
@@ -208,6 +214,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           graphQLService.addProductToCart(
                               widget.product.toString(), quantity.toString(),
                               context: context);
+                          Scaffold.of(context).openEndDrawer();
+
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -290,6 +298,23 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: getProportionateScreenWidth(10)),
+                          child: Text(
+                              isConfiguredProduct
+                                  ? provider.productData[0]['variants']
+                              [configurableProductIndex]['product']
+                              ['name']
+                                  : provider.productData[0]['dynamicAttributes'][0]['attribute_value'].toUpperCase(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: headingFontColor,
+                                  fontSize: 12)),
+                        ),
+
+                        const SizedBox(height: 5,),
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: getProportionateScreenWidth(10)),
@@ -301,11 +326,12 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                   : provider.productData[0]['name'],
                               style: const TextStyle(
                                   fontWeight: FontWeight.w500,
+                                  fontFamily: 'Gotham',
                                   color: headingFontColor,
                                   fontSize: 18)),
                         ),
                         const SizedBox(
-                          height: 16,
+                          height: 10,
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -326,7 +352,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                       : '₹'
                                           "${provider.productData[0]['price_range']['minimum_price']['regular_price']['value']}",
                               style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Gotham',
                                   color: headingFontColor,
                                   fontSize: 15)),
                         ),
@@ -359,9 +386,10 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                           ['html']
                                       .toString(),
                               style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'Gotham',
                                   color: headingColor,
-                                  height: 1.3,
+                                  height: 1.4,
                                   fontSize: 13)),
                         ),
                         const SizedBox(
@@ -1078,7 +1106,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             title: const Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                               child: Text(
-                                'Detail',
+                                'DETAIL',
                                 style: TextStyle(
                                     color: headingColor,
                                     fontWeight: FontWeight.w600,
@@ -1135,7 +1163,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             title: const Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                               child: Text(
-                                'Dimensions',
+                                'DIMENSIONS',
                                 style: TextStyle(
                                     color: headingColor,
                                     fontWeight: FontWeight.w600,
@@ -1214,7 +1242,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             title: const Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                               child: Text(
-                                'Care & Maintenance',
+                                'CARE & MAINTENANCE',
                                 style: TextStyle(
                                     color: headingColor,
                                     fontWeight: FontWeight.w600,
@@ -1418,6 +1446,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                 .toString(),
                             '1',
                             context: context);
+                        Scaffold.of(context).openEndDrawer();
+
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
