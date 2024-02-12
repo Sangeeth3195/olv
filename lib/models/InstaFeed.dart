@@ -1,46 +1,46 @@
 // To parse this JSON data, do
 //
-//     final instafeed = instafeedFromJson(jsonString);
+//     final instafeedModel = instafeedModelFromJson(jsonString);
 
 import 'dart:convert';
 
-Instafeed instafeedFromJson(String str) => Instafeed.fromJson(json.decode(str));
+InstafeedModel instafeedModelFromJson(String str) => InstafeedModel.fromJson(json.decode(str));
 
-String instafeedToJson(Instafeed data) => json.encode(data.toJson());
+String instafeedModelToJson(InstafeedModel data) => json.encode(data.toJson());
 
-class Instafeed {
-  List<Datum> data;
-  Paging paging;
+class InstafeedModel {
+  List<Datum>? data;
+  Paging? paging;
 
-  Instafeed({
-    required this.data,
-    required this.paging,
+  InstafeedModel({
+    this.data,
+    this.paging,
   });
 
-  factory Instafeed.fromJson(Map<String, dynamic> json) => Instafeed(
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-    paging: Paging.fromJson(json["paging"]),
+  factory InstafeedModel.fromJson(Map<String, dynamic> json) => InstafeedModel(
+    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+    paging: json["paging"] == null ? null : Paging.fromJson(json["paging"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-    "paging": paging.toJson(),
+    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+    "paging": paging?.toJson(),
   };
 }
 
 class Datum {
-  String id;
-  String caption;
-  MediaType mediaType;
-  String mediaUrl;
-  String permalink;
+  String? id;
+  String? caption;
+  MediaType? mediaType;
+  String? mediaUrl;
+  String? permalink;
 
   Datum({
-    required this.id,
-    required this.caption,
-    required this.mediaType,
-    required this.mediaUrl,
-    required this.permalink,
+    this.id,
+    this.caption,
+    this.mediaType,
+    this.mediaUrl,
+    this.permalink,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -73,32 +73,32 @@ final mediaTypeValues = EnumValues({
 });
 
 class Paging {
-  Cursors cursors;
-  String next;
+  Cursors? cursors;
+  String? next;
 
   Paging({
-    required this.cursors,
-    required this.next,
+    this.cursors,
+    this.next,
   });
 
   factory Paging.fromJson(Map<String, dynamic> json) => Paging(
-    cursors: Cursors.fromJson(json["cursors"]),
+    cursors: json["cursors"] == null ? null : Cursors.fromJson(json["cursors"]),
     next: json["next"],
   );
 
   Map<String, dynamic> toJson() => {
-    "cursors": cursors.toJson(),
+    "cursors": cursors?.toJson(),
     "next": next,
   };
 }
 
 class Cursors {
-  String before;
-  String after;
+  String? before;
+  String? after;
 
   Cursors({
-    required this.before,
-    required this.after,
+    this.before,
+    this.after,
   });
 
   factory Cursors.fromJson(Map<String, dynamic> json) => Cursors(

@@ -37,7 +37,7 @@ class _BodyState extends State<Body> {
   late VideoPlayerController? videoPlayerController;
   final bool looping = false;
   final bool autoplay = false;
-  List<Instafeed> instafeed = <Instafeed>[];
+  late InstafeedModel? instafeed;
 
   ChewieController? _chewieController;
   CarouselController buttonCarouselController = CarouselController();
@@ -54,12 +54,13 @@ class _BodyState extends State<Body> {
     super.initState();
     getDate();
     print('instafeed');
-    print(instafeed.length);
   }
 
   Future<void> getInstaData() async {
-    InstaFeed.getInstaPost().then((_feed) {
-      instafeed.addAll(_feed);
+    instafeed = await InstaFeed.getInstaPost();
+
+    setState(() {
+
     });
   }
 
@@ -1008,64 +1009,56 @@ class _BodyState extends State<Body> {
                   ),
                 ),
 
-                // GestureDetector(
-                //   child: Padding(
-                //     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                //     child:
-                //         ListView.builder(
-                //         itemCount: instafeed[0].data.length,
-                //         itemBuilder: (context, index) {
-                //           GFItemsCarousel(
-                //             rowCount: 3,
-                //             itemHeight: 250.0,
-                //             children:
-                //             instafeed.map(
-                //                   (url) {
-                //                 return GestureDetector(
-                //                   onTap: () {
-                //
-                //                     print(instafeed[0].data[index].permalink);
-                //                     // final Map<String, dynamic> someMap = {
-                //                     //   "id": int.parse(url.link.toString()),
-                //                     //   "product_count": 2,
-                //                     // };
-                //                     // print(someMap);
-                //                     // context.go('/home/pdp', extra: someMap);
-                //                   },
-                //                   child: Container(
-                //                     margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
-                //                     child: Column(
-                //                       children: [
-                //                         ClipRRect(
-                //                           borderRadius: const BorderRadius.all(
-                //                               Radius.circular(0.0)),
-                //                           child: Image.network(
-                //                             "",
-                //                             fit: BoxFit.cover,
-                //                             height: 175,
-                //                             width: 1000.0,
-                //                             errorBuilder:
-                //                                 (context, error, stackTrace) {
-                //                               return Image.asset(
-                //                                 'assets/omalogo.png',
-                //                                 height: 175,
-                //                               );
-                //                             },
-                //                           ),
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ),
-                //                 );
-                //               },
-                //             ).toList(),
-                //           );
-                //         }),
-                //
-                //
-                //
-                //   ),
-                // ),
+                instafeed == null? Container():GestureDetector(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
+                    child:                          GFItemsCarousel(
+                      rowCount: 3,
+                      itemHeight: 250.0,
+                      children:
+                      instafeed!.data!.map((e) =>
+                          GestureDetector(
+                            onTap: () {
+
+                              print(e);
+                              // final Map<String, dynamic> someMap = {
+                              //   "id": int.parse(url.link.toString()),
+                              //   "product_count": 2,
+                              // };
+                              // print(someMap);
+                              // context.go('/home/pdp', extra: someMap);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
+                              child: Column(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(0.0)),
+                                    child: Image.network(
+                                      e.mediaUrl??'',
+                                      fit: BoxFit.cover,
+                                      height: 175,
+                                      width: 1000.0,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Image.asset(
+                                          'assets/omalogo.png',
+                                          height: 175,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )).toList(),
+                    ),
+
+
+
+                  ),
+                ),
 
                 const SizedBox(
                   height: 10,
