@@ -21,6 +21,7 @@ class _BodyState extends State<Body> {
   GraphQLService graphQLService = GraphQLService();
   MyProvider? myProvider;
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -101,16 +102,14 @@ class _BodyState extends State<Body> {
                                       .items![index]
                                       .product!
                                       .textAttributes![0]
-                                      .specicalprice
-                                      .toString(),
+                                      .specicalprice,
                                   spl_to_date: myProvider!
                                       .customerModel
                                       .customer!
                                       .wishlist!
                                       .items![index]
                                       .product!
-                                      .special_to_date
-                                      .toString(),
+                                      .special_to_date,
                                   product: '',
                                   ids: myProvider!.customerModel.customer!
                                       .wishlist!.items![index].id!,
@@ -163,8 +162,8 @@ class ProductCard extends StatefulWidget {
   final String image, title, sku;
   final VoidCallback press;
   final String price;
-  final String price1;
-  final String spl_to_date;
+  final String? price1;
+  final String? spl_to_date;
   final Color bgColor;
   final dynamic product;
   final int ids;
@@ -182,16 +181,34 @@ class _ProductCardState extends State<ProductCard> {
   String cart_token = '';
   MyProvider? myProvider;
   String? wishListID;
+  String price ="0";
+  bool isExpired = true;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     myProvider = Provider.of<MyProvider>(context, listen: false);
 
-    print('spl_to_date');
+    calculatePrice();
+
+    /*DateTime dt1 = DateTime.parse(widget.spl_to_date);
+    DateTime dt2 = DateTime.parse("2018-02-27 10:09:00");
+    DateTime date =DateTime.now();
+
+    // if(widget.spl_to_date)
+    if(dt1.isBefore(date)){
+      print("DT1 is before DT2");
+    }else {
+      print("DT1 is else DT2");
+    }*/
+  }
+
+  void calculatePrice(){
+    print(''
+        '');
     print(widget.spl_to_date);
 
-    DateTime dt1 = DateTime.parse("2021-12-23 11:47:00");
+    DateTime dt1 = DateTime.parse(widget.spl_to_date??'');
     DateTime dt2 = DateTime.parse("2018-02-27 10:09:00");
     DateTime date = DateTime.now();
 
@@ -213,18 +230,22 @@ class _ProductCardState extends State<ProductCard> {
       print("DT1 is after DT332");
     }
 
-    /*DateTime dt1 = DateTime.parse(widget.spl_to_date);
-    DateTime dt2 = DateTime.parse("2018-02-27 10:09:00");
-    DateTime date =DateTime.now();
+    DateTime currentDate = DateTime.now();
 
-    // if(widget.spl_to_date)
-    if(dt1.isBefore(date)){
-      print("DT1 is before DT2");
-    }else {
-      print("DT1 is else DT2");
-    }*/
+    // Check if the current date is after the expiration date
+    isExpired = currentDate.isAfter(dt1);
+    print("isExoired"+isExpired.toString());
+
+
+    if(widget.spl_to_date == null){
+      price = widget.price1??'';
+    } else if(isExpired){
+      price = widget.price1??'';
+    } else if (widget.price1 == null){
+      price = widget.price;
+    }
+
   }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -308,18 +329,12 @@ class _ProductCardState extends State<ProductCard> {
                                   fontSize: 13, color: Colors.black),
                             ),
                     ),
-                    Padding(
+                    isExpired?Container():Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
-                          ? Text(
-                              widget.price1,
+                      child: Text(
+                              price,
                               style: const TextStyle(
-                                  fontSize: 13, color: Colors.black),
-                            )
-                          : Text(
-                              widget.price1,
-                              style: const TextStyle(
-                                  fontSize: 13, color: Colors.black),
+                                  fontSize: 13, color: Colors.black)
                             ),
                     ),
                     const SizedBox(height: 5.0),

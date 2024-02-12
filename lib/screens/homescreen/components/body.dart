@@ -37,7 +37,7 @@ class _BodyState extends State<Body> {
   late VideoPlayerController? videoPlayerController;
   final bool looping = false;
   final bool autoplay = false;
-  late InstafeedModel? instafeed;
+  InstafeedModel? instafeed;
 
   ChewieController? _chewieController;
   CarouselController buttonCarouselController = CarouselController();
