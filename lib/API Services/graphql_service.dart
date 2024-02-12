@@ -582,6 +582,8 @@ class GraphQLService {
                             oldpricevalue  
                             normalpricevalue
                           }
+                           special_from_date
+                            special_to_date
                            textAttributes{
                             weight
                             normalprice
@@ -1000,6 +1002,8 @@ class GraphQLService {
                             }
                   }
                         }
+                         special_from_date
+                          special_to_date
                         getPriceRange{
                             oldpricevalue  
                             normalpricevalue
@@ -1083,6 +1087,8 @@ class GraphQLService {
                         attribute_set_id
                         manufacturer
                         canonical_url
+                        special_from_date
+                        special_to_date
                         price_range{
                                 minimum_price{
                                   regular_price{

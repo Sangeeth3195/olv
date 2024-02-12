@@ -61,7 +61,7 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                   ),
                   Center(
                     child: Text(
-                      data['name'] ?? '',
+                      data['name'].toUpperCase(),
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
