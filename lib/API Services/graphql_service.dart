@@ -2159,6 +2159,13 @@ class GraphQLService {
                     product {
                       sku
                       name
+                      special_from_date
+                      special_to_date
+                      textAttributes{
+                              weight
+                              normalprice
+                              specicalprice
+                        }
                       dynamicAttributes(fields:["brands","oma_subclass"]){
                        attribute_code
                       attribute_label

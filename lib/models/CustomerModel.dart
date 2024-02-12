@@ -236,8 +236,11 @@ class Product {
   String? typename;
   String? sku;
   String? name;
+  String? special_from_date;
+  String? special_to_date;
   List<ConfigurableOption>? configurableOptions;
   List<DynamicAttributes>? dynamicAttributes;
+  List<TextAttributes>? textAttributes;
   List<MediaGallery>? mediaGallery;
   PriceRange? priceRange;
 
@@ -245,7 +248,10 @@ class Product {
     this.typename,
     this.sku,
     this.name,
+    this.special_from_date,
+    this.special_to_date,
     this.configurableOptions,
+    this.textAttributes,
     this.dynamicAttributes,
     this.mediaGallery,
     this.priceRange,
@@ -255,7 +261,10 @@ class Product {
     typename: json["__typename"],
     sku: json["sku"],
     name: json["name"],
+    special_from_date: json["special_from_date"],
+    special_to_date: json["special_to_date"],
     configurableOptions: json["configurable_options"] == null ? [] : List<ConfigurableOption>.from(json["configurable_options"]!.map((x) => ConfigurableOption.fromJson(x))),
+    textAttributes: json["textAttributes"] == null ? [] : List<TextAttributes>.from(json["textAttributes"]!.map((x) => TextAttributes.fromJson(x))),
     dynamicAttributes: json["dynamicAttributes"] == null ? [] : List<DynamicAttributes>.from(json["dynamicAttributes"]!.map((x) => DynamicAttributes.fromJson(x))),
     mediaGallery: json["media_gallery"] == null ? [] : List<MediaGallery>.from(json["media_gallery"]!.map((x) => MediaGallery.fromJson(x))),
     priceRange: json["price_range"] == null ? null : PriceRange.fromJson(json["price_range"]),
@@ -265,7 +274,10 @@ class Product {
     "__typename": typename,
     "sku": sku,
     "name": name,
+    "special_from_date": special_from_date,
+    "special_to_date": special_to_date,
     "configurable_options": configurableOptions == null ? [] : List<dynamic>.from(configurableOptions!.map((x) => x.toJson())),
+    "textAttributes": textAttributes == null ? [] : List<dynamic>.from(textAttributes!.map((x) => x.toJson())),
     "dynamicAttributes": dynamicAttributes == null ? [] : List<dynamic>.from(dynamicAttributes!.map((x) => x.toJson())),
     "media_gallery": mediaGallery == null ? [] : List<dynamic>.from(mediaGallery!.map((x) => x.toJson())),
     "price_range": priceRange?.toJson(),
@@ -397,6 +409,29 @@ class DynamicAttributes {
     data['attribute_code'] = attributeCode;
     data['attribute_label'] = attributeLabel;
     data['attribute_value'] = attributeValue;
+    return data;
+  }
+}
+
+class TextAttributes {
+  String? weight;
+  String? normalprice;
+  String? specicalprice;
+
+  TextAttributes(
+      {this.weight, this.normalprice, this.specicalprice});
+
+  TextAttributes.fromJson(Map<String, dynamic> json) {
+    weight = json['weight'];
+    normalprice = json['normalprice'];
+    specicalprice = json['specicalprice'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['weight'] = weight;
+    data['attribute_label'] = normalprice;
+    data['attribute_value'] = specicalprice;
     return data;
   }
 }

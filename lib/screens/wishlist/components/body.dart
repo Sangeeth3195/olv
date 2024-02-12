@@ -42,66 +42,104 @@ class _BodyState extends State<Body> {
                 myProvider!.customerModel.customer!.wishlist!.items == null)
             ? const Center(child: CircularProgressIndicator())
             : Container(
-                margin: const EdgeInsets.only(
-                    bottom: 0, left: 5, right: 5, top: 5),
+                margin:
+                    const EdgeInsets.only(bottom: 0, left: 5, right: 5, top: 5),
                 child:
                     myProvider!.customerModel.customer!.wishlist!.items!.isEmpty
                         ? const Center(
-                            child: Text('You have no items in your wishlist',style: TextStyle(  fontFamily: 'Gotham',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.0,
-                                color: Colors.black),),
+                            child: Text(
+                              'You have no items in your wishlist',
+                              style: TextStyle(
+                                  fontFamily: 'Gotham',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.0,
+                                  color: Colors.black),
+                            ),
                           )
-                        :
-                    GridView.extent(
-                      primary: false,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.all(2),
-                      childAspectRatio: 0.70,
-                      maxCrossAxisExtent: 300,
-                      children: List.generate(
-                          myProvider!.customerModel.customer!
-                              .wishlist!.items!.length,
-                            (index) => Padding(
-                          padding: const EdgeInsets.all(3),
-                          child: ProductCard(
-                            title: myProvider!
-                                .customerModel
-                                .customer!
-                                .wishlist!
-                                .items![index]
-                                .product!
-                                .name
-                                .toString(),
-                            image: myProvider!
-                                .customerModel
-                                .customer!
-                                .wishlist!
-                                .items![index]
-                                .product!
-                                .mediaGallery![0]
-                                .url
-                                .toString(),
-                            price: myProvider!.customerModel.customer!.wishlist!.items![index].product!.priceRange!.minimumPrice!.regularPrice!.value.toString(),
-                            product: '',
-                            ids :  myProvider!.customerModel.customer!.wishlist!.items![index].id!,
-                            dy_val :  myProvider!.customerModel.customer!.wishlist!.items![index].product!.dynamicAttributes![0].attributeValue.toString(),
-                            bgColor: demo_product[0].colors[0],
-                            press: () {
-                              context.go("/wishlist/pdp", extra: myProvider!.customerModel.customer!.wishlist!.items![index].product!.sku!.toString());
-
-                            },
+                        : GridView.extent(
+                            primary: false,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.all(2),
+                            childAspectRatio: 0.70,
+                            maxCrossAxisExtent: 300,
+                            children: List.generate(
+                              myProvider!.customerModel.customer!.wishlist!
+                                  .items!.length,
+                              (index) => Padding(
+                                padding: const EdgeInsets.all(3),
+                                child: ProductCard(
+                                  title: myProvider!.customerModel.customer!
+                                      .wishlist!.items![index].product!.name
+                                      .toString(),
+                                  image: myProvider!
+                                      .customerModel
+                                      .customer!
+                                      .wishlist!
+                                      .items![index]
+                                      .product!
+                                      .mediaGallery![0]
+                                      .url
+                                      .toString(),
+                                  price: myProvider!
+                                      .customerModel
+                                      .customer!
+                                      .wishlist!
+                                      .items![index]
+                                      .product!
+                                      .priceRange!
+                                      .minimumPrice!
+                                      .regularPrice!
+                                      .value
+                                      .toString(),
+                                  price1: myProvider!
+                                      .customerModel
+                                      .customer!
+                                      .wishlist!
+                                      .items![index]
+                                      .product!
+                                      .textAttributes![0]
+                                      .specicalprice
+                                      .toString(),
+                                  spl_to_date: myProvider!
+                                      .customerModel
+                                      .customer!
+                                      .wishlist!
+                                      .items![index]
+                                      .product!
+                                      .special_to_date
+                                      .toString(),
+                                  product: '',
+                                  ids: myProvider!.customerModel.customer!
+                                      .wishlist!.items![index].id!,
+                                  dy_val: myProvider!
+                                      .customerModel
+                                      .customer!
+                                      .wishlist!
+                                      .items![index]
+                                      .product!
+                                      .dynamicAttributes![0]
+                                      .attributeValue
+                                      .toString(),
+                                  bgColor: demo_product[0].colors[0],
+                                  press: () {
+                                    context.go("/wishlist/pdp",
+                                        extra: myProvider!
+                                            .customerModel
+                                            .customer!
+                                            .wishlist!
+                                            .items![index]
+                                            .product!
+                                            .sku!
+                                            .toString());
+                                  },
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-
-
               );
       },
     );
   }
-
 }
 
 class ProductCard extends StatefulWidget {
@@ -110,6 +148,8 @@ class ProductCard extends StatefulWidget {
     required this.image,
     required this.title,
     required this.price,
+    required this.price1,
+    required this.spl_to_date,
     required this.press,
     required this.bgColor,
     this.product,
@@ -119,6 +159,8 @@ class ProductCard extends StatefulWidget {
   final String image, title;
   final VoidCallback press;
   final String price;
+  final String price1;
+  final String spl_to_date;
   final Color bgColor;
   final dynamic product;
   final int ids;
@@ -131,7 +173,7 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   GraphQLService graphQLService = GraphQLService();
 
-  int wishlist=0;
+  int wishlist = 0;
 
   String cart_token = '';
   MyProvider? myProvider;
@@ -141,6 +183,43 @@ class _ProductCardState extends State<ProductCard> {
     // TODO: implement initState
     super.initState();
     myProvider = Provider.of<MyProvider>(context, listen: false);
+
+    print('spl_to_date');
+    print(widget.spl_to_date);
+
+    DateTime dt1 = DateTime.parse("2021-12-23 11:47:00");
+    DateTime dt2 = DateTime.parse("2018-02-27 10:09:00");
+    DateTime date = DateTime.now();
+
+    print(date);
+
+    if(dt1.compareTo(dt2) == 0){
+      print("Both date time are at same moment.");
+    }
+
+    if(dt1.compareTo(dt2) < 0){
+      print("DT1 is before DT2");
+    }
+
+    if(dt1.compareTo(dt2) > 0){
+      print("DT1 is after DT2");
+    }
+
+    if(dt1.compareTo(date) > 0){
+      print("DT1 is after DT332");
+    }
+
+    /*DateTime dt1 = DateTime.parse(widget.spl_to_date);
+    DateTime dt2 = DateTime.parse("2018-02-27 10:09:00");
+    DateTime date =DateTime.now();
+
+    // if(widget.spl_to_date)
+    if(dt1.isBefore(date)){
+      print("DT1 is before DT2");
+    }else {
+      print("DT1 is else DT2");
+    }*/
+
   }
 
   @override
@@ -154,10 +233,10 @@ class _ProductCardState extends State<ProductCard> {
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
         child:
-        /*Card(
+            /*Card(
           elevation: 0,
           child:*/
-        Stack(
+            Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -173,8 +252,12 @@ class _ProductCardState extends State<ProductCard> {
                   child: Image.network(
                     widget.image,
                     height: 150,
-                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                      return Image.asset('assets/omalogo.png',height: 150,);
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      return Image.asset(
+                        'assets/omalogo.png',
+                        height: 150,
+                      );
                     },
                   ),
                 ),
@@ -211,8 +294,31 @@ class _ProductCardState extends State<ProductCard> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: widget.price.isEmpty
-                          ? Text("₹${widget.price}",style: const TextStyle(fontSize: 13,color: Colors.black),)
-                          : Text("₹${widget.price}",style: const TextStyle(fontSize: 13,color: Colors.black),),
+                          ? Text(
+                              "₹${widget.price}",
+                              style: const TextStyle(
+                                  fontSize: 13, color: Colors.black),
+                            )
+                          : Text(
+                              "₹${widget.price}",
+                              style: const TextStyle(
+                                  fontSize: 13, color: Colors.black),
+                            ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: widget.price.isEmpty
+                          ? Text(
+                        widget.price1,
+                        style: const TextStyle(
+                            fontSize: 13, color: Colors.black),
+                      )
+                          : Text(
+                        widget.price1,
+                        style: const TextStyle(
+                            fontSize: 13, color: Colors.black),
+                      ),
                     ),
                   ],
                 )
@@ -222,12 +328,12 @@ class _ProductCardState extends State<ProductCard> {
                 top: 0,
                 right: 5,
                 child: InkWell(
-                  onTap: () async{
-                    dynamic listData = await graphQLService
-                        .remove_Product_from_wishlist(
-                        wishlistId: myProvider!.customerModel
-                            .customer!.wishlists![0].id!,
-                        wishlistItemsIds: widget.ids.toString());
+                  onTap: () async {
+                    dynamic listData =
+                        await graphQLService.remove_Product_from_wishlist(
+                            wishlistId: myProvider!
+                                .customerModel.customer!.wishlists![0].id!,
+                            wishlistItemsIds: widget.ids.toString());
                     EasyLoading.show();
                     myProvider!.getuserdata();
                     EasyLoading.show();
@@ -235,7 +341,7 @@ class _ProductCardState extends State<ProductCard> {
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 6),
                     child: Icon(
-                     Icons.favorite,
+                      Icons.favorite,
                       color: Color(0xFFF4597D),
                       size: 22,
                     ),
