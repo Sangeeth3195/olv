@@ -40,8 +40,6 @@ class _ProductCardState extends State<ProductCard> {
 
   String cart_token = '';
 
-  // create_cart
-
   int _selected = 0;
   MyProvider? myProvider;
   String? wishListID;
@@ -51,6 +49,8 @@ class _ProductCardState extends State<ProductCard> {
   Color? bgColor;
   Item? item;
   CartProvider? cartProvider;
+  String spl_price ="0";
+  bool isExpired = true;
 
   @override
   void initState() {
@@ -58,6 +58,9 @@ class _ProductCardState extends State<ProductCard> {
     super.initState();
     myProvider = Provider.of<MyProvider>(context, listen: false);
     cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+    // calculatePrice();
+
     if (widget.item!.typename != "SimpleProduct") {
       try {
         _changeColor(
@@ -76,6 +79,32 @@ class _ProductCardState extends State<ProductCard> {
       price = widget.item!.getPriceRange.isEmpty
           ? widget.item!.textAttributes[0].normalprice
           : widget.item!.getPriceRange[0].normalpricevalue;
+    }
+  }
+
+  void calculatePrice(){
+    DateTime dt1;
+    print(widget.item!.special_to_date);
+
+    if(widget.item!.special_to_date !=null){
+      dt1 = DateTime.parse(widget.item!.special_to_date ??'');
+    }else {
+      dt1 = DateTime.parse("2099-02-27 10:09:00");
+    }
+
+    DateTime date = DateTime.now();
+    print(date);
+    DateTime currentDate = DateTime.now();
+
+    isExpired = currentDate.isAfter(dt1);
+    print("isExoired"+isExpired.toString());
+
+    if(widget.item!.special_to_date == null){
+      price = widget.item!.textAttributes[0].specicalprice.toString() ??'';
+    } else if(isExpired){
+      price = widget.item!.textAttributes[0].specicalprice.toString() ??'';
+    } else if (widget.item!.textAttributes[0].specicalprice.toString() == null){
+      price = widget.price;
     }
   }
 
@@ -197,8 +226,44 @@ class _ProductCardState extends State<ProductCard> {
                             decoration: TextDecoration.lineThrough),
                       ),
                     ),
+                    isExpired? Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: widget.price.isEmpty
+                          ? Text(
+                        "₹${widget.price}",
+                        style: const TextStyle(
+                            fontSize: 13, color: Colors.black),
+                      )
+                          : Text(
+                        "₹${widget.price}",
+                        style: const TextStyle(
+                            fontSize: 13, color: Colors.black),
+                      ),
+                    ): Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: widget.price.isEmpty
+                          ? Text(
+                        "₹${widget.price}",
+                        style: const TextStyle(
+                            fontSize: 13, decoration: TextDecoration.lineThrough,color: Colors.black),
+                      )
+                          : Text(
+                        "₹${widget.price}",
+                        style: const TextStyle(
+                            fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
+                      ),
+                    ),
 
-                    Padding(
+                    isExpired?Container():Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                          spl_price,
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.black)
+                      ),
+                    ),
+
+                 /*   Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
                         '${widget.item!.textAttributes[0].specicalprice}',
@@ -208,11 +273,10 @@ class _ProductCardState extends State<ProductCard> {
                             height: 1.2,
                             fontSize: 13),
                       ),
-                    ),
+                    ),*/
 
                     const SizedBox(height: 5.0),
-                    widget.item!.textAttributes[0].specicalprice.toString() ==
-                            null
+                    widget.item!.textAttributes[0].specicalprice.toString() == null
                         ? Padding(
                             padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                             child: Text(

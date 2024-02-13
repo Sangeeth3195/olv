@@ -40,6 +40,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
   }
 
   void getNavdata() async {
+    print(widget.data['children'][0]['name']);
     collectionmdl = await graphQLService
         .get_cat_collection(widget.data['children'][0]['name']);
     setState(() {});
@@ -72,7 +73,8 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                   height: 10,
                 ),
                 (collectionmdl.getCollectionSetData == null ||
-                        collectionmdl.getCollectionSetData![0].collections! == null)
+                        collectionmdl.getCollectionSetData![0].collections! ==
+                            null)
                     ? const Center(child: CircularProgressIndicator())
                     : Container(
                         margin: const EdgeInsets.only(
@@ -159,31 +161,42 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(height: 20),
+                                        const SizedBox(height: 15),
                                         Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
                                           children: [
                                             Padding(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
                                                       5.0, 0, 0, 0),
-                                              child: Center(
-                                                child: Text(
-                                                  collectionmdl
-                                                      .getCollectionSetData![0]
-                                                      .collections![index]
-                                                      .name!,
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                      fontFamily: 'Gotham',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 14.0,
-                                                      color: navTextColor),
-                                                ),
+                                              child: Text(
+                                                collectionmdl
+                                                    .getCollectionSetData![0]
+                                                    .collections![index]
+                                                    .brandName!.toUpperCase(),
+                                                style: const TextStyle(
+                                                    fontFamily: 'Gotham',
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 15.0,
+                                                    color: navTextColor),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 2.0,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      5.0, 0, 0, 0),
+                                              child: Text(
+                                                collectionmdl
+                                                    .getCollectionSetData![0]
+                                                    .collections![index]
+                                                    .name!,
+                                                style: const TextStyle(
+                                                    fontFamily: 'Gotham',
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12.0,
+                                                    color: navTextColor),
                                               ),
                                             ),
                                           ],

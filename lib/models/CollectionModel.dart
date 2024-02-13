@@ -5,7 +5,6 @@ CollectionModel collectionModelFromJson(String str) => CollectionModel.fromJson(
 String collectionModelToJson(CollectionModel data) => json.encode(data.toJson());
 
 class CollectionModel {
-  // Data? data;
   String? typename;
   List<GetCollectionSetDatum>? getCollectionSetData;
 
@@ -105,7 +104,7 @@ class Collection {
     setImage: json["set_image"],
     position: json["position"],
     optionId: json["option_id"],
-    brandName: json["brand_name"],
+    brandName: json["brand_name"] ?? '',
     brandOptionId: json["brand_option_id"],
   );
 

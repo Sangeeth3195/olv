@@ -21,7 +21,6 @@ class _BodyState extends State<Body> {
   GraphQLService graphQLService = GraphQLService();
   MyProvider? myProvider;
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -204,38 +203,26 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   void calculatePrice(){
-    print(''
-        '');
+
+
+    DateTime dt1;
     print(widget.spl_to_date);
 
-    DateTime dt1 = DateTime.parse(widget.spl_to_date??'');
-    DateTime dt2 = DateTime.parse("2018-02-27 10:09:00");
+    if(widget.spl_to_date !=null){
+      dt1 = DateTime.parse(widget.spl_to_date??'');
+    }else {
+      dt1 = DateTime.parse("2099-02-27 10:09:00");
+    }
+
     DateTime date = DateTime.now();
 
     print(date);
-
-    if (dt1.compareTo(dt2) == 0) {
-      print("Both date time are at same moment.");
-    }
-
-    if (dt1.compareTo(dt2) < 0) {
-      print("DT1 is before DT2");
-    }
-
-    if (dt1.compareTo(dt2) > 0) {
-      print("DT1 is after DT2");
-    }
-
-    if (dt1.compareTo(date) > 0) {
-      print("DT1 is after DT332");
-    }
 
     DateTime currentDate = DateTime.now();
 
     // Check if the current date is after the expiration date
     isExpired = currentDate.isAfter(dt1);
     print("isExoired"+isExpired.toString());
-
 
     if(widget.spl_to_date == null){
       price = widget.price1??'';
@@ -315,7 +302,7 @@ class _ProductCardState extends State<ProductCard> {
                       ),
                     ),
                     const SizedBox(height: 5.0),
-                    Padding(
+                    isExpired? Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: widget.price.isEmpty
                           ? Text(
@@ -328,6 +315,19 @@ class _ProductCardState extends State<ProductCard> {
                               style: const TextStyle(
                                   fontSize: 13, color: Colors.black),
                             ),
+                    ): Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: widget.price.isEmpty
+                          ? Text(
+                        "₹${widget.price}",
+                        style: const TextStyle(
+                            fontSize: 13, color: Colors.black),
+                      )
+                          : Text(
+                        "₹${widget.price}",
+                        style: const TextStyle(
+                            fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
+                      ),
                     ),
                     isExpired?Container():Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),

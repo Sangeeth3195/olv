@@ -734,7 +734,8 @@ class GraphQLService {
                           }
                 }
                       }
-                      
+                         special_from_date
+                          special_to_date
                           textAttributes{
                             weight
                             normalprice

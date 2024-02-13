@@ -156,6 +156,8 @@ class Item {
   String name;
   String typename;
   String sku;
+  String special_from_date;
+  String special_to_date;
   PriceRange priceRange;
   List<ConfigurableOption> configurableOptions;
   List<Variant> variants;
@@ -172,6 +174,8 @@ class Item {
     required this.name,
     required this.typename,
     required this.sku,
+    required this.special_from_date,
+    required this.special_to_date,
     required this.priceRange,
     required this.configurableOptions,
     required this.variants,
@@ -188,6 +192,8 @@ class Item {
     name: json["name"],
     typename: json["__typename"],
     sku: json["sku"],
+    special_from_date: json["special_from_date"] == null ? '' :'',
+    special_to_date: json["special_to_date"] == null ? '' :'',
     priceRange: json["price_range"]==null ? PriceRange(typename: '', minimumPrice: MinimumPrice(typename: "",regularPrice: RegularPrice(typename: "",currency: "",value: 0))):PriceRange.fromJson(json["price_range"]),
     configurableOptions: json["configurable_options"]==null?[]:List<ConfigurableOption>.from(json["configurable_options"].map((x) => ConfigurableOption.fromJson(x))),
     variants: json["variants"]==null?[]:List<Variant>.from(json["variants"].map((x) => Variant.fromJson(x))),
@@ -203,6 +209,8 @@ class Item {
     "name": name,
     "__typename": typename,
     "sku": sku,
+    "special_from_date": special_from_date,
+    "special_to_date": special_to_date,
     "price_range": priceRange.toJson(),
     "configurable_options": List<dynamic>.from(configurableOptions.map((x) => x.toJson())),
     "variants": List<dynamic>.from(variants.map((x) => x.toJson())),

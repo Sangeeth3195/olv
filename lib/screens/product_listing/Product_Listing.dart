@@ -694,7 +694,6 @@ class _HomeScreenState extends State<ProductListing> {
                             ),
                           ],
                         ),
-
                         // ElevatedButton(
                         //   onPressed: () {
                         //     showModalBottomSheet(

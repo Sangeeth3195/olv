@@ -36,8 +36,10 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
   var selectedColor = 0;
   MyProvider? myProvider;
   CategoryInfo getcategoryInfo = CategoryInfo();
-
+  String price = "0";
+  bool isExpired = true;
   final GlobalKey<ScaffoldState> _childDrawerKey = GlobalKey();
+  DateTime? dt1;
 
   @override
   void initState() {
@@ -54,7 +56,8 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
   }
 
   void getNavdata() async {
-    getcategoryInfo = await graphQLService.getCategoryInfo(widget.id.toString());
+    getcategoryInfo =
+        await graphQLService.getCategoryInfo(widget.id.toString());
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updatebrandData(widget.id, widget.id1, limit: 2);
   }
@@ -103,6 +106,7 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                     children: List.generate(
                       provider.items.length,
                       (index) => Padding(
+
                         padding: const EdgeInsets.all(3),
                         child: Container(
                           padding: const EdgeInsets.all(2),
@@ -117,44 +121,49 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        0.0, 0.0, 0.0, 0),
+                                    child: GestureDetector(
+                                      onTap: () {
 
-                              Padding(
-                              padding:
-                              const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0),
-                              child: GestureDetector(
-                                onTap: () {
+                                        print(provider
+                                            .items[index].sku);
 
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DetailsScreen(
-                                            product: provider.items[index].sku),
-                                      ));
-                                },
-                                child:
-                                Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: demo_product[0].colors[0],
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(defaultBorderRadius)),
-                                    ),
-                                    child: Image.network(
-                                      provider.items[index].smallImage.url ??
-                                          '',
-                                      height: 150,
-                                      errorBuilder: (BuildContext context,
-                                          Object exception,
-                                          StackTrace? stackTrace) {
-                                        return Image.asset(
-                                          'assets/omalogo.png',
-                                          height: 150,
-                                        );
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailsScreen(
+                                                      product: provider
+                                                          .items[index].sku),
+                                            ));
                                       },
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: demo_product[0].colors[0],
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(
+                                                  defaultBorderRadius)),
+                                        ),
+                                        child: Image.network(
+                                          provider.items[index].smallImage
+                                                  .url ??
+                                              '',
+                                          height: 150,
+                                          errorBuilder: (BuildContext context,
+                                              Object exception,
+                                              StackTrace? stackTrace) {
+                                            return Image.asset(
+                                              'assets/omalogo.png',
+                                              height: 150,
+                                            );
+                                          },
+                                        ),
+                                      ),
                                     ),
                                   ),
-                              ),
-                              ),
                                   const SizedBox(height: 2),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -169,7 +178,7 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                                               .items[index]
                                               .dynamicAttributes[0]
                                               .attributeValue
-                                              .toString(),
+                                              .toUpperCase(),
                                           style: const TextStyle(
                                               fontWeight: FontWeight.normal,
                                               color: blackColor,
@@ -383,13 +392,14 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                                       GestureDetector(
                                         onTap: () async {
                                           print('object');
-                                          EasyLoading.show(status: 'loading...');
+                                          EasyLoading.show(
+                                              status: 'loading...');
                                           graphQLService.addProductToCart(
-                                              provider
-                                                  .items[index].sku.toString(), '1',
+                                              provider.items[index].sku
+                                                  .toString(),
+                                              '1',
                                               context: context);
                                           Scaffold.of(context).openEndDrawer();
-
                                         },
                                         child: const Padding(
                                           padding:
@@ -413,29 +423,45 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                                   right: 5,
                                   child: InkWell(
                                     onTap: () async {
-                                      if (myProvider!.customerModel.customer?.email != null) {
+                                      if (myProvider!
+                                              .customerModel.customer?.email !=
+                                          null) {
                                         if (!provider.items[index].wishlist) {
                                           provider.items[index].wishlist = true;
                                           dynamic listData =
-                                          await graphQLService.add_Product_from_wishlist(
-                                              wishlistId: myProvider!
-                                                  .customerModel.customer!.wishlists![0].id!,
-                                              sku: provider.items[index].sku.toString(),
-                                              qty: "1",
-                                              context: context);
+                                              await graphQLService
+                                                  .add_Product_from_wishlist(
+                                                      wishlistId: myProvider!
+                                                          .customerModel
+                                                          .customer!
+                                                          .wishlists![0]
+                                                          .id!,
+                                                      sku: provider
+                                                          .items[index].sku
+                                                          .toString(),
+                                                      qty: "1",
+                                                      context: context);
                                         } else {
-                                          provider.items[index].wishlist = false;
+                                          provider.items[index].wishlist =
+                                              false;
                                           dynamic listData =
-                                          await graphQLService.remove_Product_from_wishlist(
-                                              wishlistId: myProvider!
-                                                  .customerModel.customer!.wishlists![0].id!,
-                                              wishlistItemsIds: provider.items[index].id.toString(),
-                                              context: context);
+                                              await graphQLService
+                                                  .remove_Product_from_wishlist(
+                                                      wishlistId: myProvider!
+                                                          .customerModel
+                                                          .customer!
+                                                          .wishlists![0]
+                                                          .id!,
+                                                      wishlistItemsIds: provider
+                                                          .items[index].id
+                                                          .toString(),
+                                                      context: context);
                                         }
                                         setState(() {});
                                       } else {
                                         Fluttertoast.showToast(
-                                            msg: 'Please Login for wishlist an item');
+                                            msg:
+                                                'Please Login for wishlist an item');
                                       }
                                     },
                                     child: Padding(
@@ -445,7 +471,9 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                                         provider.items[index].wishlist
                                             ? Icons.favorite
                                             : Icons.favorite_border,
-                                        color: provider.items[index].wishlist ? Colors.red : blackColor,
+                                        color: provider.items[index].wishlist
+                                            ? Colors.red
+                                            : blackColor,
                                         size: 22,
                                       ),
                                     ),

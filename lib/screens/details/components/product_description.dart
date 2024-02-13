@@ -34,6 +34,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
   bool _isExpanded = false;
   bool _isExpanded1 = false;
   bool _isExpanded2 = false;
+  bool isExpired = true;
+  String price = "0";
   bool isConfiguredProduct = false;
   int configurableProductIndex = 0;
   int configurableProductSizeIndex = 0;
@@ -114,6 +116,44 @@ class _ProductDescriptionState extends State<ProductDescription> {
             isConfiguredProduct = false;
           }
           print(isConfiguredProduct);
+          print('isConfiguredProduct');
+
+          print(provider.productData[0]['special_from_date']);
+
+          DateTime dt1;
+
+          if (provider.productData[0]['special_to_date'] != null) {
+            dt1 = DateTime.parse(
+                provider.productData[0]['special_to_date'] ?? '');
+          } else {
+            dt1 = DateTime.parse("2099-02-27 10:09:00");
+          }
+
+          DateTime date = DateTime.now();
+          print(date);
+          DateTime currentDate = DateTime.now();
+
+          isExpired = currentDate.isAfter(dt1);
+          print("isExoired" + isExpired.toString());
+          print("isExoired" +
+              provider.productData[0]['textAttributes'][0]['specicalprice']);
+
+          if (provider.productData[0]['special_to_date'] == null) {
+            price = provider.productData[0]['textAttributes'][0]
+                    ['specicalprice'] ??
+                '';
+          } else if (isExpired) {
+            price = provider.productData[0]['textAttributes'][0]
+                    ['specicalprice'] ??
+                '';
+          } else if (provider.productData[0]['textAttributes'][0]
+                  ['specicalprice'] ==
+              null) {
+            price = provider.productData[0]['price_range']['minimum_price']
+                    ['regular_price']['value']
+                .toString();
+          }
+
           return Scaffold(
             persistentFooterButtons: [
               Row(
@@ -215,7 +255,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                               widget.product.toString(), quantity.toString(),
                               context: context);
                           Scaffold.of(context).openEndDrawer();
-
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -298,23 +337,26 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: getProportionateScreenWidth(10)),
                           child: Text(
                               isConfiguredProduct
                                   ? provider.productData[0]['variants']
-                              [configurableProductIndex]['product']
-                              ['name']
-                                  : provider.productData[0]['dynamicAttributes'][0]['attribute_value'].toUpperCase(),
+                                          [configurableProductIndex]['product']
+                                      ['name']
+                                  : provider.productData[0]['dynamicAttributes']
+                                          [0]['attribute_value']
+                                      .toUpperCase(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: headingFontColor,
                                   fontSize: 12)),
                         ),
 
-                        const SizedBox(height: 5,),
+                        const SizedBox(
+                          height: 5,
+                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: getProportionateScreenWidth(10)),
@@ -356,6 +398,33 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                   fontFamily: 'Gotham',
                                   color: headingFontColor,
                                   fontSize: 15)),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        isExpired ? Container() : Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: getProportionateScreenWidth(10)),
+                          child: Text(
+                              isConfiguredProduct
+                                  ? provider.productData[0]['variants']
+                              [configurableProductIndex]['product']
+                              ['price_range']['minimum_price']
+                              ['regular_price']['value']
+                                  .toString()
+                                  : "₹ " + provider.productData[0]['__typename'] ==
+                                  "SimpleProduct"
+                                  ? provider.productData[0]['price_range']
+                              ['minimum_price']['regular_price']
+                              ['value']
+                                  .toString()
+                                  : provider.productData[0]['textAttributes'][0]
+                              ['specicalprice'].toString(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Gotham',
+                                  color: Color(0xFF983030),
+                                  fontSize: 18)),
                         ),
                         const SizedBox(
                           height: 16,
@@ -1298,7 +1367,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                 "0"
                             ? Container()
                             : SizedBox(
-                                height: 250,
+                                height: 300,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
@@ -1447,7 +1516,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             '1',
                             context: context);
                         Scaffold.of(context).openEndDrawer();
-
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
