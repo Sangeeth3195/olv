@@ -84,7 +84,6 @@ class Aggregation {
   List<Option> options;
   List<String> selected;
 
-
   Aggregation({
     required this.typename,
     required this.attributeCode,
@@ -192,8 +191,8 @@ class Item {
     name: json["name"],
     typename: json["__typename"],
     sku: json["sku"],
-    special_from_date: json["special_from_date"] == null ? '' :'',
-    special_to_date: json["special_to_date"] == null ? '' :'',
+    special_from_date: json["special_from_date"] ?? '',
+    special_to_date: json["special_to_date"] ?? '',
     priceRange: json["price_range"]==null ? PriceRange(typename: '', minimumPrice: MinimumPrice(typename: "",regularPrice: RegularPrice(typename: "",currency: "",value: 0))):PriceRange.fromJson(json["price_range"]),
     configurableOptions: json["configurable_options"]==null?[]:List<ConfigurableOption>.from(json["configurable_options"].map((x) => ConfigurableOption.fromJson(x))),
     variants: json["variants"]==null?[]:List<Variant>.from(json["variants"].map((x) => Variant.fromJson(x))),
@@ -249,7 +248,7 @@ class ConfigurableOption {
     typename: json["__typename"],
     id: json["id"],
     attributeId: json["attribute_id"],
-    label: json["label"],
+    label: json["label"] ?? '',
     position: json["position"],
     useDefault: json["use_default"],
     attributeCode: json["attribute_code"],
@@ -434,7 +433,7 @@ class RegularPrice {
   };
 }
 
-class SmallImage {
+class   SmallImage {
   String typename;
   String url;
   String label;
@@ -554,8 +553,6 @@ class Product {
   List<TextAttribute> textAttributes;
   List<GetPriceRange> getPriceRange;
 
-
-
   Product({
     required this.typename,
     required this.id,
@@ -576,8 +573,8 @@ class Product {
     sku: json["sku"],
     attributeSetId: json["attribute_set_id"],
     weight: json["weight"]??0,
-    priceRange: PriceRange.fromJson(json["price_range"]),
-    smallImage: SmallImage.fromJson(json["small_image"]),
+    priceRange: PriceRange.fromJson(json["price_range"] ?? ''),
+    smallImage: SmallImage.fromJson(json["small_image"] ?? ''),
     textAttributes: json["textAttributes"]==null?[]:List<TextAttribute>.from(json["textAttributes"].map((x) => TextAttribute.fromJson(x))),
     getPriceRange: json["getPriceRange"]==null?[]:List<GetPriceRange>.from(json["getPriceRange"].map((x) => GetPriceRange.fromJson(x))),
 

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
@@ -88,6 +90,18 @@ class MyProvider extends ChangeNotifier {
   void updatebrandData(int id,int id1, {int limit = 2}) async {
     dynamic dataFromAPi =
     await graphQLService.getbrandFilter(limit: limit, id: id,id1: id1);
+    List? res1 = dataFromAPi.data?['products']['items'];
+    _data = res1!;
+    pList = res1;
+    final List<dynamic> itemList = dataFromAPi.data?['products']['items'];
+    items = itemList.map((postJson) => Item.fromJson(postJson)).toList();
+    oldItems = itemList.map((postJson) => Item.fromJson(postJson)).toList();
+    notifyListeners();
+  }
+
+  void updatebrandlistData(int id, {int limit = 2}) async {
+    dynamic dataFromAPi =
+    await graphQLService.getbrandlistFilter(limit: limit, id: id);
     List? res1 = dataFromAPi.data?['products']['items'];
     _data = res1!;
     pList = res1;

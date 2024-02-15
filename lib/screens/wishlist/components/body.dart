@@ -204,7 +204,6 @@ class _ProductCardState extends State<ProductCard> {
 
   void calculatePrice(){
 
-
     DateTime dt1;
     print(widget.spl_to_date);
 

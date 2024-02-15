@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/LoginPage.dart';
+import 'package:omaliving/screens/Product_listing_PLP/Product_Listing_PLP.dart';
 import 'package:omaliving/screens/cart/CartProvider.dart';
 import 'package:omaliving/screens/product_listing/components/search_form.dart';
 import 'package:omaliving/screens/provider/provider.dart';
@@ -373,10 +374,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           ),
         ),
         actions: [
-
-
           IconButton(
-            onPressed: (){
+            onPressed: () {
               // isSearch = !isSearch;
               // setState(() {
               //
@@ -447,14 +446,16 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           ),
         ],
       ),
-      body: widget.navigationShell /*Column(
+      body: widget
+          .navigationShell /*Column(
         children: [
           isSearch?SearchForm():Container(),
           SingleChildScrollView(child: Container(
               height: MediaQuery.of(context).size.height-(isSearch?144:0),
               child: widget.navigationShell)),
         ],
-      )*/,
+      )*/
+      ,
       drawer: Drawer(
         backgroundColor: navBackground,
         width:
@@ -834,8 +835,31 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                           onTap: () {
                             print(getbrandslist[itemIndex]);
                             Navigator.of(context).pop();
-                            context.go('/home/product_listing_brand',
-                                extra: getbrandslist[itemIndex]);
+
+                            if (getbrandslist[itemIndex]['collectiondata'] !=
+                                null) {
+                              context.go('/home/product_listing_brand',
+                                  extra: getbrandslist[itemIndex]);
+                            } else {
+                              print('not brands');
+
+                              final Map<String, dynamic> someMap = {
+                                "id": getbrandslist[itemIndex]['option_id'],
+                                "name": getbrandslist[itemIndex]['name'],
+                              };
+                              print(someMap);
+                              context.go('/home/product_listing_brandlist', extra: someMap);
+
+                             /* Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Product_Listing_PLP(
+                                            name: getbrandslist[itemIndex]['name'],
+                                            id: getbrandslist[itemIndex]['option_id'],
+                                            id1: 0),
+                                  ));*/
+                            }
                           },
                           child: Text(
                             getbrandslist[itemIndex]['name'].toUpperCase(),
@@ -858,46 +882,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
       ),
     );
   }
-
-  /*  bottomNavigationBar: Container(
-        height: 65,
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(0.0),
-          child: Container(
-            color: Colors.white,
-            child: TabBar(
-                onTap: (x) {
-                  if (x == 1) {
-                    _key.currentState!.openDrawer();
-                    setState(() {
-                      _selectedIndex = 0;
-                    });
-                    return;
-                  }
-
-                  _onTap(x);
-                  setState(() {
-                    _selectedIndex = x;
-                  });
-                },
-                labelColor: Colors.grey,
-                unselectedLabelColor: Colors.grey,
-                indicator: const UnderlineTabIndicator(
-                  borderSide: BorderSide.none,
-                ),
-                tabs: [
-                  for (int i = 0; i < _icons.length; i++)
-                    _tabItem(
-                      _icons[i],
-                      _labels[i],
-                      isSelected: i == _selectedIndex,
-                    ),
-                ],
-                controller: _tabController),
-          ),
-        ),
-      ),*/
 
   void _onTap(index) async {
     if (index == 3) {

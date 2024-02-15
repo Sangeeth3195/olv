@@ -73,8 +73,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                   height: 10,
                 ),
                 (collectionmdl.getCollectionSetData == null ||
-                        collectionmdl.getCollectionSetData![0].collections! ==
-                            null)
+                        collectionmdl.getCollectionSetData![0].collections! == null)
                     ? const Center(child: CircularProgressIndicator())
                     : Container(
                         margin: const EdgeInsets.only(
@@ -95,7 +94,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                                 primary: false,
                                 shrinkWrap: true,
                                 padding: const EdgeInsets.all(2),
-                                childAspectRatio: 0.75,
+                                childAspectRatio: 0.65,
                                 maxCrossAxisExtent: 300,
                                 cacheExtent: 10,
                                 children: List.generate(

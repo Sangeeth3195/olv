@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/LoginPage.dart';
 import 'package:omaliving/scaffold_with_navbar.dart';
+import 'package:omaliving/screens/PLP_Custom/Product_Listing_CustomPLP.dart';
 import 'package:omaliving/screens/Product_list_brand/Product_Listing_Brand.dart';
+import 'package:omaliving/screens/Product_listing_PLP/Product_Listing_PLP.dart';
 import 'package:omaliving/screens/account/Account.dart';
 import 'package:omaliving/screens/address/address.dart';
 import 'package:omaliving/screens/cart/cart_screen.dart';
@@ -79,6 +81,14 @@ final router = GoRouter(
                   path: 'cat_listing_filter',
                   builder: (context, state) {
                     return Category_Collection_Filter(
+                      data: state.extra! as Map<String, dynamic>,
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: 'product_listing_brandlist',
+                  builder: (context, state) {
+                    return Product_Listing_CustomPLP(
                       data: state.extra! as Map<String, dynamic>,
                     );
                   },

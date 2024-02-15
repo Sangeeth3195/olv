@@ -5,32 +5,30 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
-import 'package:omaliving/models/CategoryInfo.dart';
 import 'package:omaliving/models/Product.dart';
-import 'package:omaliving/screens/details/details_screen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/CategoryInfo.dart';
 import '../../models/ProductListJson.dart';
 import '../cart/CartProvider.dart';
+import '../details/details_screen.dart';
 
-class Product_Listing_PLP extends StatefulWidget {
-  const Product_Listing_PLP({
-    Key? key,
-    required this.name,
-    required this.id,
-    required this.id1,
-  }) : super(key: key);
-  final String name;
-  final int id;
-  final int id1;
+class Product_Listing_CustomPLP extends StatefulWidget {
+  final Map<String, dynamic> data;
+
+  const Product_Listing_CustomPLP({Key? key, required this.data})
+      : super(key: key);
   static const String routeName = "/home_screen";
 
   @override
-  State<Product_Listing_PLP> createState() => _HomeScreenState();
+  State<Product_Listing_CustomPLP> createState() =>
+      _HomeScreenState(this.data);
 }
 
-class _HomeScreenState extends State<Product_Listing_PLP> {
+class _HomeScreenState extends State<Product_Listing_CustomPLP> {
+  final Map<String, dynamic> data;
+  _HomeScreenState(this.data);
   String? name;
   int? id;
   int? id1;
@@ -48,6 +46,9 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    print(widget.data['id'].toString());
+
     myProvider = Provider.of<MyProvider>(context, listen: false);
     getNavdata();
   }
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
 
   void getNavdata() async {
     final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updatebrandData(widget.id, widget.id1, limit: 2);
+    myProvider.updatebrandlistData( widget.data['id'], limit: 2);
   }
 
   @override
@@ -86,7 +87,7 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                   ),
                   Center(
                     child: Text(
-                      widget.name.toUpperCase(),
+                      widget.data['name'].toUpperCase(),
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -105,7 +106,7 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                     cacheExtent: 10,
                     children: List.generate(
                       provider.items.length,
-                      (index) => Padding(
+                          (index) => Padding(
                         padding: const EdgeInsets.all(3),
                         child: ProductCard(
                           title: provider.items[index].name,
@@ -113,12 +114,12 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                           fromdate: provider.items[index].special_from_date,
                           todate: provider.items[index].special_to_date,
                           price: provider.items[index].typename ==
-                                  "SimpleProduct"
+                              "SimpleProduct"
                               ? provider.items[index].priceRange.minimumPrice
-                                  .regularPrice.value
-                                  .toString()
+                              .regularPrice.value
+                              .toString()
                               : "${provider.items[index].priceRange.minimumPrice.regularPrice.value}"
-                                  " - ${provider.items[index].priceRange.minimumPrice.regularPrice.value}",
+                              " - ${provider.items[index].priceRange.minimumPrice.regularPrice.value}",
                           product: provider.items[index],
                           bgColor: demo_product[0].colors[0],
                           item: provider.items[index],
@@ -172,7 +173,9 @@ class _ProductCardState extends State<ProductCard> {
   GraphQLService graphQLService = GraphQLService();
 
   int wishlist = 0;
+
   String cart_token = '';
+
   int _selected = 0;
   MyProvider? myProvider;
   String? wishListID;
@@ -240,8 +243,7 @@ class _ProductCardState extends State<ProductCard> {
       price = widget.item!.textAttributes[0].specicalprice.toString() ?? '';
     } else if (isExpired) {
       price = widget.item!.textAttributes[0].specicalprice.toString() ?? '';
-    } else if (widget.item!.textAttributes[0].specicalprice.toString() ==
-        null) {
+    } else if (widget.item!.textAttributes[0].specicalprice.toString() == null) {
       price = widget.price;
     }
   }
@@ -277,7 +279,10 @@ class _ProductCardState extends State<ProductCard> {
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
         child:
-            Stack(
+        /*Card(
+          elevation: 0,
+          child:*/
+        Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -368,174 +373,193 @@ class _ProductCardState extends State<ProductCard> {
                       ),
                     ),
 
+
+
+                    /*   Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                        '${widget.item!.textAttributes[0].specicalprice}',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: headingColor,
+                            height: 1.2,
+                            fontSize: 13),
+                      ),
+                    ),*/
+
                     const SizedBox(height: 5.0),
-                    widget.item!.textAttributes[0].specicalprice.toString() ==
-                            null
+                    widget.item!.textAttributes[0].specicalprice.toString() == null
                         ? Padding(
-                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                            child: Text(
-                              widget.item!.textAttributes[0].specicalprice
-                                  .toString(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  color: headingColor,
-                                  height: 1.2,
-                                  fontSize: 12),
-                            ),
-                          )
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                        widget.item!.textAttributes[0].specicalprice
+                            .toString(),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: headingColor,
+                            height: 1.2,
+                            fontSize: 12),
+                      ),
+                    )
                         : Container(),
+
+                    //widget.item!.typename == "ConfigurableProduct"
                     widget.item!.typename == "ConfigurableProduct"
                         ? Row(
-                            children: [
-                              widget.item!.configurableOptions[0].label ==
-                                      "Color"
-                                  ? widget.item!.configurableOptions[0].values
-                                              .length >
-                                          2
-                                      ? SizedBox(
-                                          height: 50,
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: widget
-                                                        .item!
-                                                        .configurableOptions[0]
-                                                        .values
-                                                        .length >
-                                                    2
-                                                ? 2
-                                                : widget
-                                                    .item!
-                                                    .configurableOptions[0]
-                                                    .values
-                                                    .length,
-                                            itemBuilder: (context, index) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  log(widget
-                                                      .item!
-                                                      .configurableOptions[0]
-                                                      .values[index]
-                                                      .toJson()
-                                                      .toString());
-                                                  _changeColor(
-                                                      index,
-                                                      widget
-                                                          .item!
-                                                          .configurableOptions[
-                                                              0]
-                                                          .values[index]
-                                                          .valueIndex);
-                                                },
-                                                child: Container(
-                                                  margin: const EdgeInsets
-                                                      .symmetric(horizontal: 5),
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: _selected ==
-                                                                index
-                                                            ? Colors.red
-                                                            : Colors
-                                                                .transparent,
-                                                        width:
-                                                            2.0), // Using BorderSide with BoxDecoration
+                      children: [
+                        widget.item!.configurableOptions[0].label ==
+                            "Color"
+                            ? widget.item!.configurableOptions[0].values
+                            .length >
+                            2
+                            ? SizedBox(
+                          height: 50,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: widget
+                                .item!
+                                .configurableOptions[0]
+                                .values
+                                .length >
+                                2
+                                ? 2
+                                : widget
+                                .item!
+                                .configurableOptions[0]
+                                .values
+                                .length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  log(widget
+                                      .item!
+                                      .configurableOptions[0]
+                                      .values[index]
+                                      .toJson()
+                                      .toString());
+                                  _changeColor(
+                                      index,
+                                      widget
+                                          .item!
+                                          .configurableOptions[
+                                      0]
+                                          .values[index]
+                                          .valueIndex);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets
+                                      .symmetric(horizontal: 5),
+                                  padding:
+                                  const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: _selected ==
+                                            index
+                                            ? Colors.red
+                                            : Colors
+                                            .transparent,
+                                        width:
+                                        2.0), // Using BorderSide with BoxDecoration
 
-                                                    shape: BoxShape.circle,
-                                                    color: colorFromHex(widget
-                                                        .item!
-                                                        .configurableOptions[0]
-                                                        .values[index]
-                                                        .swatchData
-                                                        .value),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        )
-                                      : SizedBox(
-                                          height: 50,
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: widget
-                                                .item!
-                                                .configurableOptions[0]
-                                                .values
-                                                .length,
-                                            itemBuilder: (context, index) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  log(widget
-                                                      .item!
-                                                      .configurableOptions[0]
-                                                      .values[index]
-                                                      .toJson()
-                                                      .toString());
-                                                  _changeColor(
-                                                      index,
-                                                      widget
-                                                          .item!
-                                                          .configurableOptions[
-                                                              0]
-                                                          .values[index]
-                                                          .valueIndex);
-                                                },
-                                                child: Container(
-                                                  margin: const EdgeInsets
-                                                      .symmetric(horizontal: 5),
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                        color: _selected ==
-                                                                index
-                                                            ? Colors.brown
-                                                            : Colors
-                                                                .transparent,
-                                                        width:
-                                                            3.0), // Using BorderSide with BoxDecoration
-                                                    color: colorFromHex(widget
-                                                        .item!
-                                                        .configurableOptions[0]
-                                                        .values[index]
-                                                        .swatchData
-                                                        .value),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        )
-                                  : Container(),
-                              widget.item!.configurableOptions[0].label ==
-                                      "Color"
-                                  ? widget.item!.configurableOptions[0].values
-                                              .length >
-                                          2
-                                      ? const Text(
-                                          '+ More',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: headingColor,
-                                              height: 1.2,
-                                              fontSize: 13),
-                                        )
-                                      : Container()
-                                  : Container(),
-                            ],
-                          )
+                                    shape: BoxShape.circle,
+                                    color: colorFromHex(widget
+                                        .item!
+                                        .configurableOptions[0]
+                                        .values[index]
+                                        .swatchData
+                                        .value),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                            : SizedBox(
+                          height: 50,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: widget
+                                .item!
+                                .configurableOptions[0]
+                                .values
+                                .length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  log(widget
+                                      .item!
+                                      .configurableOptions[0]
+                                      .values[index]
+                                      .toJson()
+                                      .toString());
+                                  _changeColor(
+                                      index,
+                                      widget
+                                          .item!
+                                          .configurableOptions[
+                                      0]
+                                          .values[index]
+                                          .valueIndex);
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets
+                                      .symmetric(horizontal: 5),
+                                  padding:
+                                  const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: _selected ==
+                                            index
+                                            ? Colors.brown
+                                            : Colors
+                                            .transparent,
+                                        width:
+                                        3.0), // Using BorderSide with BoxDecoration
+                                    color: colorFromHex(widget
+                                        .item!
+                                        .configurableOptions[0]
+                                        .values[index]
+                                        .swatchData
+                                        .value),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                            : Container(),
+                        widget.item!.configurableOptions[0].label ==
+                            "Color"
+                            ? widget.item!.configurableOptions[0].values
+                            .length >
+                            2
+                            ? const Text(
+                          '+ More',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: headingColor,
+                              height: 1.2,
+                              fontSize: 13),
+                        )
+                            : Container()
+                            : Container(),
+                      ],
+                    )
                         : Container(),
 
                     GestureDetector(
                       onTap: () async {
+
+                        print(widget.item!.sku.toString());
+
                         EasyLoading.show(status: 'loading...');
                         graphQLService.addProductToCart(
                             widget.item!.sku.toString(), '1',
                             context: context);
+
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
@@ -562,20 +586,20 @@ class _ProductCardState extends State<ProductCard> {
                       if (!widget.item!.wishlist) {
                         widget.item!.wishlist = true;
                         dynamic listData =
-                            await graphQLService.add_Product_from_wishlist(
-                                wishlistId: myProvider!
-                                    .customerModel.customer!.wishlists![0].id!,
-                                sku: widget.item!.sku.toString(),
-                                qty: "1",
-                                context: context);
+                        await graphQLService.add_Product_from_wishlist(
+                            wishlistId: myProvider!
+                                .customerModel.customer!.wishlists![0].id!,
+                            sku: widget.item!.sku.toString(),
+                            qty: "1",
+                            context: context);
                       } else {
                         widget.item!.wishlist = false;
                         dynamic listData =
-                            await graphQLService.remove_Product_from_wishlist(
-                                wishlistId: myProvider!
-                                    .customerModel.customer!.wishlists![0].id!,
-                                wishlistItemsIds: widget.item!.id.toString(),
-                                context: context);
+                        await graphQLService.remove_Product_from_wishlist(
+                            wishlistId: myProvider!
+                                .customerModel.customer!.wishlists![0].id!,
+                            wishlistItemsIds: widget.item!.id.toString(),
+                            context: context);
                       }
                       setState(() {});
                     } else {
@@ -603,14 +627,20 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   Color colorFromHex(String hexColor) {
+    // Remove the '#' character from the hex color code, if present.
+
     try {
       if (hexColor.startsWith('#')) {
         hexColor = hexColor.substring(1);
       }
+
+      // Check if the hex color code is valid.
       if (hexColor.length != 6) {
         throw const FormatException(
             "Invalid hex color code. It should be 6 characters long (excluding the '#').");
       }
+
+      // Parse the hexadecimal values and construct the Color object.
       return Color(int.parse('FF$hexColor', radix: 16));
     } catch (e) {
       return const Color(0xFFFFFFFF);

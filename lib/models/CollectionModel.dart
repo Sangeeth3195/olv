@@ -105,7 +105,7 @@ class Collection {
     position: json["position"],
     optionId: json["option_id"],
     brandName: json["brand_name"] ?? '',
-    brandOptionId: json["brand_option_id"],
+    brandOptionId: json["brand_option_id"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {

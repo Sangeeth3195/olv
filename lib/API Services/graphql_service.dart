@@ -777,6 +777,138 @@ class GraphQLService {
     }
   }
 
+  Future<dynamic> getbrandlistFilter({
+    required int limit,
+    required int id,
+
+  }) async {
+    try {
+      EasyLoading.show(status: 'loading...');
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                  products(
+                  filter: {
+                    material: {in: [] }
+                    color:{in: []}
+                    brands:{in:["$id"]}
+                    oma_collection:{in:[]}
+                    oma_subclass: {in: []}
+                    }
+                    sort: {name: ASC}
+                    pageSize:50
+                    ){
+                    items {
+                      id
+                      name
+                      __typename
+                      sku
+                      brands
+                      ... on ConfigurableProduct {
+                          configurable_options {
+                          id
+                          attribute_id
+                          label
+                          position
+                          use_default
+                          attribute_code
+                          values {
+                            value_index
+                            label
+                            swatch_data{
+                              value
+                            }
+                          }
+                          product_id
+                        }
+                      variants {
+                          product {
+                            id
+                            name
+                            sku
+                            attribute_set_id
+                            ... on PhysicalProductInterface {
+                              weight
+                            }
+                            media_gallery {
+                        url
+                        label
+                        position
+                        disabled
+                        ... on ProductVideo {
+                          video_content {
+                            media_type
+                            video_provider
+                            video_url
+                            video_title
+                            video_description
+                            video_metadata
+                          }
+                        }
+                      }
+                            price_range{
+                              minimum_price{
+                                regular_price{
+                                  value
+                                  currency
+                                }
+                              }
+                            }
+                            
+                          }
+                          attributes {
+                            uid
+                            label
+                            code
+                            value_index
+                          }
+                }
+                      }
+                         special_from_date
+                          special_to_date
+                          textAttributes{
+                            weight
+                            normalprice
+                            specicalprice
+                      }
+                       dynamicAttributes(fields:["brands"]){
+                             attribute_code
+                            attribute_label
+                            attribute_value
+                      }
+                      url_key
+                      small_image{
+                          url
+                          label
+                      }
+                    }
+                    total_count
+                    page_info {
+                      page_size
+                    }
+                  }
+                }
+            """),
+          variables: const {
+            'limit': 2,
+          },
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        EasyLoading.dismiss();
+
+        return result;
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
   Future<dynamic> get_category_collection_filter({
     required int limit,
     required int id,
