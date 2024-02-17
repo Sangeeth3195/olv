@@ -80,9 +80,7 @@ class _BodyState extends State<Body> {
                                       .wishlist!
                                       .items![index]
                                       .product!
-                                      .mediaGallery![0]
-                                      .url
-                                      .toString(),
+                                      .mediaGallery == [] ? '' : '',
                                   price: myProvider!
                                       .customerModel
                                       .customer!
@@ -182,24 +180,13 @@ class _ProductCardState extends State<ProductCard> {
   String? wishListID;
   String price ="0";
   bool isExpired = true;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     myProvider = Provider.of<MyProvider>(context, listen: false);
-
     calculatePrice();
-
-    /*DateTime dt1 = DateTime.parse(widget.spl_to_date);
-    DateTime dt2 = DateTime.parse("2018-02-27 10:09:00");
-    DateTime date =DateTime.now();
-
-    // if(widget.spl_to_date)
-    if(dt1.isBefore(date)){
-      print("DT1 is before DT2");
-    }else {
-      print("DT1 is else DT2");
-    }*/
   }
 
   void calculatePrice(){
@@ -213,13 +200,7 @@ class _ProductCardState extends State<ProductCard> {
       dt1 = DateTime.parse("2099-02-27 10:09:00");
     }
 
-    DateTime date = DateTime.now();
-
-    print(date);
-
     DateTime currentDate = DateTime.now();
-
-    // Check if the current date is after the expiration date
     isExpired = currentDate.isAfter(dt1);
     print("isExoired"+isExpired.toString());
 
@@ -260,7 +241,7 @@ class _ProductCardState extends State<ProductCard> {
                         Radius.circular(defaultBorderRadius)),
                   ),
                   child: Image.network(
-                    widget.image,
+                    widget.image ?? '',
                     height: 150,
                     errorBuilder: (BuildContext context, Object exception,
                         StackTrace? stackTrace) {
@@ -316,7 +297,7 @@ class _ProductCardState extends State<ProductCard> {
                             ),
                     ): Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
+                      child: price.isEmpty
                           ? Text(
                         "₹${widget.price}",
                         style: const TextStyle(
@@ -328,6 +309,7 @@ class _ProductCardState extends State<ProductCard> {
                             fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
                       ),
                     ),
+
                     isExpired?Container():Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
@@ -336,6 +318,7 @@ class _ProductCardState extends State<ProductCard> {
                                   fontSize: 13, color: Colors.black)
                             ),
                     ),
+
                     const SizedBox(height: 5.0),
                     GestureDetector(
                       onTap: () async {

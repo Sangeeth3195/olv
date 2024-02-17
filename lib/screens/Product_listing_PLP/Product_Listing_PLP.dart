@@ -48,7 +48,10 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    myProvider = Provider.of<MyProvider>(context, listen: false);
+
+    print(widget.id);
+    print(widget.id1);
+
     getNavdata();
   }
 
@@ -176,14 +179,16 @@ class _ProductCardState extends State<ProductCard> {
   int _selected = 0;
   MyProvider? myProvider;
   String? wishListID;
-
   String? image, title;
-  String? price;
+  String price_ss ='0';
+  String? Spl_price ='0';
   Color? bgColor;
   Item? item;
   CartProvider? cartProvider;
   String spl_price = "0";
   bool isExpired = true;
+  String? _price_text;
+  String? _price_value;
 
   @override
   void initState() {
@@ -191,6 +196,8 @@ class _ProductCardState extends State<ProductCard> {
     super.initState();
     myProvider = Provider.of<MyProvider>(context, listen: false);
     cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+    Spl_price = widget.item!.textAttributes[0].specicalprice.toString();
 
     calculatePrice();
 
@@ -202,26 +209,25 @@ class _ProductCardState extends State<ProductCard> {
         print(e);
         title = widget.title;
         image = widget.item?.smallImage.url ?? '';
-        price = widget.item!.getPriceRange.isEmpty
-            ? widget.item!.textAttributes[0].normalprice
-            : widget.item!.getPriceRange[0].normalpricevalue;
+        // price_ss = widget.item!.getPriceRange.isEmpty
+        //     ? widget.item!.textAttributes[0].normalprice
+        //     : widget.item!.getPriceRange[0].normalpricevalue;
       }
     } else {
       title = widget.title;
       image = widget.item?.smallImage.url ?? '';
-      price = widget.item!.getPriceRange.isEmpty
-          ? widget.item!.textAttributes[0].normalprice
-          : widget.item!.getPriceRange[0].normalpricevalue;
+      // price_ss = widget.item!.getPriceRange.isEmpty
+      //     ? widget.item!.textAttributes[0].normalprice
+      //     : widget.item!.getPriceRange[0].normalpricevalue;
     }
+
+    print(Spl_price);
+    print(widget.price);
+    print(price_ss);
   }
 
   void calculatePrice() {
     DateTime dt1;
-
-    print(widget.item!.sku);
-    print(widget.item?.special_from_date);
-    print(widget.item?.special_to_date);
-
     if (widget.item!.special_to_date != null &&
         widget.item!.special_to_date != '') {
       dt1 = DateTime.parse(widget.item!.special_to_date);
@@ -229,20 +235,33 @@ class _ProductCardState extends State<ProductCard> {
       dt1 = DateTime.parse("2099-02-27 10:09:00");
     }
 
-    DateTime date = DateTime.now();
-    print(date);
     DateTime currentDate = DateTime.now();
 
     isExpired = currentDate.isAfter(dt1);
-    print("isExoired" + isExpired.toString());
+    print("isExoired --> $isExpired");
 
-    if (widget.item!.special_to_date == null) {
-      price = widget.item!.textAttributes[0].specicalprice.toString() ?? '';
-    } else if (isExpired) {
-      price = widget.item!.textAttributes[0].specicalprice.toString() ?? '';
-    } else if (widget.item!.textAttributes[0].specicalprice.toString() ==
-        null) {
-      price = widget.price;
+   String tagName = widget.item!.textAttributes[0].specicalprice.toString();
+
+    final split = tagName.split('₹');
+
+    final Map<int, String> values = {
+      for (int i = 0; i < split.length; i++)
+        i: split[i]
+    };
+
+    print(values);
+    print('tagName');
+    print(tagName);
+
+    _price_text = values[0];
+    _price_value = values[1];
+
+    if (widget.item!.special_to_date == null || widget.item!.special_to_date == '') {
+      price_ss = Spl_price??'';
+    } else if(isExpired){
+      price_ss = Spl_price??'';
+    } else if (Spl_price == null){
+      price_ss = widget.price;
     }
   }
 
@@ -257,7 +276,7 @@ class _ProductCardState extends State<ProductCard> {
           setState(() {
             title = variants.product.name;
             image = variants.product.smallImage.url;
-            price = variants.product.getPriceRange.isEmpty
+            price_ss = variants.product.getPriceRange.isEmpty
                 ? variants.product.textAttributes[0].normalprice
                 : variants.product.getPriceRange[0].normalpricevalue;
           });
@@ -314,7 +333,7 @@ class _ProductCardState extends State<ProductCard> {
                             .toString(),
                         style: const TextStyle(
                             fontWeight: FontWeight.normal,
-                            color: blackColor,
+                            color: Colors.black54,
                             height: 1.5,
                             fontSize: 11),
                       ),
@@ -325,44 +344,33 @@ class _ProductCardState extends State<ProductCard> {
                       child: Text(
                         title ?? '',
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w400,
                             color: blackColor,
+                            fontFamily: 'Gotham',
                             height: 1.5,
                             fontSize: 12),
                       ),
                     ),
                     const SizedBox(height: 5.0),
-                    isExpired? Padding(
+                    isExpired? Container(): Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
+                      child: price_ss.isEmpty
                           ? Text(
-                        "₹${widget.price}",
+                        widget.item!.textAttributes[0].normalprice,
                         style: const TextStyle(
                             fontSize: 13, color: Colors.black),
                       )
                           : Text(
-                        "₹${widget.price}",
+                        widget.item!.textAttributes[0].normalprice,
                         style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      ),
-                    ): Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
-                          ? Text(
-                        "${widget.item!.textAttributes[0].normalprice}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      )
-                          : Text(
-                        "${widget.item!.textAttributes[0].normalprice}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
+                            fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough,fontFamily: 'Gotham', ),
                       ),
                     ),
-                    isExpired?Container():Padding(
+
+                    isExpired  ?Container():Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
-                          widget.item!.textAttributes[0].specicalprice!,
+                          price_ss,
                           style: const TextStyle(
                               fontSize: 13, color: Colors.black)
                       ),

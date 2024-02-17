@@ -25,7 +25,6 @@ class _HomeScreenState extends State<ProductListing> {
   String _selectedOption = "Most Relevant";
   GraphQLService graphQLService = GraphQLService();
   List<dynamic> pList = [];
-  final int _value = 0;
   CategoryInfo getcategoryInfo = CategoryInfo();
 
   var selectedColor = 0;
@@ -867,7 +866,9 @@ class _HomeScreenState extends State<ProductListing> {
                       provider.items.length,
                       (index) => Padding(
                         padding: const EdgeInsets.all(3),
-                        child: ProductCard(
+                        child:
+
+                        ProductCard(
                           title: provider.items[index].name,
                           image: provider.items[index].smallImage.url,
                           price: provider.items[index].typename ==
@@ -887,13 +888,6 @@ class _HomeScreenState extends State<ProductListing> {
                                   builder: (context) => DetailsScreen(
                                       product: provider.pList[index]['sku']),
                                 ));
-
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) =>
-                            //           DetailsPage(product: provider.pList[index]),
-                            //     ));
                           },
                         ),
                       ),

@@ -200,11 +200,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
     'cart',
     'Profile'
   ];
-  static const List<String> _kOptions = <String>[
-    'aardvark',
-    'bobcat',
-    'chameleon',
-  ];
+
   @override
   Widget build(BuildContext context) {
     List<Widget> _icons = const [
@@ -464,7 +460,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           children: [
             AppBar(
               automaticallyImplyLeading: false,
-              backgroundColor: navBackground,
+              backgroundColor: tileColor,
               elevation: 0,
               leading: IconButton(
                 icon: const Icon(
@@ -808,75 +804,66 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 );
               },
             ),
-            ExpansionTile(
-              title: GestureDetector(
-                onTap: () {},
-                child: const Text(
-                  'BRANDS',
-                  style: TextStyle(
-                      fontFamily: 'Gotham',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13.0,
-                      color: navTextColor),
-                ),
-              ),
-              children: <Widget>[
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: getbrandslist.length,
-                    itemBuilder: (BuildContext context, int itemIndex) {
-                      return ExpansionTile(
-                        trailing: const SizedBox(),
-                        title: GestureDetector(
-                          onTap: () {
-                            print(getbrandslist[itemIndex]);
-                            Navigator.of(context).pop();
-
-                            if (getbrandslist[itemIndex]['collectiondata'] !=
-                                null) {
-                              context.go('/home/product_listing_brand',
-                                  extra: getbrandslist[itemIndex]);
-                            } else {
-                              print('not brands');
-
-                              final Map<String, dynamic> someMap = {
-                                "id": getbrandslist[itemIndex]['option_id'],
-                                "name": getbrandslist[itemIndex]['name'],
-                              };
-                              print(someMap);
-                              context.go('/home/product_listing_brandlist', extra: someMap);
-
-                             /* Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        Product_Listing_PLP(
-                                            name: getbrandslist[itemIndex]['name'],
-                                            id: getbrandslist[itemIndex]['option_id'],
-                                            id1: 0),
-                                  ));*/
-                            }
-                          },
-                          child: Text(
-                            getbrandslist[itemIndex]['name'].toUpperCase(),
-                            style: const TextStyle(
-                                color: navTextColor,
-                                fontSize: 13,
-                                letterSpacing: 0,
-                                fontWeight: FontWeight.w700,
-                                fontStyle: FontStyle.normal),
-                          ),
-                        ),
-                      );
-                    },
+            Theme(
+              data:
+                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                title: GestureDetector(
+                  onTap: () {},
+                  child: const Text(
+                    'BRANDS',
+                    style: TextStyle(
+                        fontFamily: 'Gotham',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13.0,
+                        color: navTextColor),
                   ),
                 ),
-              ],
-            )
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      itemCount: getbrandslist.length,
+                      itemBuilder: (BuildContext context, int itemIndex) {
+                        return ExpansionTile(
+                          trailing: const SizedBox(),
+                          title: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              if (getbrandslist[itemIndex]['collectiondata'] !=
+                                  null) {
+                                context.go('/home/product_listing_brand',
+                                    extra: getbrandslist[itemIndex]);
+                              } else {
+                                final Map<String, dynamic> someMap = {
+                                  "id": getbrandslist[itemIndex]['option_id'],
+                                  "name": getbrandslist[itemIndex]['name'],
+                                };
+                                print(someMap);
+                                context.go('/home/product_listing_brandlist',
+                                    extra: someMap);
+                              }
+                            },
+                            child: Text(
+                              getbrandslist[itemIndex]['name'].toUpperCase(),
+                              style: const TextStyle(
+                                  color: navTextColor,
+                                  fontSize: 13,
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w700,
+                                  fontStyle: FontStyle.normal),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

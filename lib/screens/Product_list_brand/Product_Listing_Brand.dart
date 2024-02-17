@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:omaliving/API%20Services/Constant.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/screens/provider/provider.dart';
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                           title: data['collectiondata'][index]['name'],
                           id: data['option_id'],
                           brand_id: data['collectiondata'][index]['option_id'],
-                          image: 'https://omaliving.com/media/wysiwyg/collection/${data['collectiondata'][index]['image']}',
+                          image: '${Urls.BASE_URL_Prod}${data['collectiondata'][index]['image']}',
                         ),
                       ),
                     ),
@@ -117,12 +118,12 @@ class ProductCard extends StatefulWidget {
 
 class _ProductCardState extends State<ProductCard> {
   GraphQLService graphQLService = GraphQLService();
-
   int wishlist = 0;
   String cart_token = '';
   MyProvider? myProvider;
   String? wishListID;
   String? image, title;
+  String? brand_banner;
   String? price;
   Color? bgColor;
   String spl_price = "0";
@@ -138,8 +139,15 @@ class _ProductCardState extends State<ProductCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print(widget.title);
-        print(widget.image);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  Product_Listing_PLP(
+                      name: widget.title,
+                      id: widget.id,
+                      id1: widget.brand_id),
+            ));
       },
       child: Container(
         padding: const EdgeInsets.all(2),
@@ -154,19 +162,7 @@ class _ProductCardState extends State<ProductCard> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      Product_Listing_PLP(
-                                          name: widget.title,
-                                          id: widget.id,
-                                          id1: widget.brand_id),
-                                ));
-                          },
-                  child: Container(
+                  Container(
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
@@ -184,7 +180,6 @@ class _ProductCardState extends State<ProductCard> {
                       },
                     ),
                   ),
-                ),
                 const SizedBox(height: 15),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,

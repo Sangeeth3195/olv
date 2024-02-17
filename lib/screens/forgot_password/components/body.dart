@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../API Services/graphql_service.dart';
 import '../../../constants.dart';
@@ -136,6 +137,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
+                  EasyLoading.show(status: 'loading...');
                   graphQLService.resetpassword(loginEmailController.text.toString(),context);
                 }
               },

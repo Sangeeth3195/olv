@@ -152,6 +152,7 @@ class _CartScreenState extends State<CartScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => const LoginPage()),
                               );*/
+
                             } else {
                               CartProvider cartProvider =
                                   Provider.of<CartProvider>(context,
@@ -286,6 +287,9 @@ class _CheckoutCardState extends State<CheckoutCard> {
                             height: 45, // <-- Your height
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0.0),
+                                ),
                                 backgroundColor: headingColor,
                                 textStyle: const TextStyle(
                                     color: Colors.white,

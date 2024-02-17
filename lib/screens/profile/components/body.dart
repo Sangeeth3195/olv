@@ -68,7 +68,7 @@ class _BodyState extends State<Body> {
                   provider.customerModel.customer?.firstname ?? '',
                   style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 5 ,
+                    fontSize: 16,
                     fontFamily: "Gotham",
                     fontWeight: FontWeight.w500,
                   ),

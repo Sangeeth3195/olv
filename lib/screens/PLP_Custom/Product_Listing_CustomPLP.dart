@@ -187,6 +187,8 @@ class _ProductCardState extends State<ProductCard> {
   CartProvider? cartProvider;
   String spl_price = "0";
   bool isExpired = true;
+  String? _price_text;
+  String? _price_value;
 
   @override
   void initState() {
@@ -231,6 +233,20 @@ class _ProductCardState extends State<ProductCard> {
     } else {
       dt1 = DateTime.parse("2099-02-27 10:09:00");
     }
+
+    String tagName = widget.item!.textAttributes[0].specicalprice.toString();
+
+    final split = tagName.split('₹');
+
+    final Map<int, String> values = {
+      for (int i = 0; i < split.length; i++)
+        i: split[i]
+    };
+
+    print(values);
+
+    _price_text = values[0];
+    _price_value = values[1];
 
     DateTime date = DateTime.now();
     print(date);
@@ -330,7 +346,7 @@ class _ProductCardState extends State<ProductCard> {
                       child: Text(
                         title ?? '',
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w400,
                             color: blackColor,
                             height: 1.5,
                             fontSize: 12),
@@ -365,12 +381,35 @@ class _ProductCardState extends State<ProductCard> {
                       ),
                     ),
                     isExpired?Container():Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
-                          widget.item!.textAttributes[0].specicalprice!,
-                          style: const TextStyle(
-                              fontSize: 13, color: Colors.black)
-                      ),
+                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child:
+                        RichText(
+                          text: TextSpan(
+                            text: '$_price_text',
+                            style: const TextStyle(
+                              color: Color(0xFF983030),
+                            ),
+                            children: [
+                              TextSpan(
+                                text: '₹ $_price_value',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Gotham',
+                                    color: Colors.black
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+
+
+                      // Text(
+                      //     widget.item!.textAttributes[0].specicalprice!,
+                      //     style: const TextStyle(
+                      //         fontSize: 13, color: Colors.black)
+                      // ),
+
+
                     ),
 
 

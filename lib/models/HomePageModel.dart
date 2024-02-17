@@ -35,7 +35,7 @@ class GetHomePageDatum {
   String? description;
   String? priority;
   String? skulist;
-  Buttontext? buttontext;
+  String? buttontext;
   String? link;
   List<Sectiondatum>? sectiondata;
 
@@ -58,7 +58,7 @@ class GetHomePageDatum {
     description: json["description"],
     priority: json["priority"],
     skulist: json["skulist"],
-    buttontext: buttontextValues.map[json["buttontext"]]!,
+    buttontext: json["buttontext"],
     link: json["link"],
     sectiondata: json["sectiondata"] == null ? [] : List<Sectiondatum>.from(json["sectiondata"]!.map((x) => Sectiondatum.fromJson(x))),
   );
@@ -70,21 +70,12 @@ class GetHomePageDatum {
     "description": description,
     "priority": priority,
     "skulist": skulist,
-    "buttontext": buttontextValues.reverse[buttontext],
+    "buttontext": buttontext,
     "link": link,
     "sectiondata": sectiondata == null ? [] : List<dynamic>.from(sectiondata!.map((x) => x.toJson())),
   };
 }
 
-enum Buttontext {
-  EMPTY,
-  SHOP_NOW
-}
-
-final buttontextValues = EnumValues({
-  "": Buttontext.EMPTY,
-  "SHOP NOW": Buttontext.SHOP_NOW
-});
 
 class Sectiondatum {
   Typename? typename;
@@ -93,7 +84,7 @@ class Sectiondatum {
   String? priority;
   String? attachment;
   String? attachmentmob;
-  Buttontext? buttontext;
+  String? buttontext;
   String? link;
 
   Sectiondatum({
@@ -114,7 +105,7 @@ class Sectiondatum {
     priority: json["priority"],
     attachment: json["attachment"],
     attachmentmob: json["attachmentmob"],
-    buttontext: buttontextValues.map[json["buttontext"]]!,
+    buttontext: json["buttontext"],
     link: json["link"],
   );
 
@@ -125,7 +116,7 @@ class Sectiondatum {
     "priority": priority,
     "attachment": attachment,
     "attachmentmob": attachmentmob,
-    "buttontext": buttontextValues.reverse[buttontext],
+    "buttontext": buttontext,
     "link": link,
   };
 }

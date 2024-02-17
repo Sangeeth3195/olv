@@ -193,7 +193,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                             color: Colors.white,
                             border: Border.all(
                               color: headingColor, // Border color
-                              width: 1.0, // Border width
+                              width: 0.5, // Border width
                             ),
                             borderRadius: BorderRadius.circular(
                                 0.0), // Adjust border radius as needed
@@ -258,6 +258,9 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                        ),
                         padding: const EdgeInsets.all(5),
                         backgroundColor:
                             headingColor, // Set the background color
@@ -278,7 +281,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         color: Colors.white,
                         border: Border.all(
                           color: headingColor, // Border color
-                          width: 1.0, // Border width
+                          width: 0.5, // Border width
                         ),
                         borderRadius: BorderRadius.circular(
                             0.0), // Adjust border radius as needed
@@ -402,30 +405,31 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         const SizedBox(
                           height: 10,
                         ),
-                        isExpired ? Container() : Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: getProportionateScreenWidth(10)),
-                          child: Text(
-                              isConfiguredProduct
-                                  ? provider.productData[0]['variants']
-                              [configurableProductIndex]['product']
-                              ['price_range']['minimum_price']
-                              ['regular_price']['value']
-                                  .toString()
-                                  : "₹ " + provider.productData[0]['__typename'] ==
-                                  "SimpleProduct"
-                                  ? provider.productData[0]['price_range']
-                              ['minimum_price']['regular_price']
-                              ['value']
-                                  .toString()
-                                  : provider.productData[0]['textAttributes'][0]
-                              ['specicalprice'].toString(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: 'Gotham',
-                                  color: Color(0xFF983030),
-                                  fontSize: 18)),
-                        ),
+                        isExpired
+                            ? Container()
+                            : Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        getProportionateScreenWidth(10)),
+                                child: Text(
+                                    isConfiguredProduct
+                                        ? provider.productData[0]['variants']
+                                                [configurableProductIndex]['product']
+                                                ['price_range']['minimum_price']
+                                                ['regular_price']['value']
+                                            .toString()
+                                        : "₹ " + provider.productData[0]['__typename'] ==
+                                                "SimpleProduct"
+                                            ? provider.productData[0]['price_range']['minimum_price']['regular_price']['value']
+                                                .toString()
+                                            : provider.productData[0]['textAttributes'][0]['specicalprice']
+                                                .toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Gotham',
+                                        color: Color(0xFF983030),
+                                        fontSize: 18)),
+                              ),
                         const SizedBox(
                           height: 16,
                         ),
@@ -1152,187 +1156,205 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           color: backgroundCategoryColor.withOpacity(0.9),
                           padding: const EdgeInsets.all(5),
                           margin: const EdgeInsets.all(10),
-                          child: ExpansionTile(
-                            trailing: _isExpanded
-                                ? const Icon(
-                                    Icons.remove,
-                                    size: 20,
-                                    color: headingColor,
-                                  ) // Icon when expanded
-                                : const Icon(
-                                    Icons.add,
-                                    size: 20,
-                                    color: headingColor,
-                                  ),
-                            childrenPadding: const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 0),
-                            // expandedCrossAxisAlignment: CrossAxisAlignment.end,
-                            // maintainState: true,
-                            onExpansionChanged: _onExpansionChanged,
-                            // trailing: _isExpanded
-                            //     ? const Icon(Icons.remove) // Icon when expanded
-                            //     : const Icon(Icons.add),
-                            title: const Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: Text(
-                                'DETAIL',
-                                style: TextStyle(
-                                    color: headingColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15),
-                              ),
-                            ),
-
-                            children: [
-                              SingleChildScrollView(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Html(
-                                  data: '''${product[0]['detail']}''',
-                                  style: {
-                                    "body": Style(
-                                      fontSize: FontSize(14.0),
-                                      fontWeight: FontWeight.normal,
+                          child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(dividerColor: Colors.transparent),
+                            child: ExpansionTile(
+                              trailing: _isExpanded
+                                  ? const Icon(
+                                      Icons.remove,
+                                      size: 20,
+                                      color: headingColor,
+                                    ) // Icon when expanded
+                                  : const Icon(
+                                      Icons.add,
+                                      size: 20,
+                                      color: headingColor,
                                     ),
-                                  },
+                              childrenPadding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 0),
+                              onExpansionChanged: _onExpansionChanged,
+                              title: const Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Text(
+                                  'DETAIL',
+                                  style: TextStyle(
+                                      color: headingColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
                                 ),
                               ),
-                            ],
-                          ),
 
-                          // HtmlExpansionTile(
-                          //   title: 'Detail',
-                          //   htmlContent: '''${product[0]['detail']}''',
-                          // ),
+                              children: [
+                                SingleChildScrollView(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Html(
+                                    data: '''${product[0]['detail']}''',
+                                    style: {
+                                      "body": Style(
+                                        fontSize: FontSize(14.0),
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                         Container(
                           color: backgroundCategoryColor.withOpacity(0.9),
                           padding: const EdgeInsets.all(5),
                           margin: const EdgeInsets.all(10),
-                          child: ExpansionTile(
-                            controlAffinity: ListTileControlAffinity.trailing,
-                            trailing: _isExpanded1
-                                ? const Icon(
-                                    Icons.remove,
-                                    size: 20,
-                                    color: headingColor,
-                                  ) // Icon when expanded
-                                : const Icon(
-                                    Icons.add,
-                                    size: 20,
-                                    color: headingColor,
-                                  ),
-                            childrenPadding: const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 0),
-                            expandedCrossAxisAlignment: CrossAxisAlignment.end,
-                            maintainState: true,
-                            onExpansionChanged: _onExpansionChanged1,
-                            // trailing: _isExpanded
-                            //     ? const Icon(Icons.remove) // Icon when expanded
-                            //     : const Icon(Icons.add),
-                            title: const Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: Text(
-                                'DIMENSIONS',
-                                style: TextStyle(
-                                    color: headingColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15),
-                              ),
-                            ),
-
-                            children: [
-                              SingleChildScrollView(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                child: Column(
-                                  children: [
-                                    product[0]['height'] == null
-                                        ? Container()
-                                        : Text(
-                                            'Height: ' + product[0]['height']),
-                                    product[0]['diameter'] == null
-                                        ? Container()
-                                        : Text('Diameter: ' +
-                                            product[0]['diameter']),
-                                    product[0]['capacity'] == null
-                                        ? Container()
-                                        : Text('Capacity: ' +
-                                            product[0]['capacity']),
-                                    product[0]['width'] == null
-                                        ? Container()
-                                        : Text('Width: ' + product[0]['width']),
-                                    product[0]['length'] == null
-                                        ? Container()
-                                        : Text(
-                                            'Length: ' + product[0]['length']),
-                                    product[0]['overall'] == null
-                                        ? Container()
-                                        : Text('Overall: ' +
-                                            product[0]['overall']),
-                                    product[0]['depth'] == null
-                                        ? Container()
-                                        : Text('Depth: ' + product[0]['depth']),
-                                  ],
+                          child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(dividerColor: Colors.transparent),
+                            child: ExpansionTile(
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              trailing: _isExpanded1
+                                  ? const Icon(
+                                      Icons.remove,
+                                      size: 20,
+                                      color: headingColor,
+                                    ) // Icon when expanded
+                                  : const Icon(
+                                      Icons.add,
+                                      size: 20,
+                                      color: headingColor,
+                                    ),
+                              childrenPadding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 0),
+                              expandedCrossAxisAlignment:
+                                  CrossAxisAlignment.end,
+                              maintainState: true,
+                              onExpansionChanged: _onExpansionChanged1,
+                              // trailing: _isExpanded
+                              //     ? const Icon(Icons.remove) // Icon when expanded
+                              //     : const Icon(Icons.add),
+                              title: const Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Text(
+                                  'DIMENSIONS',
+                                  style: TextStyle(
+                                      color: headingColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
                                 ),
                               ),
-                            ],
-                          ),
 
-                          // HtmlExpansionTile(
-                          //   title: 'Care & Maintenance',
-                          //   htmlContent: '''${product[0]['care']}''',
-                          // ),
+                              children: [
+                                SingleChildScrollView(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                                    children: [
+                                      product[0]['height'] == null
+                                          ? Container()
+                                          :  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: Text('Height: ' +
+                                              product[0]['height'])),
+                                      product[0]['diameter'] == null
+                                          ? Container()
+                                          :  Padding(
+                                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                        child: Text('Diameter: ' +
+                                              product[0]['diameter'])),
+                                      product[0]['capacity'] == null
+                                          ? Container()
+                                          :Padding(
+                                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                        child:  Text('Capacity: ' +
+                                              product[0]['capacity'])),
+                                      product[0]['width'] == null
+                                          ? Container()
+                                          :Padding(
+                                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                        child:  Text(
+                                              'Width: ' + product[0]['width'])),
+                                      product[0]['length'] == null
+                                          ? Container()
+                                          : Padding(
+                                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                        child: Text('Length: ' +
+                                              product[0]['length'])),
+                                      product[0]['overall'] == null
+                                          ? Container()
+                                          : Padding(
+                                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                        child: Text('Overall: ' +
+                                              product[0]['overall'])),
+                                      product[0]['depth'] == null
+                                          ? Container()
+                                          : Padding(
+                                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                        child: Text(
+                                              'Depth: ' + product[0]['depth'])),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
 
                         Container(
                           color: backgroundCategoryColor.withOpacity(0.9),
                           margin: const EdgeInsets.all(10),
                           padding: const EdgeInsets.all(5),
-                          child: ExpansionTile(
-                            controlAffinity: ListTileControlAffinity.trailing,
-                            trailing: _isExpanded2
-                                ? const Icon(
-                                    Icons.remove,
-                                    size: 20,
-                                    color: headingColor,
-                                  ) // Icon when expanded
-                                : const Icon(
-                                    Icons.add,
-                                    size: 20,
-                                    color: headingColor,
-                                  ),
-                            childrenPadding: const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 0),
-                            expandedCrossAxisAlignment: CrossAxisAlignment.end,
-                            maintainState: true,
-                            onExpansionChanged: _onExpansionChanged2,
-                            // trailing: _isExpanded
-                            //     ? const Icon(Icons.remove) // Icon when expanded
-                            //     : const Icon(Icons.add),
-                            title: const Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              child: Text(
-                                'CARE & MAINTENANCE',
-                                style: TextStyle(
-                                    color: headingColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15),
-                              ),
-                            ),
-
-                            children: [
-                              SingleChildScrollView(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Html(
-                                  data: '''${product[0]['care']}''',
-                                  style: {
-                                    "body": Style(
-                                      fontSize: FontSize(14.0),
-                                      fontWeight: FontWeight.normal,
+                          child: Theme(
+                            data: Theme.of(context)
+                                .copyWith(dividerColor: Colors.transparent),
+                            child: ExpansionTile(
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              trailing: _isExpanded2
+                                  ? const Icon(
+                                      Icons.remove,
+                                      size: 20,
+                                      color: headingColor,
+                                    ) // Icon when expanded
+                                  : const Icon(
+                                      Icons.add,
+                                      size: 20,
+                                      color: headingColor,
                                     ),
-                                  },
+                              childrenPadding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 0),
+                              expandedCrossAxisAlignment:
+                                  CrossAxisAlignment.end,
+                              maintainState: true,
+                              onExpansionChanged: _onExpansionChanged2,
+                              // trailing: _isExpanded
+                              //     ? const Icon(Icons.remove) // Icon when expanded
+                              //     : const Icon(Icons.add),
+                              title: const Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Text(
+                                  'CARE & MAINTENANCE',
+                                  style: TextStyle(
+                                      color: headingColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
                                 ),
                               ),
-                            ],
+
+                              children: [
+                                SingleChildScrollView(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Html(
+                                    data: '''${product[0]['care']}''',
+                                    style: {
+                                      "body": Style(
+                                        fontSize: FontSize(14.0),
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
 
                           // HtmlExpansionTile(

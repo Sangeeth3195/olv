@@ -392,30 +392,38 @@ class GraphQLService {
           fetchPolicy: FetchPolicy.noCache,
           document: gql("""
            query Query {
-                getBrandCollectionData {
-                  brand_id
-                  image
-                  name
-                  position
-                  show_collection
-                  option_id
-                  status
-                  brandtype
-                  showinmenu
-                  url
-                  collectiondata {
-                    collection_id
-                    collection_set_id
-                    collection_set_image
-                    entity_id
+                  getBrandCollectionData {
+                    brand_id
                     image
                     name
                     position
+                    show_collection
                     option_id
                     status
+                    brandtype
+                    showinmenu
+                    url
+                    bannerdata{
+                        id
+                        brand
+                        banner
+                        position
+                        slider_type
+                        taget_url
+                    }
+                    collectiondata {
+                      collection_id
+                      collection_set_id
+                      collection_set_image
+                      entity_id
+                      image
+                      name
+                      position
+                      option_id
+                      status
+                    }
                   }
                 }
-              }
             """),
         ),
       );
@@ -424,8 +432,6 @@ class GraphQLService {
         throw Exception(result.exception);
       } else {
         EasyLoading.dismiss();
-        print('------------ Brand List Response ---------');
-        print(result);
         List? res = result.data?['getBrandCollectionData'];
 
         if (res == null || res.isEmpty) {
@@ -1911,17 +1917,22 @@ class GraphQLService {
         ),
       );
       if (result.hasException) {
+        EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
         Fluttertoast.showToast(
             msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
+        EasyLoading.dismiss();
         print(result.data?['requestPasswordResetEmail']);
         if (result.data?['requestPasswordResetEmail'] == true) {
           Fluttertoast.showToast(
               msg: 'A link to reset your password will be sent to your email');
-          Navigator.of(context).pushAndRemoveUntil(
+         /* Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const LoginPage()),
-              (Route<dynamic> route) => false);
+              (Route<dynamic> route) => false);*/
+
+          Navigator.of(context).pop();
+          context.go('/login');
 
           print(result.exception?.graphqlErrors[0].message);
         } else {}

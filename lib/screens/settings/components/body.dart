@@ -6,7 +6,6 @@ import 'package:omaliving/screens/provider/provider.dart';
 import 'package:omaliving/screens/settings/components/settings_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../API Services/graphql_service.dart';
 import '../../webview/WebViewGQL.dart';

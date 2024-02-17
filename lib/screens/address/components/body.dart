@@ -5,6 +5,7 @@ import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/screens/add_address/add_address.dart';
 
 import '../../../API Services/graphql_service.dart';
+import '../../../components/size_config.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -52,48 +53,62 @@ class _BodyState extends State<Body> {
                   : ListView.builder(
                       itemCount: customerModel.customer!.addresses!.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddAddress(
-                                        arguments: customerModel
-                                            .customer?.addresses?[index],
-                                      )),
-                            ).then((value) {
-                              getData();
-                            });
-                          },
-                          title: Text(
-                            customerModel
-                                    .customer?.addresses?[index].firstname ??
-                                '',
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                          subtitle: Text(
-                            customerModel.customer?.addresses?[index].street
-                                    ?.first ??
-                                '',
-                            style: const TextStyle(fontSize: 13),
-                          ),
-                          trailing: const SizedBox(
-                            width: 70,
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Edit |',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 12),
+                        return Column(
+                          children: <Widget>[
+                            ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddAddress(
+                                            arguments: customerModel
+                                                .customer?.addresses?[index],
+                                          )),
+                                ).then((value) {
+                                  getData();
+                                });
+                              },
+                              title: Text(
+                                customerModel.customer?.addresses?[index]
+                                        .firstname ??
+                                    '',
+                                style: const TextStyle(fontSize: 14, fontFamily: 'Gotham',),
+                              ),
+                              subtitle: Text(
+                                customerModel.customer?.addresses?[index].street
+                                        ?.first ??
+                                    '',
+                                style: const TextStyle(fontSize: 13, fontFamily: 'Gotham',),
+                              ),
+                              trailing: const SizedBox(
+                                width: 70,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Edit |',
+                                      style: TextStyle(
+                                          color: headingColor, fontSize: 12),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_outlined,
+                                      size: 12,
+                                      color: headingColor,
+                                    ),
+                                  ],
                                 ),
-                                Icon(
-                                  Icons.arrow_forward_outlined,
-                                  size: 14,
-                                  color: Colors.black,
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: getProportionateScreenWidth(15),
+                                right: getProportionateScreenWidth(15),
+                              ),
+                              child: const Divider(
+                                color: Colors.black12,
+                                height: 0.1,
+                              ), //                           <-- Divider
+                            ), //                           <-- Divider
+                          ],
                         );
                       },
                     ),
@@ -108,7 +123,10 @@ class _BodyState extends State<Body> {
           );
         },
         backgroundColor: headingColor,
-        child: const Icon(Icons.add,color: Colors.white,),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }

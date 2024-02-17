@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -221,6 +222,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                   if (result == "200") {
                     EasyLoading.dismiss();
                     Navigator.of(context).pop();
+
                     MyProvider myProvider = Provider.of<MyProvider>(context, listen: false);
 
                     myProvider.customerModel=CustomerModel();
@@ -228,6 +230,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                     revokeloggedinuser = await graphQLService.revokeuser(context);
                     SharedPreferences preferences = await SharedPreferences.getInstance();
                     await preferences.clear();
+                    context.go('/home');
                     Fluttertoast.showToast(
                         msg: "Password updated Successfully");
                   } else {

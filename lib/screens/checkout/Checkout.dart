@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,11 +23,16 @@ class Checkout extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black,size: 20),
-        title: const Text('Shipping Address',style: TextStyle(color: Colors.black,fontSize: 16),),
+        iconTheme: const IconThemeData(color: Colors.black, size: 20),
+        title: const Text(
+          'Shipping Address',
+          style: TextStyle(color: Colors.black, fontSize: 16),
+        ),
       ),
       body: const Body(),
-      bottomNavigationBar: const CheckoutCard(title: '',),
+      bottomNavigationBar: const CheckoutCard(
+        title: '',
+      ),
     );
   }
 }
@@ -43,7 +47,6 @@ class CheckoutCard extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<CheckoutCard> {
-
   GraphQLService graphQLService = GraphQLService();
   CustomerModel customerModel = CustomerModel();
 
@@ -53,9 +56,9 @@ class _MyHomePageState extends State<CheckoutCard> {
   SharedPreferences? prefs;
   var cart_token;
   var orderID;
-  bool buttonEnable=true;
+  bool buttonEnable = true;
 
-  void handlePaymentErrorResponse(PaymentFailureResponse response){
+  void handlePaymentErrorResponse(PaymentFailureResponse response) {
     /*
     * PaymentFailureResponse contains three values:
     * 1. Error Code
@@ -66,7 +69,7 @@ class _MyHomePageState extends State<CheckoutCard> {
     Fluttertoast.showToast(msg: "Payment failed");
   }
 
-  void handlePaymentSuccessResponse(PaymentSuccessResponse response){
+  void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
     /*
     * Payment Success Response contains three values:
     * 1. Order ID
@@ -77,12 +80,13 @@ class _MyHomePageState extends State<CheckoutCard> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => OrderSuccess(text: orderID,)));
+            builder: (context) => OrderSuccess(
+                  text: orderID,
+                )));
 
     Fluttertoast.showToast(msg: 'Payment Successful');
 
     cleardata();
-
   }
 
   Future<void> cleardata() async {
@@ -91,10 +95,9 @@ class _MyHomePageState extends State<CheckoutCard> {
     await preferences.remove('cart_token');
   }
 
-  void handleExternalWalletSelected(ExternalWalletResponse response){
+  void handleExternalWalletSelected(ExternalWalletResponse response) {
     Fluttertoast.showToast(msg: "Payment Successfully");
   }
-
 
   @override
   void initState() {
@@ -103,11 +106,10 @@ class _MyHomePageState extends State<CheckoutCard> {
   }
 
   Future<void> getdata() async {
-
     customerModel = await graphQLService.get_customer_details();
 
     print(customerModel.customer?.addresses?.length);
-    int count=0;
+    int count = 0;
     customerModel.customer?.addresses?.forEach((element) {
       if (element.defaultShipping!) {
         count++;
@@ -117,40 +119,33 @@ class _MyHomePageState extends State<CheckoutCard> {
       }
     });
     print(count);
-    if(count<2){
-      buttonEnable=true;
-    }else{
-      buttonEnable=false;
+    if (count < 2) {
+      buttonEnable = true;
+    } else {
+      buttonEnable = false;
     }
     print(buttonEnable);
-    setState(() {
-
-    });
+    setState(() {});
     mob_number = customerModel.customer?.addresses?[0].telephone;
     email = customerModel.customer?.email ?? '';
-
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     double? subTotal = prefs.getDouble('sub_total');
 
-    print(subTotal);
-
-    prefs =
-    await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance();
     cart_token = prefs.getString('cart_token') ?? '';
 
-    if(subTotal!  >= 10000 ){
-     graphQLService.set_shipping_method_to_cart(context,cart_token,'freeshipping');
-
-    }else{
-      graphQLService.set_shipping_method_to_cart(context,cart_token,'flatrate');
-
+    if (subTotal! >= 10000) {
+      graphQLService.set_shipping_method_to_cart(
+          context, cart_token, 'freeshipping');
+    } else {
+      graphQLService.set_shipping_method_to_cart(
+          context, cart_token, 'flatrate');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Consumer<CartProvider>(
       builder: (context, provider, _) {
         return Container(
@@ -181,17 +176,17 @@ class _MyHomePageState extends State<CheckoutCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                     Expanded(
+                    Expanded(
                       child: Text(
                         "₹ ${provider.cartModel.cart!.prices!.grandTotal!.value.toString()}",
                         style: const TextStyle(
                             color: Colors.black,
-                            fontSize: 15,
+                            fontSize: 14,
                             fontWeight: FontWeight.w700),
                       ),
                     ),
                     const SizedBox(
-                      width: 4,
+                      width: 0,
                     ),
                     Expanded(
                       // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
@@ -200,68 +195,85 @@ class _MyHomePageState extends State<CheckoutCard> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: headingColor,
-                            side: const BorderSide(color: Colors.grey, width: 1.0),
+                            side: const BorderSide(
+                                color: Colors.grey, width: 1.0),
                             textStyle: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,
                                 fontStyle: FontStyle.normal),
                             // shape: const StadiumBorder(),
                           ),
+                          onPressed: buttonEnable
+                              ? null
+                              : () async {
+                                  EasyLoading.show(status: 'loading...');
 
-                          onPressed: buttonEnable?null:() async {
+                                  graphQLService
+                                      .available_payment_methods(cart_token);
 
-                            EasyLoading.show(status: 'loading...');
+                                  graphQLService
+                                      .set_payment_to_cart(cart_token);
 
-                            graphQLService.available_payment_methods(cart_token);
+                                  var resultvalue =
+                                      await graphQLService.place_order();
 
-                            graphQLService.set_payment_to_cart(cart_token);
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setString('order_ID', resultvalue);
 
-                            var resultvalue = await graphQLService.place_order();
+                                  prefs = await SharedPreferences.getInstance();
+                                  cart_token =
+                                      prefs.getString('cart_token') ?? '';
+                                  orderID = prefs.getString('order_ID') ?? '';
 
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            prefs.setString('order_ID', resultvalue);
+                                  Razorpay razorpay = Razorpay();
+                                  var options = {
+                                    'key': 'rzp_test_1RBFegXl5eMjV2',
+                                    'amount': (provider.cartModel.cart!.prices!
+                                            .grandTotal!.value)! *
+                                        100,
+                                    'name': 'OMA Test Payment.',
+                                    "timeout": "180",
+                                    "currency": "INR",
+                                    'description': "",
+                                    'retry': {'enabled': true, 'max_count': 1},
+                                    'send_sms_hash': true,
+                                    'notes': {
+                                      'referrer': 'Mobile App',
+                                      'merchand_order_id': resultvalue
+                                    },
+                                    'prefill': {
+                                      'contact': mob_number,
+                                      'email': email
+                                    },
+                                    'external': {
+                                      'wallets': ["paytm"]
+                                    }
+                                  };
 
-                            prefs = await SharedPreferences.getInstance();
-                            cart_token = prefs.getString('cart_token') ?? '';
-                            orderID = prefs.getString('order_ID') ?? '';
+                                  razorpay.on(Razorpay.EVENT_PAYMENT_ERROR,
+                                      handlePaymentErrorResponse);
+                                  razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
+                                      handlePaymentSuccessResponse);
+                                  razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET,
+                                      handleExternalWalletSelected);
 
-                            Razorpay razorpay = Razorpay();
-                            var options = {
-                              'key': 'rzp_test_1RBFegXl5eMjV2',
-                              'amount': (provider.cartModel.cart!.prices!.grandTotal!.value)! * 100,
-                              'name': 'OMA Test Payment.',
-                              "timeout": "180",
-                              "currency": "INR",
-                              'description': "",
-                              'retry': {'enabled': true, 'max_count': 1},
-                              'send_sms_hash': true,
-                              'notes':{'referrer': 'Mobile App', 'merchand_order_id': resultvalue},
-                              'prefill': {'contact': mob_number, 'email': email},
-                              'external': {
-                                'wallets': ["paytm"]
-                              }
-                            };
+                                  try {
+                                    razorpay.open(options);
+                                  } catch (e) {
+                                    debugPrint('Error: $e');
+                                  }
 
-                            razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
-                            razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlePaymentSuccessResponse);
-                            razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handleExternalWalletSelected);
-
-                            try {
-                              razorpay.open(options);
-                            } catch (e) {
-                              debugPrint('Error: $e');
-                            }
-
-                            /* Navigator.push(
+                                  /* Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Ordersummary()),
                         );*/
-
-                          },
+                                },
                           child: const Text(
                             'Continue to payment',
-                            style: TextStyle(fontSize: 15.0, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 14.0, color: Colors.white),
                           ),
                         ),
                       ),

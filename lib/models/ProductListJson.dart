@@ -473,8 +473,8 @@ class TextAttribute {
   factory TextAttribute.fromJson(Map<String, dynamic> json) => TextAttribute(
     typename: json["__typename"],
     weight: json["weight"],
-    normalprice: json["normalprice"],
-    specicalprice: json["specicalprice"],
+    normalprice: json["normalprice"] ?? 0,
+    specicalprice: json["specicalprice"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
