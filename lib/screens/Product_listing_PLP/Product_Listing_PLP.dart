@@ -189,7 +189,7 @@ class _ProductCardState extends State<ProductCard> {
   bool isExpired = true;
   String? _price_text;
   String? _price_value;
-
+bool isShowClearance=false;
   @override
   void initState() {
     // TODO: implement initState
@@ -258,10 +258,15 @@ class _ProductCardState extends State<ProductCard> {
 
     if (widget.item!.special_to_date == null || widget.item!.special_to_date == '') {
       price_ss = Spl_price??'';
+      isShowClearance = true;
     } else if(isExpired){
       price_ss = Spl_price??'';
-    } else if (Spl_price == null){
+      isShowClearance = true;
+    }
+
+    if (Spl_price == "0"){
       price_ss = widget.price;
+      isShowClearance = false;
     }
   }
 
@@ -362,23 +367,22 @@ class _ProductCardState extends State<ProductCard> {
                       )
                           : Text(
                         widget.item!.textAttributes[0].normalprice,
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough,fontFamily: 'Gotham', ),
+                        style:  TextStyle(
+                            fontSize: 13, color: Colors.black,decoration:isShowClearance?TextDecoration.lineThrough : TextDecoration.none,fontFamily: 'Gotham', ),
                       ),
                     ),
 
-                    isExpired  ?Container():Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
-                          price_ss,
-                          style: const TextStyle(
-                              fontSize: 13, color: Colors.black)
-                      ),
-                    ),
+                    // !isShowClearance  ?Container():Padding(
+                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //   child: Text(
+                    //       price_ss,
+                    //       style: const TextStyle(
+                    //           fontSize: 13, color: Colors.black)
+                    //   ),
+                    // ),
 
                     const SizedBox(height: 5.0),
-                    widget.item!.textAttributes[0].specicalprice.toString() ==
-                            null
+                    isShowClearance
                         ? Padding(
                             padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                             child: Text(

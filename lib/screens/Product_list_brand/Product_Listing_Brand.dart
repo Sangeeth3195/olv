@@ -1,5 +1,7 @@
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omaliving/API%20Services/Constant.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
@@ -22,6 +24,9 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
   _HomeScreenState(this.data);
   GraphQLService graphQLService = GraphQLService();
   final GlobalKey<ScaffoldState> _childDrawerKey = GlobalKey();
+  CarouselController buttonCarouselController = CarouselController();
+
+  int _current = 0;
 
   @override
   void initState() {
@@ -53,6 +58,50 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
+
+                  CarouselSlider(
+                    items: [
+                      for (Map<String,dynamic> item in data['bannerdata'])
+                        GestureDetector(
+                          onTap: () {
+                            /* print('item.link');
+                                        print(item.link);
+
+                                        final myProvider =
+                                            Provider.of<MyProvider>(context,
+                                                listen: false);
+                                        myProvider
+                                            .updateData(int.parse(item.link!));
+                                        context.go('/home/pdp');*/
+                            final Map<String, dynamic> someMap = {
+                              "id": item['id'],
+                              "name": item['brand'],
+                              "product_count": 20,
+                            };
+                            context.go('/home/pdp', extra: someMap);
+                          },
+                          child: Image.network(
+                            "https://staging2.omaliving.com/media/wysiwyg/brand/${item['banner']}",
+                            fit: BoxFit.fitHeight,
+                          ),
+                        )
+                    ],
+                    carouselController: buttonCarouselController,
+                    options: CarouselOptions(
+                      autoPlay: data['bannerdata'].length==1?false:true,
+                      enlargeCenterPage: false,
+                      viewportFraction: 1,
+                      disableCenter: false,
+                      aspectRatio: 1,
+                      initialPage: 0,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _current = index;
+                        });
+                      },
+                    ),
+                  ),
+
                   const SizedBox(
                     height: 15,
                   ),

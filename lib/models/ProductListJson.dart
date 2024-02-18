@@ -573,8 +573,8 @@ class Product {
     sku: json["sku"],
     attributeSetId: json["attribute_set_id"],
     weight: json["weight"]??0,
-    priceRange: PriceRange.fromJson(json["price_range"] ?? ''),
-    smallImage: SmallImage.fromJson(json["small_image"] ?? ''),
+    priceRange: json["price_range"] ??PriceRange.fromJson(json["price_range"]),
+    smallImage: json["small_image"] ?? SmallImage.fromJson(json["small_image"]),
     textAttributes: json["textAttributes"]==null?[]:List<TextAttribute>.from(json["textAttributes"].map((x) => TextAttribute.fromJson(x))),
     getPriceRange: json["getPriceRange"]==null?[]:List<GetPriceRange>.from(json["getPriceRange"].map((x) => GetPriceRange.fromJson(x))),
 
