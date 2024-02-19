@@ -257,6 +257,10 @@ class _ProductCardState extends State<ProductCard> {
     isExpired = currentDate.isAfter(dt1);
     print("isExoired" + isExpired.toString());
 
+    if(widget.item!.typename == "SimpleProduct" && !isExpired){
+      price = widget.item!.price!.regularPrice!.amount!.value!.toString();
+    }
+
     if (widget.item!.special_to_date == null) {
       price = widget.item!.textAttributes[0].specicalprice.toString() ?? '';
     } else if (isExpired) {
