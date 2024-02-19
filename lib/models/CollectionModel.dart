@@ -96,13 +96,13 @@ class Collection {
   });
 
   factory Collection.fromJson(Map<String, dynamic> json) => Collection(
-    collectionId: json["collection_id"] ,
+    collectionId: json["collection_id"] ?? 0,
     name: json["name"],
     status: json["status"],
     image: json["image"],
     collectionSetImage: json["collection_set_image"],
     setImage: json["set_image"],
-    position: json["position"],
+    position: json["position"] ?? 0,
     optionId: json["option_id"],
     brandName: json["brand_name"] ?? '',
     brandOptionId: json["brand_option_id"] ?? 0,

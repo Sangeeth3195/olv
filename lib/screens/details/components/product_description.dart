@@ -134,9 +134,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
           DateTime currentDate = DateTime.now();
 
           isExpired = currentDate.isAfter(dt1);
-          print("isExoired" + isExpired.toString());
-          print("isExoired" +
-              provider.productData[0]['textAttributes'][0]['specicalprice']);
 
           if (provider.productData[0]['special_to_date'] == null) {
             price = provider.productData[0]['textAttributes'][0]
@@ -431,7 +428,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                         fontSize: 18)),
                               ),
                         const SizedBox(
-                          height: 16,
+                          height: 0,
                         ),
                         // Padding(
                         //   padding: EdgeInsets.symmetric(
@@ -444,6 +441,105 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         // const SizedBox(
                         //   height: 12,
                         // ),
+
+                        provider.productData[0]['configurable_options'] !=
+                            null &&
+                            provider.productData[0]['configurable_options']
+                            [0]['label'] ==
+                                "Color"
+                            ? Row(
+                          children: [
+                            /* Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            getProportionateScreenWidth(10)),
+                                    child: const Text('COLOR',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: headingColor)),
+                                  ),*/
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            provider.productData[0]['__typename'] ==
+                                "ConfigurableProduct"
+                                ? Row(
+                              children: [
+                                SizedBox(
+                                  height: 50,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection:
+                                    Axis.horizontal,
+                                    itemCount: provider
+                                        .productData[0]
+                                    ['configurable_options']
+                                    [0]['values']
+                                        .length,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          print(provider
+                                              .productData[0]
+                                          [
+                                          'configurable_options']
+                                          [0]['label']);
+                                          print(provider
+                                              .productData[0][
+                                          'configurable_options']
+                                          [0]['values']
+                                              .length +
+                                              index);
+                                          _changeColor(index);
+                                          // print('color code --> ' +
+                                          //     provider.productData[0][
+                                          //                 'configurable_options']
+                                          //             [0]['values'][index]
+                                          //         ['value_index'].toString());
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets
+                                              .symmetric(
+                                              horizontal: 5),
+                                          padding:
+                                          const EdgeInsets.all(
+                                              10),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: configurableProductIndex ==
+                                                    index
+                                                    ? Colors.red
+                                                    : Colors
+                                                    .transparent,
+                                                width:
+                                                2.0), // Using BorderSide with BoxDecoration
+
+                                            color: colorFromHex(provider
+                                                .productData[0]
+                                            [
+                                            'configurable_options'][0]
+                                            [
+                                            'values'][index]
+                                            [
+                                            'swatch_data']['value']),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )
+                                : Container(),
+                          ],
+                        )
+                            : Container(),
+
+                        const SizedBox(
+                          height: 10,
+                        ),
+
                         Padding(
                           padding: EdgeInsets.only(
                             left: getProportionateScreenWidth(10),
@@ -783,104 +879,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         //         ],
                         //       )
                         //     : Container(),
-
-                        const SizedBox(
-                          height: 10,
-                        ),
-
-                        provider.productData[0]['configurable_options'] !=
-                                    null &&
-                                provider.productData[0]['configurable_options']
-                                        [0]['label'] ==
-                                    "Color"
-                            ? Row(
-                                children: [
-                                  /* Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            getProportionateScreenWidth(10)),
-                                    child: const Text('COLOR',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: headingColor)),
-                                  ),*/
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  provider.productData[0]['__typename'] ==
-                                          "ConfigurableProduct"
-                                      ? Row(
-                                          children: [
-                                            SizedBox(
-                                              height: 50,
-                                              child: ListView.builder(
-                                                shrinkWrap: true,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemCount: provider
-                                                    .productData[0]
-                                                        ['configurable_options']
-                                                        [0]['values']
-                                                    .length,
-                                                itemBuilder: (context, index) {
-                                                  return GestureDetector(
-                                                    onTap: () {
-                                                      print(provider
-                                                                  .productData[0]
-                                                              [
-                                                              'configurable_options']
-                                                          [0]['label']);
-                                                      print(provider
-                                                              .productData[0][
-                                                                  'configurable_options']
-                                                                  [0]['values']
-                                                              .length +
-                                                          index);
-                                                      _changeColor(index);
-                                                      // print('color code --> ' +
-                                                      //     provider.productData[0][
-                                                      //                 'configurable_options']
-                                                      //             [0]['values'][index]
-                                                      //         ['value_index'].toString());
-                                                    },
-                                                    child: Container(
-                                                      margin: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 5),
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              10),
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        border: Border.all(
-                                                            color: configurableProductIndex ==
-                                                                    index
-                                                                ? Colors.red
-                                                                : Colors
-                                                                    .transparent,
-                                                            width:
-                                                                2.0), // Using BorderSide with BoxDecoration
-
-                                                        color: colorFromHex(provider
-                                                                        .productData[0]
-                                                                    [
-                                                                    'configurable_options'][0]
-                                                                [
-                                                                'values'][index]
-                                                            [
-                                                            'swatch_data']['value']),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : Container(),
-                                ],
-                              )
-                            : Container(),
 
                         const SizedBox(
                           height: 18,

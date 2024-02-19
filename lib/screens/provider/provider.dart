@@ -70,6 +70,7 @@ class MyProvider extends ChangeNotifier {
   void updateData(int id, {int limit = 8}) async {
     items.clear();
     oldItems.clear();
+    aggregationList.clear();
     dynamic dataFromAPi =
         await graphQLService.getproductlist(limit: limit, id: id);
     List? res1 = dataFromAPi.data?['products']['items'];
@@ -137,6 +138,8 @@ class MyProvider extends ChangeNotifier {
   }
 
   void updateSearchData(String id) async {
+    items.clear();
+    oldItems.clear();
     dynamic listData = await graphQLService.productsearch(id);
     List? res = listData['products']['items'];
     pList = res!;
@@ -157,6 +160,8 @@ class MyProvider extends ChangeNotifier {
   }
 
   void updateDataWithFilter(int id, Map<String, dynamic> filter) async {
+    items.clear();
+    oldItems.clear();
     EasyLoading.dismiss();
     dynamic listData = await graphQLService.getproductlistBySorting(
         limit: 100, id: id, hashMap: filter);
@@ -182,6 +187,8 @@ class MyProvider extends ChangeNotifier {
   }
 
   void sort(String value) {
+    items.clear();
+    oldItems.clear();
     if (value == "Most Relevant") {
       items = oldItems;
     } else if (value == "Product Name") {

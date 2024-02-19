@@ -75,12 +75,20 @@ class _BodyState extends State<Body> {
                                       .wishlist!.items![index].product!.sku!
                                       .toString(),
                                   image: myProvider!
+                                              .customerModel
+                                              .customer!
+                                              .wishlist!
+                                              .items![index]
+                                              .product!
+                                              .mediaGallery!.isEmpty
+                                      ? ''
+                                      : myProvider!
                                       .customerModel
                                       .customer!
                                       .wishlist!
                                       .items![index]
                                       .product!
-                                      .mediaGallery == [] ? '' : '',
+                                      .mediaGallery![0].url!.toString(),
                                   price: myProvider!
                                       .customerModel
                                       .customer!
@@ -178,7 +186,7 @@ class _ProductCardState extends State<ProductCard> {
   String cart_token = '';
   MyProvider? myProvider;
   String? wishListID;
-  String price ="0";
+  String price = "0";
   bool isExpired = true;
 
   @override
@@ -189,30 +197,29 @@ class _ProductCardState extends State<ProductCard> {
     calculatePrice();
   }
 
-  void calculatePrice(){
-
+  void calculatePrice() {
     DateTime dt1;
     print(widget.spl_to_date);
 
-    if(widget.spl_to_date !=null){
-      dt1 = DateTime.parse(widget.spl_to_date??'');
-    }else {
+    if (widget.spl_to_date != null) {
+      dt1 = DateTime.parse(widget.spl_to_date ?? '');
+    } else {
       dt1 = DateTime.parse("2099-02-27 10:09:00");
     }
 
     DateTime currentDate = DateTime.now();
     isExpired = currentDate.isAfter(dt1);
-    print("isExoired"+isExpired.toString());
+    print("isExoired" + isExpired.toString());
 
-    if(widget.spl_to_date == null){
-      price = widget.price1??'';
-    } else if(isExpired){
-      price = widget.price1??'';
-    } else if (widget.price1 == null){
+    if (widget.spl_to_date == null) {
+      price = widget.price1 ?? '';
+    } else if (isExpired) {
+      price = widget.price1 ?? '';
+    } else if (widget.price1 == null) {
       price = widget.price;
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -282,43 +289,45 @@ class _ProductCardState extends State<ProductCard> {
                       ),
                     ),
                     const SizedBox(height: 5.0),
-                    isExpired? Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
-                          ? Text(
-                              "₹${widget.price}",
-                              style: const TextStyle(
-                                  fontSize: 13, color: Colors.black),
-                            )
-                          : Text(
-                              "₹${widget.price}",
-                              style: const TextStyle(
-                                  fontSize: 13, color: Colors.black),
-                            ),
-                    ): Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: price.isEmpty
-                          ? Text(
-                        "₹${widget.price}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      )
-                          : Text(
-                        "₹${widget.price}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
-                      ),
-                    ),
-
-                    isExpired?Container():Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
-                              price,
-                              style: const TextStyle(
-                                  fontSize: 13, color: Colors.black)
-                            ),
-                    ),
-
+                    isExpired
+                        ? Padding(
+                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                            child: widget.price.isEmpty
+                                ? Text(
+                                    "₹${widget.price}",
+                                    style: const TextStyle(
+                                        fontSize: 13, color: Colors.black),
+                                  )
+                                : Text(
+                                    "₹${widget.price}",
+                                    style: const TextStyle(
+                                        fontSize: 13, color: Colors.black),
+                                  ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                            child: price.isEmpty
+                                ? Text(
+                                    "₹${widget.price}",
+                                    style: const TextStyle(
+                                        fontSize: 13, color: Colors.black),
+                                  )
+                                : Text(
+                                    "₹${widget.price}",
+                                    style: const TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                        decoration: TextDecoration.lineThrough),
+                                  ),
+                          ),
+                    isExpired
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                            child: Text(price,
+                                style: const TextStyle(
+                                    fontSize: 13, color: Colors.black)),
+                          ),
                     const SizedBox(height: 5.0),
                     GestureDetector(
                       onTap: () async {

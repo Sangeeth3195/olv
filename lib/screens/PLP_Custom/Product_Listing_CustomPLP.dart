@@ -108,7 +108,9 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
                       provider.items.length,
                           (index) => Padding(
                         padding: const EdgeInsets.all(3),
-                        child: ProductCard(
+                        child:
+
+                        ProductCard(
                           title: provider.items[index].name,
                           image: provider.items[index].smallImage.url,
                           fromdate: provider.items[index].special_from_date,

@@ -61,6 +61,7 @@ class _BodyState extends State<Body> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => AddAddress(
+                                        title:'Edit Address',
                                             arguments: customerModel
                                                 .customer?.addresses?[index],
                                           )),
@@ -119,7 +120,7 @@ class _BodyState extends State<Body> {
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddAddress()),
+            MaterialPageRoute(builder: (context) => const AddAddress( title:'Add Address',)),
           );
         },
         backgroundColor: headingColor,

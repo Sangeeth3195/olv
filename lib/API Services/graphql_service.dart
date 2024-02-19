@@ -539,6 +539,14 @@ class GraphQLService {
                         __typename
                         sku
                         is_wishlisted
+                        price {
+                          regularPrice {
+                            amount {
+                              value
+                              currency
+                            }
+                          } 
+                        }
                         price_range {
                           minimum_price {
                             regular_price {
@@ -682,7 +690,7 @@ class GraphQLService {
                     oma_subclass: {in: []}
                     }
                     sort: {name: ASC}
-                    pageSize:16
+                    pageSize:50
                     ){
                     items {
                       id
@@ -690,6 +698,14 @@ class GraphQLService {
                       __typename
                       sku
                       brands
+                      price {
+                          regularPrice {
+                            amount {
+                              value
+                              currency
+                            }
+                          } 
+                        }
                       ... on ConfigurableProduct {
                           configurable_options {
                           id
@@ -821,6 +837,14 @@ class GraphQLService {
                       __typename
                       sku
                       brands
+                      price {
+                          regularPrice {
+                            amount {
+                              value
+                              currency
+                            }
+                          } 
+                        }
                       ... on ConfigurableProduct {
                           configurable_options {
                           id
@@ -953,6 +977,14 @@ class GraphQLService {
                       __typename
                       sku
                       brands
+                      price {
+                          regularPrice {
+                            amount {
+                              value
+                              currency
+                            }
+                          } 
+                        }
                       ... on ConfigurableProduct {
                           configurable_options {
                           id
@@ -1098,6 +1130,14 @@ class GraphQLService {
                         __typename
                         sku
                         is_wishlisted
+                        price {
+                          regularPrice {
+                            amount {
+                              value
+                              currency
+                            }
+                          } 
+                        }
                         price_range {
                           minimum_price {
                             regular_price {
@@ -1237,6 +1277,14 @@ class GraphQLService {
                         canonical_url
                         special_from_date
                         special_to_date
+                        price {
+                          regularPrice {
+                            amount {
+                              value
+                              currency
+                            }
+                          } 
+                        }
                         price_range{
                                 minimum_price{
                                   regular_price{

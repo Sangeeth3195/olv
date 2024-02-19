@@ -34,7 +34,6 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
   String? name;
   int? id;
   int? id1;
-  GraphQLService graphQLService = GraphQLService();
   List<dynamic> pList = [];
   var selectedColor = 0;
   MyProvider? myProvider;
@@ -48,10 +47,6 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    print(widget.id);
-    print(widget.id1);
-
     getNavdata();
   }
 
@@ -189,7 +184,8 @@ class _ProductCardState extends State<ProductCard> {
   bool isExpired = true;
   String? _price_text;
   String? _price_value;
-bool isShowClearance=false;
+  bool isShowClearance=false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -198,6 +194,9 @@ bool isShowClearance=false;
     cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     Spl_price = widget.item!.textAttributes[0].specicalprice.toString();
+
+    print('SimpleProduct');
+    print(widget.item!.price.regularPrice.amount.value);
 
     calculatePrice();
 
@@ -220,10 +219,6 @@ bool isShowClearance=false;
       //     ? widget.item!.textAttributes[0].normalprice
       //     : widget.item!.getPriceRange[0].normalpricevalue;
     }
-
-    print(Spl_price);
-    print(widget.price);
-    print(price_ss);
   }
 
   void calculatePrice() {
@@ -248,10 +243,6 @@ bool isShowClearance=false;
       for (int i = 0; i < split.length; i++)
         i: split[i]
     };
-
-    print(values);
-    print('tagName');
-    print(tagName);
 
     _price_text = values[0];
     _price_value = values[1];
@@ -385,17 +376,28 @@ bool isShowClearance=false;
                     isShowClearance
                         ? Padding(
                             padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                            child: Text(
-                              widget.item!.textAttributes[0].specicalprice
-                                  .toString(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  color: headingColor,
-                                  height: 1.2,
-                                  fontSize: 12),
-                            ),
+                            child:
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(text: _price_text,style: const TextStyle(color: Color(0xFF983030))),
+                                  TextSpan(text: _price_value),
+                                ],
+                              ),
+                            )
+
+                            // Text(
+                            //   widget.item!.textAttributes[0].specicalprice
+                            //       .toString(),
+                            //   style: const TextStyle(
+                            //       fontWeight: FontWeight.normal,
+                            //       color: headingColor,
+                            //       height: 1.2,
+                            //       fontSize: 12),
+                            // ),
                           )
                         : Container(),
+
                     widget.item!.typename == "ConfigurableProduct"
                         ? Row(
                             children: [
@@ -541,6 +543,8 @@ bool isShowClearance=false;
                             ],
                           )
                         : Container(),
+
+                    const SizedBox(height: 10.0),
 
                     GestureDetector(
                       onTap: () async {

@@ -6,8 +6,9 @@ import 'components/body.dart';
 class AddAddress extends StatelessWidget {
   static String routeName = "/addaddress";
   final Address? arguments;
+  final String? title;
 
-  const AddAddress({super.key, this.arguments});
+  const AddAddress({super.key, this.arguments,this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,8 @@ class AddAddress extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black, size: 20),
-        title: const Text(
-          'Add Address',
+        title:  Text(
+          title!,
           style: TextStyle(fontFamily: 'Gotham',
               fontWeight: FontWeight.w500,
               fontSize: 16.0,
