@@ -441,7 +441,7 @@ class _MainLayoutState extends State<MainLayout> {
     return [
       const HomeScreen(),
       const Discover(), //ProductListing (id: catId)
-      const Wishlist(),
+      //const Wishlist(),
       CartScreen(isFromActionBar: false),
       const ProfileScreen() //Discover
     ];
@@ -638,7 +638,7 @@ class _NavBarHandlerState extends State<NavBarHandler>
   final _buildBody = const <Widget>[
     HomeScreen(),
     Discover(), //ProductListing (id: catId)
-    Wishlist(),
+    //Wishlist(),
     CartScreen(
       isFromActionBar: false,
     ),

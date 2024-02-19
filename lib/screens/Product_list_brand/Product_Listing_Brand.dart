@@ -1,5 +1,5 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omaliving/API%20Services/Constant.dart';
@@ -57,43 +57,30 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
             key: _childDrawerKey,
             body: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
                   CarouselSlider(
                     items: [
-                      for (Map<String,dynamic> item in data['bannerdata'])
+                      for (Map<String, dynamic> item in data['bannerdata'])
                         GestureDetector(
-                          onTap: () {
-                            /* print('item.link');
-                                        print(item.link);
-
-                                        final myProvider =
-                                            Provider.of<MyProvider>(context,
-                                                listen: false);
-                                        myProvider
-                                            .updateData(int.parse(item.link!));
-                                        context.go('/home/pdp');*/
-                            final Map<String, dynamic> someMap = {
-                              "id": item['id'],
-                              "name": item['brand'],
-                              "product_count": 20,
-                            };
-                            context.go('/home/pdp', extra: someMap);
-                          },
+                          onTap: () {},
                           child: Image.network(
                             "https://staging2.omaliving.com/media/wysiwyg/brand/${item['banner']}",
-                            fit: BoxFit.fitHeight,
+                            fit: BoxFit.fitWidth,
                           ),
                         )
                     ],
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
-                      autoPlay: data['bannerdata'].length==1?false:true,
+                      autoPlay: data['bannerdata'].length == 1 ? false : true,
                       enlargeCenterPage: false,
                       viewportFraction: 1,
                       disableCenter: false,
                       aspectRatio: 1,
                       initialPage: 0,
+                      height: 175,
+                      autoPlayInterval: const Duration(seconds: 2),
                       onPageChanged: (index, reason) {
                         setState(() {
                           _current = index;
@@ -101,14 +88,30 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                       },
                     ),
                   ),
-
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  data['bannerdata'].length == 1
+                      ? Container()
+                      : DotsIndicator(
+                          dotsCount: data['bannerdata'].length,
+                          position: _current,
+                          decorator: DotsDecorator(
+                            size: const Size.square(9.0),
+                            activeSize: const Size(9.0, 9.0),
+                            activeShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0)),
+                          ),
+                        ),
                   const SizedBox(
                     height: 15,
                   ),
-                  Center(
+          Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+          child: Align(
+                    alignment: Alignment.centerLeft,
                     child: Text(
                       data['name'].toUpperCase(),
-                      textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                           fontFamily: 'Gotham',
@@ -116,6 +119,7 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                           fontSize: 20.0,
                           color: navTextColor),
                     ),
+                  ),
                   ),
                   const SizedBox(
                     height: 10,
@@ -135,7 +139,8 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                           title: data['collectiondata'][index]['name'],
                           id: data['option_id'],
                           brand_id: data['collectiondata'][index]['option_id'],
-                          image: '${Urls.BASE_URL_Prod}${data['collectiondata'][index]['image']}',
+                          image:
+                              '${Urls.BASE_URL_Prod}${data['collectiondata'][index]['image']}',
                         ),
                       ),
                     ),
@@ -159,7 +164,7 @@ class ProductCard extends StatefulWidget {
     required this.title,
   }) : super(key: key);
   final String image, title;
-  final int id,brand_id;
+  final int id, brand_id;
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -191,11 +196,8 @@ class _ProductCardState extends State<ProductCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  Product_Listing_PLP(
-                      name: widget.title,
-                      id: widget.id,
-                      id1: widget.brand_id),
+              builder: (context) => Product_Listing_PLP(
+                  name: widget.title, id: widget.id, id1: widget.brand_id),
             ));
       },
       child: Container(
@@ -204,31 +206,30 @@ class _ProductCardState extends State<ProductCard> {
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
-        child:
-            Stack(
-            children: [
+        child: Stack(
+          children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                  Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(defaultBorderRadius)),
-                    ),
-                    child: Image.network(
-                      widget.image ?? '',
-                      height: 180,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                        return Image.asset(
-                          'assets/omalogo.png',
-                          height: 150,
-                        );
-                      },
-                    ),
+                Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(defaultBorderRadius)),
                   ),
+                  child: Image.network(
+                    widget.image ?? '',
+                    height: 180,
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      return Image.asset(
+                        'assets/omalogo.png',
+                        height: 150,
+                      );
+                    },
+                  ),
+                ),
                 const SizedBox(height: 15),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -236,16 +237,14 @@ class _ProductCardState extends State<ProductCard> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Center(
-                        child: Text(
-                          widget.title ?? '',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: textColor,
-                              fontFamily: 'Gotham',
-                              height: 1.5,
-                              fontSize: 12),
-                        ),
+                      child: Text(
+                        widget.title ?? '',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: textColor,
+                            fontFamily: 'Gotham',
+                            height: 1.5,
+                            fontSize: 14),
                       ),
                     ),
                   ],

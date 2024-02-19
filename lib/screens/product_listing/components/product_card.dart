@@ -448,7 +448,7 @@ class _ProductCardState extends State<ProductCard> {
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(
-                          " ",
+                          "Add to cart",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               color: headingColor,

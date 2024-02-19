@@ -6,6 +6,7 @@ import 'package:omaliving/models/Product.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../API Services/Constant.dart';
 import '../Product_listing_PLP/Product_Listing_PLP.dart';
 
 class Category_Collection_Filter extends StatefulWidget {
@@ -102,7 +103,33 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                                       .collections!.length,
                                   (index) => Padding(
                                     padding: const EdgeInsets.all(3),
-                                    child: Column(
+                                    child: ProductCard(
+                                      title: collectionmdl
+                                          .getCollectionSetData![
+                                      0]
+                                          .collections![index]
+                                          .name!,
+                                      id: collectionmdl
+                                          .getCollectionSetData![
+                                      0]
+                                          .collections![index]
+                                          .brandOptionId!,
+                                      brand_id: collectionmdl
+                                          .getCollectionSetData![
+                                      0]
+                                          .collections![index]
+                                          .optionId!,
+                                      sub_title: collectionmdl
+                                          .getCollectionSetData![0]
+                                          .collections![index]
+                                          .brandName!.isEmpty ? '' : collectionmdl
+                                          .getCollectionSetData![0]
+                                          .collections![index]
+                                          .brandName!.toUpperCase(),
+                                      image: '${Urls.BASE_URL_Prod}${collectionmdl.getCollectionSetData![0].collections![index].image}',
+                                    ),
+
+                                  /*  Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
@@ -201,7 +228,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                                           ],
                                         )
                                       ],
-                                    ),
+                                    ),*/
                                   ),
                                 ),
                               ),
@@ -211,6 +238,129 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
           ),
         );
       },
+    );
+  }
+}
+
+class ProductCard extends StatefulWidget {
+  const ProductCard({
+    Key? key,
+    required this.image,
+    required this.id,
+    required this.brand_id,
+    required this.title,
+    required this.sub_title,
+  }) : super(key: key);
+  final String image, title,sub_title;
+  final int id,brand_id;
+
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  GraphQLService graphQLService = GraphQLService();
+  int wishlist = 0;
+  String cart_token = '';
+  MyProvider? myProvider;
+  String? wishListID;
+  String? image, title;
+  String? brand_banner;
+  String? price;
+  Color? bgColor;
+  String spl_price = "0";
+  bool isExpired = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Product_Listing_PLP(
+                  name:widget.title,
+                  id: widget.id,
+                  id1: widget.brand_id),
+            ));
+      },
+      child: Container(
+        padding: const EdgeInsets.all(2),
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
+        ),
+        child:
+        Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(defaultBorderRadius)),
+                  ),
+                  child: Image.network(
+                    widget.image ?? '',
+                    height: 180,
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      return Image.asset(
+                        'assets/omalogo.png',
+                        height: 150,
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                          widget.sub_title ?? '',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: textColor,
+                              fontFamily: 'Gotham',
+                              height: 1.5,
+                              fontSize: 11),
+                        ),
+
+                    ),
+
+                    const SizedBox(
+                      height: 2.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      child: Text(
+                          widget.title ?? '',
+                        style: const TextStyle(
+                            fontFamily: 'Gotham',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.0,
+                            color: navTextColor),
+                      ),
+                      ),
+                  ],
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

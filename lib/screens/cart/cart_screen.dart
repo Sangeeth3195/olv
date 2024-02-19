@@ -343,7 +343,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                         const Expanded(
                           // Place `Expanded` inside `Row`
                           child: SizedBox(
-                            height: 13, // <-- Your height
+                            height: 15, // <-- Your height
                             child: Text(
                               'Subtotal' ,
                               style: TextStyle(color: Colors.black),
@@ -351,7 +351,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           ),
                         ),
                         SizedBox(
-                          height: 22, // <-- Your height
+                          height: 25, // <-- Your height
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: Row(children: [

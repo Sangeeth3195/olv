@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../API Services/graphql_service.dart';
+import '../../../slider_test.dart';
 import '../../webview/WebViewGQL.dart';
 
 class Body extends StatefulWidget {
@@ -129,6 +130,16 @@ class _BodyState extends State<Body> {
                   MaterialPageRoute(
                       builder: (context) => const CommonWebViewGraphql(
                           url: 'privacy-policy', title: 'Privacy Policy')));
+            },
+          ),
+          SettingsMenu(
+            text: "Privacy Policy",
+            icon: FontAwesomeIcons.heart,
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyHomePageSlider(title: 'title')));
             },
           ),
           const Padding(

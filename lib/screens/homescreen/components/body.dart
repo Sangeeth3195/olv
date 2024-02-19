@@ -37,8 +37,8 @@ class _BodyState extends State<Body> {
   HomePageModel homePageModel = HomePageModel();
   List<dynamic> navHeaderList = [];
   late VideoPlayerController? videoPlayerController;
-  final bool looping = false;
-  final bool autoplay = false;
+  final bool looping = true;
+  final bool autoplay = true;
   InstafeedModel? instafeed;
 
   ChewieController? _chewieController;
@@ -189,12 +189,14 @@ class _BodyState extends State<Body> {
                                     )
                                 ],
                                 carouselController: buttonCarouselController,
+
                                 options: CarouselOptions(
                                   autoPlay: true,
                                   enlargeCenterPage: false,
                                   viewportFraction: 1,
                                   aspectRatio: 1,
                                   initialPage: 0,
+
                                   onPageChanged: (index, reason) {
                                     setState(() {
                                       _current = index;
@@ -570,11 +572,43 @@ class _BodyState extends State<Body> {
                     height: 5,
                   ),
 
-                  Center(
+            const SizedBox(
+              height: 20,
+            ),
+
+            Row(
+                children: <Widget>[
+                  const Expanded(
+                      child: Divider(thickness: 1,color: Colors.black,)
+                  ),
+                  const SizedBox(width: 5,),
+                  Text(
+                    homePageModel.getHomePageData![5].title!,
+                    style:
+                    Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: describtionTextColor,
+                      fontFamily: 'Gotham',
+                    ),
+                  ),
+
+                  const SizedBox(width: 5,),
+                  const Expanded(
+                      child: Divider(thickness: 1,color: Colors.black,)
+                  ),
+                ]
+            ),
+
+                  /*Center(
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                        child: Text(
+                        child:
+
+
+
+                        Text(
                           homePageModel.getHomePageData![5].title!,
                           style:
                               Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -586,7 +620,7 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
 
                   // product with add to cart
 

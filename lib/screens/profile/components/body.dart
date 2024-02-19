@@ -39,7 +39,15 @@ class _BodyState extends State<Body> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('emailid', customerModel.customer!.email!);
 
+    var cartToken = prefs.getString('first_name');
+
+    print(cartToken);
+
+
     setState(() {
+      var cartToken = prefs.getString('first_name');
+
+      print(cartToken);
       _firstnameController.text = customerModel.customer?.firstname ?? '';
       _emailController.text = customerModel.customer?.email ?? '';
     });
@@ -65,7 +73,9 @@ class _BodyState extends State<Body> {
                 ),
                 title: Text(
                   //TODO: take from profile info
-                  provider.customerModel.customer?.firstname ?? '',
+                  '${provider.customerModel.customer?.firstname}'
+                          ' ${provider.customerModel.customer?.lastname}' ??
+                      '',
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 16,

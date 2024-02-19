@@ -158,6 +158,7 @@ class Item {
   String special_from_date;
   String special_to_date;
   PriceRange priceRange;
+  Price price;
   List<ConfigurableOption> configurableOptions;
   List<Variant> variants;
   List<GetPriceRange> getPriceRange;
@@ -176,6 +177,7 @@ class Item {
     required this.special_from_date,
     required this.special_to_date,
     required this.priceRange,
+    required this.price,
     required this.configurableOptions,
     required this.variants,
     required this.getPriceRange,
@@ -194,6 +196,7 @@ class Item {
     special_from_date: json["special_from_date"] ?? '',
     special_to_date: json["special_to_date"] ?? '',
     priceRange: json["price_range"]==null ? PriceRange(typename: '', minimumPrice: MinimumPrice(typename: "",regularPrice: RegularPrice(typename: "",currency: "",value: 0))):PriceRange.fromJson(json["price_range"]),
+    price: Price.fromJson(json["price"]),
     configurableOptions: json["configurable_options"]==null?[]:List<ConfigurableOption>.from(json["configurable_options"].map((x) => ConfigurableOption.fromJson(x))),
     variants: json["variants"]==null?[]:List<Variant>.from(json["variants"].map((x) => Variant.fromJson(x))),
     getPriceRange: json["getPriceRange"]==null?[]:List<GetPriceRange>.from(json["getPriceRange"].map((x) => GetPriceRange.fromJson(x))),
@@ -211,6 +214,7 @@ class Item {
     "special_from_date": special_from_date,
     "special_to_date": special_to_date,
     "price_range": priceRange.toJson(),
+    "price": price.toJson(),
     "configurable_options": List<dynamic>.from(configurableOptions.map((x) => x.toJson())),
     "variants": List<dynamic>.from(variants.map((x) => x.toJson())),
     "getPriceRange": List<dynamic>.from(getPriceRange.map((x) => x.toJson())),
@@ -366,6 +370,58 @@ class GetPriceRange {
     "__typename": typename,
     "oldpricevalue": oldpricevalue,
     "normalpricevalue": normalpricevalue,
+  };
+}
+
+class Price {
+  RegularPrice1 regularPrice;
+
+  Price({
+    required this.regularPrice,
+  });
+
+  factory Price.fromJson(Map<String, dynamic> json) => Price(
+    regularPrice: RegularPrice1.fromJson(json["regularPrice"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "regularPrice": regularPrice.toJson(),
+  };
+}
+
+class RegularPrice1 {
+  Amount1 amount;
+
+  RegularPrice1({
+    required this.amount,
+  });
+
+  factory RegularPrice1.fromJson(Map<String, dynamic> json) => RegularPrice1(
+    amount: Amount1.fromJson(json["amount"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "amount": amount.toJson(),
+  };
+}
+
+class Amount1 {
+  int value;
+  String currency;
+
+  Amount1({
+    required this.value,
+    required this.currency,
+  });
+
+  factory Amount1.fromJson(Map<String, dynamic> json) => Amount1(
+    value: json["value"],
+    currency: json["currency"]!,
+  );
+
+  Map<String, dynamic> toJson() => {
+    "value": value,
+    "currency":currency,
   };
 }
 
@@ -573,7 +629,7 @@ class Product {
     sku: json["sku"],
     attributeSetId: json["attribute_set_id"],
     weight: json["weight"]??0,
-    priceRange: json["price_range"] ??PriceRange.fromJson(json["price_range"]),
+    priceRange: json["price_range"] ?? PriceRange.fromJson(json["price_range"]),
     smallImage: json["small_image"] ?? SmallImage.fromJson(json["small_image"]),
     textAttributes: json["textAttributes"]==null?[]:List<TextAttribute>.from(json["textAttributes"].map((x) => TextAttribute.fromJson(x))),
     getPriceRange: json["getPriceRange"]==null?[]:List<GetPriceRange>.from(json["getPriceRange"].map((x) => GetPriceRange.fromJson(x))),
