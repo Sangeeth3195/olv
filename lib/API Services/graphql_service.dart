@@ -495,6 +495,8 @@ class GraphQLService {
   Future<dynamic> getproductlist({
     required int limit,
     required int id,
+     int currentPage=1,
+
   }) async {
     try {
       EasyLoading.show(status: 'loading...');
@@ -513,7 +515,9 @@ class GraphQLService {
                       oma_subclass:{in:[]}
                       }
                       sort: {name: ASC}
-                      pageSize:"$limit"
+                      pageSize:"${limit}"
+                      currentPage:"${currentPage}"
+                     
                       ) {
                       aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
                         attribute_code
@@ -638,6 +642,7 @@ class GraphQLService {
       );
 
       if (result.hasException) {
+        EasyLoading.dismiss();
         throw Exception(result.exception);
       } else {
         EasyLoading.dismiss();
@@ -647,7 +652,12 @@ class GraphQLService {
         return result;
       }
     } catch (error) {
-      return [];
+      EasyLoading.dismiss();
+
+      print(error);
+
+      return null;
+
     }
   }
 
@@ -786,7 +796,6 @@ class GraphQLService {
   Future<dynamic> getbrandlistFilter({
     required int limit,
     required int id,
-
   }) async {
     try {
       EasyLoading.show(status: 'loading...');
@@ -1927,7 +1936,7 @@ class GraphQLService {
         if (result.data?['requestPasswordResetEmail'] == true) {
           Fluttertoast.showToast(
               msg: 'A link to reset your password will be sent to your email');
-         /* Navigator.of(context).pushAndRemoveUntil(
+          /* Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const LoginPage()),
               (Route<dynamic> route) => false);*/
 

@@ -86,6 +86,28 @@ class MyProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+  void loadMoreData(int id, {int limit = 8,int currentPage = 8}) async {
+
+    dynamic dataFromAPi =
+        await graphQLService.getproductlist(limit: limit, id: id,currentPage: currentPage);
+    if(dataFromAPi == null){
+      notifyListeners();
+      return ;
+    }
+    List? res1 = dataFromAPi.data?['products']['items'];
+    _data = res1!;
+    pList = res1;
+    aggrecation = dataFromAPi.data?['products']['aggregations'];
+    final List<dynamic> postList =
+        dataFromAPi.data?['products']['aggregations'];
+    aggregationList =
+        postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
+    final List<dynamic> itemList = dataFromAPi.data?['products']['items'];
+    items.addAll(itemList.map((postJson) => Item.fromJson(postJson)).toList());
+    oldItems.addAll(itemList.map((postJson) => Item.fromJson(postJson)).toList());
+
+    notifyListeners();
+  }
 
   void updatebrandData(int id,int id1, {int limit = 2}) async {
     items.clear();
@@ -97,7 +119,6 @@ class MyProvider extends ChangeNotifier {
     final List<dynamic> itemList = dataFromAPi.data?['products']['items'];
     items = itemList.map((postJson) => Item.fromJson(postJson)).toList();
     oldItems = itemList.map((postJson) => Item.fromJson(postJson)).toList();
-
     notifyListeners();
   }
 
