@@ -64,21 +64,21 @@ class _ProductCardState extends State<ProductCard> {
     if (widget.item!.typename != "SimpleProduct") {
       try {
         _changeColor(
-            0, widget.item!.configurableOptions[0].values[0].valueIndex);
+            0, widget.item!.configurableOptions![0].values[0].valueIndex);
       } catch (e) {
         print(e);
         title = widget.title;
         image = widget.item?.smallImage.url ?? '';
-        price = widget.item!.getPriceRange.isEmpty
+        price = widget.item!.getPriceRange!.isEmpty
             ? widget.item!.textAttributes[0].normalprice
-            : widget.item!.getPriceRange[0].normalpricevalue;
+            : widget.item!.getPriceRange![0].normalpricevalue;
       }
     } else {
       title = widget.title;
       image = widget.item?.smallImage.url ?? '';
-      price = widget.item!.getPriceRange.isEmpty
+      price = widget.item!.getPriceRange!.isEmpty
           ? widget.item!.textAttributes[0].normalprice
-          : widget.item!.getPriceRange[0].normalpricevalue;
+          : widget.item!.getPriceRange![0].normalpricevalue;
     }
   }
 
@@ -108,15 +108,15 @@ class _ProductCardState extends State<ProductCard> {
       _selected = index;
     });
 
-    for (final variants in widget.item!.variants) {
+    for (final variants in widget.item!.variants!) {
       for (final attributes in variants.attributes) {
         if (attributes.valueIndex == valueIndex) {
           setState(() {
             title = variants.product.name;
-            image = variants.product.smallImage.url;
-            price = variants.product.getPriceRange.isEmpty
-                ? variants.product.textAttributes[0].normalprice
-                : variants.product.getPriceRange[0].normalpricevalue;
+            image = variants.product.mediaGallery[0].smallImage!.url;
+            price = variants.product.getPriceRange!.isEmpty
+                ? variants.product!.textAttributes![0].normalprice!
+                : variants.product.getPriceRange![0].normalpricevalue;
           });
         }
       }
@@ -215,8 +215,8 @@ class _ProductCardState extends State<ProductCard> {
                     const SizedBox(height: 10.0),
                     widget.item!.typename == "ConfigurableProduct"?Column(
                       children: [
-                        Text(widget.item!.getPriceRange[0].oldpricevalue.toString()),
-                        Text(widget.item!.getPriceRange[0].normalpricevalue.toString()),
+                        Text(widget.item!.getPriceRange![0].oldpricevalue.toString()),
+                        Text(widget.item!.getPriceRange![0].normalpricevalue.toString()),
                       ],
                     ):Container(),
 
@@ -308,9 +308,9 @@ class _ProductCardState extends State<ProductCard> {
                     widget.item!.typename == "ConfigurableProduct"
                         ? Row(
                       children: [
-                        widget.item!.configurableOptions[0].label ==
+                        widget.item!.configurableOptions![0].label ==
                             "Color"
-                            ? widget.item!.configurableOptions[0].values
+                            ? widget.item!.configurableOptions![0].values
                             .length >
                             2
                             ? SizedBox(
@@ -320,14 +320,14 @@ class _ProductCardState extends State<ProductCard> {
                             scrollDirection: Axis.horizontal,
                             itemCount: widget
                                 .item!
-                                .configurableOptions[0]
+                                .configurableOptions![0]
                                 .values
                                 .length >
                                 2
                                 ? 2
                                 : widget
                                 .item!
-                                .configurableOptions[0]
+                                .configurableOptions![0]
                                 .values
                                 .length,
                             itemBuilder: (context, index) {
@@ -335,7 +335,7 @@ class _ProductCardState extends State<ProductCard> {
                                 onTap: () {
                                   log(widget
                                       .item!
-                                      .configurableOptions[0]
+                                      .configurableOptions![0]
                                       .values[index]
                                       .toJson()
                                       .toString());
@@ -343,7 +343,7 @@ class _ProductCardState extends State<ProductCard> {
                                       index,
                                       widget
                                           .item!
-                                          .configurableOptions[
+                                          .configurableOptions![
                                       0]
                                           .values[index]
                                           .valueIndex);
@@ -366,7 +366,7 @@ class _ProductCardState extends State<ProductCard> {
                                     shape: BoxShape.circle,
                                     color: colorFromHex(widget
                                         .item!
-                                        .configurableOptions[0]
+                                        .configurableOptions![0]
                                         .values[index]
                                         .swatchData
                                         .value),
@@ -383,7 +383,7 @@ class _ProductCardState extends State<ProductCard> {
                             scrollDirection: Axis.horizontal,
                             itemCount: widget
                                 .item!
-                                .configurableOptions[0]
+                                .configurableOptions![0]
                                 .values
                                 .length,
                             itemBuilder: (context, index) {
@@ -391,7 +391,7 @@ class _ProductCardState extends State<ProductCard> {
                                 onTap: () {
                                   log(widget
                                       .item!
-                                      .configurableOptions[0]
+                                      .configurableOptions![0]
                                       .values[index]
                                       .toJson()
                                       .toString());
@@ -399,7 +399,7 @@ class _ProductCardState extends State<ProductCard> {
                                       index,
                                       widget
                                           .item!
-                                          .configurableOptions[
+                                          .configurableOptions![
                                       0]
                                           .values[index]
                                           .valueIndex);
@@ -421,7 +421,7 @@ class _ProductCardState extends State<ProductCard> {
                                         3.0), // Using BorderSide with BoxDecoration
                                     color: colorFromHex(widget
                                         .item!
-                                        .configurableOptions[0]
+                                        .configurableOptions![0]
                                         .values[index]
                                         .swatchData
                                         .value),
@@ -432,9 +432,9 @@ class _ProductCardState extends State<ProductCard> {
                           ),
                         )
                             : Container(),
-                        widget.item!.configurableOptions[0].label ==
+                        widget.item!.configurableOptions![0].label ==
                             "Color"
-                            ? widget.item!.configurableOptions[0].values
+                            ? widget.item!.configurableOptions![0].values
                             .length >
                             2
                             ? const Text(

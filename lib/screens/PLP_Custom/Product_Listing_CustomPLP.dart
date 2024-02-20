@@ -224,11 +224,11 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   void calculatePrice() {
-    print('date'+widget.item!.special_to_date.toString());
-    if (widget.item?.special_to_date != null &&
-        widget.item?.special_to_date != '') {
+    print('date'+widget.item!.specialToDate.toString());
+    if (widget.item?.specialToDate != null &&
+        widget.item?.specialToDate != '') {
       DateTime dt1;
-      dt1 = DateTime.parse(widget.item!.special_to_date);
+      dt1 = DateTime.parse(widget.item!.specialToDate);
       DateTime currentDate = DateTime.now();
       isExpired = currentDate.isAfter(dt1);
     }
@@ -238,7 +238,7 @@ class _ProductCardState extends State<ProductCard> {
     if(widget.item!.textAttributes[0].specicalprice == 0){
       isExpired= true;
     }
-    if(widget.item?.special_to_date == ''){
+    if(widget.item?.specialToDate == ''){
       isExpired= false;
     }
 
@@ -391,8 +391,8 @@ class _ProductCardState extends State<ProductCard> {
 
                     widget.item!.typename == "ConfigurableProduct"?Column(
                       children: [
-                        Text(widget.item!.getPriceRange[0].oldpricevalue.toString()),
-                        Text(widget.item!.getPriceRange[0].normalpricevalue.toString()),
+                        Text(widget.item!.getPriceRange![0].oldpricevalue.toString()),
+                        Text(widget.item!.getPriceRange![0].normalpricevalue.toString()),
                       ],
                     ):Container(),
 
