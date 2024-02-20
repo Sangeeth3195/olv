@@ -359,66 +359,83 @@ class _ProductCardState extends State<ProductCard> {
                       ),
                     ),
                     const SizedBox(height: 5.0),
-                    isExpired? Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
-                          ? Text(
-                        "₹${widget.price}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      )
-                          : Text(
-                        "₹${widget.price}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      ),
-                    ): Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
-                          ? Text(
-                        "${widget.item!.textAttributes[0].normalprice}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      )
-                          : Text(
-                        "${widget.item!.textAttributes[0].normalprice}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
-                      ),
+                    // isExpired? Padding(
+                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //   child: widget.price.isEmpty
+                    //       ? Text(
+                    //     "₹${widget.price}",
+                    //     style: const TextStyle(
+                    //         fontSize: 13, color: Colors.black),
+                    //   )
+                    //       : Text(
+                    //     "₹${widget.price}",
+                    //     style: const TextStyle(
+                    //         fontSize: 13, color: Colors.black),
+                    //   ),
+                    // ): Padding(
+                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //   child: widget.price.isEmpty
+                    //       ? Text(
+                    //     "${widget.item!.textAttributes[0].normalprice}",
+                    //     style: const TextStyle(
+                    //         fontSize: 13, color: Colors.black),
+                    //   )
+                    //       : Text(
+                    //     "${widget.item!.textAttributes[0].normalprice}",
+                    //     style: const TextStyle(
+                    //         fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
+                    //   ),
+                    // ),
+                    // isExpired?Container():Padding(
+                    //     padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //     child:
+                    //     RichText(
+                    //       text: TextSpan(
+                    //         text: '$_price_text',
+                    //         style: const TextStyle(
+                    //           color: Color(0xFF983030),
+                    //         ),
+                    //         children: [
+                    //           TextSpan(
+                    //             text: '₹ $_price_value',
+                    //             style: const TextStyle(
+                    //                 fontWeight: FontWeight.w400,
+                    //                 fontFamily: 'Gotham',
+                    //                 color: Colors.black
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     )
+                    //
+                    //
+                    //   // Text(
+                    //   //     widget.item!.textAttributes[0].specicalprice!,
+                    //   //     style: const TextStyle(
+                    //   //         fontSize: 13, color: Colors.black)
+                    //   // ),
+                    //
+                    //
+                    // ),
+
+                    widget.item!.typename == "ConfigurableProduct"?Column(
+                      children: [
+                        Text(widget.item!.getPriceRange[0].oldpricevalue.toString()),
+                        Text(widget.item!.getPriceRange[0].normalpricevalue.toString()),
+                      ],
+                    ):Container(),
+
+                    widget.item!.typename == "SimpleProduct"? Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),                      child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("₹ "+widget.item!.price.regularPrice.amount.value.toString(),style:  TextStyle(
+                          fontSize: 13, color: Colors.black,decoration:!isExpired?TextDecoration.lineThrough : TextDecoration.none,fontFamily: 'Gotham', ),
+                        ),
+                        !isExpired?Text(widget.item!.textAttributes[0].specicalprice.toString()):Container(),
+                      ],
                     ),
-                    isExpired?Container():Padding(
-                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                        child:
-                        RichText(
-                          text: TextSpan(
-                            text: '$_price_text',
-                            style: const TextStyle(
-                              color: Color(0xFF983030),
-                            ),
-                            children: [
-                              TextSpan(
-                                text: '₹ $_price_value',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'Gotham',
-                                    color: Colors.black
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-
-
-                      // Text(
-                      //     widget.item!.textAttributes[0].specicalprice!,
-                      //     style: const TextStyle(
-                      //         fontSize: 13, color: Colors.black)
-                      // ),
-
-
-                    ),
-
-
+                    ):Container(),
 
                     /*   Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
