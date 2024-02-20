@@ -495,8 +495,7 @@ class GraphQLService {
   Future<dynamic> getproductlist({
     required int limit,
     required int id,
-     int currentPage=1,
-
+    int currentPage = 1,
   }) async {
     try {
       EasyLoading.show(status: 'loading...');
@@ -602,6 +601,7 @@ class GraphQLService {
                           }
                            special_from_date
                             special_to_date
+                            
                            textAttributes{
                             weight
                             normalprice
@@ -665,7 +665,6 @@ class GraphQLService {
       print(error);
 
       return null;
-
     }
   }
 
@@ -845,6 +844,10 @@ class GraphQLService {
                             }
                           } 
                         }
+                        getPriceRange{
+            oldpricevalue  
+            normalpricevalue
+          }
                       ... on ConfigurableProduct {
                           configurable_options {
                           id

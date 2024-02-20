@@ -111,13 +111,13 @@ class _ProductCardState extends State<ProductCard> {
     for (final variants in widget.item!.variants!) {
       for (final attributes in variants.attributes) {
         if (attributes.valueIndex == valueIndex) {
-          setState(() {
-            title = variants.product.name;
-            image = variants.product.mediaGallery[0].smallImage!.url;
-            price = variants.product.getPriceRange!.isEmpty
-                ? variants.product!.textAttributes![0].normalprice!
-                : variants.product.getPriceRange![0].normalpricevalue;
-          });
+          // setState(() {
+          //   title = variants.product.name;
+          //   image = variants.product.mediaGallery[0].smallImage!.url;
+          //   price = variants.product.priceRange.minimumPrice
+          //       ? variants.product!.textAttributes![0].normalprice!
+          //       : variants.product.getPriceRange![0].normalpricevalue;
+          // });
         }
       }
     }
