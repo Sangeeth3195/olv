@@ -910,10 +910,9 @@ class _HomeScreenState extends State<ProductListing> {
                                   "SimpleProduct"
                                   ? provider.items[index].price.regularPrice.amount.value
                                   .toString()
-                                  : "${provider.items[index].getPriceRange}",
-/*
+                                  :
                               "${provider.items[index].priceRange.minimumPrice.regularPrice.value}"
-                                  " - ${provider.items[index].priceRange.minimumPrice.regularPrice.value}",*/
+                                  " - ${provider.items[index].priceRange.minimumPrice.regularPrice.value}",
                               product: provider.items[index],
                               bgColor: demo_product[0].colors[0],
                               item: provider.items[index],
