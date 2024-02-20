@@ -492,7 +492,7 @@ class _ProductCardState extends State<ProductCard> {
                                             index
                                             ? Colors.red
                                             : Colors
-                                            .transparent,
+                                            .transparent.withOpacity(0.1),
                                         width:
                                         2.0), // Using BorderSide with BoxDecoration
 
