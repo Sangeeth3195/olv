@@ -234,7 +234,9 @@ class _ProductCardState extends State<ProductCard> {
     if(widget.item!.textAttributes[0].specicalprice == 0){
       isExpired= true;
     }
-
+    if(widget.item?.special_to_date == ''){
+      isExpired= false;
+    }
   }
 
   void _changeColor(int index, int valueIndex) {

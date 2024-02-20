@@ -223,51 +223,24 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   void calculatePrice() {
-    DateTime dt1;
-
-    print(widget.item!.sku);
-    print(widget.item?.special_from_date);
-    print(widget.item?.special_to_date);
-
-    if (widget.item!.special_to_date != null &&
-        widget.item!.special_to_date != '') {
+    print('date'+widget.item!.special_to_date.toString());
+    if (widget.item?.special_to_date != null &&
+        widget.item?.special_to_date != '') {
+      DateTime dt1;
       dt1 = DateTime.parse(widget.item!.special_to_date);
-    } else {
-      dt1 = DateTime.parse("2099-02-27 10:09:00");
+      DateTime currentDate = DateTime.now();
+      isExpired = currentDate.isAfter(dt1);
     }
 
-    String tagName = widget.item!.textAttributes[0].specicalprice.toString();
-
-    final split = tagName.split('₹');
-
-    final Map<int, String> values = {
-      for (int i = 0; i < split.length; i++)
-        i: split[i]
-    };
-
-    print(values);
-
-    _price_text = values[0];
-    _price_value = values[1];
-
-    DateTime date = DateTime.now();
-    print(date);
-    DateTime currentDate = DateTime.now();
-
-    isExpired = currentDate.isAfter(dt1);
-    print("isExoired" + isExpired.toString());
-
-    if(widget.item!.typename == "SimpleProduct" && !isExpired){
-      price = widget.item!.price!.regularPrice!.amount!.value!.toString();
+    print("isExoired --> $isExpired");
+    print(widget.item!.textAttributes[0].specicalprice);
+    if(widget.item!.textAttributes[0].specicalprice == 0){
+      isExpired= true;
+    }
+    if(widget.item?.special_to_date == ''){
+      isExpired= false;
     }
 
-    if (widget.item!.special_to_date == null) {
-      price = widget.item!.textAttributes[0].specicalprice.toString() ?? '';
-    } else if (isExpired) {
-      price = widget.item!.textAttributes[0].specicalprice.toString() ?? '';
-    } else if (widget.item!.textAttributes[0].specicalprice.toString() == null) {
-      price = widget.price;
-    }
   }
 
   void _changeColor(int index, int valueIndex) {
