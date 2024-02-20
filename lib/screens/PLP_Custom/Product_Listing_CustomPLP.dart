@@ -253,11 +253,11 @@ class _ProductCardState extends State<ProductCard> {
       for (final attributes in variants.attributes) {
         if (attributes.valueIndex == valueIndex) {
           setState(() {
-           /* title = variants.product.name;
-            image = variants.product.smallImage.url;
-            price_ss = variants.product.getPriceRange.isEmpty
-                ? variants.product.textAttributes[0].normalprice
-                : variants.product.getPriceRange[0].normalpricevalue;*/
+            title = variants.product.name;
+            // image = variants.product.smallImage.url;
+            // price_ss = variants.product.getPriceRange.isEmpty
+            //     ? variants.product.textAttributes[0].normalprice
+            //     : variants.product.getPriceRange[0].normalpricevalue;
           });
         }
       }
@@ -390,9 +390,10 @@ class _ProductCardState extends State<ProductCard> {
                     // ),
 
                     widget.item!.typename == "ConfigurableProduct"?Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.item!.getPriceRange![0].oldpricevalue.toString()),
-                        Text(widget.item!.getPriceRange![0].normalpricevalue.toString()),
+                        widget.item?.getPriceRange?[0].oldpricevalue == ""?Container():Text(widget.item!.getPriceRange![0].oldpricevalue.toString()),
+                        widget.item?.getPriceRange?[0].normalpricevalue == "null"?Container():Text(widget.item!.getPriceRange![0].normalpricevalue.toString()),
                       ],
                     ):Container(),
 
