@@ -113,15 +113,12 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
                         ProductCard(
                           title: provider.items[index].name,
                           image: provider.items[index].smallImage.url,
-                          fromdate: provider.items[index].special_from_date,
-                          todate: provider.items[index].special_to_date,
+                          fromdate: provider.items[index].specialFromDate,
+                          todate: provider.items[index].specialToDate,
                           price: provider.items[index].typename ==
                               "SimpleProduct"
-                              ? provider.items[index].priceRange.minimumPrice
-                              .regularPrice.value
-                              .toString()
-                              : "${provider.items[index].priceRange.minimumPrice.regularPrice.value}"
-                              " - ${provider.items[index].priceRange.minimumPrice.regularPrice.value}",
+                              ? provider.items[index].price.regularPrice.amount.value.toString()
+                              : "${provider.items[index].getPriceRange}",
                           product: provider.items[index],
                           bgColor: demo_product[0].colors[0],
                           item: provider.items[index],
@@ -146,6 +143,7 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
     );
   }
 }
+
 
 class ProductCard extends StatefulWidget {
   const ProductCard({
@@ -175,22 +173,21 @@ class _ProductCardState extends State<ProductCard> {
   GraphQLService graphQLService = GraphQLService();
 
   int wishlist = 0;
-
   String cart_token = '';
-
   int _selected = 0;
   MyProvider? myProvider;
   String? wishListID;
-
   String? image, title;
-  String? price;
+  String price_ss = '0';
+  String? Spl_price = '0';
   Color? bgColor;
   Item? item;
   CartProvider? cartProvider;
   String spl_price = "0";
-  bool isExpired = true;
+  bool isExpired = false;
   String? _price_text;
   String? _price_value;
+  bool isShowClearance = false;
 
   @override
   void initState() {
@@ -199,41 +196,45 @@ class _ProductCardState extends State<ProductCard> {
     myProvider = Provider.of<MyProvider>(context, listen: false);
     cartProvider = Provider.of<CartProvider>(context, listen: false);
 
+    Spl_price = widget.item!.textAttributes[0].specicalprice.toString();
+
+    print('SimpleProduct');
+
     calculatePrice();
 
     if (widget.item!.typename != "SimpleProduct") {
       try {
         _changeColor(
-            0, widget.item!.configurableOptions[0].values[0].valueIndex);
+            0, widget.item!.configurableOptions![0].values[0].valueIndex);
       } catch (e) {
         print(e);
         title = widget.title;
         image = widget.item?.smallImage.url ?? '';
-        price = widget.item!.getPriceRange.isEmpty
-            ? widget.item!.textAttributes[0].normalprice
-            : widget.item!.getPriceRange[0].normalpricevalue;
+        // price_ss = widget.item!.getPriceRange.isEmpty
+        //     ? widget.item!.textAttributes[0].normalprice
+        //     : widget.item!.getPriceRange[0].normalpricevalue;
       }
     } else {
       title = widget.title;
       image = widget.item?.smallImage.url ?? '';
-      price = widget.item!.getPriceRange.isEmpty
-          ? widget.item!.textAttributes[0].normalprice
-          : widget.item!.getPriceRange[0].normalpricevalue;
+      // price_ss = widget.item!.getPriceRange.isEmpty
+      //     ? widget.item!.textAttributes[0].normalprice
+      //     : widget.item!.getPriceRange[0].normalpricevalue;
     }
   }
 
   void calculatePrice() {
-    DateTime dt1;
+    if (widget.item?.specialToDate != null &&
+        widget.item?.specialToDate != '') {
+      DateTime dt1;
+      dt1 = DateTime.parse(widget.item!.specialToDate);
+      DateTime currentDate = DateTime.now();
+      isExpired = currentDate.isAfter(dt1);
+    }
 
-    print(widget.item!.sku);
-    print(widget.item?.special_from_date);
-    print(widget.item?.special_to_date);
-
-    if (widget.item!.special_to_date != null &&
-        widget.item!.special_to_date != '') {
-      dt1 = DateTime.parse(widget.item!.special_to_date);
-    } else {
-      dt1 = DateTime.parse("2099-02-27 10:09:00");
+    print("isExoired --> $isExpired");
+    if (widget.item!.textAttributes[0].specicalprice == 0) {
+      isExpired = true;
     }
 
     String tagName = widget.item!.textAttributes[0].specicalprice.toString();
@@ -245,29 +246,9 @@ class _ProductCardState extends State<ProductCard> {
         i: split[i]
     };
 
-    print(values);
-
     _price_text = values[0];
     _price_value = values[1];
 
-    DateTime date = DateTime.now();
-    print(date);
-    DateTime currentDate = DateTime.now();
-
-    isExpired = currentDate.isAfter(dt1);
-    print("isExoired" + isExpired.toString());
-
-    if(widget.item!.typename == "SimpleProduct" && !isExpired){
-      price = widget.item!.price!.regularPrice!.amount!.value!.toString();
-    }
-
-    if (widget.item!.special_to_date == null) {
-      price = widget.item!.textAttributes[0].specicalprice.toString() ?? '';
-    } else if (isExpired) {
-      price = widget.item!.textAttributes[0].specicalprice.toString() ?? '';
-    } else if (widget.item!.textAttributes[0].specicalprice.toString() == null) {
-      price = widget.price;
-    }
   }
 
   void _changeColor(int index, int valueIndex) {
@@ -275,15 +256,15 @@ class _ProductCardState extends State<ProductCard> {
       _selected = index;
     });
 
-    for (final variants in widget.item!.variants) {
+    for (final variants in widget.item!.variants!) {
       for (final attributes in variants.attributes) {
         if (attributes.valueIndex == valueIndex) {
           setState(() {
-            title = variants.product.name;
+           /* title = variants.product.name;
             image = variants.product.smallImage.url;
-            price = variants.product.getPriceRange.isEmpty
+            price_ss = variants.product.getPriceRange.isEmpty
                 ? variants.product.textAttributes[0].normalprice
-                : variants.product.getPriceRange[0].normalpricevalue;
+                : variants.product.getPriceRange[0].normalpricevalue;*/
           });
         }
       }
@@ -300,11 +281,7 @@ class _ProductCardState extends State<ProductCard> {
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
-        child:
-        /*Card(
-          elevation: 0,
-          child:*/
-        Stack(
+        child: Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -341,7 +318,7 @@ class _ProductCardState extends State<ProductCard> {
                             .toString(),
                         style: const TextStyle(
                             fontWeight: FontWeight.normal,
-                            color: blackColor,
+                            color: Colors.black54,
                             height: 1.5,
                             fontSize: 11),
                       ),
@@ -354,107 +331,114 @@ class _ProductCardState extends State<ProductCard> {
                         style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             color: blackColor,
+                            fontFamily: 'Gotham',
                             height: 1.5,
                             fontSize: 12),
                       ),
                     ),
                     const SizedBox(height: 5.0),
-                    isExpired? Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
-                          ? Text(
-                        "₹${widget.price}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      )
-                          : Text(
-                        "₹${widget.price}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      ),
-                    ): Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
-                          ? Text(
-                        "${widget.item!.textAttributes[0].normalprice}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      )
-                          : Text(
-                        "${widget.item!.textAttributes[0].normalprice}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
-                      ),
-                    ),
-                    isExpired?Container():Padding(
-                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                        child:
-                        RichText(
-                          text: TextSpan(
-                            text: '$_price_text',
-                            style: const TextStyle(
-                              color: Color(0xFF983030),
-                            ),
-                            children: [
-                              TextSpan(
-                                text: '₹ $_price_value',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'Gotham',
-                                    color: Colors.black
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
+                    widget.item!.typename == "ConfigurableProduct"
+                        ? Column(
+                      children: [
+                        Text(widget.item!.getPriceRange![0].oldpricevalue
+                            .toString()),
+                        Text(widget.item!.getPriceRange![0].normalpricevalue
+                            .toString()),
+                      ],
+                    )
+                        : Container(),
 
-
-                      // Text(
-                      //     widget.item!.textAttributes[0].specicalprice!,
-                      //     style: const TextStyle(
-                      //         fontSize: 13, color: Colors.black)
-                      // ),
-
-
-                    ),
-
-
-
-                    /*   Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
-                        '${widget.item!.textAttributes[0].specicalprice}',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: headingColor,
-                            height: 1.2,
-                            fontSize: 13),
-                      ),
-                    ),*/
-
-                    const SizedBox(height: 5.0),
-                    widget.item!.textAttributes[0].specicalprice.toString() == null
+                    widget.item!.typename == "SimpleProduct"
                         ? Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
-                        widget.item!.textAttributes[0].specicalprice
-                            .toString(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            color: headingColor,
-                            height: 1.2,
-                            fontSize: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "₹ ${widget.item!.price.regularPrice.amount.value}",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.black,
+                              decoration: !isExpired
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none,
+                              fontFamily: 'Gotham',
+                            ),
+                          ),
+                          !isExpired
+                              ? Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(text: _price_text,style: const TextStyle(color: Color(0xFF983030))),
+                                TextSpan(
+                                  text: _price_value,
+                                  style: const TextStyle(fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ),
+                          )
+                              : Container(),
+                        ],
                       ),
                     )
                         : Container(),
 
-                    //widget.item!.typename == "ConfigurableProduct"
+                    // isExpired? Container(): Padding(
+                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //   child: price_ss.isEmpty
+                    //       ? Text(
+                    //     widget.item!.textAttributes[0].normalprice,
+                    //     style: const TextStyle(
+                    //         fontSize: 13, color: Colors.black),
+                    //   )
+                    //       : Text(
+                    //     widget.item!.textAttributes[0].normalprice,
+                    //     style:  TextStyle(
+                    //         fontSize: 13, color: Colors.black,decoration:isShowClearance?TextDecoration.lineThrough : TextDecoration.none,fontFamily: 'Gotham', ),
+                    //   ),
+                    // ),
+
+                    // !isShowClearance  ?Container():Padding(
+                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //   child: Text(
+                    //       price_ss,
+                    //       style: const TextStyle(
+                    //           fontSize: 13, color: Colors.black)
+                    //   ),
+                    // ),
+
+                    // const SizedBox(height: 5.0),
+                    // isShowClearance
+                    //     ? Padding(
+                    //         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //         child:
+                    //         Text.rich(
+                    //           TextSpan(
+                    //             children: [
+                    //               TextSpan(text: _price_text,style: const TextStyle(color: Color(0xFF983030))),
+                    //               TextSpan(text: _price_value),
+                    //             ],
+                    //           ),
+                    //         )
+                    //
+                    //         // Text(
+                    //         //   widget.item!.textAttributes[0].specicalprice
+                    //         //       .toString(),
+                    //         //   style: const TextStyle(
+                    //         //       fontWeight: FontWeight.normal,
+                    //         //       color: headingColor,
+                    //         //       height: 1.2,
+                    //         //       fontSize: 12),
+                    //         // ),
+                    //       )
+                    //     : Container(),
+
                     widget.item!.typename == "ConfigurableProduct"
                         ? Row(
                       children: [
-                        widget.item!.configurableOptions[0].label ==
+                        widget.item!.configurableOptions![0].label ==
                             "Color"
-                            ? widget.item!.configurableOptions[0].values
+                            ? widget.item!.configurableOptions![0].values
                             .length >
                             2
                             ? SizedBox(
@@ -464,14 +448,14 @@ class _ProductCardState extends State<ProductCard> {
                             scrollDirection: Axis.horizontal,
                             itemCount: widget
                                 .item!
-                                .configurableOptions[0]
+                                .configurableOptions![0]
                                 .values
                                 .length >
                                 2
                                 ? 2
                                 : widget
                                 .item!
-                                .configurableOptions[0]
+                                .configurableOptions![0]
                                 .values
                                 .length,
                             itemBuilder: (context, index) {
@@ -479,7 +463,7 @@ class _ProductCardState extends State<ProductCard> {
                                 onTap: () {
                                   log(widget
                                       .item!
-                                      .configurableOptions[0]
+                                      .configurableOptions![0]
                                       .values[index]
                                       .toJson()
                                       .toString());
@@ -487,7 +471,7 @@ class _ProductCardState extends State<ProductCard> {
                                       index,
                                       widget
                                           .item!
-                                          .configurableOptions[
+                                          .configurableOptions![
                                       0]
                                           .values[index]
                                           .valueIndex);
@@ -510,7 +494,7 @@ class _ProductCardState extends State<ProductCard> {
                                     shape: BoxShape.circle,
                                     color: colorFromHex(widget
                                         .item!
-                                        .configurableOptions[0]
+                                        .configurableOptions![0]
                                         .values[index]
                                         .swatchData
                                         .value),
@@ -527,7 +511,7 @@ class _ProductCardState extends State<ProductCard> {
                             scrollDirection: Axis.horizontal,
                             itemCount: widget
                                 .item!
-                                .configurableOptions[0]
+                                .configurableOptions![0]
                                 .values
                                 .length,
                             itemBuilder: (context, index) {
@@ -535,7 +519,7 @@ class _ProductCardState extends State<ProductCard> {
                                 onTap: () {
                                   log(widget
                                       .item!
-                                      .configurableOptions[0]
+                                      .configurableOptions![0]
                                       .values[index]
                                       .toJson()
                                       .toString());
@@ -543,7 +527,7 @@ class _ProductCardState extends State<ProductCard> {
                                       index,
                                       widget
                                           .item!
-                                          .configurableOptions[
+                                          .configurableOptions![
                                       0]
                                           .values[index]
                                           .valueIndex);
@@ -565,7 +549,7 @@ class _ProductCardState extends State<ProductCard> {
                                         3.0), // Using BorderSide with BoxDecoration
                                     color: colorFromHex(widget
                                         .item!
-                                        .configurableOptions[0]
+                                        .configurableOptions![0]
                                         .values[index]
                                         .swatchData
                                         .value),
@@ -576,9 +560,9 @@ class _ProductCardState extends State<ProductCard> {
                           ),
                         )
                             : Container(),
-                        widget.item!.configurableOptions[0].label ==
+                        widget.item!.configurableOptions![0].label ==
                             "Color"
-                            ? widget.item!.configurableOptions[0].values
+                            ? widget.item!.configurableOptions![0].values
                             .length >
                             2
                             ? const Text(
@@ -595,16 +579,15 @@ class _ProductCardState extends State<ProductCard> {
                     )
                         : Container(),
 
+                    const SizedBox(height: 10.0),
+
                     GestureDetector(
                       onTap: () async {
-
-                        print(widget.item!.sku.toString());
-
                         EasyLoading.show(status: 'loading...');
                         graphQLService.addProductToCart(
                             widget.item!.sku.toString(), '1',
                             context: context);
-
+                        Scaffold.of(context).openEndDrawer();
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
@@ -672,20 +655,14 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   Color colorFromHex(String hexColor) {
-    // Remove the '#' character from the hex color code, if present.
-
     try {
       if (hexColor.startsWith('#')) {
         hexColor = hexColor.substring(1);
       }
-
-      // Check if the hex color code is valid.
       if (hexColor.length != 6) {
         throw const FormatException(
             "Invalid hex color code. It should be 6 characters long (excluding the '#').");
       }
-
-      // Parse the hexadecimal values and construct the Color object.
       return Color(int.parse('FF$hexColor', radix: 16));
     } catch (e) {
       return const Color(0xFFFFFFFF);

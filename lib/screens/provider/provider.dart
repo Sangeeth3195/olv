@@ -194,11 +194,11 @@ class MyProvider extends ChangeNotifier {
     } else if (value == "Product Name") {
       items.sort((a, b) => a.name.compareTo(b.name));
     } else if (value == "Low to high") {
-      items.sort((a, b) => a.priceRange.minimumPrice.regularPrice.value
-          .compareTo(b.priceRange.minimumPrice.regularPrice.value));
+      // items.sort((a, b) => a.priceRange.minimumPrice.regularPrice.value
+      //     .compareTo(b.priceRange.minimumPrice.regularPrice.value));
     } else if (value == "High to low") {
-      items.sort((a, b) => a.priceRange.minimumPrice.regularPrice.value
-          .compareTo(b.priceRange.minimumPrice.regularPrice.value));
+      // items.sort((a, b) => a.priceRange.minimumPrice.regularPrice.value
+      //     .compareTo(b.priceRange.minimumPrice.regularPrice.value));
       items = items.reversed.toList();
     }
     notifyListeners();

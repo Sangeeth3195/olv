@@ -108,15 +108,13 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                         child: ProductCard(
                           title: provider.items[index].name,
                           image: provider.items[index].smallImage.url,
-                          fromdate: provider.items[index].special_from_date,
-                          todate: provider.items[index].special_to_date,
+                          fromdate: provider.items[index].specialFromDate,
+                          todate: provider.items[index].specialToDate,
                           price: provider.items[index].typename ==
                                   "SimpleProduct"
-                              ? provider.items[index].priceRange.minimumPrice
-                                  .regularPrice.value
+                              ? provider.items[index].price.regularPrice.amount.value
                                   .toString()
-                              : "${provider.items[index].priceRange.minimumPrice.regularPrice.value}"
-                                  " - ${provider.items[index].priceRange.minimumPrice.regularPrice.value}",
+                              : "${provider.items[index].getPriceRange}",
                           product: provider.items[index],
                           bgColor: demo_product[0].colors[0],
                           item: provider.items[index],
@@ -175,8 +173,8 @@ class _ProductCardState extends State<ProductCard> {
   MyProvider? myProvider;
   String? wishListID;
   String? image, title;
-  String price_ss ='0';
-  String? Spl_price ='0';
+  String price_ss = '0';
+  String? Spl_price = '0';
   Color? bgColor;
   Item? item;
   CartProvider? cartProvider;
@@ -184,7 +182,7 @@ class _ProductCardState extends State<ProductCard> {
   bool isExpired = false;
   String? _price_text;
   String? _price_value;
-  bool isShowClearance=false;
+  bool isShowClearance = false;
 
   @override
   void initState() {
@@ -203,7 +201,7 @@ class _ProductCardState extends State<ProductCard> {
     if (widget.item!.typename != "SimpleProduct") {
       try {
         _changeColor(
-            0, widget.item!.configurableOptions[0].values[0].valueIndex);
+            0, widget.item!.configurableOptions![0].values[0].valueIndex);
       } catch (e) {
         print(e);
         title = widget.title;
@@ -222,18 +220,30 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   void calculatePrice() {
-    if (widget.item?.special_to_date != null &&
-        widget.item?.special_to_date != '') {
+    if (widget.item?.specialToDate != null &&
+        widget.item?.specialToDate != '') {
       DateTime dt1;
-      dt1 = DateTime.parse(widget.item!.special_to_date);
+      dt1 = DateTime.parse(widget.item!.specialToDate);
       DateTime currentDate = DateTime.now();
       isExpired = currentDate.isAfter(dt1);
     }
 
     print("isExoired --> $isExpired");
-    if(widget.item!.textAttributes[0].specicalprice == 0){
-      isExpired= true;
+    if (widget.item!.textAttributes[0].specicalprice == 0) {
+      isExpired = true;
     }
+
+    String tagName = widget.item!.textAttributes[0].specicalprice.toString();
+
+    final split = tagName.split('₹');
+
+    final Map<int, String> values = {
+      for (int i = 0; i < split.length; i++)
+        i: split[i]
+    };
+
+    _price_text = values[0];
+    _price_value = values[1];
 
   }
 
@@ -242,15 +252,15 @@ class _ProductCardState extends State<ProductCard> {
       _selected = index;
     });
 
-    for (final variants in widget.item!.variants) {
+    for (final variants in widget.item!.variants!) {
       for (final attributes in variants.attributes) {
         if (attributes.valueIndex == valueIndex) {
           setState(() {
-            title = variants.product.name;
+            /*title = variants.product.name;
             image = variants.product.smallImage.url;
             price_ss = variants.product.getPriceRange.isEmpty
                 ? variants.product.textAttributes[0].normalprice
-                : variants.product.getPriceRange[0].normalpricevalue;
+                : variants.product.getPriceRange[0].normalpricevalue;*/
           });
         }
       }
@@ -267,8 +277,7 @@ class _ProductCardState extends State<ProductCard> {
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
-        child:
-            Stack(
+        child: Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -324,24 +333,52 @@ class _ProductCardState extends State<ProductCard> {
                       ),
                     ),
                     const SizedBox(height: 5.0),
-                    widget.item!.typename == "ConfigurableProduct"?Column(
-                      children: [
-                        Text(widget.item!.getPriceRange[0].oldpricevalue.toString()),
-                        Text(widget.item!.getPriceRange[0].normalpricevalue.toString()),
-                      ],
-                    ):Container(),
+                    widget.item!.typename == "ConfigurableProduct"
+                        ? Column(
+                            children: [
+                              Text(widget.item!.getPriceRange![0].oldpricevalue
+                                  .toString()),
+                              Text(widget
+                                  .item!.getPriceRange![0].normalpricevalue
+                                  .toString()),
+                            ],
+                          )
+                        : Container(),
 
-                    widget.item!.typename == "SimpleProduct"? Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("₹ "+widget.item!.price.regularPrice.amount.value.toString(),style:  TextStyle(
-                                    fontSize: 13, color: Colors.black,decoration:!isExpired?TextDecoration.lineThrough : TextDecoration.none,fontFamily: 'Gotham', ),
+                    widget.item!.typename == "SimpleProduct"
+                        ? Padding(
+                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "₹ ${widget.item!.price.regularPrice.amount.value}",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.black,
+                                    decoration: !isExpired
+                                        ? TextDecoration.lineThrough
+                                        : TextDecoration.none,
+                                    fontFamily: 'Gotham',
+                                  ),
+                                ),
+                                !isExpired
+                                    ? Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(text: _price_text,style: const TextStyle(color: Color(0xFF983030))),
+                                      TextSpan(
+                                        text: _price_value,
+                                        style: const TextStyle(fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                                    : Container(),
+                              ],
                             ),
-                          !isExpired?Text(widget.item!.textAttributes[0].specicalprice.toString()):Container(),
-                        ],
-                      ),
-                    ):Container(),
+                          )
+                        : Container(),
 
                     // isExpired? Container(): Padding(
                     //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
@@ -396,9 +433,9 @@ class _ProductCardState extends State<ProductCard> {
                     widget.item!.typename == "ConfigurableProduct"
                         ? Row(
                             children: [
-                              widget.item!.configurableOptions[0].label ==
+                              widget.item!.configurableOptions![0].label ==
                                       "Color"
-                                  ? widget.item!.configurableOptions[0].values
+                                  ? widget.item!.configurableOptions![0].values
                                               .length >
                                           2
                                       ? SizedBox(
@@ -408,14 +445,14 @@ class _ProductCardState extends State<ProductCard> {
                                             scrollDirection: Axis.horizontal,
                                             itemCount: widget
                                                         .item!
-                                                        .configurableOptions[0]
+                                                        .configurableOptions![0]
                                                         .values
                                                         .length >
                                                     2
                                                 ? 2
                                                 : widget
                                                     .item!
-                                                    .configurableOptions[0]
+                                                    .configurableOptions![0]
                                                     .values
                                                     .length,
                                             itemBuilder: (context, index) {
@@ -423,7 +460,7 @@ class _ProductCardState extends State<ProductCard> {
                                                 onTap: () {
                                                   log(widget
                                                       .item!
-                                                      .configurableOptions[0]
+                                                      .configurableOptions![0]
                                                       .values[index]
                                                       .toJson()
                                                       .toString());
@@ -431,7 +468,7 @@ class _ProductCardState extends State<ProductCard> {
                                                       index,
                                                       widget
                                                           .item!
-                                                          .configurableOptions[
+                                                          .configurableOptions![
                                                               0]
                                                           .values[index]
                                                           .valueIndex);
@@ -454,7 +491,7 @@ class _ProductCardState extends State<ProductCard> {
                                                     shape: BoxShape.circle,
                                                     color: colorFromHex(widget
                                                         .item!
-                                                        .configurableOptions[0]
+                                                        .configurableOptions![0]
                                                         .values[index]
                                                         .swatchData
                                                         .value),
@@ -471,7 +508,7 @@ class _ProductCardState extends State<ProductCard> {
                                             scrollDirection: Axis.horizontal,
                                             itemCount: widget
                                                 .item!
-                                                .configurableOptions[0]
+                                                .configurableOptions![0]
                                                 .values
                                                 .length,
                                             itemBuilder: (context, index) {
@@ -479,7 +516,7 @@ class _ProductCardState extends State<ProductCard> {
                                                 onTap: () {
                                                   log(widget
                                                       .item!
-                                                      .configurableOptions[0]
+                                                      .configurableOptions![0]
                                                       .values[index]
                                                       .toJson()
                                                       .toString());
@@ -487,7 +524,7 @@ class _ProductCardState extends State<ProductCard> {
                                                       index,
                                                       widget
                                                           .item!
-                                                          .configurableOptions[
+                                                          .configurableOptions![
                                                               0]
                                                           .values[index]
                                                           .valueIndex);
@@ -509,7 +546,7 @@ class _ProductCardState extends State<ProductCard> {
                                                             3.0), // Using BorderSide with BoxDecoration
                                                     color: colorFromHex(widget
                                                         .item!
-                                                        .configurableOptions[0]
+                                                        .configurableOptions![0]
                                                         .values[index]
                                                         .swatchData
                                                         .value),
@@ -520,9 +557,9 @@ class _ProductCardState extends State<ProductCard> {
                                           ),
                                         )
                                   : Container(),
-                              widget.item!.configurableOptions[0].label ==
+                              widget.item!.configurableOptions![0].label ==
                                       "Color"
-                                  ? widget.item!.configurableOptions[0].values
+                                  ? widget.item!.configurableOptions![0].values
                                               .length >
                                           2
                                       ? const Text(
@@ -547,6 +584,7 @@ class _ProductCardState extends State<ProductCard> {
                         graphQLService.addProductToCart(
                             widget.item!.sku.toString(), '1',
                             context: context);
+                        Scaffold.of(context).openEndDrawer();
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),

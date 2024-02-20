@@ -55,14 +55,14 @@ final router = GoRouter(
                     );
                   },
                 ),
-                GoRoute(
+                /*GoRoute(
                   path: 'catDetails',
                   builder: (context, state) {
                     return CategoryDetails(
                       data: state.extra! as Map<String, dynamic>,
                     );
                   },
-                ),
+                ),*/
                 GoRoute(
                   path: 'cartScreen',
                   builder: (context, state) {

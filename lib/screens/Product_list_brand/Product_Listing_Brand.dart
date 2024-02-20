@@ -27,11 +27,23 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
   CarouselController buttonCarouselController = CarouselController();
 
   int _current = 0;
+  bool isVisible = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    if (data['bannerdata'].length == 0) {
+      setState(() {
+        isVisible = false;
+      });
+    } else {
+      isVisible = true;
+    }
+
+    print(isVisible);
+
   }
 
   @override
@@ -60,38 +72,42 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CarouselSlider(
-                    items: [
-                      for (Map<String, dynamic> item in data['bannerdata'])
-                        GestureDetector(
-                          onTap: () {},
-                          child: Image.network(
-                            "https://staging2.omaliving.com/media/wysiwyg/brand/${item['banner']}",
-                            fit: BoxFit.fitWidth,
-                          ),
-                        )
-                    ],
-                    carouselController: buttonCarouselController,
-                    options: CarouselOptions(
-                      autoPlay: data['bannerdata'].length == 1 ? false : true,
-                      enlargeCenterPage: false,
-                      viewportFraction: 1,
-                      disableCenter: false,
-                      aspectRatio: 1,
-                      initialPage: 0,
-                      height: 175,
-                      autoPlayInterval: const Duration(seconds: 2),
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _current = index;
-                        });
-                      },
+                  Visibility(
+                    visible: isVisible,
+                    child: CarouselSlider(
+                      items: [
+                        for (Map<String, dynamic> item in data['bannerdata'])
+                          GestureDetector(
+                            onTap: () {},
+                            child: Image.network(
+                              "https://staging2.omaliving.com/media/wysiwyg/brand/${item['banner']}",
+                              fit: BoxFit.fitWidth,
+                            ),
+                          )
+                      ],
+                      carouselController: buttonCarouselController,
+                      options: CarouselOptions(
+                        autoPlay: data['bannerdata'].length == 1 ? false : true,
+                        enlargeCenterPage: false,
+                        viewportFraction: 1,
+                        disableCenter: false,
+                        aspectRatio: 1,
+                        initialPage: 0,
+                        height: 175,
+                        autoPlayInterval: const Duration(seconds: 2),
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  data['bannerdata'].length == 1
+                  data['bannerdata'].length == 1 ||
+                          data['bannerdata'].length == 0
                       ? Container()
                       : DotsIndicator(
                           dotsCount: data['bannerdata'].length,
@@ -106,20 +122,20 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                   const SizedBox(
                     height: 15,
                   ),
-          Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-          child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      data['name'].toUpperCase(),
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontFamily: 'Gotham',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20.0,
-                          color: navTextColor),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        data['name'].toUpperCase(),
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontFamily: 'Gotham',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20.0,
+                            color: navTextColor),
+                      ),
                     ),
-                  ),
                   ),
                   const SizedBox(
                     height: 10,

@@ -33,7 +33,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   List<dynamic> getbrandslist = [];
   late DateTime currentBackPressTime;
 
-  int catId = 10071;
+  int catId = 0;
   String token = '';
   BuildContext? selectedContext;
   MyProvider? myProvider;
@@ -378,7 +378,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               // });
               myProvider!.showHideSearch();
             },
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
           ),
           // Center(
           //   child: GestureDetector(
@@ -581,7 +581,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                             onTap: () {
                               Navigator.of(context).pop();
                               catId = navHeaderList[index]['id'];
-                              print('item_id --> $catId');
+                              print('item_id 1 --> $catId');
                               final myProvider = Provider.of<MyProvider>(
                                   context,
                                   listen: false);
@@ -626,11 +626,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                     // initiallyExpanded: true,
                                     title: GestureDetector(
                                       onTap: () {
-                                        Navigator.of(context).pop();
-                                        print('item_id --> $catId');
+                                       /* Navigator.of(context).pop();
+                                        print('item_id 2 --> $catId');
                                         context.go('/home/catDetails',
                                             extra: navHeaderList[index]
-                                                ['children'][itemIndex]);
+                                                ['children'][itemIndex]);*/
 
                                         // catId = navHeaderList[index]['children']
                                         //     [itemIndex]['id'];
@@ -747,6 +747,12 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                               [itemIndex]
                                                           ['children']
                                                       [subitemIndex]['name']);
+
+                                                  print(navHeaderList[index]
+                                                  ['children']
+                                                  [itemIndex]
+                                                  ['children']
+                                                  [subitemIndex]['id']);
 
                                                   Navigator.of(context).pop();
                                                   catId = navHeaderList[index]
