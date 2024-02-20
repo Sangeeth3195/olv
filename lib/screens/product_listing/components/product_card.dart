@@ -59,7 +59,7 @@ class _ProductCardState extends State<ProductCard> {
     myProvider = Provider.of<MyProvider>(context, listen: false);
     cartProvider = Provider.of<CartProvider>(context, listen: false);
 
-    // calculatePrice();
+    calculatePrice();
 
     if (widget.item!.typename != "SimpleProduct") {
       try {
@@ -82,6 +82,15 @@ class _ProductCardState extends State<ProductCard> {
     }
   }
 
+  void calculatePrice() {
+    print('date'+widget.item!.special_to_date.toString());
+    if (widget.item?.special_to_date != null &&
+        widget.item?.special_to_date != '') {
+      DateTime dt1;
+      dt1 = DateTime.parse(widget.item!.special_to_date);
+      DateTime currentDate = DateTime.now();
+      isExpired = currentDate.isAfter(dt1);
+    }
   void calculatePrice(){
     DateTime dt1;
     print(widget.item!.specialToDate);
@@ -105,7 +114,15 @@ class _ProductCardState extends State<ProductCard> {
       price = widget.item!.textAttributes[0].specicalprice.toString() ??'';
     } else if (widget.item!.textAttributes[0].specicalprice.toString() == null){
       price = widget.price;
+    print("isExoired --> $isExpired");
+    print(widget.item!.textAttributes[0].specicalprice);
+    if(widget.item!.textAttributes[0].specicalprice == 0){
+      isExpired= true;
     }
+    if(widget.item?.special_to_date == ''){
+      isExpired= false;
+    }
+
   }
 
   void _changeColor(int index, int valueIndex) {
@@ -216,50 +233,68 @@ class _ProductCardState extends State<ProductCard> {
                       ),
                     ),
                     const SizedBox(height: 10.0),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
-                        price ?? '',
-                        style: const TextStyle(
-                            decoration: TextDecoration.lineThrough),
-                      ),
-                    ),
-                    isExpired? Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
-                          ? Text(
-                        "₹${widget.price}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      )
-                          : Text(
-                        "₹${widget.price}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black),
-                      ),
-                    ): Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: widget.price.isEmpty
-                          ? Text(
-                        "₹${widget.price}",
-                        style: const TextStyle(
-                            fontSize: 13, decoration: TextDecoration.lineThrough,color: Colors.black),
-                      )
-                          : Text(
-                        "₹${widget.price}",
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
-                      ),
-                    ),
+                    widget.item!.typename == "ConfigurableProduct"?Column(
+                      children: [
+                        Text(widget.item!.getPriceRange[0].oldpricevalue.toString()),
+                        Text(widget.item!.getPriceRange[0].normalpricevalue.toString()),
+                      ],
+                    ):Container(),
 
-                    isExpired?Container():Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
-                          spl_price,
-                          style: const TextStyle(
-                              fontSize: 13, color: Colors.black)
-                      ),
+                    widget.item!.typename == "SimpleProduct"? Padding(
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),                      child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("₹ "+widget.item!.price.regularPrice.amount.value.toString(),style:  TextStyle(
+                          fontSize: 13, color: Colors.black,decoration:!isExpired?TextDecoration.lineThrough : TextDecoration.none,fontFamily: 'Gotham', ),
+                        ),
+                        !isExpired?Text(widget.item!.textAttributes[0].specicalprice.toString()):Container(),
+                      ],
                     ),
+                    ):Container(),
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //   child: Text(
+                    //     price ?? '',
+                    //     style: const TextStyle(
+                    //         decoration: TextDecoration.lineThrough),
+                    //   ),
+                    // ),
+                    // isExpired? Padding(
+                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //   child: widget.price.isEmpty
+                    //       ? Text(
+                    //     "₹${widget.price}",
+                    //     style: const TextStyle(
+                    //         fontSize: 13, color: Colors.black),
+                    //   )
+                    //       : Text(
+                    //     "₹${widget.price}",
+                    //     style: const TextStyle(
+                    //         fontSize: 13, color: Colors.black),
+                    //   ),
+                    // ): Padding(
+                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //   child: widget.price.isEmpty
+                    //       ? Text(
+                    //     "₹${widget.price}",
+                    //     style: const TextStyle(
+                    //         fontSize: 13, decoration: TextDecoration.lineThrough,color: Colors.black),
+                    //   )
+                    //       : Text(
+                    //     "₹${widget.price}",
+                    //     style: const TextStyle(
+                    //         fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
+                    //   ),
+                    // ),
+
+                    // isExpired?Container():Padding(
+                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                    //   child: Text(
+                    //       spl_price,
+                    //       style: const TextStyle(
+                    //           fontSize: 13, color: Colors.black)
+                    //   ),
+                    // ),
 
                     const SizedBox(height: 5.0),
                     widget.item!.textAttributes[0].specicalprice.toString() == null
