@@ -71,6 +71,7 @@ class MyProvider extends ChangeNotifier {
     items.clear();
     oldItems.clear();
     aggregationList.clear();
+    notifyListeners();
     dynamic dataFromAPi =
         await graphQLService.getproductlist(limit: limit, id: id);
     List? res1 = dataFromAPi.data?['products']['items'];
