@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/CollectionModel.dart';
@@ -74,7 +75,8 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                   height: 10,
                 ),
                 (collectionmdl.getCollectionSetData == null ||
-                        collectionmdl.getCollectionSetData![0].collections! == null)
+                        collectionmdl.getCollectionSetData![0].collections! ==
+                            null)
                     ? const Center(child: CircularProgressIndicator())
                     : Container(
                         margin: const EdgeInsets.only(
@@ -105,31 +107,31 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                                     padding: const EdgeInsets.all(3),
                                     child: ProductCard(
                                       title: collectionmdl
-                                          .getCollectionSetData![
-                                      0]
+                                          .getCollectionSetData![0]
                                           .collections![index]
                                           .name!,
-                                      id: collectionmdl
-                                          .getCollectionSetData![
-                                      0]
-                                          .collections![index]
-                                          .brandOptionId!,
+                                      id: collectionmdl.getCollectionSetData![0]
+                                          .collections![index].brandOptionId!,
                                       brand_id: collectionmdl
-                                          .getCollectionSetData![
-                                      0]
+                                          .getCollectionSetData![0]
                                           .collections![index]
                                           .optionId!,
                                       sub_title: collectionmdl
-                                          .getCollectionSetData![0]
-                                          .collections![index]
-                                          .brandName!.isEmpty ? '' : collectionmdl
-                                          .getCollectionSetData![0]
-                                          .collections![index]
-                                          .brandName!.toUpperCase(),
-                                      image: '${Urls.BASE_URL_Prod}${collectionmdl.getCollectionSetData![0].collections![index].image}',
+                                              .getCollectionSetData![0]
+                                              .collections![index]
+                                              .brandName!
+                                              .isEmpty
+                                          ? ''
+                                          : collectionmdl
+                                              .getCollectionSetData![0]
+                                              .collections![index]
+                                              .brandName!
+                                              .toUpperCase(),
+                                      image:
+                                          '${Urls.BASE_URL_Prod}${collectionmdl.getCollectionSetData![0].collections![index].image}',
                                     ),
 
-                                  /*  Column(
+                                    /*  Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
@@ -251,8 +253,8 @@ class ProductCard extends StatefulWidget {
     required this.title,
     required this.sub_title,
   }) : super(key: key);
-  final String image, title,sub_title;
-  final int id,brand_id;
+  final String image, title, sub_title;
+  final int id, brand_id;
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -270,25 +272,66 @@ class _ProductCardState extends State<ProductCard> {
   Color? bgColor;
   String spl_price = "0";
   bool isExpired = true;
+  bool isVisible = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    print(widget.title);
+    print(widget.sub_title);
+
+    if (widget.sub_title == '' || widget.sub_title == null) {
+      setState(() {
+        isVisible = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+
+       /* final Map<String, dynamic> someMap = {
+          "id": getbrandslist[itemIndex]['option_id'],
+          "name": getbrandslist[itemIndex]['name'],
+        };
+        print(someMap);
+        context.go('/home/product_listing_brandlist',
+            extra: someMap);*/
+
+        print('object');
+        print(widget.brand_id);
+        print(widget.id);
+
+        if(widget.id == 0){
+
+          print('object 1 ');
+          final Map<String, dynamic> someMap = {
+            "id": widget.brand_id,
+            "name": widget.title,
+          };
+          print(someMap);
+          context.go('/home/product_listing_brandlist',
+              extra: someMap);
+        }else {
+          print('object 2');
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Product_Listing_PLP(
+                    name: widget.title, id: widget.id, id1: widget.brand_id),
+              ));
+        }
+
+      /*  Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => Product_Listing_PLP(
-                  name:widget.title,
-                  id: widget.id,
-                  id1: widget.brand_id),
-            ));
+                  name: widget.title, id: widget.id, id1: widget.brand_id),
+            ));*/
       },
       child: Container(
         padding: const EdgeInsets.all(2),
@@ -296,8 +339,7 @@ class _ProductCardState extends State<ProductCard> {
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
-        child:
-        Stack(
+        child: Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -306,8 +348,8 @@ class _ProductCardState extends State<ProductCard> {
                 Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(defaultBorderRadius)),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(defaultBorderRadius)),
                   ),
                   child: Image.network(
                     widget.image ?? '',
@@ -326,9 +368,11 @@ class _ProductCardState extends State<ProductCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
+                    Visibility(
+                      visible: isVisible,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child: Text(
                           widget.sub_title ?? '',
                           style: const TextStyle(
                               fontWeight: FontWeight.w500,
@@ -337,25 +381,24 @@ class _ProductCardState extends State<ProductCard> {
                               height: 1.5,
                               fontSize: 11),
                         ),
-
+                      ),
                     ),
-
                     const SizedBox(
                       height: 2.0,
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
-                          widget.title ?? '',
+                        widget.title ?? '',
                         style: const TextStyle(
                             fontFamily: 'Gotham',
                             fontWeight: FontWeight.w500,
                             fontSize: 14.0,
                             color: navTextColor),
                       ),
-                      ),
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ],

@@ -33,6 +33,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   List<dynamic> getbrandslist = [];
   late DateTime currentBackPressTime;
 
+  bool isVisible = false;
+
   int catId = 0;
   String token = '';
   BuildContext? selectedContext;
@@ -58,6 +60,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
     CartProvider cartProvider =
         Provider.of<CartProvider>(context, listen: false);
     cartProvider.getCartData();
+
+    print(isVisible);
   }
 
   void getNavdata() async {
@@ -79,7 +83,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
         context.pop();
       },
       child: const Icon(
-        Icons.arrow_back,
+        Icons.arrow_back_ios,
         size: 20,
       ),
     );
@@ -556,12 +560,14 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               separatorBuilder: (BuildContext context, int index) {
-                return Divider(
+
+                return navHeaderList[index]['include_in_menu'] == 1 ? Divider(
                   color: navHeaderList[index]['include_in_menu'] != 1
                       ? Colors.transparent
                       : textColor,
                   thickness: 0.0,
-                );
+
+                ): Container();
               },
               itemCount: navHeaderList.length,
               itemBuilder: (BuildContext context, int index) {
@@ -585,7 +591,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                               final myProvider = Provider.of<MyProvider>(
                                   context,
                                   listen: false);
-                              // myProvider.updateData(catId);
                               myProvider
                                   .updateHeader(navHeaderList[index]['name']);
                               myProvider.isproduct = true;
@@ -754,6 +759,20 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                   ['children']
                                                   [subitemIndex]['id']);
 
+                                                  print('item_id 1 -->');
+                                                  print(navHeaderList[index]
+                                                  ['children']
+                                                  [itemIndex]
+                                                  ['children']
+                                                  [subitemIndex]['name']);
+
+                                                  print(navHeaderList[index]
+                                                  ['children']
+                                                  [itemIndex]
+                                                  ['children']
+                                                  [subitemIndex]['id']);
+
+
                                                   Navigator.of(context).pop();
                                                   catId = navHeaderList[index]
                                                                   ['children']
@@ -764,7 +783,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                       Provider.of<MyProvider>(
                                                           context,
                                                           listen: false);
-                                                  // myProvider.updateData(catId);
                                                   myProvider.updateHeader(
                                                       navHeaderList[index][
                                                                           'children']
@@ -806,10 +824,12 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                             ),
                           ],
                         )
+
                       : Container(),
                 );
               },
             ),
+
             Theme(
               data:
                   Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -869,6 +889,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                   ),
                 ],
               ),
+            ),
+
+            const Divider(
+              color: textColor,
+              thickness: 0.4,
             ),
           ],
         ),

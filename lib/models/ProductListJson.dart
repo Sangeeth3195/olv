@@ -137,7 +137,7 @@ class OptionSwatchData {
   });
 
   factory OptionSwatchData.fromJson(Map<String, dynamic> json) => OptionSwatchData(
-    value: json["value"],
+    value: json["value"] ?? '',
     type: json["type"] ?? '',
   );
 

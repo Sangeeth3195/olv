@@ -348,25 +348,14 @@ class GraphQLService {
           document: gql("""
            query Query {
                 category(id: "$id") {
-                  id
-                  level
-                  name
-                  products {
-                    total_count
-                    page_info {
-                      current_page
-                      page_size
+                      id
+                      level
+                      name
+                      products {
+                        total_count
+                      }   
                     }
                   }
-                  children_count
-                  children {
-                    id
-                    level
-                    name
-                    path
-                  }
-                }
-              }
             """),
         ),
       );
@@ -516,7 +505,6 @@ class GraphQLService {
                       sort: {name: ASC}
                       pageSize:"${limit}"
                       currentPage:"${currentPage}"
-                     
                       ) {
                       aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
                         attribute_code
@@ -538,6 +526,8 @@ class GraphQLService {
                         __typename
                         sku
                         is_wishlisted
+                        special_from_date
+                        special_to_date
                         price {
                           regularPrice {
                             amount {
@@ -580,7 +570,22 @@ class GraphQLService {
                               ... on PhysicalProductInterface {
                                 weight
                               }
-                              
+                              media_gallery {
+                                  url
+                                  label
+                                  position
+                                  disabled
+                                  ... on ProductVideo {
+                                    video_content {
+                                      media_type
+                                      video_provider
+                                      video_url
+                                      video_title
+                                      video_description
+                                      video_metadata
+                                    }
+                                  }
+                                }
                               price_range{
                                 minimum_price{
                                   regular_price{
@@ -589,33 +594,28 @@ class GraphQLService {
                                   }
                                 }
                               }
-                              
                                small_image{
-                            url
-                            label
-                        }
-                              
-                               getPriceRange{
+                                  url
+                                  label
+                              }
+                            getPriceRange{
                             oldpricevalue  
                             normalpricevalue
                           }
-                           special_from_date
-                            special_to_date
-                            
                            textAttributes{
                             weight
                             normalprice
                             specicalprice
-                      }
+                              }
                             }
                             attributes {
                               uid
                               label
                               code
                               value_index
+                             }
                             }
-                  }
-                        }
+                          }
                         getPriceRange{
                             oldpricevalue  
                             normalpricevalue
@@ -654,16 +654,12 @@ class GraphQLService {
         throw Exception(result.exception);
       } else {
         EasyLoading.dismiss();
-
         print(result);
-
         return result;
       }
     } catch (error) {
       EasyLoading.dismiss();
-
       print(error);
-
       return null;
     }
   }
@@ -705,6 +701,10 @@ class GraphQLService {
                             }
                           } 
                         }
+                         getPriceRange{
+                        oldpricevalue  
+                        normalpricevalue
+                      } 
                       ... on ConfigurableProduct {
                           configurable_options {
                           id
@@ -732,21 +732,21 @@ class GraphQLService {
                               weight
                             }
                             media_gallery {
-                        url
-                        label
-                        position
-                        disabled
-                        ... on ProductVideo {
-                          video_content {
-                            media_type
-                            video_provider
-                            video_url
-                            video_title
-                            video_description
-                            video_metadata
-                          }
-                        }
-                      }
+                                url
+                                label
+                                position
+                                disabled
+                                ... on ProductVideo {
+                                  video_content {
+                                    media_type
+                                    video_provider
+                                    video_url
+                                    video_title
+                                    video_description
+                                    video_metadata
+                                  }
+                                }
+                              }
                             price_range{
                               minimum_price{
                                 regular_price{
@@ -755,15 +755,14 @@ class GraphQLService {
                                 }
                               }
                             }
-                            
                           }
                           attributes {
                             uid
                             label
                             code
                             value_index
-                          }
-                }
+                           }
+                         }
                       }
                          special_from_date
                           special_to_date
@@ -825,7 +824,7 @@ class GraphQLService {
                     color:{in: []}
                     brands:{in:["$id"]}
                     oma_collection:{in:[]}
-                    oma_subclass: {in: []}
+                    oma_subclass: {in: []}  
                     }
                     sort: {name: ASC}
                     pageSize:50
@@ -845,9 +844,9 @@ class GraphQLService {
                           } 
                         }
                         getPriceRange{
-            oldpricevalue  
-            normalpricevalue
-          }
+                          oldpricevalue  
+                          normalpricevalue
+                        }
                       ... on ConfigurableProduct {
                           configurable_options {
                           id
@@ -875,21 +874,21 @@ class GraphQLService {
                               weight
                             }
                             media_gallery {
-                        url
-                        label
-                        position
-                        disabled
-                        ... on ProductVideo {
-                          video_content {
-                            media_type
-                            video_provider
-                            video_url
-                            video_title
-                            video_description
-                            video_metadata
-                          }
-                        }
-                      }
+                              url
+                              label
+                              position
+                              disabled
+                              ... on ProductVideo {
+                                video_content {
+                                  media_type
+                                  video_provider
+                                  video_url
+                                  video_title
+                                  video_description
+                                  video_metadata
+                                }
+                              }
+                            }
                             price_range{
                               minimum_price{
                                 regular_price{
@@ -898,7 +897,6 @@ class GraphQLService {
                                 }
                               }
                             }
-                            
                           }
                           attributes {
                             uid
@@ -906,7 +904,7 @@ class GraphQLService {
                             code
                             value_index
                           }
-                }
+                        }
                       }
                          special_from_date
                           special_to_date
@@ -988,6 +986,7 @@ class GraphQLService {
                             }
                           } 
                         }
+                        
                       ... on ConfigurableProduct {
                           configurable_options {
                           id
@@ -4286,6 +4285,7 @@ class GraphQLService {
       return "";
     }
   }
+
 }
 
 void getWishListNumbers(BuildContext context) {

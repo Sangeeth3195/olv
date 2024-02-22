@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -40,7 +41,10 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
   String price = "0";
   bool isExpired = true;
   final GlobalKey<ScaffoldState> _childDrawerKey = GlobalKey();
+  CarouselController buttonCarouselController = CarouselController();
   DateTime? dt1;
+  bool isVisible = false;
+  int _current = 0;
 
   @override
   void initState() {
@@ -82,6 +86,53 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
+               /*   Visibility(
+                    visible: isVisible,
+                    child: CarouselSlider(
+                      items: [
+                        for (Map<String, dynamic> item in data['bannerdata'])
+                          GestureDetector(
+                            onTap: () {},
+                            child: Image.network(
+                              "https://staging2.omaliving.com/media/wysiwyg/brand/${item['banner']}",
+                              fit: BoxFit.fitWidth,
+                            ),
+                          )
+                      ],
+                      carouselController: buttonCarouselController,
+                      options: CarouselOptions(
+                        autoPlay: data['bannerdata'].length == 1 ? false : true,
+                        enlargeCenterPage: false,
+                        viewportFraction: 1,
+                        disableCenter: false,
+                        aspectRatio: 1,
+                        initialPage: 0,
+                        height: 175,
+                        autoPlayInterval: const Duration(seconds: 2),
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  data['bannerdata'].length == 1 ||
+                      data['bannerdata'].length == 0
+                      ? Container()
+                      : DotsIndicator(
+                    dotsCount: data['bannerdata'].length,
+                    position: _current,
+                    decorator: DotsDecorator(
+                      size: const Size.square(9.0),
+                      activeSize: const Size(9.0, 9.0),
+                      activeShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                    ),
+                  ),*/
                   const SizedBox(
                     height: 15,
                   ),
@@ -200,6 +251,7 @@ class _ProductCardState extends State<ProductCard> {
 
     print('SimpleProduct');
 
+
     calculatePrice();
 
     if (widget.item!.typename != "SimpleProduct") {
@@ -221,6 +273,9 @@ class _ProductCardState extends State<ProductCard> {
       //     ? widget.item!.textAttributes[0].normalprice
       //     : widget.item!.getPriceRange[0].normalpricevalue;
     }
+
+
+    print(image);
   }
 
   void calculatePrice() {
@@ -254,7 +309,7 @@ class _ProductCardState extends State<ProductCard> {
         if (attributes.valueIndex == valueIndex) {
           setState(() {
             title = variants.product.name;
-            // image = variants.product.smallImage.url;
+            image = variants.product.mediaGallery![0].url;
             // price_ss = variants.product.getPriceRange.isEmpty
             //     ? variants.product.textAttributes[0].normalprice
             //     : variants.product.getPriceRange[0].normalpricevalue;

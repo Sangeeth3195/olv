@@ -48,6 +48,9 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
     // TODO: implement initState
     super.initState();
     getNavdata();
+
+    print(widget.id);
+    print(widget.id1);
   }
 
   @override
@@ -191,8 +194,6 @@ class _ProductCardState extends State<ProductCard> {
     myProvider = Provider.of<MyProvider>(context, listen: false);
     cartProvider = Provider.of<CartProvider>(context, listen: false);
 
-    Spl_price = widget.item!.textAttributes[0].specicalprice.toString();
-
     print('SimpleProduct');
     print(widget.item!.price.regularPrice.amount.value);
 
@@ -233,6 +234,10 @@ class _ProductCardState extends State<ProductCard> {
       isExpired = true;
     }
 
+    if(widget.item?.specialToDate == ''){
+      isExpired= false;
+    }
+
     String tagName = widget.item!.textAttributes[0].specicalprice.toString();
 
     final split = tagName.split('₹');
@@ -242,7 +247,7 @@ class _ProductCardState extends State<ProductCard> {
         i: split[i]
     };
 
-    _price_text = values[0];
+    _price_text = '${values[0]}${':'}';
     _price_value = values[1];
 
   }
@@ -366,9 +371,9 @@ class _ProductCardState extends State<ProductCard> {
                                     ? Text.rich(
                                   TextSpan(
                                     children: [
-                                      TextSpan(text: _price_text,style: const TextStyle(color: Color(0xFF983030))),
+                                      TextSpan(text: '${_price_text}',style: const TextStyle(color: Color(0xFF983030))),
                                       TextSpan(
-                                        text: _price_value,
+                                        text: ' ₹${_price_value}',
                                         style: const TextStyle(fontWeight: FontWeight.w400),
                                       ),
                                     ],
@@ -592,7 +597,7 @@ class _ProductCardState extends State<ProductCard> {
                           "Add to cart",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              color: headingColor,
+                              color: blackColor,
                               height: 1.5,
                               fontSize: 12),
                         ),

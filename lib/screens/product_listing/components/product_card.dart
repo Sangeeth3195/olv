@@ -49,13 +49,16 @@ class _ProductCardState extends State<ProductCard> {
   Color? bgColor;
   Item? item;
   CartProvider? cartProvider;
-  String spl_price ="0";
-  bool isExpired = true;
+  String spl_price = "0";
+  bool isExpired = false;
+  String? _price_text;
+  String? _price_value;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     myProvider = Provider.of<MyProvider>(context, listen: false);
     cartProvider = Provider.of<CartProvider>(context, listen: false);
 
@@ -83,7 +86,8 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   void calculatePrice() {
-    print('date'+widget.item!.specialToDate.toString());
+    print('date${widget.item!.specialToDate}');
+
     if (widget.item?.specialToDate != null &&
         widget.item?.specialToDate != '') {
       DateTime dt1;
@@ -92,15 +96,21 @@ class _ProductCardState extends State<ProductCard> {
       isExpired = currentDate.isAfter(dt1);
     }
 
-    print("isExoired --> $isExpired");
-    print(widget.item!.textAttributes[0].specicalprice);
-    if(widget.item!.textAttributes[0].specicalprice == 0){
-      isExpired= true;
-    }
-    if(widget.item?.specialToDate == ''){
-      isExpired= false;
+    print("isExpired --> $isExpired");
+    if (widget.item!.textAttributes[0].specicalprice == 0) {
+      isExpired = true;
     }
 
+    String tagName = widget.item!.textAttributes[0].specicalprice.toString();
+
+    final split = tagName.split('₹');
+
+    final Map<int, String> values = {
+      for (int i = 0; i < split.length; i++) i: split[i]
+    };
+
+    _price_text = values[0];
+    _price_value = values[1];
   }
 
   void _changeColor(int index, int valueIndex) {
@@ -154,11 +164,7 @@ class _ProductCardState extends State<ProductCard> {
           color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
         ),
-        child:
-        /*Card(
-          elevation: 0,
-          child:*/
-        Stack(
+        child: Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -189,10 +195,11 @@ class _ProductCardState extends State<ProductCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(5.0, 5, 0, 0),
                       child: Text(
                         widget.item!.dynamicAttributes[0].attributeValue
-                            .toString(),
+                            .toString()
+                            .toUpperCase(),
                         style: const TextStyle(
                             fontWeight: FontWeight.normal,
                             color: blackColor,
@@ -206,251 +213,208 @@ class _ProductCardState extends State<ProductCard> {
                       child: Text(
                         title ?? '',
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w400,
                             color: blackColor,
                             height: 1.5,
-                            fontSize: 12),
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    widget.item!.typename == "ConfigurableProduct"?Column(
-                      children: [
-                        Text(widget.item!.getPriceRange![0].oldpricevalue.toString()),
-                        Text(widget.item!.getPriceRange![0].normalpricevalue.toString()),
-                      ],
-                    ):Container(),
-
-                    widget.item!.typename == "SimpleProduct"? Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),                      child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("₹ "+widget.item!.price.regularPrice.amount.value.toString(),style:  TextStyle(
-                          fontSize: 13, color: Colors.black,decoration:!isExpired?TextDecoration.lineThrough : TextDecoration.none,fontFamily: 'Gotham', ),
-                        ),
-                        !isExpired?Text(widget.item!.textAttributes[0].specicalprice.toString()):Container(),
-                      ],
-                    ),
-                    ):Container(),
-                    // Padding(
-                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                    //   child: Text(
-                    //     price ?? '',
-                    //     style: const TextStyle(
-                    //         decoration: TextDecoration.lineThrough),
-                    //   ),
-                    // ),
-                    // isExpired? Padding(
-                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                    //   child: widget.price.isEmpty
-                    //       ? Text(
-                    //     "₹${widget.price}",
-                    //     style: const TextStyle(
-                    //         fontSize: 13, color: Colors.black),
-                    //   )
-                    //       : Text(
-                    //     "₹${widget.price}",
-                    //     style: const TextStyle(
-                    //         fontSize: 13, color: Colors.black),
-                    //   ),
-                    // ): Padding(
-                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                    //   child: widget.price.isEmpty
-                    //       ? Text(
-                    //     "₹${widget.price}",
-                    //     style: const TextStyle(
-                    //         fontSize: 13, decoration: TextDecoration.lineThrough,color: Colors.black),
-                    //   )
-                    //       : Text(
-                    //     "₹${widget.price}",
-                    //     style: const TextStyle(
-                    //         fontSize: 13, color: Colors.black,decoration:TextDecoration.lineThrough ),
-                    //   ),
-                    // ),
-
-                    // isExpired?Container():Padding(
-                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                    //   child: Text(
-                    //       spl_price,
-                    //       style: const TextStyle(
-                    //           fontSize: 13, color: Colors.black)
-                    //   ),
-                    // ),
-
-                    /*   Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
-                        '${widget.item!.textAttributes[0].specicalprice}',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: headingColor,
-                            height: 1.2,
                             fontSize: 13),
                       ),
-                    ),*/
-
+                    ),
                     const SizedBox(height: 5.0),
-                    widget.item!.textAttributes[0].specicalprice.toString() == null
-                        ? Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                      child: Text(
-                        widget.item!.textAttributes[0].specicalprice
-                            .toString(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            color: headingColor,
-                            height: 1.2,
-                            fontSize: 12),
-                      ),
-                    )
+                    widget.item!.typename == "ConfigurableProduct"
+                        ? Column(
+                            children: [
+                              Text(widget.item!.getPriceRange![0].oldpricevalue
+                                  .toString()),
+                              Text(widget
+                                  .item!.getPriceRange![0].normalpricevalue
+                                  .toString()),
+                            ],
+                          )
                         : Container(),
-
-                    //widget.item!.typename == "ConfigurableProduct"
+                    widget.item!.typename == "SimpleProduct"
+                        ? Padding(
+                            padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "₹ ${widget.item!.price.regularPrice.amount.value}",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.black,
+                                    decoration: !isExpired
+                                        ? TextDecoration.lineThrough
+                                        : TextDecoration.none,
+                                    fontFamily: 'Gotham',
+                                  ),
+                                ),
+                                !isExpired
+                                    ? Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: _price_text,
+                                                style: const TextStyle(
+                                                    color: Color(0xFF983030))),
+                                            TextSpan(
+                                              text: _price_value,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Container(),
+                              ],
+                            ),
+                          )
+                        : Container(),
                     widget.item!.typename == "ConfigurableProduct"
                         ? Row(
-                      children: [
-                        widget.item!.configurableOptions![0].label ==
-                            "Color"
-                            ? widget.item!.configurableOptions![0].values
-                            .length >
-                            2
-                            ? SizedBox(
-                          height: 50,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: widget
-                                .item!
-                                .configurableOptions![0]
-                                .values
-                                .length >
-                                2
-                                ? 2
-                                : widget
-                                .item!
-                                .configurableOptions![0]
-                                .values
-                                .length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  log(widget
-                                      .item!
-                                      .configurableOptions![0]
-                                      .values[index]
-                                      .toJson()
-                                      .toString());
-                                  _changeColor(
-                                      index,
-                                      widget
-                                          .item!
-                                          .configurableOptions![
-                                      0]
-                                          .values[index]
-                                          .valueIndex);
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets
-                                      .symmetric(horizontal: 5),
-                                  padding:
-                                  const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: _selected ==
-                                            index
-                                            ? Colors.red
-                                            : Colors
-                                            .transparent,
-                                        width:
-                                        2.0), // Using BorderSide with BoxDecoration
+                            children: [
+                              widget.item!.configurableOptions![0].label ==
+                                      "Color"
+                                  ? widget.item!.configurableOptions![0].values
+                                              .length >
+                                          2
+                                      ? SizedBox(
+                                          height: 50,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: widget
+                                                        .item!
+                                                        .configurableOptions![0]
+                                                        .values
+                                                        .length >
+                                                    2
+                                                ? 2
+                                                : widget
+                                                    .item!
+                                                    .configurableOptions![0]
+                                                    .values
+                                                    .length,
+                                            itemBuilder: (context, index) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  log(widget
+                                                      .item!
+                                                      .configurableOptions![0]
+                                                      .values[index]
+                                                      .toJson()
+                                                      .toString());
+                                                  _changeColor(
+                                                      index,
+                                                      widget
+                                                          .item!
+                                                          .configurableOptions![
+                                                              0]
+                                                          .values[index]
+                                                          .valueIndex);
+                                                },
+                                                child: Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(horizontal: 5),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: _selected ==
+                                                                index
+                                                            ? Colors.red
+                                                            : Colors
+                                                                .transparent,
+                                                        width:
+                                                            2.0), // Using BorderSide with BoxDecoration
 
-                                    shape: BoxShape.circle,
-                                    color: colorFromHex(widget
-                                        .item!
-                                        .configurableOptions![0]
-                                        .values[index]
-                                        .swatchData
-                                        .value),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        )
-                            : SizedBox(
-                          height: 50,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: widget
-                                .item!
-                                .configurableOptions![0]
-                                .values
-                                .length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  log(widget
-                                      .item!
-                                      .configurableOptions![0]
-                                      .values[index]
-                                      .toJson()
-                                      .toString());
-                                  _changeColor(
-                                      index,
-                                      widget
-                                          .item!
-                                          .configurableOptions![
-                                      0]
-                                          .values[index]
-                                          .valueIndex);
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets
-                                      .symmetric(horizontal: 5),
-                                  padding:
-                                  const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: _selected ==
-                                            index
-                                            ? Colors.brown
-                                            : Colors
-                                            .transparent,
-                                        width:
-                                        3.0), // Using BorderSide with BoxDecoration
-                                    color: colorFromHex(widget
-                                        .item!
-                                        .configurableOptions![0]
-                                        .values[index]
-                                        .swatchData
-                                        .value),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        )
-                            : Container(),
-                        widget.item!.configurableOptions![0].label ==
-                            "Color"
-                            ? widget.item!.configurableOptions![0].values
-                            .length >
-                            2
-                            ? const Text(
-                          '+ More',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: headingColor,
-                              height: 1.2,
-                              fontSize: 13),
-                        )
-                            : Container()
-                            : Container(),
-                      ],
-                    )
+                                                    shape: BoxShape.circle,
+                                                    color: colorFromHex(widget
+                                                        .item!
+                                                        .configurableOptions![0]
+                                                        .values[index]
+                                                        .swatchData
+                                                        .value),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        )
+                                      : SizedBox(
+                                          height: 50,
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: widget
+                                                .item!
+                                                .configurableOptions![0]
+                                                .values
+                                                .length,
+                                            itemBuilder: (context, index) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  log(widget
+                                                      .item!
+                                                      .configurableOptions![0]
+                                                      .values[index]
+                                                      .toJson()
+                                                      .toString());
+                                                  _changeColor(
+                                                      index,
+                                                      widget
+                                                          .item!
+                                                          .configurableOptions![
+                                                              0]
+                                                          .values[index]
+                                                          .valueIndex);
+                                                },
+                                                child: Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(horizontal: 5),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                        color: _selected ==
+                                                                index
+                                                            ? Colors.brown
+                                                            : Colors
+                                                                .transparent,
+                                                        width:
+                                                            3.0), // Using BorderSide with BoxDecoration
+                                                    color: colorFromHex(widget
+                                                        .item!
+                                                        .configurableOptions![0]
+                                                        .values[index]
+                                                        .swatchData
+                                                        .value),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        )
+                                  : Container(),
+                              widget.item!.configurableOptions![0].label ==
+                                      "Color"
+                                  ? widget.item!.configurableOptions![0].values
+                                              .length >
+                                          2
+                                      ? const Text(
+                                          '+ More',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: headingColor,
+                                              height: 1.2,
+                                              fontSize: 13),
+                                        )
+                                      : Container()
+                                  : Container(),
+                            ],
+                          )
                         : Container(),
-
+                    const SizedBox(height: 5.0,),
                     GestureDetector(
                       onTap: () async {
                         EasyLoading.show(status: 'loading...');
@@ -464,7 +428,7 @@ class _ProductCardState extends State<ProductCard> {
                           "Add to cart",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              color: headingColor,
+                              color: blackColor,
                               height: 1.5,
                               fontSize: 12),
                         ),
@@ -483,20 +447,20 @@ class _ProductCardState extends State<ProductCard> {
                       if (!widget.item!.wishlist) {
                         widget.item!.wishlist = true;
                         dynamic listData =
-                        await graphQLService.add_Product_from_wishlist(
-                            wishlistId: myProvider!
-                                .customerModel.customer!.wishlists![0].id!,
-                            sku: widget.item!.sku.toString(),
-                            qty: "1",
-                            context: context);
+                            await graphQLService.add_Product_from_wishlist(
+                                wishlistId: myProvider!
+                                    .customerModel.customer!.wishlists![0].id!,
+                                sku: widget.item!.sku.toString(),
+                                qty: "1",
+                                context: context);
                       } else {
                         widget.item!.wishlist = false;
                         dynamic listData =
-                        await graphQLService.remove_Product_from_wishlist(
-                            wishlistId: myProvider!
-                                .customerModel.customer!.wishlists![0].id!,
-                            wishlistItemsIds: widget.item!.id.toString(),
-                            context: context);
+                            await graphQLService.remove_Product_from_wishlist(
+                                wishlistId: myProvider!
+                                    .customerModel.customer!.wishlists![0].id!,
+                                wishlistItemsIds: widget.item!.id.toString(),
+                                context: context);
                       }
                       setState(() {});
                     } else {
@@ -524,8 +488,6 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   Color colorFromHex(String hexColor) {
-    // Remove the '#' character from the hex color code, if present.
-
     try {
       if (hexColor.startsWith('#')) {
         hexColor = hexColor.substring(1);

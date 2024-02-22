@@ -353,7 +353,7 @@ class _ProductCardState extends State<ProductCard> {
                           "Add to Cart",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              color: headingColor,
+                              color: blackColor,
                               height: 1.5,
                               fontSize: 12),
                         ),
