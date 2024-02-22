@@ -53,6 +53,7 @@ class _ProductCardState extends State<ProductCard> {
   bool isExpired = false;
   String? _price_text;
   String? _price_value;
+  bool isVisible = true;
 
   @override
   void initState() {
@@ -63,6 +64,12 @@ class _ProductCardState extends State<ProductCard> {
     cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     calculatePrice();
+
+    if (widget.item!.typename == 'ConfigurableProduct' ) {
+      setState(() {
+        isVisible = false;
+      });
+    }
 
     if (widget.item!.typename != "SimpleProduct") {
       try {
@@ -97,7 +104,7 @@ class _ProductCardState extends State<ProductCard> {
     }
 
     print("isExpired --> $isExpired");
-    if (widget.item!.textAttributes[0].specicalprice == 0) {
+    if (widget.item!.textAttributes[0].specicalprice == '0' ) {
       isExpired = true;
     }
 
@@ -121,13 +128,13 @@ class _ProductCardState extends State<ProductCard> {
     for (final variants in widget.item!.variants!) {
       for (final attributes in variants.attributes) {
         if (attributes.valueIndex == valueIndex) {
-          // setState(() {
-          //   title = variants.product.name;
-          //   image = variants.product.mediaGallery[0].smallImage!.url;
-          //   price = variants.product.priceRange.minimumPrice
-          //       ? variants.product!.textAttributes![0].normalprice!
-          //       : variants.product.getPriceRange![0].normalpricevalue;
-          // });
+          setState(() {
+            title = variants.product.name;
+            image = variants.product.mediaGallery[0].url;
+            // price = variants.product.priceRange!.minimumPrice!.regularPrice!.value!
+            //     ? variants.product!.textAttributes![0].normalprice!
+            //     : variants.product.getPriceRange![0].normalpricevalue;
+          });
         }
       }
     }
@@ -219,6 +226,7 @@ class _ProductCardState extends State<ProductCard> {
                             fontSize: 13),
                       ),
                     ),
+
                     const SizedBox(height: 5.0),
                     widget.item!.typename == "ConfigurableProduct"
                         ? Column(
@@ -231,6 +239,8 @@ class _ProductCardState extends State<ProductCard> {
                             ],
                           )
                         : Container(),
+
+
                     widget.item!.typename == "SimpleProduct"
                         ? Padding(
                             padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
@@ -421,6 +431,8 @@ class _ProductCardState extends State<ProductCard> {
                         graphQLService.addProductToCart(
                             widget.item!.sku.toString(), '1',
                             context: context);
+                        Scaffold.of(context).openEndDrawer();
+
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),

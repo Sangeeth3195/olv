@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/Product.dart';
@@ -49,6 +48,10 @@ class _HomeScreenState extends State<ProductListing> {
     super.initState();
     _scrollController.addListener(_scrollListener);
     getNavdata();
+
+    print('widget.data');
+
+    print(widget.data['id']);
   }
 
   @override
@@ -57,7 +60,6 @@ class _HomeScreenState extends State<ProductListing> {
     _scrollController.dispose();
     super.dispose();
   }
-
 
   void _scrollListener() {
     print("scroll listener");
@@ -72,7 +74,6 @@ class _HomeScreenState extends State<ProductListing> {
       final myProvider = Provider.of<MyProvider>(context, listen: false);
       myProvider.loadMoreData(widget.data['id'],
           limit: 20,currentPage:currentPage);
-
     }
   }
 
@@ -890,7 +891,7 @@ class _HomeScreenState extends State<ProductListing> {
                   child: GridView.extent(
                     primary: false,
                     padding: const EdgeInsets.all(2),
-                    childAspectRatio: 0.60,
+                    childAspectRatio: 0.55,
                     maxCrossAxisExtent: 300,
                     cacheExtent: 10,
                     controller: _scrollController,

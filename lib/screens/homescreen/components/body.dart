@@ -189,14 +189,13 @@ class _BodyState extends State<Body> {
                                     )
                                 ],
                                 carouselController: buttonCarouselController,
-
                                 options: CarouselOptions(
                                   autoPlay: true,
                                   enlargeCenterPage: false,
                                   viewportFraction: 1,
                                   aspectRatio: 1,
                                   initialPage: 0,
-
+                                  autoPlayInterval: const Duration(seconds: 4),
                                   onPageChanged: (index, reason) {
                                     setState(() {
                                       _current = index;
@@ -375,6 +374,40 @@ class _BodyState extends State<Body> {
                         ).toList(),
                       ),
                     ),
+                  ),
+
+                  /// Section 1
+                  GestureDetector(
+                    child:  CarouselSlider(
+                          options: CarouselOptions(
+                            height: 250,
+                            autoPlay: true,
+                            enlargeCenterPage: false,
+                            viewportFraction: 0.4,
+                            aspectRatio: 1,
+                            initialPage: 0,
+                            onPageChanged: (index, reason) {
+                              setState(() {});
+                            },
+                          ),
+                          items: [
+                            for (Sectiondatum item in homePageModel
+                                .getHomePageData![1].sectiondata!)
+                              GestureDetector(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      3.0, 0.0, 3.0, 0),
+                                  child: GestureDetector(
+                                    onTap: () {},
+                                    child: Image.network(
+                                      "https://staging2.omaliving.com${item.attachmentmob!}",
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ]),
+
                   ),
 
                   SizedBox(
@@ -572,33 +605,37 @@ class _BodyState extends State<Body> {
                     height: 5,
                   ),
 
-            const SizedBox(
-              height: 20,
-            ),
-
-            Row(
-                children: <Widget>[
-                  const Expanded(
-                      child: Divider(thickness: 1,color: Colors.black,)
+                  const SizedBox(
+                    height: 20,
                   ),
-                  const SizedBox(width: 5,),
-                  Text(
-                    homePageModel.getHomePageData![5].title!,
-                    style:
-                    Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: describtionTextColor,
-                      fontFamily: 'Gotham',
+
+                  Row(children: <Widget>[
+                    const Expanded(
+                        child: Divider(
+                      thickness: 1,
+                      color: Colors.black,
+                    )),
+                    const SizedBox(
+                      width: 5,
                     ),
-                  ),
-
-                  const SizedBox(width: 5,),
-                  const Expanded(
-                      child: Divider(thickness: 1,color: Colors.black,)
-                  ),
-                ]
-            ),
+                    Text(
+                      homePageModel.getHomePageData![5].title!,
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: describtionTextColor,
+                            fontFamily: 'Gotham',
+                          ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    const Expanded(
+                        child: Divider(
+                      thickness: 1,
+                      color: Colors.black,
+                    )),
+                  ]),
 
                   /*Center(
                     child: Center(
@@ -695,9 +732,48 @@ class _BodyState extends State<Body> {
                     ),
                   ),
 
-                  const SizedBox(
-                    height: 5,
-                  ),
+
+
+            GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: 320,
+                      autoPlay: true,
+                      enlargeCenterPage: false,
+                      viewportFraction: 0.69,
+                      aspectRatio: 1,
+                      initialPage: 0,
+                      onPageChanged: (index, reason) {
+                        setState(() {});
+                      },
+                    ),
+                    items: [
+                      for (Sectiondatum item in homePageModel
+                          .getHomePageData![5].sectiondata!)
+                        GestureDetector(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                3.0, 0.0, 3.0, 0),
+                            child: GestureDetector(
+                              onTap: () {
+                                print(item.link);
+                              },
+                              child: Image.network(
+                                "https://staging2.omaliving.com${item.attachmentmob!}",
+                                fit: BoxFit.fitWidth,
+                              ),
+                            ),
+                          ),
+                        ),
+                      const SizedBox(
+                        height: 0,
+                      ),
+
+                    ]),
+              ),
+            ),
 
                   GestureDetector(
                     onTap: () {
@@ -939,6 +1015,46 @@ class _BodyState extends State<Body> {
                       ).toList(),
                     ),
                   ),
+
+
+            /// Section 7
+
+            GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: 320,
+                      autoPlay: true,
+                      enlargeCenterPage: false,
+                      viewportFraction: 0.5,
+                      aspectRatio: 1,
+                      initialPage: 0,
+                      onPageChanged: (index, reason) {
+                        setState(() {});
+                      },
+                    ),
+                    items: [
+                      for (Sectiondatum item in homePageModel
+                          .getHomePageData![7].sectiondata!)
+                        GestureDetector(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                3.0, 0.0, 3.0, 0),
+                            child: GestureDetector(
+                              onTap: () {
+                                print(item.link);
+                              },
+                              child: Image.network(
+                                "https://staging2.omaliving.com${item.attachmentmob!}",
+                                fit: BoxFit.fitWidth,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ]),
+              ),
+            ),
 
                   SizedBox(
                     width: 240, // <-- Your width

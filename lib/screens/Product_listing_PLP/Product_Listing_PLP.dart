@@ -94,7 +94,7 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                           fontFamily: 'Gotham',
                           fontWeight: FontWeight.w500,
                           fontSize: 20.0,
-                          color: navTextColor),
+                          color: quantitityBackgroundColor),
                     ),
                   ),
                   GridView.extent(

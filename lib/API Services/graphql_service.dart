@@ -20,6 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/OrderModel.dart';
 import '../screens/cart/CartProvider.dart';
+import '../screens/details/details_screen.dart';
 import 'graphql_config.dart';
 
 class GraphQLService {
@@ -3179,7 +3180,15 @@ class GraphQLService {
       if (result.hasException) {
         EasyLoading.dismiss();
         print(result.exception?.graphqlErrors[0].message);
-        Fluttertoast.showToast(msg: 'Item not added to cart');
+        Fluttertoast.showToast(msg: result.exception!.graphqlErrors[0].message);
+        if(result.exception!.graphqlErrors[0].message == 'You need to choose options for your item.'){
+          Navigator.push(
+              context!,
+              MaterialPageRoute(
+                builder: (context) => DetailsScreen(
+                    product: sku),
+              ));
+        }
       } else if (result.data != null) {
         EasyLoading.dismiss();
         print(result.data);

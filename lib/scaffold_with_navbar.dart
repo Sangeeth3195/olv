@@ -104,116 +104,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
     return GoRouter.of(context).location != '/home';
   }
 
-  Widget _tabItem(Widget child, String label, {bool isSelected = false}) {
-    return Consumer<MyProvider>(builder: (context, provider, _) {
-      return Container(
-        width: MediaQuery.of(context).size.width / 8,
-        padding: const EdgeInsets.symmetric(horizontal: 0),
-        decoration: !isSelected
-            ? null
-            : const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(2), topLeft: Radius.circular(2)),
-                color: themecolor,
-              ),
-        child: Stack(
-          // alignment: Alignment.center,
-          children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  child,
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(label,
-                      style: const TextStyle(
-                        fontSize: 9,
-                      ),
-                      textAlign: TextAlign.center),
-                ],
-              ),
-            ),
-            label == 'cart'
-                ? Consumer<CartProvider>(builder: (context, cartProd, _) {
-                    return cartProd.cartNumbers == 0
-                        ? Container()
-                        : Positioned(
-                            right: 0,
-                            child: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 16,
-                                minHeight: 16,
-                              ),
-                              child: Text(
-                                cartProd.cartNumbers.toString(),
-                                // You can replace this with the actual badge count
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-                  })
-                : label == 'WishList'
-                    ? Positioned(
-                        right: 0,
-                        child: provider.wishListNumbers == 0
-                            ? Container()
-                            : Container(
-                                padding: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                constraints: const BoxConstraints(
-                                  minWidth: 16,
-                                  minHeight: 16,
-                                ),
-                                child: Text(
-                                  provider.wishListNumbers.toString(),
-                                  // You can replace this with the actual badge count
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                      )
-                    : Container()
-          ],
-        ),
-      );
-    });
-  }
-
-  final List<String> _labels = [
-    'Home',
-    'Discover',
-    'WishList',
-    'cart',
-    'Profile'
-  ];
-
   @override
   Widget build(BuildContext context) {
-    List<Widget> _icons = const [
-      Icon(Icons.home),
-      Icon(FontAwesomeIcons.compass),
-      Icon(FontAwesomeIcons.heart),
-      Icon(FontAwesomeIcons.cartPlus),
-      Icon(FontAwesomeIcons.user),
-    ];
     return Scaffold(
       key: _key,
       // Assign the key to Scaffold.
@@ -229,15 +121,16 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               height: 0,
               child: DrawerHeader(
                 child: Container(),
-
                 /*ListTile(
                     contentPadding: EdgeInsets.zero,
-                   */ /* leading: IconButton(
+                   */
+                /* leading: IconButton(
                       icon: const Icon(Icons.arrow_back_ios),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                    ),*/ /*
+                    ),*/
+                /*
                     title: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -249,6 +142,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     ),
                     onTap: () {},
                   )*/
+
               ),
             ),
             const Expanded(
@@ -341,6 +235,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
 
       appBar: AppBar(
         leading: _showLeading(context) ? _leadButton(context) : null,
+
         /*Row(
           children: [
 
@@ -384,21 +279,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
             },
             icon: const Icon(Icons.search),
           ),
-          // Center(
-          //   child: GestureDetector(
-          //     child: const Padding(
-          //       padding: EdgeInsets.only(right: 12.0),
-          //       child: Icon(
-          //         Icons.search,
-          //         size: 25,
-          //       ),
-          //     ),
-          //     onTap: () {
-          //       Navigator.push(context,
-          //           MaterialPageRoute(builder: (context) => const TST()));
-          //     },
-          //   ),
-          // ),
+
           Center(
             child: Builder(
               builder: (context) => Padding(
@@ -447,7 +328,9 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
         ],
       ),
       body: widget
-          .navigationShell /*Column(
+          .navigationShell,
+
+      /*Column(
         children: [
           isSearch?SearchForm():Container(),
           SingleChildScrollView(child: Container(
@@ -455,7 +338,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               child: widget.navigationShell)),
         ],
       )*/
-      ,
+
       drawer: Drawer(
         backgroundColor: navBackground,
         width:
@@ -522,16 +405,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                   child: Center(
                     child: GestureDetector(
                       onTap: () async {
-                        // print('object');
-                        // print(cart_token);
-
-                        // test = await graphQLService.assign_Customer_To_Guest_Cart("Xc357qa7yfvOEhyw8S1P7QkYyAQ3CIdP");
-
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => const LoginPage()),
-                        // );
-
                         await getuserdata();
                         if (token.isEmpty) {
                           Navigator.push(
@@ -560,7 +433,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               separatorBuilder: (BuildContext context, int index) {
-
                 return navHeaderList[index]['include_in_menu'] == 1 ? Divider(
                   color: navHeaderList[index]['include_in_menu'] != 1
                       ? Colors.transparent
@@ -585,7 +457,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                               : null,
                           title: GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pop();
+                             /* Navigator.of(context).pop();
                               catId = navHeaderList[index]['id'];
                               print('item_id 1 --> $catId');
                               final myProvider = Provider.of<MyProvider>(
@@ -596,7 +468,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                               myProvider.isproduct = true;
                               myProvider.notifyListeners();
                               context.go('/home/pdp',
-                                  extra: navHeaderList[index]);
+                                  extra: navHeaderList[index]);*/
                             },
                             child: Text(
                               navHeaderList[index]['name'].toUpperCase(),
@@ -688,14 +560,12 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                             child: ListTile(
                                               onTap: () {
                                                 print('showcollection');
-
                                                 print(navHeaderList[index]
                                                                     ['children']
                                                                 [itemIndex]
                                                             ['children']
                                                         [subitemIndex]
                                                     ['show_collection']);
-
                                                 if (navHeaderList[index][
                                                                         'children']
                                                                     [itemIndex]
@@ -703,21 +573,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                             [subitemIndex]
                                                         ['show_collection'] ==
                                                     1) {
-                                                  print('test_entry');
-
-                                                  print(navHeaderList[index][
-                                                                      'children']
-                                                                  [itemIndex]
-                                                              ['children']
-                                                          [subitemIndex]
-                                                      ['show_collection']);
-
-                                                  print(navHeaderList[index]
-                                                                  ['children']
-                                                              [itemIndex]
-                                                          ['children']
-                                                      [subitemIndex]['name']);
-
                                                   Navigator.of(context).pop();
                                                   catId = navHeaderList[index]
                                                                   ['children']
@@ -728,7 +583,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                       Provider.of<MyProvider>(
                                                           context,
                                                           listen: false);
-                                                  // myProvider.updateData(catId);
                                                   myProvider.updateHeader(
                                                       navHeaderList[index][
                                                                           'children']
@@ -739,7 +593,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                           .toString());
                                                   myProvider.isproduct = true;
                                                   myProvider.notifyListeners();
-
                                                   context.go(
                                                       '/home/cat_listing_filter',
                                                       extra:
@@ -747,32 +600,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                                   ['children']
                                                               [itemIndex]);
                                                 } else {
-                                                  print(navHeaderList[index]
-                                                                  ['children']
-                                                              [itemIndex]
-                                                          ['children']
-                                                      [subitemIndex]['name']);
-
-                                                  print(navHeaderList[index]
-                                                  ['children']
-                                                  [itemIndex]
-                                                  ['children']
-                                                  [subitemIndex]['id']);
-
-                                                  print('item_id 1 -->');
-                                                  print(navHeaderList[index]
-                                                  ['children']
-                                                  [itemIndex]
-                                                  ['children']
-                                                  [subitemIndex]['name']);
-
-                                                  print(navHeaderList[index]
-                                                  ['children']
-                                                  [itemIndex]
-                                                  ['children']
-                                                  [subitemIndex]['id']);
-
-
                                                   Navigator.of(context).pop();
                                                   catId = navHeaderList[index]
                                                                   ['children']
@@ -824,7 +651,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                             ),
                           ],
                         )
-
                       : Container(),
                 );
               },
@@ -859,8 +685,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                           title: GestureDetector(
                             onTap: () {
                               Navigator.of(context).pop();
-                              if (getbrandslist[itemIndex]['collectiondata'] !=
-                                  null) {
+                              if (getbrandslist[itemIndex]['collectiondata'] != null) {
                                 context.go('/home/product_listing_brand',
                                     extra: getbrandslist[itemIndex]);
                               } else {
@@ -890,7 +715,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                 ],
               ),
             ),
-
             const Divider(
               color: textColor,
               thickness: 0.4,
