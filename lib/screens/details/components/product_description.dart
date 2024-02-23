@@ -584,6 +584,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                                                     (selected
                                                                         ? index
                                                                         : null)!;
+                                                                _changeColor(index);
+
                                                               });
                                                             },
                                                           ),
