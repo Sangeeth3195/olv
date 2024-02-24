@@ -55,7 +55,6 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
     getDate();
-    print('instafeed');
   }
 
   Future<void> getInstaData() async {
@@ -262,11 +261,10 @@ class _BodyState extends State<Body> {
                     ),
                   ),
 
+                  const SizedBox(height: 5),
                   Center(
                     child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: Text(
+                      child: Text(
                           '130+',
                           style: Theme.of(context)
                               .textTheme
@@ -279,13 +277,12 @@ class _BodyState extends State<Body> {
                                   fontWeight: FontWeight.w500),
                         ),
                       ),
-                    ),
                   ),
 
                   Center(
                     child: Center(
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                         child: Text(
                           homePageModel.getHomePageData![1].description!,
                           style: Theme.of(context)
@@ -301,7 +298,7 @@ class _BodyState extends State<Body> {
                     ),
                   ),
 
-                  GestureDetector(
+                  /*  GestureDetector(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                       child: GFItemsCarousel(
@@ -320,7 +317,7 @@ class _BodyState extends State<Body> {
                                 print(someMap);
                                 context.go('/home/pdp', extra: someMap);
 
-                                /* print('item.link');
+                                */ /* print('item.link');
 
                                 print(url.link);
 
@@ -329,7 +326,7 @@ class _BodyState extends State<Body> {
                                     listen: false);
                                 myProvider.updateData(int.parse(url.link!));
 
-                                context.go('/home/pdp');*/
+                                context.go('/home/pdp');*/ /*
                               },
                               child: Container(
                                 margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
@@ -374,23 +371,62 @@ class _BodyState extends State<Body> {
                         ).toList(),
                       ),
                     ),
-                  ),
+                  ),*/
 
                   /// Section 1
                   GestureDetector(
-                    child:  CarouselSlider(
-                          options: CarouselOptions(
-                            height: 250,
-                            autoPlay: true,
-                            enlargeCenterPage: false,
-                            viewportFraction: 0.4,
-                            aspectRatio: 1,
-                            initialPage: 0,
-                            onPageChanged: (index, reason) {
-                              setState(() {});
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: 250,
+                        autoPlay: true,
+                        enlargeCenterPage: false,
+                        viewportFraction: 0.4,
+                        aspectRatio: 1,
+                        initialPage: 0,
+                        onPageChanged: (index, reason) {
+                          setState(() {});
+                        },
+                      ),
+                      items: List.generate(
+                        homePageModel.getHomePageData![1].sectiondata!.length,
+                        ((i) {
+                          return GestureDetector(
+                            onTap: () {
+                              print(homePageModel
+                                  .getHomePageData![1].sectiondata![i].link);
                             },
-                          ),
-                          items: [
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0),
+                              child: Column(
+                                children: [
+                                  Image.network(
+                                    "https://staging2.omaliving.com${homePageModel.getHomePageData![1].sectiondata![i].attachmentmob}",
+                                  ),
+                                  const SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Text(
+                                    homePageModel.getHomePageData![1]
+                                            .sectiondata![i].title! ??
+                                        '',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                            fontSize: 13,
+                                            color: describtionTextColor,
+                                            fontFamily: 'Gotham',
+                                            fontWeight: FontWeight.w500),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+
+                      /*items: [
                             for (Sectiondatum item in homePageModel
                                 .getHomePageData![1].sectiondata!)
                               GestureDetector(
@@ -406,8 +442,8 @@ class _BodyState extends State<Body> {
                                   ),
                                 ),
                               ),
-                          ]),
-
+                          ]*/
+                    ),
                   ),
 
                   SizedBox(
@@ -446,18 +482,24 @@ class _BodyState extends State<Body> {
 
                   _chewieController == null
                       ? Center(child: Container())
-                      : SizedBox(
-                          height: 280,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: AspectRatio(
-                              aspectRatio: 16 / 2,
-                              child: Chewie(
-                                controller: _chewieController!,
+                      : GestureDetector(
+                          onTap: () {
+                            print(homePageModel.getHomePageData![2].sectiondata![0].link!);
+                          },
+                          child: SizedBox(
+                            height: 260,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: AspectRatio(
+                                aspectRatio: 16 / 2,
+                                child: Chewie(
+                                  controller: _chewieController!,
+                                ),
                               ),
                             ),
                           ),
                         ),
+
                   Center(
                     child: Center(
                       child: Padding(
@@ -478,7 +520,7 @@ class _BodyState extends State<Body> {
                     ),
                   ),
 
-                  Padding(
+                 /* Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                     child: GFItemsCarousel(
                       rowCount: 3,
@@ -488,10 +530,10 @@ class _BodyState extends State<Body> {
                         (url) {
                           return GestureDetector(
                             onTap: () {
-                              /*  final myProvider =
+                              *//*  final myProvider =
                                   Provider.of<MyProvider>(context, listen: false);
                               myProvider.updateData(int.parse(url.link!));
-                              context.go('/home/pdp');*/
+                              context.go('/home/pdp');*//*
                               final Map<String, dynamic> someMap = {
                                 "id": int.parse(url.link!.toString()),
                                 "product_count": 20,
@@ -544,7 +586,77 @@ class _BodyState extends State<Body> {
                         },
                       ).toList(),
                     ),
-                  ),
+                  ),*/
+
+                  GestureDetector(
+                    child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: 400,
+                      autoPlay: true,
+                      enlargeCenterPage: false,
+                      viewportFraction: 0.69,
+                      aspectRatio: 1,
+                      initialPage: 0,
+                      onPageChanged: (index, reason) {
+                        setState(() {});
+                      },
+                    ),
+                items: List.generate(
+                  homePageModel.getHomePageData![3].sectiondata!.length,
+                  ((i) {
+                    return GestureDetector(
+                      onTap: () {
+                        print(homePageModel
+                            .getHomePageData![3].sectiondata![i].link);
+                      },
+                      child: Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.network(
+                              "https://staging2.omaliving.com${homePageModel.getHomePageData![3].sectiondata![i].attachmentmob}",
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              homePageModel.getHomePageData![3]
+                                  .sectiondata![i].title! ??
+                                  '',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(
+                                  fontSize: 15,
+                                  color: describtionTextColor,
+                                  fontFamily: 'Gotham',
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              "Starts ${homePageModel.getHomePageData![3]
+                                  .sectiondata![i].buttontext!} →" ??
+                                  '',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(
+                                  fontSize: 12,
+                                  color: describtionTextColor,
+                                  fontStyle: FontStyle.italic,
+                                  fontFamily: 'Gotham',
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
 
                   // Center(
                   //   child: Center(
@@ -565,7 +677,7 @@ class _BodyState extends State<Body> {
                   // ),
 
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 0),
+                    padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0),
                     child: ClipRRect(
                       borderRadius:
                           const BorderRadius.all(Radius.circular(0.0)),
@@ -665,7 +777,7 @@ class _BodyState extends State<Body> {
                     height: 0,
                   ),
 
-                  Padding(
+                  /*Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
                     child: GFItemsCarousel(
                       rowCount: 3,
@@ -675,10 +787,10 @@ class _BodyState extends State<Body> {
                         (url) {
                           return GestureDetector(
                             onTap: () {
-                              /*final myProvider =
+                              */ /*final myProvider =
                                   Provider.of<MyProvider>(context, listen: false);
                               myProvider.updateData(int.parse(url.link!));
-                              context.go('/home/pdp');*/
+                              context.go('/home/pdp');*/ /*
                               final Map<String, dynamic> someMap = {
                                 "id": int.parse(url.link!.toString()),
                                 "product_count": 20,
@@ -730,50 +842,67 @@ class _BodyState extends State<Body> {
                         },
                       ).toList(),
                     ),
+                  ),*/
+
+                  /// Section 6
+
+                  const SizedBox(
+                    height: 10,
                   ),
 
-
-
-            GestureDetector(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: CarouselSlider(
-                    options: CarouselOptions(
-                      height: 320,
-                      autoPlay: true,
-                      enlargeCenterPage: false,
-                      viewportFraction: 0.69,
-                      aspectRatio: 1,
-                      initialPage: 0,
-                      onPageChanged: (index, reason) {
-                        setState(() {});
-                      },
-                    ),
-                    items: [
-                      for (Sectiondatum item in homePageModel
-                          .getHomePageData![5].sectiondata!)
-                        GestureDetector(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                3.0, 0.0, 3.0, 0),
-                            child: GestureDetector(
-                              onTap: () {
-                                print(item.link);
-                              },
-                              child: Image.network(
-                                "https://staging2.omaliving.com${item.attachmentmob!}",
-                                fit: BoxFit.fitWidth,
+                  GestureDetector(
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: 340,
+                        autoPlay: true,
+                        enlargeCenterPage: false,
+                        viewportFraction: 0.69,
+                        aspectRatio: 1,
+                        initialPage: 0,
+                        onPageChanged: (index, reason) {
+                          setState(() {});
+                        },
+                      ),
+                      items: List.generate(
+                        homePageModel.getHomePageData![5].sectiondata!.length,
+                        ((i) {
+                          return GestureDetector(
+                            onTap: () {
+                              print(homePageModel
+                                  .getHomePageData![5].sectiondata![i].link);
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0),
+                              child: Column(
+                                children: [
+                                  Image.network(
+                                    "https://staging2.omaliving.com${homePageModel.getHomePageData![5].sectiondata![i].attachmentmob}",
+                                  ),
+                                  const SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Text(
+                                    homePageModel.getHomePageData![5]
+                                            .sectiondata![i].title! ??
+                                        '',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                            fontSize: 13,
+                                            color: describtionTextColor,
+                                            fontFamily: 'Gotham',
+                                            fontWeight: FontWeight.w500),
+                                  )
+                                ],
                               ),
                             ),
-                          ),
-                        ),
-                      const SizedBox(
-                        height: 0,
+                          );
+                        }),
                       ),
-
-                    ]),
-              ),
-            ),
+                    ),
+                  ),
 
                   GestureDetector(
                     onTap: () {
@@ -952,7 +1081,7 @@ class _BodyState extends State<Body> {
                     height: 0,
                   ),
 
-                  Padding(
+                  /* Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20.0),
                     child: GFItemsCarousel(
                       rowCount: 2,
@@ -962,10 +1091,10 @@ class _BodyState extends State<Body> {
                         (url) {
                           return GestureDetector(
                             onTap: () {
-                              /* final myProvider =
+                              */ /* final myProvider =
                                   Provider.of<MyProvider>(context, listen: false);
                               myProvider.updateData(int.parse(url.link!));
-                              context.go('/home/pdp');*/
+                              context.go('/home/pdp');*/ /*
                               final Map<String, dynamic> someMap = {
                                 "id": int.parse(url.link!.toString()),
                                 "product_count": 20,
@@ -1014,47 +1143,64 @@ class _BodyState extends State<Body> {
                         },
                       ).toList(),
                     ),
-                  ),
+                  ),*/
 
+                  /// Section 7
 
-            /// Section 7
-
-            GestureDetector(
-              child: Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: CarouselSlider(
-                    options: CarouselOptions(
-                      height: 320,
-                      autoPlay: true,
-                      enlargeCenterPage: false,
-                      viewportFraction: 0.5,
-                      aspectRatio: 1,
-                      initialPage: 0,
-                      onPageChanged: (index, reason) {
-                        setState(() {});
-                      },
-                    ),
-                    items: [
-                      for (Sectiondatum item in homePageModel
-                          .getHomePageData![7].sectiondata!)
-                        GestureDetector(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                3.0, 0.0, 3.0, 0),
-                            child: GestureDetector(
-                              onTap: () {
-                                print(item.link);
-                              },
-                              child: Image.network(
-                                "https://staging2.omaliving.com${item.attachmentmob!}",
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                          ),
+                  GestureDetector(
+                    child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: 320,
+                          autoPlay: true,
+                          enlargeCenterPage: false,
+                          viewportFraction: 0.5,
+                          aspectRatio: 1,
+                          initialPage: 0,
+                          onPageChanged: (index, reason) {
+                            setState(() {});
+                          },
                         ),
-                    ]),
-              ),
-            ),
+                        items: List.generate(
+                          homePageModel.getHomePageData![7].sectiondata!.length,
+                          ((i) {
+                            return GestureDetector(
+                              onTap: () {
+                                print(homePageModel
+                                    .getHomePageData![7].sectiondata![i].link);
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0),
+                                child: Column(
+                                  children: [
+                                    Image.network(
+                                      "https://staging2.omaliving.com${homePageModel.getHomePageData![7].sectiondata![i].attachmentmob}",
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    Text(
+                                      homePageModel.getHomePageData![7]
+                                              .sectiondata![i].title! ??
+                                          '',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .copyWith(
+                                              fontSize: 13,
+                                              color: describtionTextColor,
+                                              fontFamily: 'Gotham',
+                                              fontWeight: FontWeight.w500),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+
+                  ),
 
                   SizedBox(
                     width: 240, // <-- Your width

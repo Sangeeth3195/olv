@@ -279,7 +279,7 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   void calculatePrice() {
-    print('date'+widget.item!.specialToDate.toString());
+    print('date${widget.item!.specialToDate}');
     if (widget.item?.specialToDate != null &&
         widget.item?.specialToDate != '') {
       DateTime dt1;
@@ -456,7 +456,7 @@ class _ProductCardState extends State<ProductCard> {
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),                      child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("₹ "+widget.item!.price.regularPrice.amount.value.toString(),style:  TextStyle(
+                        Text("₹ ${widget.item!.price.regularPrice.amount.value}",style:  TextStyle(
                           fontSize: 13, color: Colors.black,decoration:!isExpired?TextDecoration.lineThrough : TextDecoration.none,fontFamily: 'Gotham', ),
                         ),
                         !isExpired?Text(widget.item!.textAttributes[0].specicalprice.toString()):Container(),
