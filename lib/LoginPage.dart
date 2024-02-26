@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/constants.dart';
+import 'package:omaliving/demo/fb.dart';
 import 'package:omaliving/screens/forgot_password/forgot_password_screen.dart';
 import 'package:omaliving/screens/sign_up/sign_up_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +27,7 @@ class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   late PageController _pageController;
   int activePageIndex = 0;
+
 
   @override
   void dispose() {
@@ -230,6 +235,14 @@ class _SignInState extends State<SignIn> {
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   late GoogleSignInAccount _userObj;
 
+  String? _sdkVersion;
+  FacebookAccessToken? _token;
+  FacebookUserProfile? _profile;
+  String? _email;
+  String? _imageUrl;
+  final plugin = FacebookLogin(debug: true);
+
+
   @override
   void dispose() {
     focusNodeEmail.dispose();
@@ -273,32 +286,19 @@ class _SignInState extends State<SignIn> {
     });
   }
 
-  /*void _handleFBSignIn() async {
+ /* void signInWithFacebook() async {
     try {
 
-      var facebookLoginResult =
-      await facebookLogin.logInWithReadPermissions(['email']);
+      final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
 
-      switch (facebookLoginResult.status) {
-        case FacebookLoginStatus.error:
-          onLoginStatusChanged(false);
-          break;
-        case FacebookLoginStatus.cancel:
-          onLoginStatusChanged(false);
-          break;
-        case FacebookLoginStatus.success:
-          var graphResponse = await http.get(
-              'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.width(400)&access_token=${facebookLoginResult
-                  .accessToken.token}');
-
-          var profile = json.decode(graphResponse.body);
-          print(profile.toString());
-
-          onLoginStatusChanged(true, profileData: profile);
-          break;
+      if (result.status == LoginStatus.success) {
+        final AccessToken accessToken = result.accessToken!;
+        print(accessToken.token.toString());
+      } else {
+        print(result.status);
+        print(result.message);
       }
 
-      // User signed in, you can proceed with the app logic
     } catch (error) {
       if (kDebugMode) {
         print('Error signing in: $error');
@@ -595,7 +595,7 @@ class _SignInState extends State<SignIn> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-               /*   Expanded(
+                  Expanded(
                     // Place `Expanded` inside `Row`
                     child: SizedBox(
                       height: 50, // <-- Your height
@@ -618,13 +618,13 @@ class _SignInState extends State<SignIn> {
                         ),
                         onPressed: () {
 
-                          *//*signInWithFacebook();*//*
+                       /*   signInWithFacebook();*/
 
-                          *//* Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      FBOOK()));*//*
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>  Fblogin()),//Imageviewth
+                          );
 
                         }, // Every button need a callback
                       ),
@@ -632,7 +632,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   const SizedBox(
                     width: 10.0,
-                  ),*/
+                  ),
                   Expanded(
                     // Place 2 `Expanded` mean: they try to get maximum size and they will have same size
                     child: SizedBox(

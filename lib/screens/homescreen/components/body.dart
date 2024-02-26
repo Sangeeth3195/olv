@@ -30,6 +30,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+
   AudioPlayer player = AudioPlayer();
 
   GraphQLService graphQLService = GraphQLService();
@@ -853,7 +854,7 @@ class _BodyState extends State<Body> {
                   GestureDetector(
                     child: CarouselSlider(
                       options: CarouselOptions(
-                        height: 340,
+                        height: 360,
                         autoPlay: true,
                         enlargeCenterPage: false,
                         viewportFraction: 0.69,

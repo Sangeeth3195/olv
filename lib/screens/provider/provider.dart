@@ -188,8 +188,7 @@ class MyProvider extends ChangeNotifier {
   }
 
   void sort(String value) {
-    items.clear();
-    oldItems.clear();
+
     if (value == "Most Relevant") {
       items = oldItems;
     } else if (value == "Product Name") {
