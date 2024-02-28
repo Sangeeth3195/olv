@@ -277,7 +277,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                             color: isSelected
                                                                 ? Colors.red
                                                                 : Colors
-                                                                    .transparent,
+                                                                    .transparent.withOpacity(0.2),
                                                             // Change border color if selected
                                                             width: 2.0,
                                                           ),
@@ -1018,8 +1018,7 @@ class _HomeScreenState extends State<ProductListing> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => DetailsScreen(
-                                          product: provider.pList[index]
-                                              ['sku']),
+                                          product: provider.items[index].sku),
                                     ));
                               },
                             ),

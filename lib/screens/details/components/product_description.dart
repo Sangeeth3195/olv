@@ -182,8 +182,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           height: 44,
                           width: 40,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                              vertical: 8), // Adjust padding as needed
+                              horizontal: 8.0, vertical: 8),
+                          // Adjust padding as needed
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
@@ -419,190 +419,244 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         const SizedBox(
                           height: 0,
                         ),
+                        provider.productData[0]['configurable_options'] != null
+                            ? Container(
+                          margin: EdgeInsets.only(left: 10),
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: provider
+                                      .productData[0]['configurable_options']
+                                      .length,
+                                  // Number of items in the list
+                                  itemBuilder: (BuildContext context, int configIndex) {
+                                    // This function is called for each item in the list
+                                    // Here, you can return the widget for each item
 
-                        provider.productData[0]['configurable_options'] !=
-                                    null &&
-                                provider.productData[0]['configurable_options']
-                                        [0]['label'] ==
-                                    "Color"
-                            ? Row(
-                                children: [
-                                  /* Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            getProportionateScreenWidth(10)),
-                                    child: const Text('COLOR',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: headingColor)),
-                                  ),*/
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  provider.productData[0]['__typename'] ==
-                                          "ConfigurableProduct"
-                                      ? Row(
-                                          children: [
-                                            SizedBox(
-                                              height: 50,
-                                              child: ListView.builder(
-                                                shrinkWrap: true,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemCount: provider
-                                                    .productData[0]
-                                                        ['configurable_options']
-                                                        [0]['values']
-                                                    .length,
-                                                itemBuilder: (context, index) {
-                                                  return GestureDetector(
-                                                    onTap: () {
-                                                      print(provider
-                                                                  .productData[0]
-                                                              [
-                                                              'configurable_options']
-                                                          [0]['label']);
+                                    // return Text(provider
+                                    //     .productData[0]['configurable_options'][configIndex]['label'].toString());
+                                    if (provider.productData[0]
+                                                ['configurable_options'][configIndex]
+                                            ['label'] ==
+                                        "size") {
+                                      return SizedBox(
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 40,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          shrinkWrap: true,
 
-                                                      print(provider
-                                                              .productData[0][
-                                                                  'configurable_options']
-                                                                  [0]['values']
-                                                              .length +
-                                                          index);
-                                                      _changeColor(index);
-                                                    },
-                                                    child: Container(
-                                                      margin: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 5),
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              10),
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        border: Border.all(
-                                                            color: configurableProductIndex ==
-                                                                    index
-                                                                ? Colors.red
-                                                                : Colors
-                                                                    .transparent,
-                                                            width:
-                                                                2.0), // Using BorderSide with BoxDecoration
-
-                                                        color: colorFromHex(provider
-                                                                        .productData[0]
-                                                                    [
-                                                                    'configurable_options'][0]
-                                                                [
-                                                                'values'][index]
-                                                            [
-                                                            'swatch_data']['value']),
+                                          itemCount: provider
+                                              .productData[0]
+                                                  ['configurable_options'][0]
+                                                  ['values']
+                                              .length,
+                                          itemBuilder: (context, sizeIndex) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                _changeSize(sizeIndex);
+                                                print('object');
+                                              },
+                                              child: Wrap(
+                                                  spacing: 8,
+                                                  children: <Widget>[
+                                                    ChoiceChip(
+                                                      pressElevation: 0.0,
+                                                      selectedColor: themecolor,
+                                                      backgroundColor:
+                                                          Colors.grey[100],
+                                                      padding: const EdgeInsets
+                                                          .fromLTRB(
+                                                          45.0, 0.0, 45.0, 0),
+                                                      labelPadding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal: 4),
+                                                      showCheckmark: false,
+                                                      shape:
+                                                          ContinuousRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                0.0),
                                                       ),
+                                                      label: Text(
+                                                        "${provider.productData[0]['configurable_options'][configIndex]['values'][sizeIndex]['swatch_data']['value']}",
+                                                      ),
+                                                      selected: _value == sizeIndex,
+                                                      onSelected:
+                                                          (bool selected) {
+                                                        setState(() {
+                                                          _value = (selected
+                                                              ? sizeIndex
+                                                              : null)!;
+                                                          _changeColor(sizeIndex);
+                                                        });
+                                                      },
                                                     ),
-                                                  );
-                                                },
+                                                  ]),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    }
+
+                                    else if (provider.productData[0]
+                                                ['configurable_options'][configIndex]
+                                            ['label'] ==
+                                        "Color") {
+
+                                      return SizedBox(
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 40,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          shrinkWrap: true,
+                                          itemCount: provider
+                                              .productData[0]
+                                                  ['configurable_options'][0]
+                                                  ['values']
+                                              .length,
+                                          itemBuilder: (context, colorIndex) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                print(provider.productData[0]
+                                                        ['configurable_options'][0]
+                                                    ['label']);
+
+                                                print(provider
+                                                        .productData[0]
+                                                            ['configurable_options']
+                                                            [0]['values']
+                                                        .length +
+                                                    colorIndex);
+                                                _changeColor(colorIndex);
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.symmetric(
+                                                    horizontal: 5),
+                                                padding: const EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                      color:
+                                                          configurableProductIndex ==
+                                                              colorIndex
+                                                              ? Colors.red
+                                                              : Colors.transparent.withOpacity(0.1),
+                                                      width: 2.0),
+                                                  // Using BorderSide with BoxDecoration
+
+                                                  color: colorFromHex(provider
+                                                                  .productData[0][
+                                                              'configurable_options']
+                                                          [configIndex]['values'][colorIndex]
+                                                      ['swatch_data']['value']),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        )
-                                      : Container(),
-                                ],
-                              )
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    }  else {
+                                      return Text("No configtype");
+                                    }
+                                  },
+                                ),
+                            )
                             : Container(),
 
-                        provider.productData[0]['configurable_options'] !=
-                                    null &&
-                                provider.productData[0]['configurable_options']
-                                        [0]['label'] ==
-                                    "size"
-                            ? Row(
-                                children: [
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  provider.productData[0]['__typename'] ==
-                                          "ConfigurableProduct"
-                                      ? Row(
-                                          children: [
-                                            SizedBox(
-                                              height: 50,
-                                              child: ListView.builder(
-                                                shrinkWrap: true,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemCount: provider
-                                                    .productData[0]
-                                                        ['configurable_options']
-                                                        [0]['values']
-                                                    .length,
-                                                itemBuilder: (context, index) {
-                                                  return GestureDetector(
-                                                    onTap: () {
-                                                      _changeSize(index);
-                                                     print('object');
-                                                    },
-                                                    child: Wrap(
-                                                        spacing: 8,
-                                                        children: <Widget>[
-                                                          ChoiceChip(
-                                                            pressElevation: 0.0,
-                                                            selectedColor:
-                                                                themecolor,
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .grey[100],
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .fromLTRB(
-                                                                    45.0,
-                                                                    0.0,
-                                                                    45.0,
-                                                                    0),
-                                                            labelPadding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        4),
-                                                            showCheckmark:
-                                                                false,
-                                                            shape:
-                                                                ContinuousRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          0.0),
-                                                            ),
-                                                            label: Text(
-                                                              "${provider.productData[0]['configurable_options'][0]['values'][index]['swatch_data']['value']}",
-                                                            ),
-                                                            selected:
-                                                                _value == index,
-                                                            onSelected: (bool
-                                                                selected) {
-                                                              setState(() {
-                                                                _value =
-                                                                    (selected
-                                                                        ? index
-                                                                        : null)!;
-                                                                _changeColor(index);
-
-                                                              });
-                                                            },
-                                                          ),
-                                                        ]),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : Container(),
-                                ],
-                              )
-                            : Container(),
+                        // provider.productData[0]['configurable_options'] !=
+                        //             null &&
+                        //         provider.productData[0]['configurable_options']
+                        //                 [0]['label'] ==
+                        //             "Color"
+                        //     ? Row(
+                        //         children: [
+                        //           /* Padding(
+                        //             padding: EdgeInsets.symmetric(
+                        //                 horizontal:
+                        //                     getProportionateScreenWidth(10)),
+                        //             child: const Text('COLOR',
+                        //                 style: TextStyle(
+                        //                     fontWeight: FontWeight.bold,
+                        //                     color: headingColor)),
+                        //           ),*/
+                        //           const SizedBox(
+                        //             width: 10,
+                        //           ),
+                        //           provider.productData[0]['__typename'] ==
+                        //                   "ConfigurableProduct"
+                        //               ?
+                        //           Row(
+                        //                   children: [
+                        //                     SizedBox(
+                        //                       height: 50,
+                        //                       child: ListView.builder(
+                        //                         shrinkWrap: true,
+                        //                         scrollDirection:
+                        //                             Axis.horizontal,
+                        //                         itemCount: provider
+                        //                             .productData[0]
+                        //                                 ['configurable_options']
+                        //                                 [0]['values']
+                        //                             .length,
+                        //                         itemBuilder: (context, index) {
+                        //                           return GestureDetector(
+                        //                             onTap: () {
+                        //                               print(provider
+                        //                                           .productData[0]
+                        //                                       [
+                        //                                       'configurable_options']
+                        //                                   [0]['label']);
+                        //
+                        //                               print(provider
+                        //                                       .productData[0][
+                        //                                           'configurable_options']
+                        //                                           [0]['values']
+                        //                                       .length +
+                        //                                   index);
+                        //                               _changeColor(index);
+                        //                             },
+                        //                             child: Container(
+                        //                               margin: const EdgeInsets
+                        //                                   .symmetric(
+                        //                                   horizontal: 5),
+                        //                               padding:
+                        //                                   const EdgeInsets.all(
+                        //                                       10),
+                        //                               decoration: BoxDecoration(
+                        //                                 shape: BoxShape.circle,
+                        //                                 border: Border.all(
+                        //                                     color: configurableProductIndex ==
+                        //                                             index
+                        //                                         ? Colors.red
+                        //                                         : Colors
+                        //                                             .transparent,
+                        //                                     width:
+                        //                                         2.0), // Using BorderSide with BoxDecoration
+                        //
+                        //                                 color: colorFromHex(provider
+                        //                                                 .productData[0]
+                        //                                             [
+                        //                                             'configurable_options'][0]
+                        //                                         [
+                        //                                         'values'][index]
+                        //                                     [
+                        //                                     'swatch_data']['value']),
+                        //                               ),
+                        //                             ),
+                        //                           );
+                        //                         },
+                        //                       ),
+                        //                     ),
+                        //                   ],
+                        //                 )
+                        //               : Container(),
+                        //         ],
+                        //       )
+                        //     : Container(),
 
                         const SizedBox(
-                          height: 10,
+                          height: 20,
                         ),
 
                         Padding(
@@ -614,7 +668,8 @@ class _ProductDescriptionState extends State<ProductDescription> {
                               isConfiguredProduct
                                   ? provider.productData[0]['variants']
                                           [configurableProductIndex]['product']
-                                          ['short_description']['html'].toString()
+                                          ['short_description']['html']
+                                      .toString()
                                   : provider.productData[0]['short_description']
                                           ['html']
                                       .toString(),
