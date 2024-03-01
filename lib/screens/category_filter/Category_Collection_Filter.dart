@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/CollectionModel.dart';
-import 'package:omaliving/models/Product.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
 
@@ -302,10 +301,6 @@ class _ProductCardState extends State<ProductCard> {
         context.go('/home/product_listing_brandlist',
             extra: someMap);*/
 
-        print('object');
-        print(widget.brand_id);
-        print(widget.id);
-
         if(widget.id == 0){
 
           print('object 1 ');
@@ -325,13 +320,6 @@ class _ProductCardState extends State<ProductCard> {
                     name: widget.title, id: widget.id, id1: widget.brand_id),
               ));
         }
-
-      /*  Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Product_Listing_PLP(
-                  name: widget.title, id: widget.id, id1: widget.brand_id),
-            ));*/
       },
       child: Container(
         padding: const EdgeInsets.all(2),

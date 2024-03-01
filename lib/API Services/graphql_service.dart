@@ -97,6 +97,7 @@ class GraphQLService {
                       level
                       name
                       show_collection
+                      is_clickable
                       path
                       url_path
                       image
@@ -435,6 +436,70 @@ class GraphQLService {
     }
   }
 
+  Future<List<dynamic>> getbrandsbanner(String brand_name) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           query Query {
+                  getBrandCollectionData (
+                    filter: {
+                      name: {match: "$brand_name" }
+                      }
+                    ){
+                    brand_id
+                    image
+                    name
+                    position
+                    show_collection
+                    option_id
+                    status
+                    brandtype
+                    showinmenu
+                    url
+                    bannerdata{
+                        id
+                        brand
+                        banner
+                        position
+                        slider_type
+                        taget_url
+                    }
+                    collectiondata {
+                      collection_id
+                      collection_set_id
+                      collection_set_image
+                      entity_id
+                      image
+                      name
+                      position
+                      option_id
+                      status
+                    }
+                  }
+                }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
+        EasyLoading.dismiss();
+        List? res = result.data?['getBrandCollectionData'];
+
+        if (res == null || res.isEmpty) {
+          return [];
+        }
+
+        return res;
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
   Future<CollectionModel> get_cat_collection(String name) async {
     try {
       QueryResult result = await client.query(
@@ -504,8 +569,8 @@ class GraphQLService {
                       oma_subclass:{in:[]}
                       }
                       sort: {name: ASC}
-                      pageSize:"${limit}"
-                      currentPage:"${currentPage}"
+                      pageSize:"$limit"
+                      currentPage:"$currentPage"
                       ) {
                       aggregations(filter: {category: {includeDirectChildrenOnly:true}}) {
                         attribute_code
@@ -1254,6 +1319,7 @@ class GraphQLService {
            query Query {
                     products(filter: { sku: { eq: "$id" } }) {
                       items {
+                        __typename
                         id
                         is_wishlisted
                         care

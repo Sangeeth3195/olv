@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:omaliving/constants.dart';
@@ -236,12 +235,11 @@ class _SignInState extends State<SignIn> {
   late GoogleSignInAccount _userObj;
 
   String? _sdkVersion;
-  FacebookAccessToken? _token;
-  FacebookUserProfile? _profile;
+  // FacebookAccessToken? _token;
+  // FacebookUserProfile? _profile;
   String? _email;
   String? _imageUrl;
-  final plugin = FacebookLogin(debug: true);
-
+  // final plugin = FacebookLogin(debug: true);
 
   @override
   void dispose() {
@@ -620,11 +618,11 @@ class _SignInState extends State<SignIn> {
 
                        /*   signInWithFacebook();*/
 
-                          Navigator.push(
+                        /*  Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>  Fblogin()),//Imageviewth
-                          );
+                                builder: (context) =>  Fblogin()),
+                          );*/
 
                         }, // Every button need a callback
                       ),

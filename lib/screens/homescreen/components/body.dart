@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -181,6 +182,41 @@ class _BodyState extends State<Body> {
                                           "product_count": "20",
                                         };
                                         context.go('/home/pdp', extra: someMap);
+
+                                        // String? tagName = item.link;
+                                        String? tagName = 'category_uid="10611"&show_collection=0&{price: {in: []}, category_uid: {in: []}, color: {in: [5461]}, material: {in: []}, oma_collection: {in: []}, oma_subclass: {in: []}, brands: {in: [15096]}}';
+
+                                        final split = tagName?.split('&');
+                                        final Map<int, String> values = {
+                                          for (int i = 0; i < split!.length; i++)
+                                            i: split[i]
+                                        };
+
+                                        print(values);
+                                        print(split.length);
+
+                                        final value1 = values[0];
+                                        final value2 = values[1];
+                                        final value3 = values[2];
+                                        final value4 = values[3];
+
+                                        print(value1.toString());
+                                        print(value2);
+                                        print(value3);
+                                        print(value4);
+
+                                        final split1 = value1.toString().split('=');
+                                        print(split1[1]);
+
+                                        final split2 = value2.toString().split('=');
+                                        print(split2[1]);
+
+                                        final split3 = value3.toString().split('=');
+                                        print(split3[1]);
+
+                                        final split4 = value4.toString().split('=');
+                                        print(split4[1]);
+
                                       },
                                       child: Image.network(
                                         "https://staging2.omaliving.com${item.attachmentmob!}",
@@ -393,8 +429,45 @@ class _BodyState extends State<Body> {
                         ((i) {
                           return GestureDetector(
                             onTap: () {
+
                               print(homePageModel
                                   .getHomePageData![1].sectiondata![i].link);
+
+                              String? tagName = homePageModel
+                                  .getHomePageData![1].sectiondata![i].link;
+
+                              final split = tagName?.split('&');
+
+                              final Map<int, String> values = {
+
+                                for (int i = 0; i < split!.length; i++)
+                                  i: split[i]
+
+                              };
+
+                              final value1 = values[1];
+                              final value2 = values[1];
+                              final value3 = values[2];
+                              final value4 = values[3];
+
+                              print(value1.toString());
+                              print(value2);
+                              print(value3);
+                              print(value4);
+
+                              final split1 = value1.toString().split('=');
+                              print(split1[1]);
+
+                              final split2 = value2.toString().split('=');
+                              print(split2[1]);
+
+                              final split3 = value3.toString().split('=');
+                              print(split3[1]);
+
+                              final split4 = value4.toString().split('=');
+                              print(split4[1]);
+
+
                             },
                             child: Padding(
                               padding:
@@ -447,6 +520,8 @@ class _BodyState extends State<Body> {
                     ),
                   ),
 
+                  const SizedBox(height: 20,),
+
                   SizedBox(
                     width: 240, // <-- Your width
                     height: 35, // <-- Your height
@@ -481,7 +556,9 @@ class _BodyState extends State<Body> {
                     ),
                   ),
 
-                  _chewieController == null
+            const SizedBox(height: 20,),
+
+            _chewieController == null
                       ? Center(child: Container())
                       : GestureDetector(
                           onTap: () {
@@ -501,7 +578,10 @@ class _BodyState extends State<Body> {
                           ),
                         ),
 
-                  Center(
+            const SizedBox(height: 10,),
+
+
+            Center(
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 15),
@@ -659,6 +739,7 @@ class _BodyState extends State<Body> {
               ),
             ),
 
+            const SizedBox(height: 20,),
                   // Center(
                   //   child: Center(
                   //     child: Padding(
@@ -788,10 +869,14 @@ class _BodyState extends State<Body> {
                         (url) {
                           return GestureDetector(
                             onTap: () {
-                              */ /*final myProvider =
+                              */
+
+            /*final myProvider =
                                   Provider.of<MyProvider>(context, listen: false);
                               myProvider.updateData(int.parse(url.link!));
-                              context.go('/home/pdp');*/ /*
+                              context.go('/home/pdp');*/
+
+            /*
                               final Map<String, dynamic> someMap = {
                                 "id": int.parse(url.link!.toString()),
                                 "product_count": 20,
@@ -871,6 +956,41 @@ class _BodyState extends State<Body> {
                             onTap: () {
                               print(homePageModel
                                   .getHomePageData![5].sectiondata![i].link);
+
+                              // const tagName = 'category_id=1234&oma_collection=7794&brands=456&show_collection=0';
+
+                              String? tagName = homePageModel.getHomePageData![5].sectiondata![i].link;
+
+                              final split = tagName?.split('&');
+                              final Map<int, String> values = {
+                                for (int i = 0; i < split!.length; i++)
+                                  i: split[i]
+                              };
+
+                              print(values);
+
+                              final value1 = values[0];
+                              final value2 = values[1];
+                              final value3 = values[2];
+                              final value4 = values[3];
+
+                              print(value1.toString());
+                              print(value2);
+                              print(value3);
+                              print(value4);
+
+                              final split1 = value1.toString().split('=');
+                              print(split1[1]);
+
+                              final split2 = value2.toString().split('=');
+                              print(split2[1]);
+
+                              final split3 = value3.toString().split('=');
+                              print(split3[1]);
+
+                              final split4 = value4.toString().split('=');
+                              print(split4[1]);
+
                             },
                             child: Padding(
                               padding:
@@ -910,6 +1030,8 @@ class _BodyState extends State<Body> {
                       // navigate(context, ProductListing.routeName,
                       //     isRootNavigator: false,
                       //     arguments: {'id': '1'});
+
+
                     },
                     child: Center(
                       child: Padding(
@@ -1168,6 +1290,39 @@ class _BodyState extends State<Body> {
                               onTap: () {
                                 print(homePageModel
                                     .getHomePageData![7].sectiondata![i].link);
+
+                                String? tagName = homePageModel.getHomePageData![7].sectiondata![i].link;
+
+                                final split = tagName?.split('&');
+                                final Map<int, String> values = {
+                                  for (int i = 0; i < split!.length; i++)
+                                    i: split[i]
+                                };
+
+                                print(values);
+
+                                final value1 = values[0];
+                                final value2 = values[1];
+                                final value3 = values[2];
+                                final value4 = values[3];
+
+                                print(value1.toString());
+                                print(value2);
+                                print(value3);
+                                print(value4);
+
+                                final split1 = value1.toString().split('=');
+                                print(split1[1]);
+
+                                final split2 = value2.toString().split('=');
+                                print(split2[1]);
+
+                                final split3 = value3.toString().split('=');
+                                print(split3[1]);
+
+                                final split4 = value4.toString().split('=');
+                                print(split4[1]);
+
                               },
                               child: Padding(
                                 padding:

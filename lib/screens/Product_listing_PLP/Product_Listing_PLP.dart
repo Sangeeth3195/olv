@@ -113,11 +113,12 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                           image: provider.items[index].smallImage.url,
                           fromdate: provider.items[index].specialFromDate,
                           todate: provider.items[index].specialToDate,
-                          price: provider.items[index].typename ==
-                                  "SimpleProduct"
-                              ? provider.items[index].price.regularPrice.amount.value
-                                  .toString()
-                              : "${provider.items[index].getPriceRange}",
+                          price:
+                              provider.items[index].typename == "SimpleProduct"
+                                  ? provider.items[index].price.regularPrice
+                                      .amount.value
+                                      .toString()
+                                  : "${provider.items[index].getPriceRange}",
                           product: provider.items[index],
                           bgColor: demo_product[0].colors[0],
                           item: provider.items[index],
@@ -229,27 +230,37 @@ class _ProductCardState extends State<ProductCard> {
       isExpired = currentDate.isAfter(dt1);
     }
 
-    print("isExoired --> $isExpired");
-    if (widget.item!.textAttributes[0].specicalprice == 0) {
+    print("isExpired --> $isExpired");
+
+    if (widget.item!.textAttributes[0].specicalprice == '0') {
       isExpired = true;
     }
 
-    if(widget.item?.specialToDate == ''){
-      isExpired= false;
+    if (widget.item?.specialToDate == '' ||
+        widget.item?.specialToDate == null) {
+      isExpired = false;
     }
 
-    String tagName = widget.item!.textAttributes[0].specicalprice.toString();
+    if (widget.item!.textAttributes[0].specicalprice == '0' ||
+        widget.item!.textAttributes[0].specicalprice.toString() == null) {
+      _price_text = '';
+      _price_value = '';
+      isExpired = true;
+    } else {
+      String tagName = widget.item!.textAttributes[0].specicalprice.toString();
 
-    final split = tagName.split('₹');
+      final split = tagName.split('₹');
 
-    final Map<int, String> values = {
-      for (int i = 0; i < split.length; i++)
-        i: split[i]
-    };
+      final Map<int, String> values = {
+        for (int i = 0; i < split.length; i++) i: split[i]
+      };
 
-    _price_text = '${values[0]}${':'}';
-    _price_value = values[1];
+      _price_text = '${values[0]}${':'}';
+      _price_value = '${'₹'}${values[1]}';
 
+      print('isExpired');
+      print(isExpired);
+    }
   }
 
   void _changeColor(int index, int valueIndex) {
@@ -369,16 +380,20 @@ class _ProductCardState extends State<ProductCard> {
                                 ),
                                 !isExpired
                                     ? Text.rich(
-                                  TextSpan(
-                                    children: [
-                                      TextSpan(text: '${_price_text}',style: const TextStyle(color: Color(0xFF983030))),
-                                      TextSpan(
-                                        text: ' ₹${_price_value}',
-                                        style: const TextStyle(fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                                text: '$_price_text',
+                                                style: const TextStyle(
+                                                    color: Color(0xFF983030))),
+                                            TextSpan(
+                                              text: ' $_price_value',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ],
+                                        ),
+                                      )
                                     : Container(),
                               ],
                             ),
@@ -581,7 +596,7 @@ class _ProductCardState extends State<ProductCard> {
                           )
                         : Container(),
 
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 5.0),
 
                     GestureDetector(
                       onTap: () async {

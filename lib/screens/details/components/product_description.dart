@@ -225,29 +225,22 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     // Adjust margins as needed
                     child: ElevatedButton(
                       onPressed: () {
-                        print(quantity.toString());
                         Scaffold.of(context).openEndDrawer();
-
                         EasyLoading.show(status: 'loading...');
-
-                        if (provider.productData[0]['configurable_options'] ==
-                            'configurable_options') {
-                          print(widget.product.toString());
-
-                          /*print(provider.productData[0]['variants']
-                              [configurableProductIndex]['product']['sku']);*/
-
-                          graphQLService.addProductToCart(
+                          if (provider.productData[0]['__typename'] ==
+                          'ConfigurableProduct') {
+                             graphQLService.addProductToCart(
                               provider.productData[0]['variants']
                                   [configurableProductIndex]['product']['sku'],
                               quantity.toString(),
                               context: context);
-                        } else {
-                          graphQLService.addProductToCart(
-                              widget.product.toString(), quantity.toString(),
-                              context: context);
-                          Scaffold.of(context).openEndDrawer();
-                        }
+
+                          }else {
+                            graphQLService.addProductToCart(
+                                widget.product.toString(), quantity.toString(),
+                                context: context);
+                            Scaffold.of(context).openEndDrawer();
+                          }
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

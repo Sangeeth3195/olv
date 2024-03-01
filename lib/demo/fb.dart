@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -92,16 +93,16 @@ class _MyHomeState extends State<Fblogin> {
     );
   }
 
-  Future<void> _onPressedLogInButton() async {
-    await plugin?.logIn(permissions: [
-      FacebookPermission.publicProfile,
-      FacebookPermission.email,
-    ]);
-
-    print('FacebookPermission.email');
-    print(FacebookPermission.email);
-    await _updateLoginInfo();
-  }
+  // Future<void> _onPressedLogInButton() async {
+  //   await plugin?.logIn(permissions: [
+  //     FacebookPermission.publicProfile,
+  //     FacebookPermission.email,
+  //   ]);
+  //
+  //   print('FacebookPermission.email');
+  //   print(FacebookPermission.email);
+  //   await _updateLoginInfo();
+  // }
 
   Future<void> _onPressedExpressLogInButton(BuildContext context) async {
     final res = await plugin?.expressLogin();
@@ -155,3 +156,4 @@ class _MyHomeState extends State<Fblogin> {
     print(_token);
   }
 }
+*/

@@ -132,7 +132,7 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                         style: const TextStyle(
                             fontFamily: 'Gotham',
                             fontWeight: FontWeight.w500,
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             color: navTextColor),
                       ),
                     ),

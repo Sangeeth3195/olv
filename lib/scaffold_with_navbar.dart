@@ -503,6 +503,50 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                     // initiallyExpanded: true,
                                     title: GestureDetector(
                                       onTap: () {
+
+                                        print(navHeaderList[index][
+                                        'children']
+                                        [itemIndex]
+                                        ['is_clickable']
+                                        );
+
+                                        if(navHeaderList[index][
+                                        'children']
+                                        [itemIndex]
+                                        ['is_clickable'] == 1){
+
+                                          Navigator.of(context).pop();
+                                          catId = navHeaderList[index]['children']
+                                          [itemIndex]['id'];
+                                          final myProvider =
+                                          Provider.of<MyProvider>(
+                                              context,
+                                              listen: false);
+                                          myProvider.updateHeader(
+                                              navHeaderList[index]['children']
+                                              [itemIndex]['name'].toString());
+                                          myProvider.isproduct = true;
+                                          myProvider.notifyListeners();
+                                          context.go('/home/pdp',
+                                              extra:
+                                              navHeaderList[index]
+                                              ['children']
+                                              [itemIndex]);
+
+                                         /* Navigator.of(context).pop();
+                                          catId = navHeaderList[index]['children']
+                                              [itemIndex]['id'];
+                                          final myProvider =
+                                              Provider.of<MyProvider>(context,
+                                                  listen: false);
+                                          myProvider.updateHeader(
+                                              navHeaderList[index]['children']
+                                                  [itemIndex]['name']);
+                                          myProvider.isproduct = true;
+                                          myProvider.notifyListeners();
+                                          context.go('/home/pdp');*/
+                                        }
+
                                        /* Navigator.of(context).pop();
                                         print('item_id 2 --> $catId');
                                         context.go('/home/catDetails',
