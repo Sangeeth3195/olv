@@ -51,6 +51,7 @@ class _HomeScreenState extends State<ProductListing> {
     print('widget.data');
 
     print(widget.data['id']);
+    print(widget.data);
   }
 
   @override
@@ -94,6 +95,8 @@ class _HomeScreenState extends State<ProductListing> {
   void filterData(Map<String, dynamic> filter) async {
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updateDataWithFilter(widget.data['id'], filter);
+
+
   }
 
   @override

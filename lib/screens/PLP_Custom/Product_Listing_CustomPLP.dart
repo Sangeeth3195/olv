@@ -66,9 +66,8 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
   void getNavdata() async {
     final myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.updatebrandlistData(widget.data['id'], limit: 2);
-    getbrandslist = await graphQLService.getbrandsbanner(widget.data['name'].toString());
-
-    print(getbrandslist[0]['bannerdata'].length);
+    getbrandslist =
+        await graphQLService.getbrandsbanner(widget.data['name'].toString());
 
     if (getbrandslist[0]['bannerdata'].length == 0) {
       setState(() {
@@ -97,11 +96,12 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                     Visibility(
+                  Visibility(
                     visible: isVisible,
                     child: CarouselSlider(
                       items: [
-                        for (Map<String, dynamic> item in getbrandslist[0]['bannerdata'])
+                        for (Map<String, dynamic> item in getbrandslist[0]
+                            ['bannerdata'])
                           GestureDetector(
                             onTap: () {},
                             child: Image.network(
@@ -112,7 +112,9 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
                       ],
                       carouselController: buttonCarouselController,
                       options: CarouselOptions(
-                        autoPlay: getbrandslist[0]['bannerdata'].length == 1 ? false : true,
+                        autoPlay: getbrandslist[0]['bannerdata'].length == 1
+                            ? false
+                            : true,
                         enlargeCenterPage: false,
                         viewportFraction: 1,
                         disableCenter: false,
@@ -128,22 +130,23 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
                       ),
                     ),
                   ),
+
                   const SizedBox(
                     height: 10,
                   ),
                   getbrandslist[0]['bannerdata'].length == 1 ||
-                      getbrandslist[0]['bannerdata'].length == 0
+                          getbrandslist[0]['bannerdata'].length == 0
                       ? Container()
                       : DotsIndicator(
-                    dotsCount: getbrandslist[0]['bannerdata'].length,
-                    position: _current,
-                    decorator: DotsDecorator(
-                      size: const Size.square(9.0),
-                      activeSize: const Size(9.0, 9.0),
-                      activeShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
+                          dotsCount: getbrandslist[0]['bannerdata'].length,
+                          position: _current,
+                          decorator: DotsDecorator(
+                            size: const Size.square(9.0),
+                            activeSize: const Size(9.0, 9.0),
+                            activeShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0)),
+                          ),
+                        ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -282,7 +285,6 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   void calculatePrice() {
-
     print('date${widget.item!.specialToDate}');
 
     if (widget.item?.specialToDate != null &&
@@ -296,7 +298,8 @@ class _ProductCardState extends State<ProductCard> {
     if (widget.item!.textAttributes[0].specicalprice == '0') {
       isExpired = true;
     }
-    if (widget.item?.specialToDate == '' || widget.item?.specialToDate == null) {
+    if (widget.item?.specialToDate == '' ||
+        widget.item?.specialToDate == null) {
       isExpired = false;
     }
   }
@@ -506,7 +509,8 @@ class _ProductCardState extends State<ProductCard> {
                     ),*/
 
                     const SizedBox(height: 5.0),
-                    widget.item!.textAttributes[0].specicalprice.toString() == null
+                    widget.item!.textAttributes[0].specicalprice.toString() ==
+                            null
                         ? Padding(
                             padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                             child: Text(

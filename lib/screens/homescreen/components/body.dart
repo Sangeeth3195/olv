@@ -183,17 +183,16 @@ class _BodyState extends State<Body> {
                                         };
                                         context.go('/home/pdp', extra: someMap);
 
-                                        // String? tagName = item.link;
-                                        String? tagName = 'category_uid="10611"&show_collection=0&{price: {in: []}, category_uid: {in: []}, color: {in: [5461]}, material: {in: []}, oma_collection: {in: []}, oma_subclass: {in: []}, brands: {in: [15096]}}';
+                                         String? tagName = item.link;
+                                       // String? tagName = 'category_uid="10611"&show_collection=0&{price: {in: []}, category_uid: {in: []}, color: {in: [5461]}, material: {in: []}, oma_collection: {in: []}, oma_subclass: {in: []}, brands: {in: [15096]}}';
+
+                                        print(item.link);
 
                                         final split = tagName?.split('&');
                                         final Map<int, String> values = {
                                           for (int i = 0; i < split!.length; i++)
                                             i: split[i]
                                         };
-
-                                        print(values);
-                                        print(split.length);
 
                                         final value1 = values[0];
                                         final value2 = values[1];
