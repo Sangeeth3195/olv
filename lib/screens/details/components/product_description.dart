@@ -440,52 +440,55 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
                                           itemCount: provider
                                               .productData[0]
-                                                  ['configurable_options'][0]
+                                                  ['configurable_options'][configIndex]
                                                   ['values']
                                               .length,
                                           itemBuilder: (context, sizeIndex) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                _changeSize(sizeIndex);
-                                                print('object');
-                                              },
-                                              child: Wrap(
-                                                  spacing: 8,
-                                                  children: <Widget>[
-                                                    ChoiceChip(
-                                                      pressElevation: 0.0,
-                                                      selectedColor: themecolor,
-                                                      backgroundColor:
-                                                          Colors.grey[100],
-                                                      padding: const EdgeInsets
-                                                          .fromLTRB(
-                                                          45.0, 0.0, 45.0, 0),
-                                                      labelPadding:
-                                                          const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 4),
-                                                      showCheckmark: false,
-                                                      shape:
-                                                          ContinuousRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                0.0),
+                                            return Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  _changeSize(sizeIndex);
+                                                  print('object');
+                                                },
+                                                child: Wrap(
+                                                    spacing: 8,
+                                                    children: <Widget>[
+                                                      ChoiceChip(
+                                                        pressElevation: 0.0,
+                                                        selectedColor: themecolor,
+                                                        backgroundColor:
+                                                            Colors.grey[100],
+                                                        padding: const EdgeInsets
+                                                            .fromLTRB(
+                                                            45.0, 0.0, 45.0, 0),
+                                                        labelPadding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 4),
+                                                        showCheckmark: false,
+                                                        shape:
+                                                            ContinuousRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  0.0),
+                                                        ),
+                                                        label: Text(
+                                                          "${provider.productData[0]['configurable_options'][configIndex]['values'][sizeIndex]['swatch_data']['value']}",
+                                                        ),
+                                                        selected: _value == sizeIndex,
+                                                        onSelected:
+                                                            (bool selected) {
+                                                          setState(() {
+                                                            _value = (selected
+                                                                ? sizeIndex
+                                                                : null)!;
+                                                            _changeColor(sizeIndex);
+                                                          });
+                                                        },
                                                       ),
-                                                      label: Text(
-                                                        "${provider.productData[0]['configurable_options'][configIndex]['values'][sizeIndex]['swatch_data']['value']}",
-                                                      ),
-                                                      selected: _value == sizeIndex,
-                                                      onSelected:
-                                                          (bool selected) {
-                                                        setState(() {
-                                                          _value = (selected
-                                                              ? sizeIndex
-                                                              : null)!;
-                                                          _changeColor(sizeIndex);
-                                                        });
-                                                      },
-                                                    ),
-                                                  ]),
+                                                    ]),
+                                              ),
                                             );
                                           },
                                         ),
@@ -505,7 +508,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                           shrinkWrap: true,
                                           itemCount: provider
                                               .productData[0]
-                                                  ['configurable_options'][0]
+                                                  ['configurable_options'][configIndex]
                                                   ['values']
                                               .length,
                                           itemBuilder: (context, colorIndex) {
@@ -539,7 +542,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                                   // Using BorderSide with BoxDecoration
 
                                                   color: colorFromHex(provider
-                                                                  .productData[0][
+                                                                  .productData[configIndex][
                                                               'configurable_options']
                                                           [configIndex]['values'][colorIndex]
                                                       ['swatch_data']['value']),

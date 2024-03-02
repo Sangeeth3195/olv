@@ -96,7 +96,7 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  Visibility(
+                  isVisible?Visibility(
                     visible: isVisible,
                     child: CarouselSlider(
                       items: [
@@ -129,12 +129,12 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
                         },
                       ),
                     ),
-                  ),
+                  ):Container(),
 
                   const SizedBox(
                     height: 10,
                   ),
-                  getbrandslist[0]['bannerdata'].length == 1 ||
+                  !isVisible ?Container(): getbrandslist[0]['bannerdata'].length == 1 ||
                           getbrandslist[0]['bannerdata'].length == 0
                       ? Container()
                       : DotsIndicator(

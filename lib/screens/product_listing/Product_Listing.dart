@@ -661,8 +661,34 @@ class _HomeScreenState extends State<ProductListing> {
                     ],
                   ),
                 ),
-
-
+                provider.items.length ==0 ?Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 250,),
+                    Text("We are curating the perfect list of products for you.",
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(
+                          color: headingColor,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14),
+                    ),
+                    SizedBox(height: 10,),
+                    Text("Meanwhile please browse our other categories.",
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .copyWith(
+                          color: headingColor,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 14),
+                    ),
+                  ],
+                ):
                 Expanded(
                   child: GridView.extent(
                     primary: false,

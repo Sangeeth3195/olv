@@ -176,7 +176,7 @@ class _BodyState extends State<CartCard> {
                 ),
               ),
               const SizedBox(
-                width: 15.0,
+                width: 1.0,
               ),
               Container(
                   decoration: BoxDecoration(
@@ -225,6 +225,7 @@ class _BodyState extends State<CartCard> {
                   )),
             ],
           ),
+
           const SizedBox(
             height: 10,
           ),
