@@ -67,13 +67,13 @@ class MyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateData(int id, {int limit = 8}) async {
+  void updateData(int id, {int limit = 8,Map<String, dynamic>? filter}) async {
     items.clear();
     oldItems.clear();
     aggregationList.clear();
     notifyListeners();
     dynamic dataFromAPi =
-        await graphQLService.getproductlist(limit: limit, id: id);
+        await graphQLService.getproductlist(limit: limit, id: id,hashMap: filter!);
     List? res1 = dataFromAPi.data?['products']['items'];
     _data = res1!;
     pList = res1;
@@ -88,10 +88,10 @@ class MyProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-  void loadMoreData(int id, {int limit = 8,int currentPage = 8}) async {
+  void loadMoreData(int id, {int limit = 8,int currentPage = 8,Map<String, dynamic>? filter}) async {
 
     dynamic dataFromAPi =
-        await graphQLService.getproductlist(limit: limit, id: id,currentPage: currentPage);
+        await graphQLService.getproductlist(limit: limit, id: id,currentPage: currentPage,hashMap: filter!);
     if(dataFromAPi == null){
       notifyListeners();
       return ;

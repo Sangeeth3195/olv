@@ -551,6 +551,8 @@ class GraphQLService {
     required int limit,
     required int id,
     int currentPage = 1,
+    required Map<String, dynamic> hashMap,
+
   }) async {
     try {
       EasyLoading.show(status: 'loading...');
@@ -560,14 +562,7 @@ class GraphQLService {
           document: gql("""
            query Query {
                     products(
-                    filter: {
-                      category_id: {eq: "$id"}
-                      material: {in: [] }
-                      color:{in: []}
-                      brands:{in:[]}
-                      oma_collection:{in:[]}
-                      oma_subclass:{in:[]}
-                      }
+                    filter: ${hashMap}
                       sort: {name: ASC}
                       pageSize:"$limit"
                       currentPage:"$currentPage"
@@ -1295,6 +1290,8 @@ class GraphQLService {
 
       if (result.hasException) {
         print(result.exception);
+        EasyLoading.dismiss();
+
         throw Exception(result.exception);
       } else {
         EasyLoading.dismiss();
@@ -1303,6 +1300,8 @@ class GraphQLService {
       }
     } catch (error) {
       print("testing errors$error");
+      EasyLoading.dismiss();
+
       return [];
     }
   }

@@ -88,16 +88,23 @@ class _HomeScreenState extends State<ProductListing> {
     getcategoryInfo =
         await graphQLService.getCategoryInfo(widget.data['id'].toString());
 
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateData(widget.data['id'], limit: 20);
+    filterData();
   }
 
-  void filterData(Map<String, dynamic> filter) async {
-    final myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.updateDataWithFilter(widget.data['id'], filter);
+  void filterData() async {
+    Map<String, dynamic> myMap = {};
+    final provider = Provider.of<MyProvider>(context, listen: false);
 
+    myMap['category_id'] = "{eq: ${widget.data['id']}}";
+    for (int i = 0; i < provider.aggregationList.length; i++) {
+      myMap[provider.aggregationList[i].attributeCode] = "{in: ${provider.aggregationList[i].selected}}";
+    }
+    myMap.remove('price');
 
+    log(myMap.toString());
+    provider.updateData(widget.data['id'], filter: myMap);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -266,6 +273,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                             .aggregationList[
                                                                 subitemIndex]
                                                             .selected);
+                                                        filterData();
                                                       },
                                                       child: Container(
                                                         margin: const EdgeInsets
@@ -447,6 +455,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                             .aggregationList[
                                                                 subitemIndex]
                                                             .selected);
+                                                        filterData();
                                                       },
                                                     );
                                                   },
@@ -468,17 +477,6 @@ class _HomeScreenState extends State<ProductListing> {
                       width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
                         onPressed: () {
-                          Map<String, dynamic> myMap = {};
-
-                          for (int i = 0;
-                              i < provider.aggregationList.length;
-                              i++) {
-                            myMap[provider.aggregationList[i].attributeCode] =
-                                "{in: ${provider.aggregationList[i].selected}}";
-                          }
-
-                          log(myMap.toString());
-                          filterData(myMap);
                           Navigator.of(context).pop();
                           // Define the action to perform when the button is pressed
                         },
