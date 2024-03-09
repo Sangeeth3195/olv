@@ -171,24 +171,19 @@ class _BodyState extends State<Body> {
                                         print(item.link);
 
                                         final myProvider =
-                                            Provider.of<MyProvider>(context,
+                                            Provider.of<MyProvider>(context,`
                                                 listen: false);
                                         myProvider
                                             .updateData(int.parse(item.link!));
                                         context.go('/home/pdp');*/
-                                        final Map<String, String> someMap = {
-                                          "id": item.link!,
-                                          "name": item.title!,
-                                          "product_count": "20",
-                                        };
-                                        context.go('/home/pdp', extra: someMap);
 
-                                         String? tagName = item.link;
-                                       // String? tagName = 'category_uid="10611"&show_collection=0&{price: {in: []}, category_uid: {in: []}, color: {in: [5461]}, material: {in: []}, oma_collection: {in: []}, oma_subclass: {in: []}, brands: {in: [15096]}}';
+                                        String? tagName = item.link;
+                                        // String? tagName = 'category_uid="10611"&show_collection=0&{price: {in: []}, category_uid: {in: []}, color: {in: [5461]}, material: {in: []}, oma_collection: {in: []}, oma_subclass: {in: []}, brands: {in: [15096]}}';
 
                                         print(item.link);
 
                                         final split = tagName?.split('&');
+
                                         final Map<int, String> values = {
                                           for (int i = 0; i < split!.length; i++)
                                             i: split[i]
@@ -204,6 +199,9 @@ class _BodyState extends State<Body> {
                                         print(value3);
                                         print(value4);
 
+                                        print('split');
+                                        print(value4);
+
                                         final split1 = value1.toString().split('=');
                                         print(split1[1]);
 
@@ -216,9 +214,31 @@ class _BodyState extends State<Body> {
                                         final split4 = value4.toString().split('=');
                                         print(split4[1]);
 
+                                        if(split4[1] == '1'){
+                                          print('show_collection');
+
+                                          final Map<String, dynamic> someMap = {
+                                            "name": "BATH COLLECTION",
+                                          };
+
+                                          context.go(
+                                              '/home/cat_listing_filter',
+                                              extra: someMap);
+
+                                        }else {
+                                          final Map<String, String> someMap = {
+                                            "id": split1[1]!,
+                                            "name": item.title!,
+                                            "product_count": "20",
+                                            "show_collection":split4[1],
+                                            "link_data":value4!,
+                                            "rt_from":'home_screen',
+                                          };
+                                          context.go('/home/pdp', extra: someMap);
+                                        }
                                       },
                                       child: Image.network(
-                                        "https://staging2.omaliving.com${item.attachmentmob!}",
+                                        "https://omaliving.com${item.attachmentmob!}",
                                         fit: BoxFit.fitWidth,
                                       ),
                                     )
@@ -474,7 +494,7 @@ class _BodyState extends State<Body> {
                               child: Column(
                                 children: [
                                   Image.network(
-                                    "https://staging2.omaliving.com${homePageModel.getHomePageData![1].sectiondata![i].attachmentmob}",
+                                    "https://omaliving.com${homePageModel.getHomePageData![1].sectiondata![i].attachmentmob}",
                                   ),
                                   const SizedBox(
                                     height: 10.0,
@@ -697,7 +717,7 @@ class _BodyState extends State<Body> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Image.network(
-                              "https://staging2.omaliving.com${homePageModel.getHomePageData![3].sectiondata![i].attachmentmob}",
+                              "https://omaliving.com${homePageModel.getHomePageData![3].sectiondata![i].attachmentmob}",
                             ),
                             const SizedBox(
                               height: 10.0,
@@ -785,7 +805,7 @@ class _BodyState extends State<Body> {
                                 context.go('/home/pdp', extra: someMap);
                               },
                               child: Image.network(
-                                "https://staging2.omaliving.com${item.attachment!}",
+                                "https://omaliving.com${item.attachment!}",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -997,7 +1017,7 @@ class _BodyState extends State<Body> {
                               child: Column(
                                 children: [
                                   Image.network(
-                                    "https://staging2.omaliving.com${homePageModel.getHomePageData![5].sectiondata![i].attachmentmob}",
+                                    "https://omaliving.com${homePageModel.getHomePageData![5].sectiondata![i].attachmentmob}",
                                   ),
                                   const SizedBox(
                                     height: 10.0,
@@ -1066,7 +1086,7 @@ class _BodyState extends State<Body> {
                                         context.go('/home/pdp', extra: someMap);
                                       },
                                       child: Image.network(
-                                        "https://staging2.omaliving.com${item.attachment!}",
+                                        "https://omaliving.com${item.attachmentmob!}",
                                         fit: BoxFit.fitWidth,
                                       ),
                                     )
@@ -1329,7 +1349,7 @@ class _BodyState extends State<Body> {
                                 child: Column(
                                   children: [
                                     Image.network(
-                                      "https://staging2.omaliving.com${homePageModel.getHomePageData![7].sectiondata![i].attachmentmob}",
+                                      "https://omaliving.com${homePageModel.getHomePageData![7].sectiondata![i].attachmentmob}",
                                     ),
                                     const SizedBox(
                                       height: 10.0,

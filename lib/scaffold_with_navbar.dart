@@ -41,12 +41,15 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   MyProvider? myProvider;
   int _selectedIndex = 0;
   int selectedPageIndex = 0;
+  String? count = '0';
   late TabController _tabController;
   String cart_token = '';
+  late CartProvider cartProvider;
   var test;
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
   final OverlayPortalController _tooltipController = OverlayPortalController();
   bool isSearch = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -57,11 +60,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
 
     myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider!.getuserdata();
-    CartProvider cartProvider =
-        Provider.of<CartProvider>(context, listen: false);
+    cartProvider = Provider.of<CartProvider>(context, listen: false);
     cartProvider.getCartData();
-
-    print(isVisible);
   }
 
   void getNavdata() async {
@@ -116,6 +116,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               topRight: Radius.circular(0), bottomRight: Radius.circular(0)),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
               height: 0,
@@ -144,6 +145,33 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                   )*/
               ),
             ),
+            const SizedBox(
+              height: 35,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  child: Text(
+                    'My Cart ($count)',
+                    style: const TextStyle(color: Colors.black54, fontSize: 18),
+                  ),
+                ),
+                // FlutterLogo(),
+                IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    size: 20,
+                    color: Colors.black54,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+
             const Expanded(
                 child: CartScreen(
               isFromActionBar: true,
@@ -264,7 +292,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           },
           child: Padding(
             padding: const EdgeInsets.all(2.0),
-            child: Image.asset('assets/omalogo.png', height: 25, width: 80),
+            child: Image.asset('assets/omalogo.png', height: 35, width: 80),
           ),
         ),
         actions: [
@@ -288,7 +316,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     width: 28,
                     height: 22,
                   ),
-                  onTap: () => Scaffold.of(context).openEndDrawer(),
+                  onTap: () {
+                    count =
+                        cartProvider.cartModel.cart!.items!.length.toString();
+                    Scaffold.of(context).openEndDrawer();
+                  },
                 ),
               ),
             ),
@@ -391,7 +423,14 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                           width: 28,
                           height: 22,
                         ),
-                        onTap: () => Scaffold.of(context).openEndDrawer(),
+
+                        onTap: () {
+                          count = cartProvider.cartModel.cart!.items!.length
+                              .toString();
+                          Scaffold.of(context).openEndDrawer();
+                        },
+
+                        // onTap: () => Scaffold.of(context).openEndDrawer(),
                         // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                       ),
                     ),
@@ -455,6 +494,27 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                               : null,
                           title: GestureDetector(
                             onTap: () {
+
+                              if (navHeaderList[index]['is_clickable'] == 1) {
+                                Navigator.of(context).pop();
+                                catId = navHeaderList[index]['id'];
+                                final myProvider = Provider.of<MyProvider>(
+                                    context,
+                                    listen: false);
+                                myProvider.updateHeader(
+                                    navHeaderList[index]['name'].toString());
+
+                                print('catIdcatId');
+                                print(catId);
+
+                                Map<String, dynamic> myMap = {};
+                                myProvider.updateData(catId,filter: myMap);
+                                myProvider.isproduct = true;
+                                myProvider.notifyListeners();
+                                context.go('/home/pdp',
+                                    extra: navHeaderList[index]);
+                              }
+
                               /* Navigator.of(context).pop();
                               catId = navHeaderList[index]['id'];
                               print('item_id 1 --> $catId');
@@ -467,6 +527,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                               myProvider.notifyListeners();
                               context.go('/home/pdp',
                                   extra: navHeaderList[index]);*/
+
                             },
                             child: Text(
                               navHeaderList[index]['name'].toUpperCase(),
@@ -486,7 +547,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                 physics: const ClampingScrollPhysics(),
                                 itemCount:
                                     navHeaderList[index]['children'].length,
-                                // Replace with the actual number of items
                                 itemBuilder:
                                     (BuildContext context, int itemIndex) {
                                   return ExpansionTile(
@@ -498,7 +558,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                             width: 10,
                                           )
                                         : null,
-                                    // initiallyExpanded: true,
                                     title: GestureDetector(
                                       onTap: () {
                                         print(navHeaderList[index]['children']
@@ -594,12 +653,20 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                             child: ListTile(
                                               onTap: () {
                                                 print('showcollection');
+
+                                                print(navHeaderList[index]
+                                                ['children']
+                                                [itemIndex]
+                                                ['children']
+                                                [subitemIndex]['id']);
+
                                                 print(navHeaderList[index]
                                                                     ['children']
                                                                 [itemIndex]
                                                             ['children']
                                                         [subitemIndex]
                                                     ['show_collection']);
+
                                                 if (navHeaderList[index][
                                                                         'children']
                                                                     [itemIndex]
@@ -617,6 +684,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                       Provider.of<MyProvider>(
                                                           context,
                                                           listen: false);
+
                                                   myProvider.updateHeader(
                                                       navHeaderList[index][
                                                                           'children']
@@ -634,22 +702,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                                   ['children']
                                                               [itemIndex]);
                                                 } else {
-                                                  print('Check INFO');
-
-                                                  print(navHeaderList[index]
-                                                                  ['children']
-                                                              [itemIndex]
-                                                          ['children']
-                                                      [subitemIndex]['id']);
-
-                                                  print(navHeaderList[index]
-                                                                  ['children']
-                                                              [itemIndex]
-                                                          ['children']
-                                                      [subitemIndex]['name']);
-
-                                                  print(navHeaderList[index]
-                                                      ['children'][itemIndex]);
 
                                                   Navigator.of(context).pop();
                                                   catId = navHeaderList[index]
@@ -756,7 +808,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                     extra: someMap);
                               }
                             },
-                            child: Text(
+                            child: getbrandslist[itemIndex]['status'] == 1 ? Text(
                               getbrandslist[itemIndex]['name'].toUpperCase(),
                               style: const TextStyle(
                                   color: navTextColor,
@@ -764,11 +816,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                   letterSpacing: 0,
                                   fontWeight: FontWeight.w700,
                                   fontStyle: FontStyle.normal),
-                            ),
+                            ) : const Center(),
                           ),
                         );
                       },
-                    ),
+                    )
                   ),
                 ],
               ),

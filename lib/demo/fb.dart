@@ -4,23 +4,40 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
-class Fblogin extends StatefulWidget {
+class MyAppFBB extends StatelessWidget {
+  final plugin = FacebookLogin(debug: true);
+
+  MyAppFBB({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MyHome(plugin: plugin),
+    );
+  }
+}
+
+class MyHome extends StatefulWidget {
+  final FacebookLogin plugin;
+
+  const MyHome({Key? key, required this.plugin}) : super(key: key);
 
   @override
   _MyHomeState createState() => _MyHomeState();
 }
 
-class _MyHomeState extends State<Fblogin> {
+class _MyHomeState extends State<MyHome> {
   String? _sdkVersion;
   FacebookAccessToken? _token;
   FacebookUserProfile? _profile;
   String? _email;
   String? _imageUrl;
-  FacebookLogin? plugin;
 
   @override
   void initState() {
     super.initState();
+
+    _getSdkVersion();
     _updateLoginInfo();
   }
 
@@ -93,20 +110,17 @@ class _MyHomeState extends State<Fblogin> {
     );
   }
 
-  // Future<void> _onPressedLogInButton() async {
-  //   await plugin?.logIn(permissions: [
-  //     FacebookPermission.publicProfile,
-  //     FacebookPermission.email,
-  //   ]);
-  //
-  //   print('FacebookPermission.email');
-  //   print(FacebookPermission.email);
-  //   await _updateLoginInfo();
-  // }
+  Future<void> _onPressedLogInButton() async {
+    await widget.plugin.logIn(permissions: [
+      FacebookPermission.publicProfile,
+      FacebookPermission.email,
+    ]);
+    await _updateLoginInfo();
+  }
 
   Future<void> _onPressedExpressLogInButton(BuildContext context) async {
-    final res = await plugin?.expressLogin();
-    if (res!.status == FacebookLoginStatus.success) {
+    final res = await widget.plugin.expressLogin();
+    if (res.status == FacebookLoginStatus.success) {
       await _updateLoginInfo();
     } else {
       await showDialog<Object>(
@@ -119,30 +133,30 @@ class _MyHomeState extends State<Fblogin> {
   }
 
   Future<void> _onPressedLogOutButton() async {
-    await plugin?.logOut();
+    await widget.plugin.logOut();
     await _updateLoginInfo();
   }
 
   Future<void> _getSdkVersion() async {
-    final sdkVersion = await plugin?.sdkVersion;
+    final sdkVersion = await widget.plugin.sdkVersion;
     setState(() {
       _sdkVersion = sdkVersion;
     });
   }
 
   Future<void> _updateLoginInfo() async {
-    final plugin1 = plugin;
-    final token = await plugin1?.accessToken;
+    final plugin = widget.plugin;
+    final token = await plugin.accessToken;
     FacebookUserProfile? profile;
     String? email;
     String? imageUrl;
 
     if (token != null) {
-      profile = await plugin1?.getUserProfile();
+      profile = await plugin.getUserProfile();
       if (token.permissions.contains(FacebookPermission.email.name)) {
-        email = await plugin1?.getUserEmail();
+        email = await plugin.getUserEmail();
       }
-      imageUrl = await plugin1?.getProfileImageUrl(width: 100);
+      imageUrl = await plugin.getProfileImageUrl(width: 100);
     }
 
     setState(() {
@@ -151,9 +165,6 @@ class _MyHomeState extends State<Fblogin> {
       _email = email;
       _imageUrl = imageUrl;
     });
-
-    print('_token');
-    print(_token);
   }
 }
 */

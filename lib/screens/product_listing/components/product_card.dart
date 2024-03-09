@@ -53,7 +53,7 @@ class _ProductCardState extends State<ProductCard> {
   bool isExpired = false;
   String? _price_text;
   String? _price_value;
-  bool isVisible = true;
+  bool isVisible = false;
 
   @override
   void initState() {
@@ -65,9 +65,11 @@ class _ProductCardState extends State<ProductCard> {
 
     calculatePrice();
 
+    print(widget.title);
+
     if (widget.item!.typename == 'ConfigurableProduct' ) {
       setState(() {
-        isVisible = false;
+        isVisible = true;
       });
     }
 
@@ -228,18 +230,21 @@ class _ProductCardState extends State<ProductCard> {
                     ),
 
                     const SizedBox(height: 5.0),
-                    widget.item!.typename == "ConfigurableProduct"
+
+                    Visibility(
+                      visible: isVisible,
+                      child:  widget.item!.typename == "ConfigurableProduct"
                         ? Column(
                             children: [
-                              Text(widget.item!.getPriceRange![0].oldpricevalue
-                                  .toString()),
+                              // Text(widget.item!.getPriceRange![0].oldpricevalue
+                              //     .toString()),
                               Text(widget
                                   .item!.getPriceRange![0].normalpricevalue
                                   .toString()),
                             ],
                           )
                         : Container(),
-
+                    ),
 
                     widget.item!.typename == "SimpleProduct"
                         ? Padding(

@@ -198,6 +198,9 @@ class _ProductCardState extends State<ProductCard> {
     print('SimpleProduct');
     print(widget.item!.price.regularPrice.amount.value);
 
+    print(image);
+    print(widget.item?.smallImage.url);
+
     calculatePrice();
 
     if (widget.item!.typename != "SimpleProduct") {
@@ -307,7 +310,7 @@ class _ProductCardState extends State<ProductCard> {
                         Radius.circular(defaultBorderRadius)),
                   ),
                   child: Image.network(
-                    image ?? '',
+                    widget.item?.smallImage.url ?? '',
                     height: 150,
                     errorBuilder: (BuildContext context, Object exception,
                         StackTrace? stackTrace) {

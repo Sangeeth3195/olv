@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">OMA Living</string>
-
     <string name="facebook_app_id">607191638268187</string>
     <string name="facebook_client_token">a64547c6c3ac6bcea9638f2460e52ef9</string>
-
 </resources>

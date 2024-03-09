@@ -84,6 +84,7 @@ class GraphQLService {
                   children {
                     id
                     include_in_menu
+                    is_clickable
                     position
                     image
                     level

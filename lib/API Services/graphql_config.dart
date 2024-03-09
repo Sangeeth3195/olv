@@ -8,7 +8,7 @@ class GraphQLConfig {
 
   String token = '';
 
-  static HttpLink httpLink = HttpLink('https://staging2.omaliving.com/graphql');
+  static HttpLink httpLink = HttpLink('https://omaliving.com/graphql');
 
   GraphQLClient clientToQuery() => GraphQLClient(
         cache: GraphQLCache(),

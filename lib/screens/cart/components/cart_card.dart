@@ -35,10 +35,6 @@ class _BodyState extends State<CartCard> {
   }
 
   void decrementQuantity() {
-    // if (quantity > 0) {
-    //   quantity--;
-    // }
-
     setState(() {
       if (quantity > 0 && quantity != 1) {
         // will stop at 1

@@ -27,6 +27,8 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
   GraphQLService graphQLService = GraphQLService();
   CollectionModel collectionmdl = CollectionModel();
 
+  String? title_text ='';
+
   @override
   void initState() {
     // TODO: implement initState
@@ -41,9 +43,26 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
   }
 
   void getNavdata() async {
-    print(widget.data['children'][0]['name']);
-    collectionmdl = await graphQLService
+    print(widget.data['name']);
+
+    if(widget.data['name'] != null || widget.data['name'] == '' ){
+
+      print('widget');
+      print(widget.data);
+
+      title_text = widget.data['name'];
+
+      collectionmdl = await graphQLService
+          .get_cat_collection(widget.data['name']);
+    }else{
+
+      title_text = widget.data['children'][0]['name'];
+      collectionmdl = await graphQLService
         .get_cat_collection(widget.data['children'][0]['name']);
+
+    }
+
+
     setState(() {});
   }
 
@@ -60,7 +79,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                 ),
                 Center(
                   child: Text(
-                    widget.data['children'][0]['name'] ?? '',
+                    title_text ?? '',
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(

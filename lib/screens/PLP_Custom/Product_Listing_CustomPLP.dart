@@ -105,7 +105,7 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
                           GestureDetector(
                             onTap: () {},
                             child: Image.network(
-                              "https://staging2.omaliving.com/media/wysiwyg/brand/${item['banner']}",
+                              "https://omaliving.com/media/wysiwyg/brand/${item['banner']}",
                               fit: BoxFit.fitWidth,
                             ),
                           )
@@ -368,7 +368,7 @@ class _ProductCardState extends State<ProductCard> {
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
                         widget.item!.dynamicAttributes[0].attributeValue
-                            .toString(),
+                            .toString().toUpperCase(),
                         style: const TextStyle(
                             fontWeight: FontWeight.normal,
                             color: Colors.black54,

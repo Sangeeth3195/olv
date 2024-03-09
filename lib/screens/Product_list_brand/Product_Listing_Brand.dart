@@ -80,7 +80,7 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                           GestureDetector(
                             onTap: () {},
                             child: Image.network(
-                              "https://staging2.omaliving.com/media/wysiwyg/brand/${item['banner']}",
+                              "https://omaliving.com/media/wysiwyg/brand/${item['banner']}",
                               fit: BoxFit.fitWidth,
                             ),
                           )

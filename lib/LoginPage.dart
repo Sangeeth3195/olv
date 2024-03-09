@@ -217,8 +217,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  TextEditingController loginEmailController = TextEditingController(text: 'testone@gmail.com'); //text: 'maideen.i@gmail.com'testone@gmail.com
-  TextEditingController loginPasswordController = TextEditingController(text: 'Test@123');//text: 'Magento@123'Test@123
+  TextEditingController loginEmailController = TextEditingController(text: 'testsk3195@gmail.com'); //text: 'maideen.i@gmail.com'testone@gmail.com
+  TextEditingController loginPasswordController = TextEditingController(text: 'Letmesee@2023');//text: 'Magento@123'Test@123
 
   bool passwordVisible = false;
   CustomerModel customerModel = CustomerModel();
@@ -618,10 +618,10 @@ class _SignInState extends State<SignIn> {
 
                        /*   signInWithFacebook();*/
 
-                        /*  Navigator.push(
+                         /* Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>  Fblogin()),
+                                builder: (context) =>  MyAppFBB()),
                           );*/
 
                         }, // Every button need a callback

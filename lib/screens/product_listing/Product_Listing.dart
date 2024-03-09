@@ -46,12 +46,26 @@ class _HomeScreenState extends State<ProductListing> {
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
-    getNavdata();
 
-    print('widget.data');
 
-    print(widget.data['id']);
-    print(widget.data);
+
+    if(widget.data['rt_from'] == 'home_screen'){
+      print(widget.data['rt_from']);
+      print(widget.data['link_data']);
+
+      Map<String, dynamic> myMap = {};
+
+    //  myMap = widget.data['link_data'];
+
+      myMap = widget.data['link_data'];
+
+      print(myMap);
+
+      // filterData(myMap);
+
+    }else {
+      getNavdata();
+    }
   }
 
   @override
@@ -139,7 +153,7 @@ class _HomeScreenState extends State<ProductListing> {
                                   fontWeight: FontWeight.bold,
                                   color: priceColor,
                                   height: 1.5,
-                                  fontSize: 18)),
+                                  fontSize: 16)),
                           Container(
                             height: 30,
                             width: 35,
@@ -147,7 +161,7 @@ class _HomeScreenState extends State<ProductListing> {
                             child: IconButton(
                               icon: const Icon(
                                 Icons.close,
-                                size: 16,
+                                size: 14,
                                 color: Colors.white,
                               ),
                               onPressed: () {
@@ -159,6 +173,7 @@ class _HomeScreenState extends State<ProductListing> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 15,),
                     SizedBox(
                       height: MediaQuery.of(context).size.height,
                       child: ListView.separated(
@@ -170,9 +185,7 @@ class _HomeScreenState extends State<ProductListing> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
+
                               Theme(
                                 data: Theme.of(context)
                                     .copyWith(dividerColor: Colors.transparent),
@@ -196,7 +209,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                 .label ==
                                             "Price"
                                         ? Padding(
-                                            padding: const EdgeInsets.all(16.0),
+                                            padding: const EdgeInsets.all(0.0),
                                             child: RangeSlider(
                                               values: _currentRangeValues,
                                               min: 0,
@@ -281,7 +294,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                             horizontal: 5),
                                                         padding:
                                                             const EdgeInsets
-                                                                .all(10),
+                                                                .all(5),
                                                         decoration:
                                                             BoxDecoration(
                                                           border: Border.all(
@@ -400,19 +413,19 @@ class _HomeScreenState extends State<ProductListing> {
                                                       .options
                                                       .length,
                                                   (int index) {
-                                                    // choice chip allow us to
-                                                    // set its properties.
                                                     return CheckboxListTile(
                                                       controlAffinity:
                                                           ListTileControlAffinity
                                                               .leading,
+
                                                       title: Text(
                                                           "${provider.aggregationList[subitemIndex].options[index].label} (${provider.aggregationList[subitemIndex].options[index].count}) ",
                                                           style: const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500,
-                                                              color: blackColor,
+                                                              color: Colors.black54,
+                                                              fontFamily: 'Gotham',
                                                               height: 1,
                                                               fontSize: 12)),
                                                       value: provider
@@ -468,12 +481,12 @@ class _HomeScreenState extends State<ProductListing> {
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) {
-                          return Container();
+                          return const Divider(color: Colors.black12);
                         },
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(0),
                       width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
                         onPressed: () {
@@ -483,13 +496,13 @@ class _HomeScreenState extends State<ProductListing> {
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
-                                16.0), // Set the corner radius here
+                                5.0), // Set the corner radius here
                           ),
                           padding: const EdgeInsets.all(
-                              16.0), // Optional: Set padding for the button
+                              10.0), // Optional: Set padding for the button
                           // Customize other properties like background color, elevation, etc.
                         ),
-                        child: const Text('Apply'),
+                        child: const Text('Apply',style: TextStyle(color: Colors.black,  fontFamily: 'Gotham',),),
                       ),
                     )
                   ],
@@ -659,11 +672,11 @@ class _HomeScreenState extends State<ProductListing> {
                     ],
                   ),
                 ),
-                provider.items.length ==0 ?Column(
+                provider.items.length == 0 ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 250,),
+                    const SizedBox(height: 250,),
                     Text("We are curating the perfect list of products for you.",
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
@@ -674,7 +687,7 @@ class _HomeScreenState extends State<ProductListing> {
                           fontWeight: FontWeight.w700,
                           fontSize: 14),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Text("Meanwhile please browse our other categories.",
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)

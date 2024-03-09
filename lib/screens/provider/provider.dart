@@ -67,7 +67,7 @@ class MyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateData(int id, {int limit = 8,Map<String, dynamic>? filter}) async {
+  void updateData(int id, {int limit = 20,Map<String, dynamic>? filter}) async {
     items.clear();
     oldItems.clear();
     aggregationList.clear();
@@ -88,7 +88,7 @@ class MyProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-  void loadMoreData(int id, {int limit = 8,int currentPage = 8,Map<String, dynamic>? filter}) async {
+  void loadMoreData(int id, {int limit = 20,int currentPage = 20,Map<String, dynamic>? filter}) async {
 
     dynamic dataFromAPi =
         await graphQLService.getproductlist(limit: limit, id: id,currentPage: currentPage,hashMap: filter!);
@@ -161,12 +161,10 @@ class MyProvider extends ChangeNotifier {
   }
 
   void updateDataWithFilter(int id, Map<String, dynamic> filter) async {
-    items.clear();
-    oldItems.clear();
+
     EasyLoading.dismiss();
     dynamic listData = await graphQLService.getproductlistBySorting(
         limit: 100, id: id, hashMap: filter);
-    print(listData.data?['products']['aggregations']);
     List? res = listData.data?['products']['items'];
     pList = res!;
     aggrecation = listData.data?['products']['aggregations'];

@@ -51,7 +51,7 @@ class OrderSuccess extends StatelessWidget {
                 },
                 child: const Text(
                   'Continue Shopping',
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14,color: Colors.white),
                 ),
               ),
             ),

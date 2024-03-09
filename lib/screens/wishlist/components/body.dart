@@ -268,7 +268,7 @@ class _ProductCardState extends State<ProductCard> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
-                        widget.dy_val.toString(),
+                        widget.dy_val.toString().toUpperCase(),
                         style: const TextStyle(
                             fontWeight: FontWeight.normal,
                             color: Colors.black54,

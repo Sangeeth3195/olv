@@ -28,6 +28,7 @@ class CartProvider with ChangeNotifier {
     cartModel = CartModel.fromJson(data);
 
     print('cartModel');
+    print(cartModel.cart!.items!.length);
     print(cartModel.cart!.prices!.grandTotal!.value);
 
     // if(cartModel.cart!.prices!.grandTotal!.value! >= 10000)
@@ -47,8 +48,6 @@ class CartProvider with ChangeNotifier {
   }
 
   void updateItem(String id, int quantity) async {
-    print(id);
-    print(quantity);
     EasyLoading.show(status: 'loading...');
     await graphQLService.update_product_to_cart(id, quantity.toString());
     getCartData();
