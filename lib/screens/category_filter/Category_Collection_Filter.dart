@@ -28,6 +28,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
   CollectionModel collectionmdl = CollectionModel();
 
   String? title_text ='';
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -43,8 +44,12 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
   }
 
   void getNavdata() async {
+    isLoading = true;
     print(widget.data['name']);
 
+    setState(() {
+
+    });
     if(widget.data['name'] != null || widget.data['name'] == '' ){
 
       print('widget');
@@ -63,6 +68,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
     }
 
 
+    isLoading = false;
     setState(() {});
   }
 
@@ -92,18 +98,15 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                 const SizedBox(
                   height: 10,
                 ),
-                (collectionmdl.getCollectionSetData?.isEmpty == true ||
-                        collectionmdl.getCollectionSetData?[0].collections! ==
-                            null)
-                    ? const Center(child: CircularProgressIndicator())
+                isLoading? const Center(child: CircularProgressIndicator())
                     : Container(
                         margin: const EdgeInsets.only(
                             bottom: 0, left: 5, right: 5, top: 5),
-                        child: collectionmdl
-                                .getCollectionSetData![0].collections!.isEmpty
+                        child: collectionmdl.getCollectionSetData?.isEmpty == true ||collectionmdl
+                                .getCollectionSetData?[0].collections?.isEmpty == true
                             ? const Center(
                                 child: Text(
-                                  'You have no items in your Collection',
+                                  'We are curating the perfect list of products for you.',
                                   style: TextStyle(
                                       fontFamily: 'Gotham',
                                       fontWeight: FontWeight.w500,

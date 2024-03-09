@@ -41,13 +41,19 @@ class _HomeScreenState extends State<ProductListing> {
   int currentPage = 1;
   int itemsPerPage = 10;
   ScrollController _scrollController = ScrollController();
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
 
+    isLoading = true;
+    print(widget.data['name']);
 
+    setState(() {
+
+    });
 
     if(widget.data['rt_from'] == 'home_screen'){
       print(widget.data['rt_from']);
@@ -93,6 +99,7 @@ class _HomeScreenState extends State<ProductListing> {
         myMap[provider.aggregationList[i].attributeCode] = "{in: ${provider.aggregationList[i].selected}}";
       }
       myMap.remove('price');
+      myMap.remove('category_uid');
 
       log(myMap.toString());
       provider.loadMoreData(widget.data['id'],
@@ -147,6 +154,7 @@ class _HomeScreenState extends State<ProductListing> {
             drawer: Container(
               color: Colors.white,
               width: MediaQuery.of(context).size.width - 50,
+              height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -183,238 +191,152 @@ class _HomeScreenState extends State<ProductListing> {
                       ),
                     ),
                     const SizedBox(height: 15,),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemCount: provider.aggregationList.length,
-                        itemBuilder: (BuildContext context, int subitemIndex) {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      itemCount: provider.aggregationList.length,
+                      itemBuilder: (BuildContext context, int subitemIndex) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
 
-                              Theme(
-                                data: Theme.of(context)
-                                    .copyWith(dividerColor: Colors.transparent),
-                                child: ExpansionTile(
-                                  title: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        5.0, 0, 10, 5),
-                                    child: Text(
-                                      provider
-                                          .aggregationList[subitemIndex].label,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: priceColor,
-                                          height: 1.5,
-                                          fontFamily: 'Gotham',
-                                          fontSize: 14),
-                                    ),
+                            Theme(
+                              data: Theme.of(context)
+                                  .copyWith(dividerColor: Colors.transparent),
+                              child: ExpansionTile(
+                                title: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      5.0, 0, 10, 5),
+                                  child: Text(
+                                    provider
+                                        .aggregationList[subitemIndex].label.toUpperCase(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: priceColor,
+                                        height: 1.5,
+                                        fontFamily: 'Gotham',
+                                        fontSize: 14),
                                   ),
-                                  children: [
-                                    provider.aggregationList[subitemIndex]
-                                                .label ==
-                                            "Price"
-                                        ? Padding(
-                                            padding: const EdgeInsets.all(0.0),
-                                            child: RangeSlider(
-                                              values: _currentRangeValues,
-                                              min: 0,
-                                              max: 300,
-                                              divisions: 30,
-                                              // Optional: Increase for a smoother slider
-                                              onChanged: (RangeValues values) {
-                                                setState(() {
-                                                  _currentRangeValues = values;
-                                                });
-                                              },
-                                              labels: RangeLabels(
-                                                '\$${_currentRangeValues.start.round()}',
-                                                '\$${_currentRangeValues.end.round()}',
-                                              ),
+                                ),
+                                children: [
+                                  provider.aggregationList[subitemIndex]
+                                              .label ==
+                                          "Price"
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(0.0),
+                                          child: RangeSlider(
+                                            values: _currentRangeValues,
+                                            min: 0,
+                                            max: 300,
+                                            divisions: 30,
+                                            // Optional: Increase for a smoother slider
+                                            onChanged: (RangeValues values) {
+                                              setState(() {
+                                                _currentRangeValues = values;
+                                              });
+                                            },
+                                            labels: RangeLabels(
+                                              '\$${_currentRangeValues.start.round()}',
+                                              '\$${_currentRangeValues.end.round()}',
                                             ),
-                                          )
-                                        : provider.aggregationList[subitemIndex]
-                                                    .label ==
-                                                "Color"
-                                            ? Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        5.0, 0, 10, 5),
-                                                child: GridView.builder(
-                                                  gridDelegate:
-                                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 9,
-                                                    // Number of columns
-                                                    crossAxisSpacing: 5,
-                                                    // Horizontal spacing between items
-                                                    mainAxisSpacing:
-                                                        5, // Vertical spacing between rows
-                                                  ),
-                                                  shrinkWrap: true,
-                                                  itemCount: provider
+                                          ),
+                                        )
+                                      : provider.aggregationList[subitemIndex]
+                                                  .label ==
+                                              "Color"
+                                          ? Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      5.0, 0, 10, 5),
+                                              child: GridView.builder(
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 9,
+                                                  // Number of columns
+                                                  crossAxisSpacing: 5,
+                                                  // Horizontal spacing between items
+                                                  mainAxisSpacing:
+                                                      5, // Vertical spacing between rows
+                                                ),
+                                                shrinkWrap: true,
+                                                itemCount: provider
+                                                    .aggregationList[
+                                                        subitemIndex]
+                                                    .options
+                                                    .length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  final option = provider
                                                       .aggregationList[
                                                           subitemIndex]
-                                                      .options
-                                                      .length,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    final option = provider
-                                                        .aggregationList[
-                                                            subitemIndex]
-                                                        .options[index];
-                                                    final isSelected = provider
-                                                        .aggregationList[
-                                                            subitemIndex]
-                                                        .selected
-                                                        .contains(option.value);
+                                                      .options[index];
+                                                  final isSelected = provider
+                                                      .aggregationList[
+                                                          subitemIndex]
+                                                      .selected
+                                                      .contains(option.value);
 
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          if (isSelected) {
-                                                            provider
-                                                                .aggregationList[
-                                                                    subitemIndex]
-                                                                .selected
-                                                                .remove(option
-                                                                    .value);
-                                                          } else {
-                                                            provider
-                                                                .aggregationList[
-                                                                    subitemIndex]
-                                                                .selected
-                                                                .add(option
-                                                                    .value);
-                                                          }
-                                                        });
-                                                        print(provider
-                                                            .aggregationList[
-                                                                subitemIndex]
-                                                            .selected);
-                                                        filterData();
-                                                      },
-                                                      child: Container(
-                                                        margin: const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 5),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(5),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                            color: isSelected
-                                                                ? Colors.red
-                                                                : Colors
-                                                                    .transparent
-                                                                    .withOpacity(
-                                                                        0.2),
-                                                            // Change border color if selected
-                                                            width: 2.0,
-                                                          ),
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: colorFromHex(
-                                                              option.swatchData!
-                                                                  .value),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              )
-                                            /*Container(
-                                                color: priceColor.withOpacity(0.3),
-
-                                                child: Wrap(
-                                                  children: List.generate(
-                                                    provider
-                                                        .aggregationList[
-                                                            subitemIndex]
-                                                        .options
-                                                        .length,
-                                                    (int index) {
-                                                      return CheckboxListTile(
-                                                        controlAffinity:
-                                                            ListTileControlAffinity
-                                                                .leading,
-                                                        title: SizedBox(
-                                                          height: 12,
-                                                          width: 12,
-                                                          child: Container(
-                                                            margin: const EdgeInsets
-                                                                .symmetric(horizontal: 5),
-                                                            padding:
-                                                            const EdgeInsets.all(10),
-                                                            decoration: BoxDecoration(
-                                                              border: Border.all(
-                                                                  color: Colors
-                                                                      .transparent,
-                                                                  width:
-                                                                  2.0), // Using BorderSide with BoxDecoration
-
-                                                              shape: BoxShape.circle,
-                                                              color: colorFromHex(provider
-                                                                  .aggregationList[
-                                                              subitemIndex]
-                                                                  .options[index].swatchData!.value),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        value: provider
-                                                            .aggregationList[
-                                                                subitemIndex]
-                                                            .selected
-                                                            .contains(provider
-                                                                .aggregationList[
-                                                                    subitemIndex]
-                                                                .options[index]
-                                                                .value),
-                                                        // onselected method
-                                                        onChanged:
-                                                            (bool? selected) {
-                                                          setState(() {
-                                                            if (selected!) {
-                                                              provider
-                                                                  .aggregationList[
-                                                                      subitemIndex]
-                                                                  .selected
-                                                                  .add(provider
-                                                                      .aggregationList[
-                                                                          subitemIndex]
-                                                                      .options[
-                                                                          index]
-                                                                      .value);
-                                                            } else {
-                                                              provider
-                                                                  .aggregationList[
-                                                                      subitemIndex]
-                                                                  .selected
-                                                                  .remove(provider
-                                                                      .aggregationList[
-                                                                          subitemIndex]
-                                                                      .options[
-                                                                          index]
-                                                                      .value);
-                                                            }
-                                                          });
-                                                          print(provider
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        if (isSelected) {
+                                                          provider
                                                               .aggregationList[
                                                                   subitemIndex]
-                                                              .selected);
-                                                        },
-                                                      );
+                                                              .selected
+                                                              .remove(option
+                                                                  .value);
+                                                        } else {
+                                                          provider
+                                                              .aggregationList[
+                                                                  subitemIndex]
+                                                              .selected
+                                                              .add(option
+                                                                  .value);
+                                                        }
+                                                      });
+                                                      print(provider
+                                                          .aggregationList[
+                                                              subitemIndex]
+                                                          .selected);
+                                                      filterData();
                                                     },
-                                                  ).toList(),
-                                                ),
-                                              )
-                                */
-                                            : Column(
-                                                // list of length 3
+                                                    child: Container(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 5),
+                                                      padding:
+                                                          const EdgeInsets
+                                                              .all(5),
+                                                      decoration:
+                                                          BoxDecoration(
+                                                        border: Border.all(
+                                                          color: isSelected
+                                                              ? Colors.red
+                                                              : Colors
+                                                                  .transparent
+                                                                  .withOpacity(
+                                                                      0.2),
+                                                          // Change border color if selected
+                                                          width: 2.0,
+                                                        ),
+                                                        shape:
+                                                            BoxShape.circle,
+                                                        color: colorFromHex(
+                                                            option.swatchData!
+                                                                .value),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            )
+                                          /*Container(
+                                              color: priceColor.withOpacity(0.3),
+
+                                              child: Wrap(
                                                 children: List.generate(
                                                   provider
                                                       .aggregationList[
@@ -426,17 +348,29 @@ class _HomeScreenState extends State<ProductListing> {
                                                       controlAffinity:
                                                           ListTileControlAffinity
                                                               .leading,
+                                                      title: SizedBox(
+                                                        height: 12,
+                                                        width: 12,
+                                                        child: Container(
+                                                          margin: const EdgeInsets
+                                                              .symmetric(horizontal: 5),
+                                                          padding:
+                                                          const EdgeInsets.all(10),
+                                                          decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .transparent,
+                                                                width:
+                                                                2.0), // Using BorderSide with BoxDecoration
 
-                                                      title: Text(
-                                                          "${provider.aggregationList[subitemIndex].options[index].label} (${provider.aggregationList[subitemIndex].options[index].count}) ",
-                                                          style: const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Colors.black54,
-                                                              fontFamily: 'Gotham',
-                                                              height: 1,
-                                                              fontSize: 12)),
+                                                            shape: BoxShape.circle,
+                                                            color: colorFromHex(provider
+                                                                .aggregationList[
+                                                            subitemIndex]
+                                                                .options[index].swatchData!.value),
+                                                          ),
+                                                        ),
+                                                      ),
                                                       value: provider
                                                           .aggregationList[
                                                               subitemIndex]
@@ -446,6 +380,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                                   subitemIndex]
                                                               .options[index]
                                                               .value),
+                                                      // onselected method
                                                       onChanged:
                                                           (bool? selected) {
                                                         setState(() {
@@ -477,42 +412,144 @@ class _HomeScreenState extends State<ProductListing> {
                                                             .aggregationList[
                                                                 subitemIndex]
                                                             .selected);
-                                                        filterData();
                                                       },
                                                     );
                                                   },
                                                 ).toList(),
                                               ),
-                                  ],
-                                ),
+                                            )
+                              */
+                                          : Column(
+                                              // list of length 3
+                                              children: List.generate(
+                                                provider
+                                                    .aggregationList[
+                                                        subitemIndex]
+                                                    .options
+                                                    .length,
+                                                (int index) {
+                                                  return CheckboxListTile(
+                                                    controlAffinity:
+                                                        ListTileControlAffinity
+                                                            .leading,
+
+                                                    title: Text(
+                                                        "${provider.aggregationList[subitemIndex].options[index].label} (${provider.aggregationList[subitemIndex].options[index].count}) ",
+                                                        style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500,
+                                                            color: Colors.black54,
+                                                            fontFamily: 'Gotham',
+                                                            height: 1,
+                                                            fontSize: 12)),
+                                                    value: provider
+                                                        .aggregationList[
+                                                            subitemIndex]
+                                                        .selected
+                                                        .contains(provider
+                                                            .aggregationList[
+                                                                subitemIndex]
+                                                            .options[index]
+                                                            .value),
+                                                    onChanged:
+                                                        (bool? selected) {
+                                                      setState(() {
+                                                        if (selected!) {
+                                                          provider
+                                                              .aggregationList[
+                                                                  subitemIndex]
+                                                              .selected
+                                                              .add(provider
+                                                                  .aggregationList[
+                                                                      subitemIndex]
+                                                                  .options[
+                                                                      index]
+                                                                  .value);
+                                                        } else {
+                                                          provider
+                                                              .aggregationList[
+                                                                  subitemIndex]
+                                                              .selected
+                                                              .remove(provider
+                                                                  .aggregationList[
+                                                                      subitemIndex]
+                                                                  .options[
+                                                                      index]
+                                                                  .value);
+                                                        }
+                                                      });
+                                                      print(provider
+                                                          .aggregationList[
+                                                              subitemIndex]
+                                                          .selected);
+                                                      filterData();
+                                                    },
+                                                  );
+                                                },
+                                              ).toList(),
+                                            ),
+                                ],
                               ),
-                            ],
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const Divider(color: Colors.black12);
-                        },
-                      ),
+                            ),
+                          ],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(color: Colors.black12);
+                      },
                     ),
-                    Container(
-                      margin: const EdgeInsets.all(0),
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          // Define the action to perform when the button is pressed
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                5.0), // Set the corner radius here
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          width: MediaQuery.of(context).size.width/2 - 25,
+                          height: 63,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              // Define the action to perform when the button is pressed
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: themecolor),
+                                  borderRadius: BorderRadius.circular(
+                                    3.0), // Set the corner radius here
+                              ),
+                              padding: const EdgeInsets.all(
+                                  10.0), // Optional: Set padding for the button
+                              // Customize other properties like background color, elevation, etc.
+                            ),
+                            child: const Text('Clear All',style: TextStyle(color: Colors.black,  fontFamily: 'Gotham',),),
                           ),
-                          padding: const EdgeInsets.all(
-                              10.0), // Optional: Set padding for the button
-                          // Customize other properties like background color, elevation, etc.
                         ),
-                        child: const Text('Apply',style: TextStyle(color: Colors.black,  fontFamily: 'Gotham',),),
-                      ),
+
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          width: MediaQuery.of(context).size.width/2 -25,
+
+                          height: 63,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              // Define the action to perform when the button is pressed
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: themecolor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    3.0), // Set the corner radius here
+                              ),
+                              padding: const EdgeInsets.all(
+                                  10.0), // Optional: Set padding for the button
+                              // Customize other properties like background color, elevation, etc.
+                            ),
+                            child: const Text('Apply',style: TextStyle(color: Colors.white,  fontFamily: 'Gotham',),),
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
