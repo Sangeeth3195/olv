@@ -85,9 +85,18 @@ class _HomeScreenState extends State<ProductListing> {
       setState(() {
         currentPage++;
       });
-      final myProvider = Provider.of<MyProvider>(context, listen: false);
-      myProvider.loadMoreData(widget.data['id'],
-          limit: 20, currentPage: currentPage);
+      Map<String, dynamic> myMap = {};
+      final provider = Provider.of<MyProvider>(context, listen: false);
+
+      myMap['category_id'] = "{eq: ${widget.data['id']}}";
+      for (int i = 0; i < provider.aggregationList.length; i++) {
+        myMap[provider.aggregationList[i].attributeCode] = "{in: ${provider.aggregationList[i].selected}}";
+      }
+      myMap.remove('price');
+
+      log(myMap.toString());
+      provider.loadMoreData(widget.data['id'],
+          limit: 20, currentPage: currentPage,filter: myMap);
     }
   }
 

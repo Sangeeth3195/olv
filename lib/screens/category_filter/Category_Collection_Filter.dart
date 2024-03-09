@@ -92,8 +92,8 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                 const SizedBox(
                   height: 10,
                 ),
-                (collectionmdl.getCollectionSetData == null ||
-                        collectionmdl.getCollectionSetData![0].collections! ==
+                (collectionmdl.getCollectionSetData?.isEmpty == true ||
+                        collectionmdl.getCollectionSetData?[0].collections! ==
                             null)
                     ? const Center(child: CircularProgressIndicator())
                     : Container(
