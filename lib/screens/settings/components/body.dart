@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/CustomerModel.dart';
+import 'package:omaliving/screens/order_summary/ordersummary.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:omaliving/screens/settings/components/settings_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../API Services/graphql_service.dart';
-import '../../../slider_test.dart';
-import '../../../ttes.dart';
 import '../../webview/WebViewGQL.dart';
 
 class Body extends StatefulWidget {
@@ -133,16 +132,23 @@ class _BodyState extends State<Body> {
                           url: 'privacy-policy', title: 'Privacy Policy')));
             },
           ),
-         /* SettingsMenu(
+          const Padding(
+            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
+            child: Divider(
+              color: Colors.grey,
+              thickness: 0.2,
+            ),
+          ),
+          SettingsMenu(
             text: "Privacy Policy",
             icon: FontAwesomeIcons.heart,
             press: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const TESTBody()));
+                      builder: (context) => const Ordersummary()));
             },
-          ),*/
+          ),
           const Padding(
             padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
             child: Divider(
@@ -182,26 +188,4 @@ class _BodyState extends State<Body> {
     );
   }
 
-  /*_launchURLBrowser(String _url) async {
-    final url = _url;
-    if (await canLaunch(url)) {
-      await launch(url, forceSafariVC: true, forceWebView: true);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }*/
-
-  // _launchURLBrowser(String url) async {
-  //   final url = Uri.parse(url);
-  //   try {
-  //     await launch(
-  //       url,
-  //       enableJavaScript: true,
-  //     );
-  //     return true;
-  //   } catch (e) {
-  //     print(e.toString());
-  //     return false;
-  //   }
-  // }
 }

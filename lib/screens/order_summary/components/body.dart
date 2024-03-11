@@ -80,7 +80,7 @@ class _BodyState extends State<Body> {
                 ListTile(
                   leading: Image(
                     image: NetworkImage(
-                        'https://omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI002927_3.png'),
+                        'https://www.omaliving.com/media/catalog/product/cache/7a4073f8d3c05bd8cd3f989ce9c9cc9f/I/T/ITEM-010709_4.png'),
                     height: 60,
                     fit: BoxFit.cover,
                   ),
@@ -99,7 +99,7 @@ class _BodyState extends State<Body> {
                 ListTile(
                   leading: Image(
                     image: NetworkImage(
-                        'https://omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI002927_3.png'),
+                        'https://www.omaliving.com/media/catalog/product/cache/7a4073f8d3c05bd8cd3f989ce9c9cc9f/I/T/ITEM-010709_4.png'),
                     height: 60,
                     fit: BoxFit.cover,
                   ),
@@ -121,7 +121,7 @@ class _BodyState extends State<Body> {
                 ListTile(
                   leading: Image(
                     image: NetworkImage(
-                        'https://omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI002927_3.png'),
+                        'https://www.omaliving.com/media/catalog/product/cache/7a4073f8d3c05bd8cd3f989ce9c9cc9f/I/T/ITEM-010709_4.png'),
                     height: 60,
                     fit: BoxFit.cover,
                   ),
@@ -143,7 +143,7 @@ class _BodyState extends State<Body> {
                 ListTile(
                   leading: Image(
                     image: NetworkImage(
-                        'https://omaliving.com/media/catalog/product/cache/e6afa270acd1ebb244ff9314a1640bb7/R/I/RI002927_3.png'),
+                        'https://www.omaliving.com/media/catalog/product/cache/7a4073f8d3c05bd8cd3f989ce9c9cc9f/I/T/ITEM-010709_4.png'),
                     height: 60,
                     fit: BoxFit.cover,
                   ),

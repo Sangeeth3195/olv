@@ -93,8 +93,8 @@ class CheckoutCard extends StatelessWidget {
                         );
                       },
                       child: const Text(
-                        'Continue to payment',
-                        style: TextStyle(fontSize: 15.0, color: Colors.white),
+                        'Pay With Razorpay',
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),
                       ),
                     ),
                   ),

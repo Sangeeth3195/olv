@@ -2588,7 +2588,7 @@ class GraphQLService {
 
   /// Get Order Details
   Future<OrderModel> getorderdetails({
-    required int limit,
+    required int limit, required BuildContext context
   }) async {
     try {
       QueryResult result = await client.query(
@@ -2666,7 +2666,15 @@ class GraphQLService {
       );
 
       if (result.hasException) {
+        print("object");
         print(result.exception?.graphqlErrors[0].message);
+
+        if(result.exception?.graphqlErrors[0].message == "The current customer isn't authorized."){
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          await preferences.clear();
+          context.go('/home');
+        }
+
         EasyLoading.dismiss();
       } else if (result.data != null) {
         EasyLoading.dismiss();
@@ -2676,6 +2684,7 @@ class GraphQLService {
 
       return OrderModel();
     } catch (e) {
+      print("object");
       print(e);
       return OrderModel();
     }
@@ -4345,6 +4354,66 @@ class GraphQLService {
         print(result.exception?.graphqlErrors[0].message);
         // Fluttertoast.showToast(
         //     msg: result.exception!.graphqlErrors[0].message.toString());
+      } else if (result.data != null) {
+        log(jsonEncode(result.data));
+        print(result.data);
+
+        EasyLoading.dismiss();
+
+        return result.data?['placeOrder']['order']['order_number'];
+      }
+
+      return "";
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+
+  /// Reorder
+  static String re_ord(String order_id) {
+    return '''
+            mutation{
+                  reorderItems(orderNumber: "$order_id"){
+                    cart {
+                      id
+                      items {
+                        uid
+                        product {
+                          sku
+                        }
+                        quantity
+                        prices {
+                          price {
+                            value
+                          }
+                        }
+                      }
+                    }
+                    userInputErrors{
+                      code
+                      message
+                      path
+                    }
+                  }
+                }
+        ''';
+  }
+
+  Future<String> re_order(String order_id) async {
+
+    EasyLoading.show(status: 'loading...');
+
+    try {
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(re_ord(order_id)), // this
+        ),
+      );
+
+      if (result.hasException) {
+        EasyLoading.dismiss();
+        print(result.exception?.graphqlErrors[0].message);
       } else if (result.data != null) {
         log(jsonEncode(result.data));
         print(result.data);

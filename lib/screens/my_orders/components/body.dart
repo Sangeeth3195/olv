@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:intl/intl.dart';
 import 'package:omaliving/models/OrderModel.dart';
 import 'package:omaliving/screens/recent_order/recentorder.dart';
 
@@ -15,7 +16,6 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   GraphQLService graphQLService = GraphQLService();
-
   OrderModel ordersModel = OrderModel();
 
   @override
@@ -27,7 +27,7 @@ class _BodyState extends State<Body> {
 
   void getuserdata() async {
     EasyLoading.show(status: 'loading...');
-    ordersModel = await graphQLService.getorderdetails(limit: 1000);
+    ordersModel = await graphQLService.getorderdetails(limit: 1000, context: context);
     setState(() {});
   }
 
@@ -51,6 +51,9 @@ class _BodyState extends State<Body> {
                     : ListView.builder(
                         itemCount: ordersModel.customer!.orders!.items!.length,
                         itemBuilder: (context, index) {
+                          DateTime? date = ordersModel.customer?.orders?.items?[index].orderDate;
+                          print(date);
+                          print(DateFormat.yMMMd().format(date!));
                           return Padding(
                             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: SizedBox(
@@ -59,9 +62,7 @@ class _BodyState extends State<Body> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0),
                                 ),
-                                // color: const Color(0xFFFCF6FD),
                                 borderOnForeground: true,
-
                                 elevation: 2,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -133,7 +134,7 @@ class _BodyState extends State<Body> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              "${ordersModel.customer?.orders?.items?[index].orderDate}",
+                                              DateFormat.yMMMMd().format(date),
                                               style: const TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 13,
@@ -169,7 +170,7 @@ class _BodyState extends State<Body> {
                                           ),
 
                                           /// Reorder
-                                          /*  MaterialButton(
+                                         /*   MaterialButton(
                                         color: headingColor,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(0.0),
@@ -181,6 +182,29 @@ class _BodyState extends State<Body> {
                                               color: Colors.white, fontSize: 13),
                                         ),
                                       ),*/
+
+                                          OutlinedButton(
+                                            onPressed: () {
+
+                                              print(ordersModel
+                                                  .customer
+                                                  ?.orders
+                                                  ?.items?[index].orderNumber);
+
+                                            },
+                                            style: OutlinedButton.styleFrom(
+                                              backgroundColor: headingColor,
+                                                textStyle: const TextStyle(fontSize: 12, fontStyle: FontStyle.normal,color: Colors.white),
+                                                shape: const RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.all(Radius.circular(5)))),
+                                            child: const Text(
+                                              'Reorder',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
 
                                           const SizedBox(
                                             width: 4,
@@ -202,17 +226,23 @@ class _BodyState extends State<Body> {
                                                               )));
                                             },
                                             style: OutlinedButton.styleFrom(
+
+                                                primary: headingColor,
+                                                textStyle: const TextStyle(fontSize: 12, fontStyle: FontStyle.normal),
+                                                shape: const RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.all(Radius.circular(5)))),
+                                           /* style: OutlinedButton.styleFrom(
                                               side: const BorderSide(
                                                   width: 1.0,
                                                   color: headingColor),
                                               // shape: const StadiumBorder(),
-                                            ),
+                                            ),*/
                                             child: const Text(
                                               'View Order',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: headingColor,
-                                                  fontSize: 13),
+                                                  fontSize: 14),
                                             ),
                                           )
                                         ],

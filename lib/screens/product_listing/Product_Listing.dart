@@ -59,11 +59,13 @@ class _HomeScreenState extends State<ProductListing> {
       print(widget.data['rt_from']);
       print(widget.data['link_data']);
 
+      getNavdata();
+
       Map<String, dynamic> myMap = {};
 
     //  myMap = widget.data['link_data'];
 
-      myMap = widget.data['link_data'];
+      // myMap = widget.data['link_data'];
 
       print(myMap);
 
@@ -132,7 +134,7 @@ class _HomeScreenState extends State<ProductListing> {
     myMap.remove('price');
 
     log(myMap.toString());
-    provider.updateData(widget.data['id'], filter: myMap);
+    provider.updateData(int.parse(widget.data['id']), filter: myMap);
   }
 
 

@@ -131,24 +131,9 @@ class _BodyState extends State<Body> {
                         )
                       : Container(),
 
-                  // Autocomplete<String>(
-                  //   optionsBuilder: (TextEditingValue textEditingValue) {
-                  //     if (textEditingValue.text == '') {
-                  //       return const Iterable<String>.empty();
-                  //     }
-                  //     return _kOptions.where((String option) {
-                  //       return option.contains(textEditingValue.text.toLowerCase());
-                  //     });
-                  //   },
-                  //   onSelected: (String selection) {
-                  //     debugPrint('You just selected $selection');
-                  //   },
-                  // ),
                   GestureDetector(
                     onTap: () {
-                      // navigate(context, ProductListing.routeName,
-                      //     isRootNavigator: false,
-                      //     arguments: {'id': '1'});
+
                     },
                     child: Center(
                       child: Padding(
@@ -167,18 +152,7 @@ class _BodyState extends State<Body> {
                                       .getHomePageData![0].sectiondata!)
                                     GestureDetector(
                                       onTap: () {
-                                        /* print('item.link');
-                                        print(item.link);
-
-                                        final myProvider =
-                                            Provider.of<MyProvider>(context,`
-                                                listen: false);
-                                        myProvider
-                                            .updateData(int.parse(item.link!));
-                                        context.go('/home/pdp');*/
-
                                         String? tagName = item.link;
-                                        // String? tagName = 'category_uid="10611"&show_collection=0&{price: {in: []}, category_uid: {in: []}, color: {in: [5461]}, material: {in: []}, oma_collection: {in: []}, oma_subclass: {in: []}, brands: {in: [15096]}}';
 
                                         print(item.link);
 
@@ -227,7 +201,7 @@ class _BodyState extends State<Body> {
 
                                         }else {
                                           final Map<String, String> someMap = {
-                                            "id": split1[1]!,
+                                            "id": split1[1],
                                             "name": item.title!,
                                             "product_count": "20",
                                             "show_collection":split4[1],
@@ -354,81 +328,6 @@ class _BodyState extends State<Body> {
                     ),
                   ),
 
-                  /*  GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                      child: GFItemsCarousel(
-                        rowCount: 3,
-                        itemHeight: 250.0,
-                        children:
-                            homePageModel.getHomePageData![1].sectiondata!.map(
-                          (url) {
-                            return GestureDetector(
-                              onTap: () {
-                                final Map<String, dynamic> someMap = {
-                                  "id": int.parse(url.link.toString()),
-                                  "name": url.title!,
-                                  "product_count": 20,
-                                };
-                                print(someMap);
-                                context.go('/home/pdp', extra: someMap);
-
-                                */ /* print('item.link');
-
-                                print(url.link);
-
-                                final myProvider = Provider.of<MyProvider>(
-                                    context,
-                                    listen: false);
-                                myProvider.updateData(int.parse(url.link!));
-
-                                context.go('/home/pdp');*/ /*
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
-                                child: Column(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(0.0)),
-                                      child: Image.network(
-                                        "https://staging2.omaliving.com${url.attachment!}",
-                                        fit: BoxFit.cover,
-                                        height: 175,
-                                        width: 1000.0,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return Image.asset(
-                                            'assets/omalogo.png',
-                                            height: 175,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    Text(
-                                      url.title ?? '',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(
-                                              fontSize: 13,
-                                              color: describtionTextColor,
-                                              fontFamily: 'Gotham',
-                                              fontWeight: FontWeight.w500),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ).toList(),
-                      ),
-                    ),
-                  ),*/
-
                   /// Section 1
                   GestureDetector(
                     child: CarouselSlider(
@@ -448,31 +347,33 @@ class _BodyState extends State<Body> {
                         ((i) {
                           return GestureDetector(
                             onTap: () {
+                              String? tagName = homePageModel
+                                  .getHomePageData![1].sectiondata![i].link;
 
                               print(homePageModel
                                   .getHomePageData![1].sectiondata![i].link);
 
-                              String? tagName = homePageModel
-                                  .getHomePageData![1].sectiondata![i].link;
-
                               final split = tagName?.split('&');
 
                               final Map<int, String> values = {
-
                                 for (int i = 0; i < split!.length; i++)
                                   i: split[i]
-
                               };
 
-                              final value1 = values[1];
+                              final value1 = values[0];
                               final value2 = values[1];
                               final value3 = values[2];
                               final value4 = values[3];
+                              final value5 = values[4];
 
                               print(value1.toString());
                               print(value2);
                               print(value3);
                               print(value4);
+                              print(value5);
+
+                              print('split');
+                              print(value5);
 
                               final split1 = value1.toString().split('=');
                               print(split1[1]);
@@ -486,8 +387,34 @@ class _BodyState extends State<Body> {
                               final split4 = value4.toString().split('=');
                               print(split4[1]);
 
+                              if(split4[1] == '1'){
+                                print('show_collection');
 
+                                final Map<String, dynamic> someMap = {
+                                  "name": "BATH COLLECTION",
+                                };
+
+                                context.go(
+                                    '/home/cat_listing_filter',
+                                    extra: someMap);
+
+                              }else {
+
+                                print(value4!);
+
+                                final Map<String, String> someMap = {
+                                  "id": split1[1],
+                                  "name": homePageModel
+                                      .getHomePageData![1].sectiondata![i].title!,
+                                  "product_count": "20",
+                                  "show_collection":split4[1],
+                                  "link_data":value4,
+                                  "rt_from":'home_screen',
+                                };
+                                context.go('/home/pdp', extra: someMap);
+                              }
                             },
+
                             child: Padding(
                               padding:
                                   const EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0),
@@ -518,42 +445,84 @@ class _BodyState extends State<Body> {
                           );
                         }),
                       ),
-
-                      /*items: [
-                            for (Sectiondatum item in homePageModel
-                                .getHomePageData![1].sectiondata!)
-                              GestureDetector(
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      3.0, 0.0, 3.0, 0),
-                                  child: GestureDetector(
-                                    onTap: () {},
-                                    child: Image.network(
-                                      "https://staging2.omaliving.com${item.attachmentmob!}",
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ]*/
                     ),
                   ),
 
                   const SizedBox(height: 20,),
 
                   SizedBox(
-                    width: 240, // <-- Your width
-                    height: 35, // <-- Your height
+                    width: 240,
+                    height: 35,
                     child: ElevatedButton(
                       onPressed: () {
-                        final Map<String, dynamic> someMap = {
-                          "id": int.parse(homePageModel
-                              .getHomePageData![1].sectiondata![0].link
-                              .toString()),
-                          "product_count": 20,
+
+                        String? tagName = homePageModel
+                            .getHomePageData![1].link;
+
+                        print(homePageModel
+                            .getHomePageData![1].link);
+
+                        final split = tagName?.split('&');
+
+                        final Map<int, String> values = {
+                          for (int i = 0; i < split!.length; i++)
+                            i: split[i]
                         };
-                        print(someMap);
-                        context.go('/home/pdp', extra: someMap);
+
+                        final value1 = values[0];
+                        final value2 = values[1];
+                        final value3 = values[2];
+                        final value4 = values[3];
+                        final value5 = values[4];
+
+                        print(value1.toString());
+                        print(value2);
+                        print(value3);
+                        print(value4);
+                        print(value5);
+
+                        print('split');
+                        print(value5);
+
+                        final split1 = value1.toString().split('=');
+                        print(split1[1]);
+
+                        final split2 = value2.toString().split('=');
+                        print(split2[1]);
+
+                        final split3 = value3.toString().split('=');
+                        print(split3[1]);
+
+                        final split4 = value4.toString().split('=');
+                        print(split4[1]);
+
+                        if(split4[1] == '1'){
+                          print('show_collection');
+
+                          final Map<String, dynamic> someMap = {
+                            "name": "BATH COLLECTION",
+                          };
+
+                          context.go(
+                              '/home/cat_listing_filter',
+                              extra: someMap);
+
+                        }else {
+
+                          print(value4!);
+
+                          final Map<String, String> someMap = {
+                            "id": split1[1],
+                            "name": homePageModel
+                                .getHomePageData![1].title!,
+                            "product_count": "20",
+                            "show_collection":split4[1],
+                            "link_data":value4,
+                            "rt_from":'home_screen',
+                          };
+                          context.go('/home/pdp', extra: someMap);
+                        }
+
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -582,6 +551,71 @@ class _BodyState extends State<Body> {
                       : GestureDetector(
                           onTap: () {
                             print(homePageModel.getHomePageData![2].sectiondata![0].link!);
+
+                            String? tagName = homePageModel
+                                .getHomePageData![2].sectiondata![0].link!;
+
+                            final split = tagName.split('&');
+
+                            final Map<int, String> values = {
+                              for (int i = 0; i < split.length; i++)
+                                i: split[i]
+                            };
+
+                            final value1 = values[0];
+                            final value2 = values[1];
+                            final value3 = values[2];
+                            final value4 = values[3];
+                            final value5 = values[4];
+
+                            print(value1.toString());
+                            print(value2);
+                            print(value3);
+                            print(value4);
+                            print(value5);
+
+                            print('split');
+                            print(value5);
+
+                            final split1 = value1.toString().split('=');
+                            print(split1[1]);
+
+                            final split2 = value2.toString().split('=');
+                            print(split2[1]);
+
+                            final split3 = value3.toString().split('=');
+                            print(split3[1]);
+
+                            final split4 = value4.toString().split('=');
+                            print(split4[1]);
+
+                            if(split4[1] == '1'){
+                              print('show_collection');
+
+                              final Map<String, dynamic> someMap = {
+                                "name": "BATH COLLECTION",
+                              };
+
+                              context.go(
+                                  '/home/cat_listing_filter',
+                                  extra: someMap);
+
+                            }else {
+
+                              print(value4!);
+
+                              final Map<String, String> someMap = {
+                                "id": split1[1],
+                                "name": homePageModel
+                                    .getHomePageData![2].title!,
+                                "product_count": "20",
+                                "show_collection":split4[1],
+                                "link_data":value4,
+                                "rt_from":'home_screen',
+                              };
+                              context.go('/home/pdp', extra: someMap);
+                            }
+
                           },
                           child: SizedBox(
                             height: 260,
@@ -597,10 +631,10 @@ class _BodyState extends State<Body> {
                           ),
                         ),
 
-            const SizedBox(height: 10,),
+                const SizedBox(height: 10,),
 
 
-            Center(
+                 Center(
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 15),
@@ -620,74 +654,6 @@ class _BodyState extends State<Body> {
                     ),
                   ),
 
-                 /* Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                    child: GFItemsCarousel(
-                      rowCount: 3,
-                      itemHeight: 280.0,
-                      children:
-                          homePageModel.getHomePageData![3].sectiondata!.map(
-                        (url) {
-                          return GestureDetector(
-                            onTap: () {
-                              *//*  final myProvider =
-                                  Provider.of<MyProvider>(context, listen: false);
-                              myProvider.updateData(int.parse(url.link!));
-                              context.go('/home/pdp');*//*
-                              final Map<String, dynamic> someMap = {
-                                "id": int.parse(url.link!.toString()),
-                                "product_count": 20,
-                              };
-                              print(someMap);
-                              context.go('/home/pdp', extra: someMap);
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(0.0)),
-                                    child: Image.network(
-                                      "https://staging2.omaliving.com${url.attachment!}",
-                                      fit: BoxFit.cover,
-                                      width: 1000.0,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return Image.asset(
-                                          'assets/omalogo.png',
-                                          height: 175,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Text(
-                                  url.title!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        color: describtionTextColor,
-                                        fontFamily: 'Gotham',
-                                        height: 1.5,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                  textAlign: TextAlign.center,
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ),*/
-
                   GestureDetector(
                     child: CarouselSlider(
                     options: CarouselOptions(
@@ -706,8 +672,71 @@ class _BodyState extends State<Body> {
                   ((i) {
                     return GestureDetector(
                       onTap: () {
-                        print(homePageModel
-                            .getHomePageData![3].sectiondata![i].link);
+
+                        String? tagName = homePageModel
+                            .getHomePageData![3].sectiondata![i].link!;
+
+                        final split = tagName.split('&');
+
+                        final Map<int, String> values = {
+                          for (int i = 0; i < split.length; i++)
+                            i: split[i]
+                        };
+
+                        final value1 = values[0];
+                        final value2 = values[1];
+                        final value3 = values[2];
+                        final value4 = values[3];
+                        final value5 = values[4];
+
+                        print(value1.toString());
+                        print(value2);
+                        print(value3);
+                        print(value4);
+                        print(value5);
+
+                        print('split');
+                        print(value5);
+
+                        final split1 = value1.toString().split('=');
+                        print(split1[1]);
+
+                        final split2 = value2.toString().split('=');
+                        print(split2[1]);
+
+                        final split3 = value3.toString().split('=');
+                        print(split3[1]);
+
+                        final split4 = value4.toString().split('=');
+                        print(split4[1]);
+
+                        if(split4[1] == '1'){
+                          print('show_collection');
+
+                          final Map<String, dynamic> someMap = {
+                            "name": "BATH COLLECTION",
+                          };
+
+                          context.go(
+                              '/home/cat_listing_filter',
+                              extra: someMap);
+
+                        }else {
+
+                          print(value4!);
+
+                          final Map<String, String> someMap = {
+                            "id": split1[1],
+                            "name": homePageModel
+                                .getHomePageData![3].title!,
+                            "product_count": "20",
+                            "show_collection":split4[1],
+                            "link_data":value4,
+                            "rt_from":'home_screen',
+                          };
+                          context.go('/home/pdp', extra: someMap);
+                        }
+
                       },
                       child: Padding(
                         padding:
@@ -758,24 +787,7 @@ class _BodyState extends State<Body> {
               ),
             ),
 
-            const SizedBox(height: 20,),
-                  // Center(
-                  //   child: Center(
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
-                  //       child: Text(
-                  //         homePageModel.getHomePageData![4].title!,
-                  //         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  //               fontSize: 18,
-                  //               fontWeight: FontWeight.w500,
-                  //               color: describtionTextColor,
-                  //               fontFamily: 'Gotham',
-                  //               height: 1.5,
-                  //             ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+               const SizedBox(height: 20),
 
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0),
@@ -792,17 +804,71 @@ class _BodyState extends State<Body> {
                               in homePageModel.getHomePageData![4].sectiondata!)
                             GestureDetector(
                               onTap: () {
-                                /* final myProvider = Provider.of<MyProvider>(
-                                    context,
-                                    listen: false);
-                                myProvider.updateData(int.parse(item.link!));
-                                context.go('/home/pdp');*/
-                                final Map<String, dynamic> someMap = {
-                                  "id": int.parse(item.link!.toString()),
-                                  "product_count": 20,
+
+                                String? tagName = homePageModel
+                                    .getHomePageData![4].sectiondata![0].link!;
+
+                                final split = tagName.split('&');
+
+                                final Map<int, String> values = {
+                                  for (int i = 0; i < split.length; i++)
+                                    i: split[i]
                                 };
-                                print(someMap);
-                                context.go('/home/pdp', extra: someMap);
+
+                                final value1 = values[0];
+                                final value2 = values[1];
+                                final value3 = values[2];
+                                final value4 = values[3];
+                                final value5 = values[4];
+
+                                print(value1.toString());
+                                print(value2);
+                                print(value3);
+                                print(value4);
+                                print(value5);
+
+                                print('split');
+                                print(value5);
+
+                                final split1 = value1.toString().split('=');
+                                print(split1[1]);
+
+                                final split2 = value2.toString().split('=');
+                                print(split2[1]);
+
+                                final split3 = value3.toString().split('=');
+                                print(split3[1]);
+
+                                final split4 = value4.toString().split('=');
+                                print(split4[1]);
+
+                                if(split4[1] == '1'){
+                                  print('show_collection');
+
+                                  final Map<String, dynamic> someMap = {
+                                    "name": "BATH COLLECTION",
+                                  };
+
+                                  context.go(
+                                      '/home/cat_listing_filter',
+                                      extra: someMap);
+
+                                }else {
+
+                                  print(value4!);
+
+                                  final Map<String, String> someMap = {
+                                    "id": split1[1],
+                                    "name": homePageModel
+                                        .getHomePageData![4].title!,
+                                    "product_count": "20",
+                                    "show_collection":split4[1],
+                                    "link_data":value4,
+                                    "rt_from":'home_screen',
+                                  };
+                                  context.go('/home/pdp', extra: someMap);
+                                }
+
                               },
                               child: Image.network(
                                 "https://omaliving.com${item.attachment!}",
@@ -815,11 +881,7 @@ class _BodyState extends State<Body> {
                   ),
 
                   const SizedBox(
-                    height: 5,
-                  ),
-
-                  const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
 
                   Row(children: <Widget>[
@@ -850,107 +912,6 @@ class _BodyState extends State<Body> {
                     )),
                   ]),
 
-                  /*Center(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                        child:
-
-
-
-                        Text(
-                          homePageModel.getHomePageData![5].title!,
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: describtionTextColor,
-                                    fontFamily: 'Gotham',
-                                  ),
-                        ),
-                      ),
-                    ),
-                  ),*/
-
-                  // product with add to cart
-
-                  const SizedBox(
-                    height: 0,
-                  ),
-
-                  /*Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                    child: GFItemsCarousel(
-                      rowCount: 3,
-                      itemHeight: 260.0,
-                      children:
-                          homePageModel.getHomePageData![5].sectiondata!.map(
-                        (url) {
-                          return GestureDetector(
-                            onTap: () {
-                              */
-
-            /*final myProvider =
-                                  Provider.of<MyProvider>(context, listen: false);
-                              myProvider.updateData(int.parse(url.link!));
-                              context.go('/home/pdp');*/
-
-            /*
-                              final Map<String, dynamic> someMap = {
-                                "id": int.parse(url.link!.toString()),
-                                "product_count": 20,
-                              };
-                              print(someMap);
-                              context.go('/home/pdp', extra: someMap);
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(0.0)),
-                                    child: Image.network(
-                                      "https://staging2.omaliving.com${url.attachment!}",
-                                      fit: BoxFit.cover,
-                                      width: 1000.0,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return Image.asset(
-                                          'assets/omalogo.png',
-                                          height: 175,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Text(
-                                  url.title!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(
-                                        color: describtionTextColor,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: 'Gotham',
-                                        fontSize: 14,
-                                      ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ),*/
-
-                  /// Section 6
-
                   const SizedBox(
                     height: 10,
                   ),
@@ -973,30 +934,30 @@ class _BodyState extends State<Body> {
                         ((i) {
                           return GestureDetector(
                             onTap: () {
-                              print(homePageModel
-                                  .getHomePageData![5].sectiondata![i].link);
+                              String? tagName = homePageModel
+                                  .getHomePageData![5].sectiondata![i].link!;
 
-                              // const tagName = 'category_id=1234&oma_collection=7794&brands=456&show_collection=0';
+                              final split = tagName.split('&');
 
-                              String? tagName = homePageModel.getHomePageData![5].sectiondata![i].link;
-
-                              final split = tagName?.split('&');
                               final Map<int, String> values = {
-                                for (int i = 0; i < split!.length; i++)
+                                for (int i = 0; i < split.length; i++)
                                   i: split[i]
                               };
-
-                              print(values);
 
                               final value1 = values[0];
                               final value2 = values[1];
                               final value3 = values[2];
                               final value4 = values[3];
+                              final value5 = values[4];
 
                               print(value1.toString());
                               print(value2);
                               print(value3);
                               print(value4);
+                              print(value5);
+
+                              print('split');
+                              print(value5);
 
                               final split1 = value1.toString().split('=');
                               print(split1[1]);
@@ -1009,6 +970,33 @@ class _BodyState extends State<Body> {
 
                               final split4 = value4.toString().split('=');
                               print(split4[1]);
+
+                              if(split4[1] == '1'){
+                                print('show_collection');
+
+                                final Map<String, dynamic> someMap = {
+                                  "name": "BATH COLLECTION",
+                                };
+
+                                context.go(
+                                    '/home/cat_listing_filter',
+                                    extra: someMap);
+
+                              }else {
+
+                                print(value4!);
+
+                                final Map<String, String> someMap = {
+                                  "id": split1[1],
+                                  "name": homePageModel
+                                      .getHomePageData![5].title!,
+                                  "product_count": "20",
+                                  "show_collection":split4[1],
+                                  "link_data":value4,
+                                  "rt_from":'home_screen',
+                                };
+                                context.go('/home/pdp', extra: someMap);
+                              }
 
                             },
                             child: Padding(
@@ -1046,11 +1034,69 @@ class _BodyState extends State<Body> {
 
                   GestureDetector(
                     onTap: () {
-                      // navigate(context, ProductListing.routeName,
-                      //     isRootNavigator: false,
-                      //     arguments: {'id': '1'});
+                      String? tagName = homePageModel
+                          .getHomePageData![6].sectiondata![0].link!;
 
+                      final split = tagName.split('&');
 
+                      final Map<int, String> values = {
+                        for (int i = 0; i < split.length; i++)
+                          i: split[i]
+                      };
+
+                      final value1 = values[0];
+                      final value2 = values[1];
+                      final value3 = values[2];
+                      final value4 = values[3];
+                      final value5 = values[4];
+
+                      print(value1.toString());
+                      print(value2);
+                      print(value3);
+                      print(value4);
+                      print(value5);
+
+                      print('split');
+                      print(value5);
+
+                      final split1 = value1.toString().split('=');
+                      print(split1[1]);
+
+                      final split2 = value2.toString().split('=');
+                      print(split2[1]);
+
+                      final split3 = value3.toString().split('=');
+                      print(split3[1]);
+
+                      final split4 = value4.toString().split('=');
+                      print(split4[1]);
+
+                      if(split4[1] == '1'){
+                        print('show_collection');
+
+                        final Map<String, dynamic> someMap = {
+                          "name": "BATH COLLECTION",
+                        };
+
+                        context.go(
+                            '/home/cat_listing_filter',
+                            extra: someMap);
+
+                      }else {
+
+                        print(value4!);
+
+                        final Map<String, String> someMap = {
+                          "id": split1[1],
+                          "name": homePageModel
+                              .getHomePageData![6].title!,
+                          "product_count": "20",
+                          "show_collection":split4[1],
+                          "link_data":value4,
+                          "rt_from":'home_screen',
+                        };
+                        context.go('/home/pdp', extra: someMap);
+                      }
                     },
                     child: Center(
                       child: Padding(
@@ -1069,21 +1115,69 @@ class _BodyState extends State<Body> {
                                       .getHomePageData![6].sectiondata!)
                                     GestureDetector(
                                       onTap: () {
-                                        /* print('item.link');
-                                        print(item.link);
+                                        String? tagName = homePageModel
+                                            .getHomePageData![6].sectiondata![0].link!;
 
-                                        final myProvider =
-                                            Provider.of<MyProvider>(context,
-                                                listen: false);
-                                        myProvider
-                                            .updateData(int.parse(item.link!));
-                                        context.go('/home/pdp');*/
-                                        final Map<String, String> someMap = {
-                                          "id": item.link!,
-                                          "name": item.title!,
-                                          "product_count": "20",
+                                        final split = tagName.split('&');
+
+                                        final Map<int, String> values = {
+                                          for (int i = 0; i < split.length; i++)
+                                            i: split[i]
                                         };
-                                        context.go('/home/pdp', extra: someMap);
+
+                                        final value1 = values[0];
+                                        final value2 = values[1];
+                                        final value3 = values[2];
+                                        final value4 = values[3];
+                                        final value5 = values[4];
+
+                                        print(value1.toString());
+                                        print(value2);
+                                        print(value3);
+                                        print(value4);
+                                        print(value5);
+
+                                        print('split');
+                                        print(value5);
+
+                                        final split1 = value1.toString().split('=');
+                                        print(split1[1]);
+
+                                        final split2 = value2.toString().split('=');
+                                        print(split2[1]);
+
+                                        final split3 = value3.toString().split('=');
+                                        print(split3[1]);
+
+                                        final split4 = value4.toString().split('=');
+                                        print(split4[1]);
+
+                                        if(split4[1] == '1'){
+                                          print('show_collection');
+
+                                          final Map<String, dynamic> someMap = {
+                                            "name": "BATH COLLECTION",
+                                          };
+
+                                          context.go(
+                                              '/home/cat_listing_filter',
+                                              extra: someMap);
+
+                                        }else {
+
+                                          print(value4!);
+
+                                          final Map<String, String> someMap = {
+                                            "id": split1[1],
+                                            "name": homePageModel
+                                                .getHomePageData![4].title!,
+                                            "product_count": "20",
+                                            "show_collection":split4[1],
+                                            "link_data":value4,
+                                            "rt_from":'home_screen',
+                                          };
+                                          context.go('/home/pdp', extra: someMap);
+                                        }
                                       },
                                       child: Image.network(
                                         "https://omaliving.com${item.attachmentmob!}",
@@ -1144,40 +1238,6 @@ class _BodyState extends State<Body> {
                     ),
                   ),
 
-                  /*     Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0),
-                    child: GFItemsCarousel(
-                      rowCount: 1,
-                      itemHeight: 180.0,
-                      children:
-                          homePageModel.getHomePageData![6].sectiondata!.map(
-                        (url) {
-                          return GestureDetector(
-                            onTap: () {
-                              final myProvider =
-                                  Provider.of<MyProvider>(context, listen: false);
-                              myProvider.updateData(int.parse(url.link!));
-                              context.go('/home/pdp');
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.fromLTRB(0.0, 5, 5, 0),
-                              child: ClipRRect(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(0.0)),
-                                child: Image.network(
-                                    "https://staging2.omaliving.com${url.attachment!}",
-                                    fit: BoxFit.cover,
-                                    width: 1000.0),
-                              ),
-                            ),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ),*/
-
-                  // product with add to cart
-
                   const SizedBox(
                     height: 10,
                   ),
@@ -1219,76 +1279,6 @@ class _BodyState extends State<Body> {
                     ),
                   ),
 
-                  const SizedBox(
-                    height: 0,
-                  ),
-
-                  /* Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20.0),
-                    child: GFItemsCarousel(
-                      rowCount: 2,
-                      itemHeight: 280.0,
-                      children:
-                          homePageModel.getHomePageData![7].sectiondata!.map(
-                        (url) {
-                          return GestureDetector(
-                            onTap: () {
-                              */ /* final myProvider =
-                                  Provider.of<MyProvider>(context, listen: false);
-                              myProvider.updateData(int.parse(url.link!));
-                              context.go('/home/pdp');*/ /*
-                              final Map<String, dynamic> someMap = {
-                                "id": int.parse(url.link!.toString()),
-                                "product_count": 20,
-                              };
-                              print(someMap);
-                              context.go('/home/pdp', extra: someMap);
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(0.0, 0, 8, 0),
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(0.0)),
-                                    child: Image.network(
-                                        "https://staging2.omaliving.com${url.attachment!}",
-                                        fit: BoxFit.cover, errorBuilder:
-                                            (context, error, stackTrace) {
-                                      return Image.asset(
-                                        'assets/omalogo.png',
-                                        height: 175,
-                                      );
-                                    }, width: 1000.0),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Text(
-                                  url.title!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle1!
-                                      .copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: describtionTextColor,
-                                        fontFamily: 'Gotham',
-                                        fontSize: 12,
-                                      ),
-                                  textAlign: TextAlign.center,
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ),*/
-
-                  /// Section 7
-
                   GestureDetector(
                     child: CarouselSlider(
                         options: CarouselOptions(
@@ -1307,28 +1297,30 @@ class _BodyState extends State<Body> {
                           ((i) {
                             return GestureDetector(
                               onTap: () {
-                                print(homePageModel
-                                    .getHomePageData![7].sectiondata![i].link);
+                                String? tagName = homePageModel
+                                    .getHomePageData![7].sectiondata![i].link!;
 
-                                String? tagName = homePageModel.getHomePageData![7].sectiondata![i].link;
+                                final split = tagName.split('&');
 
-                                final split = tagName?.split('&');
                                 final Map<int, String> values = {
-                                  for (int i = 0; i < split!.length; i++)
+                                  for (int i = 0; i < split.length; i++)
                                     i: split[i]
                                 };
-
-                                print(values);
 
                                 final value1 = values[0];
                                 final value2 = values[1];
                                 final value3 = values[2];
                                 final value4 = values[3];
+                                final value5 = values[4];
 
                                 print(value1.toString());
                                 print(value2);
                                 print(value3);
                                 print(value4);
+                                print(value5);
+
+                                print('split');
+                                print(value5);
 
                                 final split1 = value1.toString().split('=');
                                 print(split1[1]);
@@ -1341,6 +1333,33 @@ class _BodyState extends State<Body> {
 
                                 final split4 = value4.toString().split('=');
                                 print(split4[1]);
+
+                                if(split4[1] == '1'){
+                                  print('show_collection');
+
+                                  final Map<String, dynamic> someMap = {
+                                    "name": "BATH COLLECTION",
+                                  };
+
+                                  context.go(
+                                      '/home/cat_listing_filter',
+                                      extra: someMap);
+
+                                }else {
+
+                                  print(value4!);
+
+                                  final Map<String, String> someMap = {
+                                    "id": split1[1],
+                                    "name": homePageModel
+                                        .getHomePageData![7].title!,
+                                    "product_count": "20",
+                                    "show_collection":split4[1],
+                                    "link_data":value4,
+                                    "rt_from":'home_screen',
+                                  };
+                                  context.go('/home/pdp', extra: someMap);
+                                }
 
                               },
                               child: Padding(
@@ -1378,24 +1397,74 @@ class _BodyState extends State<Body> {
                   ),
 
                   SizedBox(
-                    width: 240, // <-- Your width
-                    height: 35, // <-- Your height
+                    width: 240,
+                    height: 35,
                     child: ElevatedButton(
                       onPressed: () {
-                        /*  final Map<String, String> someMap = {
-                        "id": homePageModel
-                            .getHomePageData![1].sectiondata![0].link!!,
-                        "product_count": "20",
-                      };
-                      context.go('/home/pdp', extra: someMap);*/
-                        final Map<String, dynamic> someMap = {
-                          "id": int.parse(homePageModel
-                              .getHomePageData![1].sectiondata![0].link!
-                              .toString()),
-                          "product_count": 20,
+                        String? tagName = homePageModel
+                            .getHomePageData![7].sectiondata![0].link!;
+
+                        final split = tagName.split('&');
+
+                        final Map<int, String> values = {
+                          for (int i = 0; i < split.length; i++)
+                            i: split[i]
                         };
-                        print(someMap);
-                        context.go('/home/pdp', extra: someMap);
+
+                        final value1 = values[0];
+                        final value2 = values[1];
+                        final value3 = values[2];
+                        final value4 = values[3];
+                        final value5 = values[4];
+
+                        print(value1.toString());
+                        print(value2);
+                        print(value3);
+                        print(value4);
+                        print(value5);
+
+                        print('split');
+                        print(value5);
+
+                        final split1 = value1.toString().split('=');
+                        print(split1[1]);
+
+                        final split2 = value2.toString().split('=');
+                        print(split2[1]);
+
+                        final split3 = value3.toString().split('=');
+                        print(split3[1]);
+
+                        final split4 = value4.toString().split('=');
+                        print(split4[1]);
+
+                        if(split4[1] == '1'){
+                          print('show_collection');
+
+                          final Map<String, dynamic> someMap = {
+                            "name": "BATH COLLECTION",
+                          };
+
+                          context.go(
+                              '/home/cat_listing_filter',
+                              extra: someMap);
+
+                        }else {
+
+                          print(value4!);
+
+                          final Map<String, String> someMap = {
+                            "id": split1[1],
+                            "name": homePageModel
+                                .getHomePageData![4].title!,
+                            "product_count": "20",
+                            "show_collection":split4[1],
+                            "link_data":value4,
+                            "rt_from":'home_screen',
+                          };
+                          context.go('/home/pdp', extra: someMap);
+                        }
+
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -1571,13 +1640,6 @@ class _BodyState extends State<Body> {
     });
   }
 
-  _launchURLBrowser(String _url) async {
-    final url = Uri.parse(_url);
-    if (await canLaunchUrl(url)) {
-      launchUrl(url, mode: LaunchMode.externalApplication);
-    }
-  }
-
   _launchURL(String _url) async {
     final Uri url = Uri.parse(_url);
     if (!await launchUrl(url)) {
@@ -1604,4 +1666,5 @@ class _BodyState extends State<Body> {
       ),
     );
   }
+
 }
