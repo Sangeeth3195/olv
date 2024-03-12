@@ -4426,40 +4426,20 @@ class GraphQLService {
   ///
   static String add_prod_to_cart(
       String cartToken,
+  List<Map<String, dynamic>> qty,
       ) {
     return '''
             mutation {
                 addProductsToCart(
                     cartId: "$cartToken"
-                    cartItems: [
-                      {
-                        quantity: 1
-                        sku: "24-MB04"
-                      }
-                    ]
+                    cartItems:  $qty
                   ) {
-                  cart {
-                    items {
-                      id
-                      product {
-                        name
-                        sku
-                      }
-                       quantity
-                    }
-                     prices {
-                      grand_total{
-                        value
-                        currency
-                      }
-                    }
-                  }
-                }
+              
               }
         ''';
   }
 
-  Future<String> addProductToCartNew(String qty,
+  Future<String> addProductToCartNew(List<Map<String, dynamic>> qty,
       {BuildContext? context}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -4476,6 +4456,7 @@ class GraphQLService {
         MutationOptions(
           document: gql(add_prod_to_cart(
             cartToken,
+            qty
           )), // this
         ),
       );

@@ -38,18 +38,19 @@ class _BodyState extends State<Body> {
     EasyLoading.show(status: 'loading...');
 
     dynamic listData = await graphQLService.re_order(order_id!);
+    List<Map<String, dynamic>> jsonArray = [];
 
     for (int i = 0; i < listData['reorderItems']['cart']['items'].length; i++) {
 
       print(listData['reorderItems']['cart']['items'][i]['product']['sku']);
 
       print(listData['reorderItems']['cart']['items'][i]['quantity']);
-
+      jsonArray.add( {"quantity": "${listData['reorderItems']['cart']['items'][i]['quantity']}",
+          "sku": "${listData['reorderItems']['cart']['items'][i]['product']['sku']}"});
       /// add to cart API call
-
-      /// graphQLService.addProductToCartNew();
-
     }
+    graphQLService.addProductToCartNew(jsonArray);
+
   }
 
   @override
