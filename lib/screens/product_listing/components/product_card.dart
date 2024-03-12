@@ -433,7 +433,7 @@ class _ProductCardState extends State<ProductCard> {
                     GestureDetector(
                       onTap: () async {
                         EasyLoading.show(status: 'loading...');
-                        graphQLService.addProductToCart(
+                       await graphQLService.addProductToCart(
                             widget.item!.sku.toString(), '1',
                             context: context);
                         Scaffold.of(context).openEndDrawer();

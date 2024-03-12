@@ -334,7 +334,7 @@ class _ProductCardState extends State<ProductCard> {
                         EasyLoading.show(status: 'loading...');
 
                         print(widget.sku.toString());
-                        graphQLService.addProductToCart(
+                       await graphQLService.addProductToCart(
                             widget.sku.toString(), '1',
                             context: context);
 
@@ -346,6 +346,8 @@ class _ProductCardState extends State<ProductCard> {
                         EasyLoading.show();
                         myProvider!.getuserdata();
                         EasyLoading.show();
+                        Scaffold.of(context).openEndDrawer();
+
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
