@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +18,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   GraphQLService graphQLService = GraphQLService();
   OrderModel ordersModel = OrderModel();
+  dynamic productData;
+  List<dynamic> pList = [];
 
   @override
   void initState() {
@@ -29,6 +32,24 @@ class _BodyState extends State<Body> {
     EasyLoading.show(status: 'loading...');
     ordersModel = await graphQLService.getorderdetails(limit: 1000, context: context);
     setState(() {});
+  }
+
+  void call_reorder(String? order_id) async {
+    EasyLoading.show(status: 'loading...');
+
+    dynamic listData = await graphQLService.re_order(order_id!);
+
+    for (int i = 0; i < listData['reorderItems']['cart']['items'].length; i++) {
+
+      print(listData['reorderItems']['cart']['items'][i]['product']['sku']);
+
+      print(listData['reorderItems']['cart']['items'][i]['quantity']);
+
+      /// add to cart API call
+
+      /// graphQLService.addProductToCartNew();
+
+    }
   }
 
   @override
@@ -55,7 +76,7 @@ class _BodyState extends State<Body> {
                           print(date);
                           print(DateFormat.yMMMd().format(date!));
                           return Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: SizedBox(
                               height: 170,
                               child: Card(
@@ -187,6 +208,11 @@ class _BodyState extends State<Body> {
                                             onPressed: () {
 
                                               print(ordersModel
+                                                  .customer
+                                                  ?.orders
+                                                  ?.items?[index].orderNumber);
+
+                                              call_reorder(ordersModel
                                                   .customer
                                                   ?.orders
                                                   ?.items?[index].orderNumber);

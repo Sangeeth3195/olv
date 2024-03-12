@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:omaliving/API%20Services/Constant.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
@@ -22,7 +21,6 @@ class Product_Listing_Brand extends StatefulWidget {
 class _HomeScreenState extends State<Product_Listing_Brand> {
   final Map<String, dynamic> data;
   _HomeScreenState(this.data);
-  GraphQLService graphQLService = GraphQLService();
   final GlobalKey<ScaffoldState> _childDrawerKey = GlobalKey();
   CarouselController buttonCarouselController = CarouselController();
 

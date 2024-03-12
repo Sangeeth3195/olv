@@ -31,12 +31,13 @@ class Body extends StatelessWidget {
                   ),
                 ),
                 OutlinedButton(
+
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(width: 1.0, color: headingColor),
                     // shape: const StadiumBorder(),
                   ),
-                  child: const Text('Print Order'),
+                  child: const Text('Print Order',style: TextStyle(color: Colors.black,),),
                 )
               ],
             ),

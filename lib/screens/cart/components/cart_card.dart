@@ -141,9 +141,9 @@ class _BodyState extends State<CartCard> {
             height: 8,
           ),
           Text(
-            widget.item.product!.dynamicAttributes![0].attributeValue ?? '',
+            widget.item.product!.dynamicAttributes![0].attributeValue!.toUpperCase(),
             style: const TextStyle(
-                fontSize: 11, color: Colors.black, fontWeight: FontWeight.w500),
+                fontSize: 12, color: Colors.black45, fontWeight: FontWeight.w500),
           ),
           const SizedBox(
             height: 0,
@@ -151,9 +151,10 @@ class _BodyState extends State<CartCard> {
           Text(
             widget.item.product!.name ?? '',
             style: const TextStyle(
-                fontSize: 12,
-                color: Colors.black,
+                fontSize: 13,
+                color: Colors.black87,
                 height: 1.5,
+                fontFamily: 'Gotham',
                 fontWeight: FontWeight.w600),
           ),
           const SizedBox(

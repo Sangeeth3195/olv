@@ -113,13 +113,11 @@ class _HomeScreenState extends State<ProductListing> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    print('didChangeDependencies');
   }
 
   void getNavdata() async {
     getcategoryInfo =
         await graphQLService.getCategoryInfo(widget.data['id'].toString());
-
     filterData();
   }
 

@@ -195,12 +195,6 @@ class _ProductCardState extends State<ProductCard> {
     myProvider = Provider.of<MyProvider>(context, listen: false);
     cartProvider = Provider.of<CartProvider>(context, listen: false);
 
-    print('SimpleProduct');
-    print(widget.item!.price.regularPrice.amount.value);
-
-    print(image);
-    print(widget.item?.smallImage.url);
-
     calculatePrice();
 
     if (widget.item!.typename != "SimpleProduct") {
@@ -233,8 +227,6 @@ class _ProductCardState extends State<ProductCard> {
       isExpired = currentDate.isAfter(dt1);
     }
 
-    print("isExpired --> $isExpired");
-
     if (widget.item!.textAttributes[0].specicalprice == '0') {
       isExpired = true;
     }
@@ -261,8 +253,6 @@ class _ProductCardState extends State<ProductCard> {
       _price_text = '${values[0]}${':'}';
       _price_value = '${'₹'}${values[1]}';
 
-      print('isExpired');
-      print(isExpired);
     }
   }
 
@@ -335,7 +325,7 @@ class _ProductCardState extends State<ProductCard> {
                             fontWeight: FontWeight.normal,
                             color: Colors.black54,
                             height: 1.5,
-                            fontSize: 11),
+                            fontSize: 12),
                       ),
                     ),
                     const SizedBox(height: 0.0),
@@ -345,7 +335,7 @@ class _ProductCardState extends State<ProductCard> {
                         title ?? '',
                         style: const TextStyle(
                             fontWeight: FontWeight.w400,
-                            color: blackColor,
+                            color: headingFontColor,
                             fontFamily: 'Gotham',
                             height: 1.5,
                             fontSize: 12),
@@ -374,7 +364,7 @@ class _ProductCardState extends State<ProductCard> {
                                   "₹ ${widget.item!.price.regularPrice.amount.value}",
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: Colors.black,
+                                    color: Colors.black45,
                                     decoration: !isExpired
                                         ? TextDecoration.lineThrough
                                         : TextDecoration.none,

@@ -3202,7 +3202,6 @@ class GraphQLService {
                       {
                         data: {
                           quantity: "$qty"
-                          
                           sku: "$sku"
                         }
                       }
@@ -4400,7 +4399,7 @@ class GraphQLService {
         ''';
   }
 
-  Future<String> re_order(String order_id) async {
+  Future<dynamic> re_order(String order_id) async {
 
     EasyLoading.show(status: 'loading...');
 
@@ -4412,15 +4411,84 @@ class GraphQLService {
       );
 
       if (result.hasException) {
+        throw Exception(result.exception);
+      } else {
         EasyLoading.dismiss();
-        print(result.exception?.graphqlErrors[0].message);
-      } else if (result.data != null) {
         log(jsonEncode(result.data));
-        print(result.data);
+        return result.data;
+      }
+    } catch (e) {
+      return [];
+    }
+  }
 
+/// add product to cart
+  ///
+  static String add_prod_to_cart(
+      String cartToken,
+      ) {
+    return '''
+            mutation {
+                addProductsToCart(
+                    cartId: "$cartToken"
+                    cartItems: [
+                      {
+                        quantity: 1
+                        sku: "24-MB04"
+                      }
+                    ]
+                  ) {
+                  cart {
+                    items {
+                      id
+                      product {
+                        name
+                        sku
+                      }
+                       quantity
+                    }
+                     prices {
+                      grand_total{
+                        value
+                        currency
+                      }
+                    }
+                  }
+                }
+              }
+        ''';
+  }
+
+  Future<String> addProductToCartNew(String qty,
+      {BuildContext? context}) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var cartToken = prefs.getString('cart_token') ?? '';
+
+      print(cartToken);
+
+      if (cartToken == '') {
+        await create_cart();
+        cartToken = prefs.getString('cart_token') ?? '';
+      }
+
+      QueryResult result = await client.mutate(
+        MutationOptions(
+          document: gql(add_prod_to_cart(
+            cartToken,
+          )), // this
+        ),
+      );
+      if (result.hasException) {
         EasyLoading.dismiss();
-
-        return result.data?['placeOrder']['order']['order_number'];
+        Fluttertoast.showToast(msg: result.exception!.graphqlErrors[0].message);
+      } else if (result.data != null) {
+        EasyLoading.dismiss();
+        print(result.data);
+        if (context != null) {
+          getcartListNumbers(context);
+        }
+        Fluttertoast.showToast(msg: 'Item added to your cart');
       }
 
       return "";
