@@ -277,7 +277,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
 
                             if (myProvider!.customerModel.customer?.email !=
                                 null) {
-                              if (isWishListed ?? false) {
+                              if (isWishListed == false) {
                                 dynamic listData = await graphQLService
                                     .add_Product_from_wishlist(
                                   wishlistId: myProvider!.customerModel
