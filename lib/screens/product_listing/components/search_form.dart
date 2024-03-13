@@ -327,11 +327,13 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
   }
 
   void navToProductDeatils(String s) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DetailsScreen(product: s ?? ''),
-        ));
+    context.go('/home/plp', extra: s);
+
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => DetailsScreen(product: s ?? ''),
+    //     ));
   }
 }
 

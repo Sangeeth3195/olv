@@ -55,6 +55,15 @@ final router = GoRouter(
                     );
                   },
                 ),
+                GoRoute(
+                  path: 'plp',
+                  builder: (context, state) {
+                    print(state.extra);
+                    return DetailsScreen(
+                      product: state.extra.toString(),
+                    );
+                  },
+                ),
                 /*GoRoute(
                   path: 'catDetails',
                   builder: (context, state) {
