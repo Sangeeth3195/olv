@@ -116,7 +116,7 @@ class _BodyState extends State<Body> {
               ? Column(children: [
                   provider.isSearch
                       ? Container(
-                          padding: const EdgeInsets.all(5),
+                          // padding: const EdgeInsets.all(5),
                           decoration: const BoxDecoration(
                             shape: BoxShape.rectangle,
                             borderRadius:

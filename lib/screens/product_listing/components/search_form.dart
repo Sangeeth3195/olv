@@ -178,7 +178,7 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
     return Autocomplete<Item>(
       optionsViewBuilder: (context, onSelected, options) {
         return Container(
-          color: Colors.white,
+          color: Colors.transparent,
           child: Column(
             children: [
               searchModel.products == null
@@ -186,9 +186,13 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
                       height: 100,
                       child: Center(child: Text('No Data')),
                     )
-                  : Expanded(
+                  : Container(
+                      color: Colors.white,
                       child: ListView.builder(
-                          itemCount: searchModel.products!.items!.length>=4?4:searchModel.products!.items!.length,
+                          shrinkWrap: true,
+                          itemCount: searchModel.products!.items!.length >= 4
+                              ? 4
+                              : searchModel.products!.items!.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -206,7 +210,6 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
                                     title: Text(searchModel
                                             .products!.items![index].name ??
                                         ''),
-                                    
                                     leading: Image.network(searchModel.products!
                                             .items![index].image!.url ??
                                         ''),
@@ -369,7 +372,6 @@ class _AsyncAutocompleteState extends State<_AsyncAutocomplete> {
 
   @override
   Widget build(BuildContext context) {
-
     return Autocomplete<SearchModel>(
       optionsViewBuilder: (context, onSelected, options) {
         return ListView.builder(
@@ -387,7 +389,6 @@ class _AsyncAutocompleteState extends State<_AsyncAutocomplete> {
               );
             });
       },
-      
       optionsBuilder: (TextEditingValue textEditingValue) async {
         _searchingWithQuery = textEditingValue.text;
         getData(textEditingValue.text);
@@ -417,7 +418,6 @@ class _AsyncAutocompleteState extends State<_AsyncAutocomplete> {
 
 // Mimics a remote API.
 class _FakeAPI {
-
   GraphQLService graphQLService = GraphQLService();
 
   // Searches the options, but injects a fake "network" delay.
