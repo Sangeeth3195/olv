@@ -133,7 +133,7 @@ class _HomeScreenState extends State<ProductListing> {
     myMap.remove('price');
 
     log(myMap.toString());
-    provider.updateData(int.parse(widget.data['id']), filter: myMap);
+    provider.updateData(int.parse(widget.data['id'].toString()), filter: myMap);
   }
 
 
@@ -509,6 +509,7 @@ class _HomeScreenState extends State<ProductListing> {
                           height: 63,
                           child: ElevatedButton(
                             onPressed: () {
+                              getNavdata();
                               Navigator.of(context).pop();
                               // Define the action to perform when the button is pressed
                             },
