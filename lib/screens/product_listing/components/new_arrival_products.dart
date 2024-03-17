@@ -31,6 +31,10 @@ class NewArrivalProducts extends StatelessWidget {
               (index) => Padding(
                 padding: const EdgeInsets.only(right: defaultPadding),
                 child: ProductCard(
+                  openDrawer: (){
+                    Scaffold.of(context).openEndDrawer();
+
+                  },
                   title: demo_product[index].title,
                   image: demo_product[index].images[0],
                   price: demo_product[index].price.toString(),
