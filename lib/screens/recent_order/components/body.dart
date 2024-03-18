@@ -337,7 +337,7 @@ class Body extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      width: 30,
+                      width: 15,
                     ),
                     Expanded(
                       child: TextButton(

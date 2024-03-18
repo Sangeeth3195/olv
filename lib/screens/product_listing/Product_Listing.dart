@@ -42,6 +42,7 @@ class _HomeScreenState extends State<ProductListing> {
   int itemsPerPage = 10;
   ScrollController _scrollController = ScrollController();
   bool isLoading = false;
+  int cat_id = 0;
 
   @override
   void initState() {
@@ -58,45 +59,33 @@ class _HomeScreenState extends State<ProductListing> {
     if(widget.data['rt_from'] == 'home_screen'){
       print(widget.data['rt_from']);
       print(widget.data['link_data']);
-
+      print(widget.data['id']);
+      cat_id = int.parse(widget.data['id']);
       getNavdata();
-
-      Map<String, dynamic> myMap = {};
-
-    //  myMap = widget.data['link_data'];
-
-      // myMap = widget.data['link_data'];
-
-      print(myMap);
-
-      // filterData(myMap);
-
     }else {
       getNavdata();
+      cat_id = widget.data['id'];
     }
   }
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed
     _scrollController.dispose();
     super.dispose();
   }
 
   void _scrollListener() {
     print("scroll listener");
-    // Check if the user has scrolled to the bottom
     if (_scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
-      // User has scrolled to the bottom, load more items
       setState(() {
         currentPage++;
       });
       Map<String, dynamic> myMap = {};
       final provider = Provider.of<MyProvider>(context, listen: false);
 
-      myMap['category_id'] = "{eq: ${widget.data['id']}}";
+      myMap['category_id'] = "{eq: $cat_id}"; //widget.data['id']
       for (int i = 0; i < provider.aggregationList.length; i++) {
         myMap[provider.aggregationList[i].attributeCode] = "{in: ${provider.aggregationList[i].selected}}";
       }
@@ -104,8 +93,8 @@ class _HomeScreenState extends State<ProductListing> {
       myMap.remove('category_uid');
 
       log(myMap.toString());
-      provider.loadMoreData(widget.data['id'],
-          limit: 20, currentPage: currentPage,filter: myMap);
+      provider.loadMoreData(cat_id,
+          limit: 20, currentPage: currentPage,filter: myMap); // widget.data['id']
     }
   }
 
@@ -116,23 +105,35 @@ class _HomeScreenState extends State<ProductListing> {
   }
 
   void getNavdata() async {
+
+    if(widget.data['rt_from'] == 'home_screen'){
+      cat_id = int.parse(widget.data['id']);
+    }else {
+      cat_id = widget.data['id'];
+    }
+
     getcategoryInfo =
-        await graphQLService.getCategoryInfo(widget.data['id'].toString());
+        await graphQLService.getCategoryInfo(cat_id.toString());
+
     filterData();
+
   }
 
   void filterData() async {
     Map<String, dynamic> myMap = {};
     final provider = Provider.of<MyProvider>(context, listen: false);
 
-    myMap['category_id'] = "{eq: ${widget.data['id']}}";
+    myMap['category_id'] = "{eq: $cat_id}"; ////widget.data['id']
     for (int i = 0; i < provider.aggregationList.length; i++) {
       myMap[provider.aggregationList[i].attributeCode] = "{in: ${provider.aggregationList[i].selected}}";
     }
     myMap.remove('price');
 
+    print('cat_id');
+    print(cat_id);
+
     log(myMap.toString());
-    provider.updateData(int.parse(widget.data['id']), filter: myMap);
+    provider.updateData(cat_id, filter: myMap); //widget.data['id']
   }
 
 

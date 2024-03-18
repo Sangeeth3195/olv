@@ -282,6 +282,10 @@ class _ProductCardState extends State<ProductCard> {
       //     ? widget.item!.textAttributes[0].normalprice
       //     : widget.item!.getPriceRange[0].normalpricevalue;
     }
+
+    print('image');
+    print(image);
+
   }
 
   void calculatePrice() {
@@ -736,7 +740,7 @@ class _ProductCardState extends State<ProductCard> {
                       widget.item!.wishlist
                           ? Icons.favorite
                           : Icons.favorite_border,
-                      color: widget.item!.wishlist ? Colors.red : blackColor,
+                      color: widget.item!.wishlist ? Colors.red : Colors.black54,
                       size: 22,
                     ),
                   ),

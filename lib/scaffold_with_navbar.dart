@@ -408,9 +408,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     ),
 
                     onTap: () {},
-
-                    // onTap: () => _key.currentState?.openEndDrawer(),
-                    // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                   ),
                 ),
                 Center(
@@ -430,8 +427,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                           Scaffold.of(context).openEndDrawer();
                         },
 
-                        // onTap: () => Scaffold.of(context).openEndDrawer(),
-                        // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                       ),
                     ),
                   ),
@@ -514,20 +509,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                 context.go('/home/pdp',
                                     extra: navHeaderList[index]);
                               }
-
-                              /* Navigator.of(context).pop();
-                              catId = navHeaderList[index]['id'];
-                              print('item_id 1 --> $catId');
-                              final myProvider = Provider.of<MyProvider>(
-                                  context,
-                                  listen: false);
-                              myProvider
-                                  .updateHeader(navHeaderList[index]['name']);
-                              myProvider.isproduct = true;
-                              myProvider.notifyListeners();
-                              context.go('/home/pdp',
-                                  extra: navHeaderList[index]);*/
-
                             },
                             child: Text(
                               navHeaderList[index]['name'].toUpperCase(),
@@ -615,7 +596,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                         // myProvider.notifyListeners();
                                         // context.go('/home/pdp');
 
-                                        // Navigator.of(context, rootNavigator: true).pushNamed("/productlisting", arguments: catId);
                                       },
                                       child: Text(
                                         navHeaderList[index]['children']
@@ -654,26 +634,14 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                               onTap: () {
                                                 print('showcollection');
 
-                                                print(navHeaderList[index]
-                                                ['children']
-                                                [itemIndex]
-                                                ['children']
-                                                [subitemIndex]['id']);
+                                                print(navHeaderList[index]['children']
+                                                [itemIndex]['children'][subitemIndex]['name'].toString());
 
-                                                print(navHeaderList[index]
-                                                                    ['children']
-                                                                [itemIndex]
-                                                            ['children']
-                                                        [subitemIndex]
-                                                    ['show_collection']);
+                                                print(navHeaderList[index]['children'][itemIndex]['children']
+                                                        [subitemIndex]['show_collection']);
 
-                                                if (navHeaderList[index][
-                                                                        'children']
-                                                                    [itemIndex]
-                                                                ['children']
-                                                            [subitemIndex]
-                                                        ['show_collection'] ==
-                                                    1) {
+                                                if (navHeaderList[index]['children'][itemIndex]
+                                                                ['children'][subitemIndex]['show_collection'] == 1) {
                                                   Navigator.of(context).pop();
                                                   catId = navHeaderList[index]
                                                                   ['children']
@@ -686,23 +654,18 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                                           listen: false);
 
                                                   myProvider.updateHeader(
-                                                      navHeaderList[index][
-                                                                          'children']
-                                                                      [
-                                                                      itemIndex]
-                                                                  ['children'][
-                                                              subitemIndex]['name']
-                                                          .toString());
+                                                      navHeaderList[index]['children']
+                                                                      [itemIndex]
+                                                                  ['children'][subitemIndex]['name'].toString());
                                                   myProvider.isproduct = true;
                                                   myProvider.notifyListeners();
                                                   context.go(
                                                       '/home/cat_listing_filter',
                                                       extra:
-                                                          navHeaderList[index]
-                                                                  ['children']
-                                                              [itemIndex]);
+                                                      navHeaderList[index]['children']
+                                                      [itemIndex]
+                                                      ['children'][subitemIndex]);
                                                 } else {
-
                                                   Navigator.of(context).pop();
                                                   catId = navHeaderList[index]
                                                                   ['children']

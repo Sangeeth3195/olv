@@ -132,7 +132,7 @@ class _BodyState extends State<Body> {
                           url: 'privacy-policy', title: 'Privacy Policy')));
             },
           ),
-          const Padding(
+          /*const Padding(
             padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
             child: Divider(
               color: Colors.grey,
@@ -148,7 +148,7 @@ class _BodyState extends State<Body> {
                   MaterialPageRoute(
                       builder: (context) => const Ordersummary()));
             },
-          ),
+          ),*/
           const Padding(
             padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
             child: Divider(

@@ -197,6 +197,9 @@ class _ProductCardState extends State<ProductCard> {
 
     calculatePrice();
 
+    print(widget.title);
+    print(widget.item!.typename);
+
     if (widget.item!.typename != "SimpleProduct") {
       try {
         _changeColor(
@@ -320,7 +323,7 @@ class _ProductCardState extends State<ProductCard> {
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
                         widget.item!.dynamicAttributes[0].attributeValue
-                            .toString(),
+                            .toString().toUpperCase(),
                         style: const TextStyle(
                             fontWeight: FontWeight.normal,
                             color: Colors.black54,
@@ -332,21 +335,24 @@ class _ProductCardState extends State<ProductCard> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
-                        title ?? '',
+                        widget.title ?? '',
                         style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             color: headingFontColor,
                             fontFamily: 'Gotham',
                             height: 1.5,
-                            fontSize: 12),
+                            fontSize: 13),
                       ),
                     ),
                     const SizedBox(height: 5.0),
                     widget.item!.typename == "ConfigurableProduct"
                         ? Column(
                             children: [
-                              Text(widget.item!.getPriceRange![0].oldpricevalue
-                                  .toString()),
+                             /* widget.item?.getPriceRange?[0].oldpricevalue == ""
+                                  ? Text('widget')
+                                  : Text(widget
+                                  .item!.getPriceRange![0].oldpricevalue
+                                  .toString()),*/
                               Text(widget
                                   .item!.getPriceRange![0].normalpricevalue
                                   .toString()),
@@ -364,7 +370,7 @@ class _ProductCardState extends State<ProductCard> {
                                   "₹ ${widget.item!.price.regularPrice.amount.value}",
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: Colors.black45,
+                                    color: Colors.black,
                                     decoration: !isExpired
                                         ? TextDecoration.lineThrough
                                         : TextDecoration.none,
@@ -392,56 +398,6 @@ class _ProductCardState extends State<ProductCard> {
                             ),
                           )
                         : Container(),
-
-                    // isExpired? Container(): Padding(
-                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                    //   child: price_ss.isEmpty
-                    //       ? Text(
-                    //     widget.item!.textAttributes[0].normalprice,
-                    //     style: const TextStyle(
-                    //         fontSize: 13, color: Colors.black),
-                    //   )
-                    //       : Text(
-                    //     widget.item!.textAttributes[0].normalprice,
-                    //     style:  TextStyle(
-                    //         fontSize: 13, color: Colors.black,decoration:isShowClearance?TextDecoration.lineThrough : TextDecoration.none,fontFamily: 'Gotham', ),
-                    //   ),
-                    // ),
-
-                    // !isShowClearance  ?Container():Padding(
-                    //   padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                    //   child: Text(
-                    //       price_ss,
-                    //       style: const TextStyle(
-                    //           fontSize: 13, color: Colors.black)
-                    //   ),
-                    // ),
-
-                    // const SizedBox(height: 5.0),
-                    // isShowClearance
-                    //     ? Padding(
-                    //         padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
-                    //         child:
-                    //         Text.rich(
-                    //           TextSpan(
-                    //             children: [
-                    //               TextSpan(text: _price_text,style: const TextStyle(color: Color(0xFF983030))),
-                    //               TextSpan(text: _price_value),
-                    //             ],
-                    //           ),
-                    //         )
-                    //
-                    //         // Text(
-                    //         //   widget.item!.textAttributes[0].specicalprice
-                    //         //       .toString(),
-                    //         //   style: const TextStyle(
-                    //         //       fontWeight: FontWeight.normal,
-                    //         //       color: headingColor,
-                    //         //       height: 1.2,
-                    //         //       fontSize: 12),
-                    //         // ),
-                    //       )
-                    //     : Container(),
 
                     widget.item!.typename == "ConfigurableProduct"
                         ? Row(
@@ -606,7 +562,7 @@ class _ProductCardState extends State<ProductCard> {
                           "Add to cart",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              color: blackColor,
+                              color: Colors.black87,
                               height: 1.5,
                               fontSize: 12),
                         ),
@@ -653,7 +609,7 @@ class _ProductCardState extends State<ProductCard> {
                       widget.item!.wishlist
                           ? Icons.favorite
                           : Icons.favorite_border,
-                      color: widget.item!.wishlist ? Colors.red : blackColor,
+                      color: widget.item!.wishlist ? Colors.red : Colors.black54,
                       size: 22,
                     ),
                   ),

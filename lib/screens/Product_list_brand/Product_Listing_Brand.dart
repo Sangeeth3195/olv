@@ -155,6 +155,7 @@ class _HomeScreenState extends State<Product_Listing_Brand> {
                           brand_id: data['collectiondata'][index]['option_id'],
                           image:
                               '${Urls.BASE_URL_Prod}${data['collectiondata'][index]['image']}',
+                          data: data['collectiondata'][index],
                         ),
                       ),
                     ),
@@ -176,9 +177,11 @@ class ProductCard extends StatefulWidget {
     required this.id,
     required this.brand_id,
     required this.title,
+    required this.data,
   }) : super(key: key);
   final String image, title;
   final int id, brand_id;
+  final dynamic data;
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -201,6 +204,9 @@ class _ProductCardState extends State<ProductCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    print('widget.data');
+    print(widget.data);
   }
 
   @override
@@ -255,7 +261,7 @@ class _ProductCardState extends State<ProductCard> {
                         widget.title ?? '',
                         style: const TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: textColor,
+                            color: Colors.black54,
                             fontFamily: 'Gotham',
                             height: 1.5,
                             fontSize: 14),

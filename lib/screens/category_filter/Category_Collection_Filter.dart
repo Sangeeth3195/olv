@@ -66,8 +66,6 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
         .get_cat_collection(widget.data['children'][0]['name']);
 
     }
-
-
     isLoading = false;
     setState(() {});
   }
@@ -81,7 +79,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 15,
+                  height: 20,
                 ),
                 Center(
                   child: Text(
@@ -91,12 +89,12 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                     style: const TextStyle(
                         fontFamily: 'Gotham',
                         fontWeight: FontWeight.w500,
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         color: navTextColor),
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 isLoading? const Center(child: CircularProgressIndicator())
                     : Container(
@@ -127,6 +125,9 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
                                   (index) => Padding(
                                     padding: const EdgeInsets.all(3),
                                     child: ProductCard(
+                                      data:collectionmdl
+                                          .getCollectionSetData![0]
+                                          .collections![index].status!,
                                       title: collectionmdl
                                           .getCollectionSetData![0]
                                           .collections![index]
@@ -273,9 +274,11 @@ class ProductCard extends StatefulWidget {
     required this.brand_id,
     required this.title,
     required this.sub_title,
+    required this.data,
   }) : super(key: key);
   final String image, title, sub_title;
   final int id, brand_id;
+  final int data;
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -299,9 +302,8 @@ class _ProductCardState extends State<ProductCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    print(widget.title);
-    print(widget.sub_title);
+    print(widget.image);
+    print(widget.data);
 
     if (widget.sub_title == '' || widget.sub_title == null) {
       setState(() {
@@ -314,17 +316,7 @@ class _ProductCardState extends State<ProductCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-
-       /* final Map<String, dynamic> someMap = {
-          "id": getbrandslist[itemIndex]['option_id'],
-          "name": getbrandslist[itemIndex]['name'],
-        };
-        print(someMap);
-        context.go('/home/product_listing_brandlist',
-            extra: someMap);*/
-
         if(widget.id == 0){
-
           print('object 1 ');
           final Map<String, dynamic> someMap = {
             "id": widget.brand_id,

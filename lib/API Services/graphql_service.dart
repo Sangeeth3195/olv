@@ -350,7 +350,7 @@ class GraphQLService {
           fetchPolicy: FetchPolicy.noCache,
           document: gql("""
            query Query {
-                category(id: "$id") {
+                category(id: $id) {
                       id
                       level
                       name
@@ -372,6 +372,7 @@ class GraphQLService {
         return CategoryInfo.fromJson(result.data!);
       }
     } catch (error) {
+      print('error');
       print(error);
       return CategoryInfo();
     }
@@ -4446,6 +4447,7 @@ class GraphQLService {
       var cartToken = prefs.getString('cart_token') ?? '';
 
       print(cartToken);
+      print(qty);
 
       if (cartToken == '') {
         await create_cart();
@@ -4474,6 +4476,7 @@ class GraphQLService {
 
       return "";
     } catch (e) {
+      print('exception');
       print(e);
       return "";
     }

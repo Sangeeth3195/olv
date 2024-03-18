@@ -1613,7 +1613,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       color: provider.productData[0]['related_products'][index]
                               ['is_wishlisted']
                           ? Colors.red
-                          : blackColor,
+                          : Colors.black54,
                       size: 22,
                     ),
                   ),

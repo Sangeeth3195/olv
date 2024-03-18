@@ -66,6 +66,7 @@ class _ProductCardState extends State<ProductCard> {
     calculatePrice();
 
     print(widget.title);
+    print(widget.image);
 
     if (widget.item!.typename == 'ConfigurableProduct' ) {
       setState(() {
@@ -187,7 +188,7 @@ class _ProductCardState extends State<ProductCard> {
                         Radius.circular(defaultBorderRadius)),
                   ),
                   child: Image.network(
-                    image ?? '',
+                    widget.image ?? '',
                     height: 150,
                     errorBuilder: (BuildContext context, Object exception,
                         StackTrace? stackTrace) {
@@ -220,7 +221,7 @@ class _ProductCardState extends State<ProductCard> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                       child: Text(
-                        title ?? '',
+                        widget.title ?? '',
                         style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             color: blackColor,
@@ -492,7 +493,7 @@ class _ProductCardState extends State<ProductCard> {
                       widget.item!.wishlist
                           ? Icons.favorite
                           : Icons.favorite_border,
-                      color: widget.item!.wishlist ? Colors.red : blackColor,
+                      color: widget.item!.wishlist ? Colors.red : Colors.black54,
                       size: 22,
                     ),
                   ),
