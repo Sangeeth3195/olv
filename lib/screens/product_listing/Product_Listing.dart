@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:omaliving/API%20Services/graphql_service.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/Product.dart';
+import 'package:omaliving/screens/cart/cart_screen.dart';
 import 'package:omaliving/screens/details/details_screen.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:provider/provider.dart';
@@ -509,6 +510,7 @@ class _HomeScreenState extends State<ProductListing> {
                           height: 63,
                           child: ElevatedButton(
                             onPressed: () {
+                              getNavdata();
                               Navigator.of(context).pop();
                               // Define the action to perform when the button is pressed
                             },
@@ -556,6 +558,77 @@ class _HomeScreenState extends State<ProductListing> {
                 ),
               ),
             ),
+            // endDrawer : Drawer(
+            //     clipBehavior: Clip.none,
+            //     shape: const RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.only(
+            //           topRight: Radius.circular(0), bottomRight: Radius.circular(0)),
+            //     ),
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: <Widget>[
+            //         SizedBox(
+            //           height: 0,
+            //           child: DrawerHeader(
+            //             child: Container(),
+            //             /*ListTile(
+            //         contentPadding: EdgeInsets.zero,
+            //        */
+            //             /* leading: IconButton(
+            //           icon: const Icon(Icons.arrow_back_ios),
+            //           onPressed: () {
+            //             Navigator.of(context).pop();
+            //           },
+            //         ),*/
+            //             /*
+            //         title: const Row(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: <Widget>[
+            //           //  Icon(Icons.shopping_cart),
+            //             Text(
+            //               'My Cart',
+            //             )
+            //           ],
+            //         ),
+            //         onTap: () {},
+            //       )*/
+            //           ),
+            //         ),
+            //         const SizedBox(
+            //           height: 35,
+            //         ),
+            //         Row(
+            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //           children: <Widget>[
+            //             Padding(
+            //               padding: const EdgeInsets.only(left: 5.0),
+            //               child: Text(
+            //                 'My Cart (0)',
+            //                 style: const TextStyle(color: Colors.black54, fontSize: 18),
+            //               ),
+            //             ),
+            //             // FlutterLogo(),
+            //             IconButton(
+            //               icon: const Icon(
+            //                 Icons.close,
+            //                 size: 20,
+            //                 color: Colors.black54,
+            //               ),
+            //               onPressed: () {
+            //                 Navigator.of(context).pop();
+            //               },
+            //             ),
+            //           ],
+            //         ),
+            //
+            //         const Expanded(
+            //             child: CartScreen(
+            //               isFromActionBar: true,
+            //             )),
+            //         //const Expanded(child: CartContent())
+            //       ],
+            //     ),
+            //   ),
             body: Column(
               children: [
                 /*Container(
@@ -762,6 +835,9 @@ class _HomeScreenState extends State<ProductListing> {
                           return Padding(
                             padding: const EdgeInsets.all(3),
                             child: ProductCard(
+                              openDrawer: (){
+                                Scaffold.of(context).openEndDrawer();
+                              },
                               title: provider.items[index].name,
                               image: provider.items[index].smallImage.url,
                               price: provider.items[index].typename ==

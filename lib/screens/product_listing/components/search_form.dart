@@ -89,7 +89,7 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
     return Autocomplete<Item>(
       optionsViewBuilder: (context, onSelected, options) {
         return Container(
-          color: Colors.white,
+          color: Colors.transparent,
           child: Column(
             children: [
               searchModel.products == null
@@ -97,7 +97,8 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
                       height: 100,
                       child: Center(child: Text('No Data')),
                     )
-                  : Expanded(
+                  : Container(
+                      color: Colors.white,
                       child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: searchModel.products!.items!.length >= 4

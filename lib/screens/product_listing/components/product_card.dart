@@ -18,12 +18,14 @@ class ProductCard extends StatefulWidget {
     required this.title,
     required this.price,
     required this.press,
+    required this.openDrawer,
     required this.bgColor,
     this.product,
     this.item,
   }) : super(key: key);
   final String image, title;
   final VoidCallback press;
+  final VoidCallback openDrawer;
   final String price;
   final Color bgColor;
   final dynamic product;
@@ -437,8 +439,7 @@ class _ProductCardState extends State<ProductCard> {
                        await graphQLService.addProductToCart(
                             widget.item!.sku.toString(), '1',
                             context: context);
-                        Scaffold.of(context).openEndDrawer();
-
+                       widget.openDrawer.call();
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),

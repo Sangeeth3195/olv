@@ -178,6 +178,9 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                         (index) => Padding(
                       padding: const EdgeInsets.all(3),
                       child: ProductCard(
+                        openDrawer: (){
+
+                        },
                         title: widget.data['children'][parentIndex]['products']['items'][index]['name'],
                         image: widget.data['children'][parentIndex]['products']['items'][index]['small_image']['url'],
                         price: widget.data['children'][parentIndex]['products']['items'][index]['typename'] == "SimpleProduct"
