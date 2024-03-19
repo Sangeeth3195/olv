@@ -233,20 +233,22 @@ class _ProductCardState extends State<ProductCard> {
 
                     const SizedBox(height: 5.0),
 
-                    Visibility(
-                      visible: isVisible,
-                      child:  widget.item!.typename == "ConfigurableProduct"
-                        ? Column(
+                    widget.item!.typename == "ConfigurableProduct"
+                      ? Padding(
+
+                      padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
+                        child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Text(widget.item!.getPriceRange![0].oldpricevalue
-                              //     .toString()),
+                              widget.item!.getPriceRange![0].oldpricevalue.toString().isEmpty?Container():Text(widget.item!.getPriceRange![0].oldpricevalue
+                                  .toString()),
                               Text(widget
                                   .item!.getPriceRange![0].normalpricevalue
                                   .toString()),
                             ],
-                          )
-                        : Container(),
-                    ),
+                          ),
+                      )
+                      : Container(),
 
                     widget.item!.typename == "SimpleProduct"
                         ? Padding(
