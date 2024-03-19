@@ -45,10 +45,13 @@ class _BodyState extends State<Body> {
       print(listData['reorderItems']['cart']['items'][i]['product']['sku']);
 
       print(listData['reorderItems']['cart']['items'][i]['quantity']);
+
       jsonArray.add( {"quantity": "${listData['reorderItems']['cart']['items'][i]['quantity']}",
           "sku": "${listData['reorderItems']['cart']['items'][i]['product']['sku']}"});
-      /// add to cart API call
     }
+
+    print(jsonArray);
+
     graphQLService.addProductToCartNew(jsonArray);
 
   }
@@ -74,12 +77,33 @@ class _BodyState extends State<Body> {
                         itemCount: ordersModel.customer!.orders!.items!.length,
                         itemBuilder: (context, index) {
                           DateTime? date = ordersModel.customer?.orders?.items?[index].orderDate;
+
                           print(date);
+
                           print(DateFormat.yMMMd().format(date!));
+
+                          Color mainColor = const Color(0xff000000);
+
+                          String? order_sts = ordersModel.customer?.orders?.items?[index].status;
+
+                          print(order_sts);
+                          /// Canceled , Shipped or Complete , Pending
+
+                          if(ordersModel.customer?.orders?.items?[index].status == 'Canceled'){
+                            mainColor = const Color(0xFFFF0000);
+                          }else if(ordersModel.customer?.orders?.items?[index].status == 'Shipped' ||
+                              ordersModel.customer?.orders?.items?[index].status == 'Complete'){
+                            mainColor = const Color(0xFF33691E);
+                          }else if(ordersModel.customer?.orders?.items?[index].status == 'Pending') {
+                            mainColor = const Color(0xFF800080);
+                          }else {
+
+                          }
+
                           return Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: SizedBox(
-                              height: 170,
+                              height: 190,
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0),
@@ -104,7 +128,7 @@ class _BodyState extends State<Body> {
                                                   color: Colors.black,
                                                   fontSize: 13,
                                                   height: 1.5,
-                                                  fontWeight: FontWeight.w500),
+                                                  ),
                                             ),
                                           ),
                                           const SizedBox(
@@ -116,13 +140,13 @@ class _BodyState extends State<Body> {
                                                 color: Colors.black,
                                                 fontSize: 13,
                                                 height: 1.5,
-                                                fontWeight: FontWeight.w500),
+                                                ),
                                           ),
                                         ],
                                       ),
                                     ),
                                     const SizedBox(
-                                      height: 10,
+                                      height: 5,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
@@ -131,16 +155,38 @@ class _BodyState extends State<Body> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          Expanded(
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Order Status: ',
+                                              style: const TextStyle(
+                                                fontFamily: 'Gotham',
+                                                  color: Colors.black,
+                                                  fontSize: 13,
+                                                  height: 1.5,
+
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text: order_sts,
+                                                  style: TextStyle(
+                                                    color: mainColor,
+                                                    fontFamily: 'Gotham',
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+
+                                        /*  Expanded(
                                             child: Text(
                                               "Order Status: ${ordersModel.customer?.orders?.items?[index].status}",
-                                              style: const TextStyle(
-                                                  color: Colors.black,
+                                              style: TextStyle(
+                                                  color: mainColor,
                                                   fontSize: 13,
                                                   height: 1.5,
                                                   fontWeight: FontWeight.w500),
                                             ),
-                                          ),
+                                          ),*/
                                         ],
                                       ),
                                     ),
@@ -149,7 +195,7 @@ class _BodyState extends State<Body> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 10, 0),
+                                          10, 5, 10, 0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -161,7 +207,7 @@ class _BodyState extends State<Body> {
                                                   color: Colors.black,
                                                   fontSize: 13,
                                                   height: 1.5,
-                                                  fontWeight: FontWeight.w500),
+                                                  ),
                                             ),
                                           ),
                                         ],
@@ -184,40 +230,33 @@ class _BodyState extends State<Body> {
                                                   color: Colors.black,
                                                   fontSize: 13,
                                                   height: 1.5,
-                                                  fontWeight: FontWeight.w500),
+                                                  ),
                                             ),
                                           ),
                                           const SizedBox(
                                             width: 4,
                                           ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
 
-                                          /// Reorder
-                                         /*   MaterialButton(
-                                        color: headingColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(0.0),
-                                        ),
-                                        onPressed: () {},
-                                        child: const Text(
-                                          "Reorder",
-                                          style: TextStyle(
-                                              color: Colors.white, fontSize: 13),
-                                        ),
-                                      ),*/
+                                          const SizedBox(
+                                            width: 4,
+                                          ),
 
                                           OutlinedButton(
                                             onPressed: () {
-
-                                              print(ordersModel
-                                                  .customer
-                                                  ?.orders
-                                                  ?.items?[index].orderNumber);
-
                                               call_reorder(ordersModel
                                                   .customer
                                                   ?.orders
                                                   ?.items?[index].orderNumber);
-
                                             },
                                             style: OutlinedButton.styleFrom(
                                               backgroundColor: headingColor,
@@ -253,17 +292,10 @@ class _BodyState extends State<Body> {
                                                               )));
                                             },
                                             style: OutlinedButton.styleFrom(
-
                                                 primary: headingColor,
                                                 textStyle: const TextStyle(fontSize: 12, fontStyle: FontStyle.normal),
                                                 shape: const RoundedRectangleBorder(
                                                     borderRadius: BorderRadius.all(Radius.circular(5)))),
-                                           /* style: OutlinedButton.styleFrom(
-                                              side: const BorderSide(
-                                                  width: 1.0,
-                                                  color: headingColor),
-                                              // shape: const StadiumBorder(),
-                                            ),*/
                                             child: const Text(
                                               'View Order',
                                               textAlign: TextAlign.center,
@@ -284,4 +316,11 @@ class _BodyState extends State<Body> {
                       ),
               ));
   }
+}
+
+class ColorConstants {
+  static const kPrimaryColor = Color(0xFF394497);
+  static const kSecondaryColor = Color(0xFF444FAB);
+  static const kThirdSecondaryColor = Color(0xFF5E6BD8);
+  static const kGravishBlueColor = Color(0xFF9BA1D2);
 }

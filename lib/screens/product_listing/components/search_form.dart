@@ -37,106 +37,20 @@ class _SearchFormState extends State<SearchForm> {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
-      elevation: 1,
-      child: Form(
-        child: AutocompleteBasicExample(),
-      ),
-    );
-
-    return Card(
-      elevation: 1,
-      child: Form(
-        child: Column(
-          children: [
-            TextFormField(
-              onSaved: (value) {},
-              onChanged: (txt) {
-                if (txt.length > 1) {
-                  getData(txt);
-                  setState(() {});
-                }
-              },
-              style: const TextStyle(fontSize: 16),
-              autofocus: false,
-              focusNode: FocusNode(),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintStyle: const TextStyle(color: Colors.black),
-                hintText: "what are you looking for",
-                border: outlineInputBorder,
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1),
-                ),
-                focusedBorder: outlineInputBorder,
-                errorBorder: outlineInputBorder,
-                suffixIcon: SizedBox(
-                  width: 50,
-                  child: IconButton(
-                    onPressed: () {
-                      print('search button pressed');
-                    },
-                    /*icon: SvgPicture.asset(
-                          "assets/icons/Search.svg",
-                          color: Colors.black,
-                          height: 20,
-                          width: 20,
-                        ),*/
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    ),
-                  ),
-
-                  /*Row(
-                    children: [
-                     */ /* IconButton(
-                        onPressed: () {
-                          print('mic button pressed');
-                        },
-                        icon: const Icon(Icons.mic,color: Colors.black,),
-                      ),*/ /*
-                      IconButton(
-                        onPressed: () {
-                          print('search button pressed');
-                        },
-                        */ /*icon: SvgPicture.asset(
-                          "assets/icons/Search.svg",
-                          color: Colors.black,
-                          height: 20,
-                          width: 20,
-                        ),*/ /*
-                        icon: const Icon(Icons.search,color: Colors.black,),
-                      ),
-                    ],
-                  ),*/
-                ),
-
-                /*Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: SvgPicture.asset("assets/icons/Search.svg",
-                      color: Colors.black),
-                ),*/
-              ),
-            ),
-            searchModel.products == null
-                ? Container()
-                : ListView.builder(
-                    itemCount: searchModel.products!.items!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 60,
-                          child: ListTile(
-                            tileColor: Colors.grey.withOpacity(0.5),
-                            title: Text('Comment $index'),
-                          ),
-                        ),
-                      );
-                    })
-          ],
+    return SizedBox(
+      height: 52,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0),
+          side: const BorderSide(
+            color: kPrimaryColor,
+            width: 0.4,
+          ),
+        ),
+        elevation: 0,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: const Form(
+          child: AutocompleteBasicExample(),
         ),
       ),
     );
@@ -154,10 +68,7 @@ class AutocompleteBasicExample extends StatefulWidget {
 class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
   String? _searchingWithQuery;
 
-  // The most recent options received from the API.
-
   SearchModel searchModel = SearchModel();
-
   GraphQLService graphQLService = GraphQLService();
   late final Iterable<SearchModel> _lastOptions = <SearchModel>[];
 
@@ -195,7 +106,7 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
                               : searchModel.products!.items!.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(6.0),
                               child: SizedBox(
                                 height: 60,
                                 child: Container(
@@ -244,14 +155,15 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
         return TextFormField(
           controller: textEditingController,
           focusNode: focusNode,
+          style: const TextStyle(fontSize: 14),
           onFieldSubmitted: (String value) {
             onFieldSubmitted();
           },
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
-            hintStyle: const TextStyle(color: Colors.black),
-            hintText: "what are you looking for",
+            hintStyle: const TextStyle(color: Colors.black45,fontSize: 14),
+            hintText: "Search",
             border: outlineInputBorder,
             enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white, width: 1),
@@ -271,50 +183,13 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
                   myProvider.isproduct = true;
                   myProvider.notifyListeners();
                   context.go('/home/pdp');
-
-                  // Navigator.of(context).pop();
-                },
-                /*icon: SvgPicture.asset(
-                          "assets/icons/Search.svg",
-                          color: Colors.black,
-                          height: 20,
-                          width: 20,
-                        ),*/
+                  },
                 icon: const Icon(
                   Icons.search,
-                  color: Colors.black,
+                  color: Colors.black45,
                 ),
               ),
-
-              /*Row(
-                    children: [
-                     */ /* IconButton(
-                        onPressed: () {
-                          print('mic button pressed');
-                        },
-                        icon: const Icon(Icons.mic,color: Colors.black,),
-                      ),*/ /*
-                      IconButton(
-                        onPressed: () {
-                          print('search button pressed');
-                        },
-                        */ /*icon: SvgPicture.asset(
-                          "assets/icons/Search.svg",
-                          color: Colors.black,
-                          height: 20,
-                          width: 20,
-                        ),*/ /*
-                        icon: const Icon(Icons.search,color: Colors.black,),
-                      ),
-                    ],
-                  ),*/
             ),
-
-            /*Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: SvgPicture.asset("assets/icons/Search.svg",
-                      color: Colors.black),
-                ),*/
           ),
         );
       },
@@ -331,12 +206,6 @@ class _AutocompleteBasicExampleState extends State<AutocompleteBasicExample> {
 
   void navToProductDeatils(String s) {
     context.go('/home/plp', extra: s);
-
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (context) => DetailsScreen(product: s ?? ''),
-    //     ));
   }
 }
 
@@ -348,12 +217,7 @@ class _AsyncAutocomplete extends StatefulWidget {
 }
 
 class _AsyncAutocompleteState extends State<_AsyncAutocomplete> {
-  // The query currently being searched for. If null, there is no pending
-  // request.
   String? _searchingWithQuery;
-
-  // The most recent options received from the API.
-
   SearchModel searchModel = SearchModel();
 
   GraphQLService graphQLService = GraphQLService();
@@ -394,20 +258,11 @@ class _AsyncAutocompleteState extends State<_AsyncAutocomplete> {
         getData(textEditingValue.text);
         final Iterable<SearchModel> options =
             await _FakeAPI.search(_searchingWithQuery!);
-
-        // If another search happened after this one, throw away these options.
-        // Use the previous options intead and wait for the newer request to
-        // finish.
         if (_searchingWithQuery != textEditingValue.text) {
           return _lastOptions;
         }
-
         _lastOptions = options;
         return options;
-
-        // If another search happened after this one, throw away these options.
-        // Use the previous options intead and wait for the newer request to
-        // finish.
       },
       onSelected: (SearchModel selection) {
         debugPrint('You just selected $selection');
@@ -416,11 +271,9 @@ class _AsyncAutocompleteState extends State<_AsyncAutocomplete> {
   }
 }
 
-// Mimics a remote API.
 class _FakeAPI {
   GraphQLService graphQLService = GraphQLService();
 
-  // Searches the options, but injects a fake "network" delay.
   static Future<Iterable<SearchModel>> search(String query) async {
     if (query == '') {
       return const Iterable<SearchModel>.empty();

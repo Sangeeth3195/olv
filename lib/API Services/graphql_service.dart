@@ -350,7 +350,7 @@ class GraphQLService {
           fetchPolicy: FetchPolicy.noCache,
           document: gql("""
            query Query {
-                category(id: "$id") {
+                category(id: $id) {
                       id
                       level
                       name
@@ -372,6 +372,7 @@ class GraphQLService {
         return CategoryInfo.fromJson(result.data!);
       }
     } catch (error) {
+      print('error');
       print(error);
       return CategoryInfo();
     }
@@ -564,7 +565,7 @@ class GraphQLService {
            query Query {
                     products(
                     filter: ${hashMap}
-                      sort: {name: ASC}
+                      sort: {position: ASC}
                       pageSize:"$limit"
                       currentPage:"$currentPage"
                       ) {
@@ -2514,6 +2515,7 @@ class GraphQLService {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         await preferences.clear();
         print(result.exception?.graphqlErrors[0].message);
+
       } else if (result.data != null) {
         EasyLoading.dismiss();
         log(jsonEncode(result.data));
@@ -4446,6 +4448,7 @@ class GraphQLService {
       var cartToken = prefs.getString('cart_token') ?? '';
 
       print(cartToken);
+      print(qty);
 
       if (cartToken == '') {
         await create_cart();
@@ -4474,6 +4477,7 @@ class GraphQLService {
 
       return "";
     } catch (e) {
+      print('exception');
       print(e);
       return "";
     }

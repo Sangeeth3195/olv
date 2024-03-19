@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
@@ -153,28 +152,32 @@ class _BodyState extends State<Body> {
                                     GestureDetector(
                                       onTap: () {
                                         String? tagName = item.link;
-
                                         print(item.link);
-
                                         final split = tagName?.split('&');
-
                                         final Map<int, String> values = {
                                           for (int i = 0; i < split!.length; i++)
                                             i: split[i]
                                         };
 
-                                        final value1 = values[0];
-                                        final value2 = values[1];
-                                        final value3 = values[2];
-                                        final value4 = values[3];
+                                        final value0 = values[0];
+                                        final value1 = values[1];
+                                        final value2 = values[2];
+                                        final value3 = values[3];
+                                        final value4 = values[4];
+                                        final value5 = values[5];
+                                        final value6 = values[6];
+                                        final value7 = values[7];
 
-                                        print(value1.toString());
+                                        print(value0);
+                                        print(value1);
                                         print(value2);
                                         print(value3);
                                         print(value4);
+                                        print(value5);
+                                        print(value6);
 
-                                        print('split');
-                                        print(value4);
+                                        final split0 = value0.toString().split('=');
+                                        print(split0[1]);
 
                                         final split1 = value1.toString().split('=');
                                         print(split1[1]);
@@ -186,13 +189,58 @@ class _BodyState extends State<Body> {
                                         print(split3[1]);
 
                                         final split4 = value4.toString().split('=');
-                                        print(split4[1]);
+                                        print(split4[1].toString());
 
-                                        if(split4[1] == '1'){
+                                        final split5 = value5.toString().split('=');
+                                        print(split5[1].toString());
+
+                                        final split6 = value6.toString().split('=');
+                                        print(split6[1].toString());
+
+                                        print(value7);
+
+                                        String val = split6[1].toString();
+
+                                          if(split2[1] == '1'){
+
+                                            print('show brands');
+
+                                            final Map<String, dynamic> someMap = {
+                                              "id": int.parse(split3[1]),
+                                              "name": 'AGRARIA',
+                                            };
+                                            print(someMap);
+                                            context.go('/home/product_listing_brandlist', extra: someMap);
+
+                                          }else if(split5[1] == '1'){
+                                            print('show_collection');
+                                            print('show_collection');
+
+                                            final Map<String, dynamic> someMap = {
+                                              "name": val,
+                                            };
+
+                                            context.go(
+                                                '/home/cat_listing_filter',
+                                                extra: someMap);
+
+                                          }else {
+                                            final Map<String, String> someMap = {
+                                              "id": split0[1],
+                                              "name": item.title!,
+                                              "product_count": "20",
+                                              "show_collection":split5[1],
+                                              "link_data":value7!,
+                                              "rt_from":'home_screen',
+                                            };
+                                            context.go('/home/pdp', extra: someMap);
+                                          }
+
+                                        /*if(split4[1] == '1'){
                                           print('show_collection');
 
                                           final Map<String, dynamic> someMap = {
-                                            "name": "BATH COLLECTION",
+                                            "name": val,
                                           };
 
                                           context.go(
@@ -205,14 +253,15 @@ class _BodyState extends State<Body> {
                                             "name": item.title!,
                                             "product_count": "20",
                                             "show_collection":split4[1],
-                                            "link_data":value4!,
-                                            "rt_from":'home_screen',
+                                            "link_data":value5!,
+                                            "rt_from":'home_home_screenscreen',
                                           };
                                           context.go('/home/pdp', extra: someMap);
-                                        }
+                                        }*/
+
                                       },
-                                      child: Image.network(
-                                        "https://omaliving.com${item.attachmentmob!}",
+                                      child: CachedNetworkImage(
+                                        imageUrl:"https://omaliving.com${item.attachmentmob!}",
                                         fit: BoxFit.fitWidth,
                                       ),
                                     )
@@ -360,20 +409,25 @@ class _BodyState extends State<Body> {
                                   i: split[i]
                               };
 
-                              final value1 = values[0];
-                              final value2 = values[1];
-                              final value3 = values[2];
-                              final value4 = values[3];
-                              final value5 = values[4];
+                              final value0 = values[0];
+                              final value1 = values[1];
+                              final value2 = values[2];
+                              final value3 = values[3];
+                              final value4 = values[4];
+                              final value5 = values[5];
+                              final value6 = values[6];
+                              final value7 = values[7];
 
-                              print(value1.toString());
+                              print(value0);
+                              print(value1);
                               print(value2);
                               print(value3);
                               print(value4);
                               print(value5);
+                              print(value6);
 
-                              print('split');
-                              print(value5);
+                              final split0 = value0.toString().split('=');
+                              print(split0[1]);
 
                               final split1 = value1.toString().split('=');
                               print(split1[1]);
@@ -385,9 +439,55 @@ class _BodyState extends State<Body> {
                               print(split3[1]);
 
                               final split4 = value4.toString().split('=');
-                              print(split4[1]);
+                              print(split4[1].toString());
 
-                              if(split4[1] == '1'){
+                              final split5 = value5.toString().split('=');
+                              print(split5[1].toString());
+
+                              final split6 = value6.toString().split('=');
+                              print(split6[1].toString());
+
+                              print(value7);
+
+                              String val = split6[1].toString();
+
+                              if(split2[1] == '1'){
+
+                                print('show brands');
+
+                                final Map<String, dynamic> someMap = {
+                                  "id": int.parse(split3[1]),
+                                  "name": 'AGRARIA',
+                                };
+                                print(someMap);
+                                context.go('/home/product_listing_brandlist', extra: someMap);
+
+                              }else if(split5[1] == '1'){
+                                print('show_collection');
+                                print('show_collection');
+
+                                final Map<String, dynamic> someMap = {
+                                  "name": val,
+                                };
+
+                                context.go(
+                                    '/home/cat_listing_filter',
+                                    extra: someMap);
+
+                              }else {
+                                final Map<String, String> someMap = {
+                                  "id": split0[1],
+                                  "name": homePageModel
+                                      .getHomePageData![1].sectiondata![i].title!,
+                                  "product_count": "20",
+                                  "show_collection":split5[1],
+                                  "link_data":value7!,
+                                  "rt_from":'home_screen',
+                                };
+                                context.go('/home/pdp', extra: someMap);
+                              }
+
+                              /*if(split4[1] == '1'){
                                 print('show_collection');
 
                                 final Map<String, dynamic> someMap = {
@@ -412,7 +512,8 @@ class _BodyState extends State<Body> {
                                   "rt_from":'home_screen',
                                 };
                                 context.go('/home/pdp', extra: someMap);
-                              }
+                              }*/
+
                             },
 
                             child: Padding(
@@ -420,7 +521,8 @@ class _BodyState extends State<Body> {
                                   const EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0),
                               child: Column(
                                 children: [
-                                  Image.network(
+                                  CachedNetworkImage(
+                                    imageUrl:
                                     "https://omaliving.com${homePageModel.getHomePageData![1].sectiondata![i].attachmentmob}",
                                   ),
                                   const SizedBox(
@@ -469,7 +571,85 @@ class _BodyState extends State<Body> {
                             i: split[i]
                         };
 
-                        final value1 = values[0];
+                        final value0 = values[0];
+                        final value1 = values[1];
+                        final value2 = values[2];
+                        final value3 = values[3];
+                        final value4 = values[4];
+                        final value5 = values[5];
+                        final value6 = values[6];
+                        final value7 = values[7];
+
+                        print(value0);
+                        print(value1);
+                        print(value2);
+                        print(value3);
+                        print(value4);
+                        print(value5);
+                        print(value6);
+
+                        final split0 = value0.toString().split('=');
+                        print(split0[1]);
+
+                        final split1 = value1.toString().split('=');
+                        print(split1[1]);
+
+                        final split2 = value2.toString().split('=');
+                        print(split2[1]);
+
+                        final split3 = value3.toString().split('=');
+                        print(split3[1]);
+
+                        final split4 = value4.toString().split('=');
+                        print(split4[1].toString());
+
+                        final split5 = value5.toString().split('=');
+                        print(split5[1].toString());
+
+                        final split6 = value6.toString().split('=');
+                        print(split6[1].toString());
+
+                        print(value7);
+
+                        String val = split6[1].toString();
+
+                        if(split2[1] == '1'){
+
+                          print('show brands');
+
+                          final Map<String, dynamic> someMap = {
+                            "id": int.parse(split3[1]),
+                            "name": 'AGRARIA',
+                          };
+                          print(someMap);
+                          context.go('/home/product_listing_brandlist', extra: someMap);
+
+                        }else if(split5[1] == '1'){
+                          print('show_collection');
+                          print('show_collection');
+
+                          final Map<String, dynamic> someMap = {
+                            "name": val,
+                          };
+
+                          context.go(
+                              '/home/cat_listing_filter',
+                              extra: someMap);
+
+                        }else {
+                          final Map<String, String> someMap = {
+                            "id": split0[1],
+                            "name": homePageModel
+                                .getHomePageData![1].title!,
+                            "product_count": "20",
+                            "show_collection":split5[1],
+                            "link_data":value7!,
+                            "rt_from":'home_screen',
+                          };
+                          context.go('/home/pdp', extra: someMap);
+                        }
+
+                       /* final value1 = values[0];
                         final value2 = values[1];
                         final value3 = values[2];
                         final value4 = values[3];
@@ -521,7 +701,7 @@ class _BodyState extends State<Body> {
                             "rt_from":'home_screen',
                           };
                           context.go('/home/pdp', extra: someMap);
-                        }
+                        }*/
 
                       },
                       style: ElevatedButton.styleFrom(
@@ -562,7 +742,84 @@ class _BodyState extends State<Body> {
                                 i: split[i]
                             };
 
-                            final value1 = values[0];
+                            final value0 = values[0];
+                            final value1 = values[1];
+                            final value2 = values[2];
+                            final value3 = values[3];
+                            final value4 = values[4];
+                            final value5 = values[5];
+                            final value6 = values[6];
+                            final value7 = values[7];
+
+                            print(value0);
+                            print(value1);
+                            print(value2);
+                            print(value3);
+                            print(value4);
+                            print(value5);
+                            print(value6);
+
+                            final split0 = value0.toString().split('=');
+                            print(split0[1]);
+
+                            final split1 = value1.toString().split('=');
+                            print(split1[1]);
+
+                            final split2 = value2.toString().split('=');
+                            print(split2[1]);
+
+                            final split3 = value3.toString().split('=');
+                            print(split3[1]);
+
+                            final split4 = value4.toString().split('=');
+                            print(split4[1].toString());
+
+                            final split5 = value5.toString().split('=');
+                            print(split5[1].toString());
+
+                            final split6 = value6.toString().split('=');
+                            print(split6[1].toString());
+
+                            print(value7);
+
+                            String val = split6[1].toString();
+
+                            if(split2[1] == '1'){
+
+                              print('show brands');
+
+                              final Map<String, dynamic> someMap = {
+                                "id": int.parse(split3[1]),
+                                "name": 'AGRARIA',
+                              };
+                              print(someMap);
+                              context.go('/home/product_listing_brandlist', extra: someMap);
+
+                            }else if(split5[1] == '1'){
+                              print('show_collection');
+
+                              final Map<String, dynamic> someMap = {
+                                "name": val,
+                              };
+
+                              context.go(
+                                  '/home/cat_listing_filter',
+                                  extra: someMap);
+
+                            }else {
+                              final Map<String, String> someMap = {
+                                "id": split0[1],
+                                "name": homePageModel
+                                    .getHomePageData![2].title!,
+                                "product_count": "20",
+                                "show_collection":split5[1],
+                                "link_data":value7!,
+                                "rt_from":'home_screen',
+                              };
+                              context.go('/home/pdp', extra: someMap);
+                            }
+
+                            /*final value1 = values[0];
                             final value2 = values[1];
                             final value3 = values[2];
                             final value4 = values[3];
@@ -614,7 +871,7 @@ class _BodyState extends State<Body> {
                                 "rt_from":'home_screen',
                               };
                               context.go('/home/pdp', extra: someMap);
-                            }
+                            }*/
 
                           },
                           child: SizedBox(
@@ -632,7 +889,6 @@ class _BodyState extends State<Body> {
                         ),
 
                 const SizedBox(height: 10,),
-
 
                  Center(
                     child: Center(
@@ -683,7 +939,84 @@ class _BodyState extends State<Body> {
                             i: split[i]
                         };
 
-                        final value1 = values[0];
+                        final value0 = values[0];
+                        final value1 = values[1];
+                        final value2 = values[2];
+                        final value3 = values[3];
+                        final value4 = values[4];
+                        final value5 = values[5];
+                        final value6 = values[6];
+                        final value7 = values[7];
+
+                        print(value0);
+                        print(value1);
+                        print(value2);
+                        print(value3);
+                        print(value4);
+                        print(value5);
+                        print(value6);
+
+                        final split0 = value0.toString().split('=');
+                        print(split0[1]);
+
+                        final split1 = value1.toString().split('=');
+                        print(split1[1]);
+
+                        final split2 = value2.toString().split('=');
+                        print(split2[1]);
+
+                        final split3 = value3.toString().split('=');
+                        print(split3[1]);
+
+                        final split4 = value4.toString().split('=');
+                        print(split4[1].toString());
+
+                        final split5 = value5.toString().split('=');
+                        print(split5[1].toString());
+
+                        final split6 = value6.toString().split('=');
+                        print(split6[1].toString());
+
+                        print(value7);
+
+                        String val = split6[1].toString();
+
+                        if(split2[1] == '1'){
+
+                          print('show brands');
+
+                          final Map<String, dynamic> someMap = {
+                            "id": int.parse(split3[1]),
+                            "name": 'AGRARIA',
+                          };
+                          print(someMap);
+                          context.go('/home/product_listing_brandlist', extra: someMap);
+
+                        }else if(split5[1] == '1'){
+                          print('show_collection');
+
+                          final Map<String, dynamic> someMap = {
+                            "name": val,
+                          };
+
+                          context.go(
+                              '/home/cat_listing_filter',
+                              extra: someMap);
+
+                        }else {
+                          final Map<String, String> someMap = {
+                            "id": split0[1],
+                            "name": homePageModel
+                                .getHomePageData![3].title!,
+                            "product_count": "20",
+                            "show_collection":split5[1],
+                            "link_data":value7!,
+                            "rt_from":'home_screen',
+                          };
+                          context.go('/home/pdp', extra: someMap);
+                        }
+
+                        /*final value1 = values[0];
                         final value2 = values[1];
                         final value3 = values[2];
                         final value4 = values[3];
@@ -735,7 +1068,7 @@ class _BodyState extends State<Body> {
                             "rt_from":'home_screen',
                           };
                           context.go('/home/pdp', extra: someMap);
-                        }
+                        }*/
 
                       },
                       child: Padding(
@@ -745,7 +1078,8 @@ class _BodyState extends State<Body> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.network(
+                            CachedNetworkImage(
+                              imageUrl:
                               "https://omaliving.com${homePageModel.getHomePageData![3].sectiondata![i].attachmentmob}",
                             ),
                             const SizedBox(
@@ -815,7 +1149,82 @@ class _BodyState extends State<Body> {
                                     i: split[i]
                                 };
 
-                                final value1 = values[0];
+                                final value0 = values[0];
+                                final value1 = values[1];
+                                final value2 = values[2];
+                                final value3 = values[3];
+                                final value4 = values[4];
+                                final value5 = values[5];
+                                final value6 = values[6];
+                                final value7 = values[7];
+
+                                print(value0);
+                                print(value1);
+                                print(value2);
+                                print(value3);
+                                print(value4);
+                                print(value5);
+                                print(value6);
+
+                                final split0 = value0.toString().split('=');
+                                print(split0[1]);
+
+                                final split1 = value1.toString().split('=');
+                                print(split1[1]);
+
+                                final split2 = value2.toString().split('=');
+                                print(split2[1]);
+
+                                final split3 = value3.toString().split('=');
+                                print(split3[1]);
+
+                                final split4 = value4.toString().split('=');
+                                print(split4[1].toString());
+
+                                final split5 = value5.toString().split('=');
+                                print(split5[1].toString());
+
+                                final split6 = value6.toString().split('=');
+                                print(split6[1].toString());
+
+                                print(value7);
+
+                                String val = split6[1].toString();
+
+                                if(split3[1] == '1'){
+
+                                  print('show brands');
+
+                                  final Map<String, dynamic> someMap = {
+                                    "id": int.parse(split2[1]),
+                                    "name": 'BEGG X CO',
+                                  };
+                                  print(someMap);
+                                  context.go('/home/product_listing_brandlist', extra: someMap);
+
+                                }else if(split5[1] == '1'){
+                                  print('show_collection');
+
+                                  final Map<String, dynamic> someMap = {
+                                    "name": val,
+                                  };
+
+                                  context.go('/home/cat_listing_filter', extra: someMap);
+
+                                }else {
+                                  final Map<String, String> someMap = {
+                                    "id": split0[1],
+                                    "name": homePageModel
+                                        .getHomePageData![4].title!,
+                                    "product_count": "20",
+                                    "show_collection":split5[1],
+                                    "link_data":value7!,
+                                    "rt_from":'home_screen',
+                                  };
+                                  context.go('/home/pdp', extra: someMap);
+                                }
+
+                                /*final value1 = values[0];
                                 final value2 = values[1];
                                 final value3 = values[2];
                                 final value4 = values[3];
@@ -867,11 +1276,11 @@ class _BodyState extends State<Body> {
                                     "rt_from":'home_screen',
                                   };
                                   context.go('/home/pdp', extra: someMap);
-                                }
+                                }*/
 
                               },
-                              child: Image.network(
-                                "https://omaliving.com${item.attachment!}",
+                              child: CachedNetworkImage(
+                                imageUrl:"https://omaliving.com${item.attachment!}",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -944,7 +1353,85 @@ class _BodyState extends State<Body> {
                                   i: split[i]
                               };
 
-                              final value1 = values[0];
+
+                              final value0 = values[0];
+                              final value1 = values[1];
+                              final value2 = values[2];
+                              final value3 = values[3];
+                              final value4 = values[4];
+                              final value5 = values[5];
+                              final value6 = values[6];
+                              final value7 = values[7];
+
+                              print(value0);
+                              print(value1);
+                              print(value2);
+                              print(value3);
+                              print(value4);
+                              print(value5);
+                              print(value6);
+
+                              final split0 = value0.toString().split('=');
+                              print(split0[1]);
+
+                              final split1 = value1.toString().split('=');
+                              print(split1[1]);
+
+                              final split2 = value2.toString().split('=');
+                              print(split2[1]);
+
+                              final split3 = value3.toString().split('=');
+                              print(split3[1]);
+
+                              final split4 = value4.toString().split('=');
+                              print(split4[1].toString());
+
+                              final split5 = value5.toString().split('=');
+                              print(split5[1].toString());
+
+                              final split6 = value6.toString().split('=');
+                              print(split6[1].toString());
+
+                              print(value7);
+
+                              String val = split6[1].toString();
+
+                              if(split2[1] == '1'){
+
+                                print('show brands');
+
+                                final Map<String, dynamic> someMap = {
+                                  "id": int.parse(split3[1]),
+                                  "name": 'AGRARIA',
+                                };
+                                print(someMap);
+                                context.go('/home/product_listing_brandlist', extra: someMap);
+
+                              }else if(split5[1] == '1'){
+                                print('show_collection');
+
+                                final Map<String, dynamic> someMap = {
+                                  "name": val,
+                                };
+
+                                context.go(
+                                    '/home/cat_listing_filter',
+                                    extra: someMap);
+
+                              }else {
+                                final Map<String, String> someMap = {
+                                  "id": split0[1],
+                                  "name": homePageModel
+                                      .getHomePageData![5].title!,
+                                  "product_count": "20",
+                                  "show_collection":split5[1],
+                                  "link_data":value7!,
+                                  "rt_from":'home_screen',
+                                };
+                                context.go('/home/pdp', extra: someMap);
+                              }
+
+                              /*final value1 = values[0];
                               final value2 = values[1];
                               final value3 = values[2];
                               final value4 = values[3];
@@ -996,7 +1483,7 @@ class _BodyState extends State<Body> {
                                   "rt_from":'home_screen',
                                 };
                                 context.go('/home/pdp', extra: someMap);
-                              }
+                              }*/
 
                             },
                             child: Padding(
@@ -1004,7 +1491,8 @@ class _BodyState extends State<Body> {
                                   const EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0),
                               child: Column(
                                 children: [
-                                  Image.network(
+                                  CachedNetworkImage(
+                                    imageUrl:
                                     "https://omaliving.com${homePageModel.getHomePageData![5].sectiondata![i].attachmentmob}",
                                   ),
                                   const SizedBox(
@@ -1044,7 +1532,78 @@ class _BodyState extends State<Body> {
                           i: split[i]
                       };
 
-                      final value1 = values[0];
+                      final value0 = values[0];
+                      final value1 = values[1];
+                      final value2 = values[2];
+                      final value3 = values[3];
+                      final value4 = values[4];
+                      final value5 = values[5];
+                      final value6 = values[6];
+                      final value7 = values[7];
+
+                      print(value0);
+                      print(value1);
+                      print(value2);
+                      print(value3);
+                      print(value4);
+                      print(value5);
+                      print(value6);
+
+                      final split0 = value0.toString().split('=');
+                      print(split0[1]);
+
+                      final split1 = value1.toString().split('=');
+                      print(split1[1]);
+
+                      final split2 = value2.toString().split('=');
+                      print(split2[1]);
+
+                      final split3 = value3.toString().split('=');
+                      print(split3[1]);
+
+                      final split4 = value4.toString().split('=');
+                      print(split4[1].toString());
+
+                      final split5 = value5.toString().split('=');
+                      print(split5[1].toString());
+
+                      final split6 = value6.toString().split('=');
+                      print(split6[1].toString());
+
+                      print(value7);
+
+                      String val = split6[1].toString();
+
+                      if(split2[1] == '1'){
+                        print('show brands');
+                        final Map<String, dynamic> someMap = {
+                          "id": split3[1],
+                          "name": '',
+                        };
+                        print(someMap);
+                        context.go('/home/product_listing_brandlist', extra: someMap);
+
+                      }else if(split5[1] == '1'){
+                        print('show_collection');
+                        final Map<String, dynamic> someMap = {
+                          "name": val,
+                        };
+                        context.go('/home/cat_listing_filter', extra: someMap);
+
+                      }else {
+                        final Map<String, String> someMap = {
+                          "id": split0[1],
+                          "name": homePageModel
+                              .getHomePageData![6].title!,
+                          "product_count": "20",
+                          "show_collection":split5[1],
+                          "link_data":value7!,
+                          "rt_from":'home_screen',
+                        };
+                        context.go('/home/pdp', extra: someMap);
+                      }
+
+                      /*final value1 = values[0];
                       final value2 = values[1];
                       final value3 = values[2];
                       final value4 = values[3];
@@ -1096,7 +1655,7 @@ class _BodyState extends State<Body> {
                           "rt_from":'home_screen',
                         };
                         context.go('/home/pdp', extra: someMap);
-                      }
+                      }*/
                     },
                     child: Center(
                       child: Padding(
@@ -1125,7 +1684,85 @@ class _BodyState extends State<Body> {
                                             i: split[i]
                                         };
 
-                                        final value1 = values[0];
+                                        final value0 = values[0];
+                                        final value1 = values[1];
+                                        final value2 = values[2];
+                                        final value3 = values[3];
+                                        final value4 = values[4];
+                                        final value5 = values[5];
+                                        final value6 = values[6];
+                                        final value7 = values[7];
+
+                                        print(value0);
+                                        print(value1);
+                                        print(value2);
+                                        print(value3);
+                                        print(value4);
+                                        print(value5);
+                                        print(value6);
+
+                                        final split0 = value0.toString().split('=');
+                                        print(split0[1]);
+
+                                        final split1 = value1.toString().split('=');
+                                        print(split1[1]);
+
+                                        final split2 = value2.toString().split('=');
+                                        print(split2[1]);
+
+                                        final split3 = value3.toString().split('=');
+                                        print(split3[1]);
+
+                                        final split4 = value4.toString().split('=');
+                                        print(split4[1].toString());
+
+                                        final split5 = value5.toString().split('=');
+                                        print(split5[1].toString());
+
+                                        final split6 = value6.toString().split('=');
+                                        print(split6[1].toString());
+
+                                        print(value7);
+
+                                        String val = split6[1].toString();
+
+                                        if(split2[1] == '1'){
+
+                                          print('show brands');
+
+                                          final Map<String, dynamic> someMap = {
+                                            "id": split3[1],
+                                            "name": '',
+                                          };
+                                          print(someMap);
+                                          context.go('/home/product_listing_brandlist',
+                                              extra: someMap);
+
+                                        }else if(split5[1] == '1'){
+                                          print('show_collection');
+
+                                          final Map<String, dynamic> someMap = {
+                                            "name": val,
+                                          };
+
+                                          context.go(
+                                              '/home/cat_listing_filter',
+                                              extra: someMap);
+
+                                        }else {
+                                          final Map<String, String> someMap = {
+                                            "id": split0[1],
+                                            "name": homePageModel
+                                                .getHomePageData![6].title!,
+                                            "product_count": "20",
+                                            "show_collection":split5[1],
+                                            "link_data":value7!,
+                                            "rt_from":'home_screen',
+                                          };
+                                          context.go('/home/pdp', extra: someMap);
+                                        }
+
+                                       /* final value1 = values[0];
                                         final value2 = values[1];
                                         final value3 = values[2];
                                         final value4 = values[3];
@@ -1177,9 +1814,11 @@ class _BodyState extends State<Body> {
                                             "rt_from":'home_screen',
                                           };
                                           context.go('/home/pdp', extra: someMap);
-                                        }
+                                        }*/
+
                                       },
-                                      child: Image.network(
+                                      child:  CachedNetworkImage(
+                                        imageUrl:
                                         "https://omaliving.com${item.attachmentmob!}",
                                         fit: BoxFit.fitWidth,
                                       ),
@@ -1307,7 +1946,7 @@ class _BodyState extends State<Body> {
                                     i: split[i]
                                 };
 
-                                final value1 = values[0];
+                                /*final value1 = values[0];
                                 final value2 = values[1];
                                 final value3 = values[2];
                                 final value4 = values[3];
@@ -1359,6 +1998,86 @@ class _BodyState extends State<Body> {
                                     "rt_from":'home_screen',
                                   };
                                   context.go('/home/pdp', extra: someMap);
+                                }*/
+
+
+                                final value0 = values[0];
+                                final value1 = values[1];
+                                final value2 = values[2];
+                                final value3 = values[3];
+                                final value4 = values[4];
+                                final value5 = values[5];
+                                final value6 = values[6];
+                                final value7 = values[7];
+
+                                print(value0);
+                                print(value1);
+                                print(value2);
+                                print(value3);
+                                print(value4);
+                                print(value5);
+                                print(value6);
+
+                                final split0 = value0.toString().split('=');
+                                print(split0[1]);
+
+                                final split1 = value1.toString().split('=');
+                                print(split1[1]);
+
+                                final split2 = value2.toString().split('=');
+                                print(split2[1]);
+
+                                final split3 = value3.toString().split('=');
+                                print(split3[1]);
+
+                                final split4 = value4.toString().split('=');
+                                print(split4[1].toString());
+
+                                final split5 = value5.toString().split('=');
+                                print(split5[1].toString());
+
+                                final split6 = value6.toString().split('=');
+                                print(split6[1].toString());
+
+                                print(value7);
+
+                                String val = split6[1].toString();
+
+                                if(split2[1] == '1'){
+
+                                  print('show brands');
+
+                                  final Map<String, dynamic> someMap = {
+                                    "id": split3[1],
+                                    "name": '',
+                                  };
+                                  print(someMap);
+                                  context.go('/home/product_listing_brandlist',
+                                      extra: someMap);
+
+                                }else if(split5[1] == '1'){
+                                  print('show_collection');
+                                  print('show_collection');
+
+                                  final Map<String, dynamic> someMap = {
+                                    "name": val,
+                                  };
+
+                                  context.go(
+                                      '/home/cat_listing_filter',
+                                      extra: someMap);
+
+                                }else {
+                                  final Map<String, String> someMap = {
+                                    "id": split0[1],
+                                    "name": homePageModel
+                                        .getHomePageData![7].title!,
+                                    "product_count": "20",
+                                    "show_collection":split5[1],
+                                    "link_data":value7!,
+                                    "rt_from":'home_screen',
+                                  };
+                                  context.go('/home/pdp', extra: someMap);
                                 }
 
                               },
@@ -1367,7 +2086,8 @@ class _BodyState extends State<Body> {
                                     const EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0),
                                 child: Column(
                                   children: [
-                                    Image.network(
+                                    CachedNetworkImage(
+                                      imageUrl:
                                       "https://omaliving.com${homePageModel.getHomePageData![7].sectiondata![i].attachmentmob}",
                                     ),
                                     const SizedBox(
@@ -1411,7 +2131,85 @@ class _BodyState extends State<Body> {
                             i: split[i]
                         };
 
-                        final value1 = values[0];
+                        final value0 = values[0];
+                        final value1 = values[1];
+                        final value2 = values[2];
+                        final value3 = values[3];
+                        final value4 = values[4];
+                        final value5 = values[5];
+                        final value6 = values[6];
+                        final value7 = values[7];
+
+                        print(value0);
+                        print(value1);
+                        print(value2);
+                        print(value3);
+                        print(value4);
+                        print(value5);
+                        print(value6);
+
+                        final split0 = value0.toString().split('=');
+                        print(split0[1]);
+
+                        final split1 = value1.toString().split('=');
+                        print(split1[1]);
+
+                        final split2 = value2.toString().split('=');
+                        print(split2[1]);
+
+                        final split3 = value3.toString().split('=');
+                        print(split3[1]);
+
+                        final split4 = value4.toString().split('=');
+                        print(split4[1].toString());
+
+                        final split5 = value5.toString().split('=');
+                        print(split5[1].toString());
+
+                        final split6 = value6.toString().split('=');
+                        print(split6[1].toString());
+
+                        print(value7);
+
+                        String val = split6[1].toString();
+
+                        if(split2[1] == '1'){
+
+                          print('show brands');
+
+                          final Map<String, dynamic> someMap = {
+                            "id": int.parse(split3[1]),
+                            "name": 'AGRARIA',
+                          };
+                          print(someMap);
+                          context.go('/home/product_listing_brandlist', extra: someMap);
+
+                        }else if(split5[1] == '1'){
+                          print('show_collection');
+                          print('show_collection');
+
+                          final Map<String, dynamic> someMap = {
+                            "name": val,
+                          };
+
+                          context.go(
+                              '/home/cat_listing_filter',
+                              extra: someMap);
+
+                        }else {
+                          final Map<String, String> someMap = {
+                            "id": split0[1],
+                            "name": homePageModel
+                                .getHomePageData![7].title!,
+                            "product_count": "20",
+                            "show_collection":split5[1],
+                            "link_data":value7!,
+                            "rt_from":'home_screen',
+                          };
+                          context.go('/home/pdp', extra: someMap);
+                        }
+
+                        /*final value1 = values[0];
                         final value2 = values[1];
                         final value3 = values[2];
                         final value4 = values[3];
@@ -1463,7 +2261,7 @@ class _BodyState extends State<Body> {
                             "rt_from":'home_screen',
                           };
                           context.go('/home/pdp', extra: someMap);
-                        }
+                        }*/
 
                       },
                       style: ElevatedButton.styleFrom(
