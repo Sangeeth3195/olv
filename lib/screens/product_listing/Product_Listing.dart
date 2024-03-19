@@ -91,7 +91,8 @@ class _HomeScreenState extends State<ProductListing> {
         myMap[provider.aggregationList[i].attributeCode] = "{in: ${provider.aggregationList[i].selected}}";
       }
       myMap.remove('price');
-      myMap.remove('category_id');
+      // myMap.remove('category_id');
+      myMap.remove('category_uid');
 
       log(myMap.toString());
       provider.loadMoreData(cat_id,
