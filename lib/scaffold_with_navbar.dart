@@ -374,6 +374,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               automaticallyImplyLeading: false,
               backgroundColor: tileColor,
               elevation: 0,
+              iconTheme: const IconThemeData(color: chipColor),
+              centerTitle: true,
               leading: IconButton(
                 icon: const Icon(
                   Icons.close,
@@ -384,11 +386,18 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                   Navigator.pop(context); // Close the navigation drawer
                 },
               ),
-              title: Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Center(
-                  child:
-                      Image.asset('assets/omalogo.png', height: 22, width: 80),
+              title: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context); // Close the navigation drawer
+
+                  if (GoRouter.of(context).location != "/home") {
+                    context.go("/home");
+                  }
+
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Image.asset('assets/omalogo.png', height: 35, width: 80),
                 ),
               ),
               actions: [
