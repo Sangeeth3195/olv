@@ -565,7 +565,7 @@ class GraphQLService {
            query Query {
                     products(
                     filter: ${hashMap}
-                      sort: {name: ASC}
+                      sort: {position: ASC}
                       pageSize:"$limit"
                       currentPage:"$currentPage"
                       ) {
@@ -2515,6 +2515,7 @@ class GraphQLService {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         await preferences.clear();
         print(result.exception?.graphqlErrors[0].message);
+
       } else if (result.data != null) {
         EasyLoading.dismiss();
         log(jsonEncode(result.data));

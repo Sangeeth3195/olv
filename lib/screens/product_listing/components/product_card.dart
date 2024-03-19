@@ -239,8 +239,8 @@ class _ProductCardState extends State<ProductCard> {
                       child:  widget.item!.typename == "ConfigurableProduct"
                         ? Column(
                             children: [
-                              // Text(widget.item!.getPriceRange![0].oldpricevalue
-                              //     .toString()),
+                              Text(widget.item!.getPriceRange![0].oldpricevalue
+                                  .toString()),
                               Text(widget
                                   .item!.getPriceRange![0].normalpricevalue
                                   .toString()),

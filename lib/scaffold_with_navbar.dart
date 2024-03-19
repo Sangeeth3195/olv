@@ -18,8 +18,6 @@ import 'screens/cart/cart_screen.dart';
 
 class ScaffoldWithNavbar extends StatefulWidget {
   const ScaffoldWithNavbar(this.navigationShell, {super.key});
-
-  /// The navigation shell and container for the branch Navigators.
   final StatefulNavigationShell navigationShell;
 
   @override
@@ -46,8 +44,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   String cart_token = '';
   late CartProvider cartProvider;
   var test;
-  final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
-  final OverlayPortalController _tooltipController = OverlayPortalController();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   bool isSearch = false;
 
   @override
@@ -108,7 +105,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
-      // Assign the key to Scaffold.
       endDrawer: Drawer(
         clipBehavior: Clip.none,
         shape: const RoundedRectangleBorder(
@@ -151,11 +147,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
+                const Padding(
+                  padding: EdgeInsets.only(left: 5.0),
                   child: Text(
-                    'My Cart ($count)',
-                    style: const TextStyle(color: Colors.black54, fontSize: 18),
+                    'My Cart', //($count)
+                    style: TextStyle(color: Colors.black54, fontSize: 18),
                   ),
                 ),
                 // FlutterLogo(),
@@ -317,8 +313,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                     height: 22,
                   ),
                   onTap: () {
-                    count =
-                        cartProvider.cartModel.cart!.items!.length.toString();
+                    // count =
+                    //     cartProvider.cartModel.cart!.items!.length.toString();
                     Scaffold.of(context).openEndDrawer();
                   },
                 ),
@@ -422,8 +418,8 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                         ),
 
                         onTap: () {
-                          count = cartProvider.cartModel.cart!.items!.length
-                              .toString();
+                          /*count = cartProvider.cartModel.cart!.items!.length
+                              .toString();*/
                           Scaffold.of(context).openEndDrawer();
                         },
 
@@ -489,7 +485,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                               : null,
                           title: GestureDetector(
                             onTap: () {
-
                               if (navHeaderList[index]['is_clickable'] == 1) {
                                 Navigator.of(context).pop();
                                 catId = navHeaderList[index]['id'];
@@ -498,10 +493,6 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                     listen: false);
                                 myProvider.updateHeader(
                                     navHeaderList[index]['name'].toString());
-
-                                print('catIdcatId');
-                                print(catId);
-
                                 Map<String, dynamic> myMap = {};
                                 myProvider.updateData(catId,filter: myMap);
                                 myProvider.isproduct = true;

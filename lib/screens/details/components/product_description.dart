@@ -384,7 +384,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         const SizedBox(
                           height: 10,
                         ),
-                        isExpired
+                      /*  isExpired
                             ? Container()
                             : Padding(
                                 padding: EdgeInsets.symmetric(
@@ -411,7 +411,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                               ),
                         const SizedBox(
                           height: 0,
-                        ),
+                        ),*/
                         provider.productData[0]['configurable_options'] != null
                             ? Container(
                           margin: EdgeInsets.only(left: 10),

@@ -49,7 +49,6 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),

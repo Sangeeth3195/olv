@@ -174,6 +174,9 @@ class _HomeScreenState extends State<Product_Listing_CustomPLP> {
                       (index) => Padding(
                         padding: const EdgeInsets.all(3),
                         child: ProductCard(
+                          openDrawer: (){
+                            Scaffold.of(context).openEndDrawer();
+                          },
                           title: provider.items[index].name,
                           image: provider.items[index].smallImage.url,
                           fromdate: provider.items[index].specialFromDate,
@@ -218,12 +221,14 @@ class ProductCard extends StatefulWidget {
     required this.todate,
     required this.price,
     required this.press,
+    required this.openDrawer,
     required this.bgColor,
     this.product,
     this.item,
   }) : super(key: key);
   final String image, title, fromdate, todate;
   final VoidCallback press;
+  final VoidCallback openDrawer;
   final String price;
   final Color bgColor;
   final dynamic product;
@@ -259,8 +264,6 @@ class _ProductCardState extends State<ProductCard> {
     myProvider = Provider.of<MyProvider>(context, listen: false);
     cartProvider = Provider.of<CartProvider>(context, listen: false);
 
-    Spl_price = widget.item!.textAttributes[0].specicalprice.toString();
-
     calculatePrice();
 
     if (widget.item!.typename != "SimpleProduct") {
@@ -289,8 +292,6 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   void calculatePrice() {
-    print('date${widget.item!.specialToDate}');
-
     if (widget.item?.specialToDate != null &&
         widget.item?.specialToDate != '') {
       DateTime dt1;
@@ -302,9 +303,29 @@ class _ProductCardState extends State<ProductCard> {
     if (widget.item!.textAttributes[0].specicalprice == '0') {
       isExpired = true;
     }
+
     if (widget.item?.specialToDate == '' ||
         widget.item?.specialToDate == null) {
       isExpired = false;
+    }
+
+    if (widget.item!.textAttributes[0].specicalprice == '0' ||
+        widget.item!.textAttributes[0].specicalprice.toString() == null) {
+      _price_text = '';
+      _price_value = '';
+      isExpired = true;
+    } else {
+      String tagName = widget.item!.textAttributes[0].specicalprice.toString();
+
+      final split = tagName.split('₹');
+
+      final Map<int, String> values = {
+        for (int i = 0; i < split.length; i++) i: split[i]
+      };
+
+      _price_text = '${values[0]}${':'}';
+      _price_value = '${'₹'}${values[1]}';
+
     }
   }
 
@@ -454,7 +475,7 @@ class _ProductCardState extends State<ProductCard> {
                     //
                     // ),
 
-                    widget.item!.typename == "ConfigurableProduct"
+                    /*widget.item!.typename == "ConfigurableProduct"
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -471,6 +492,21 @@ class _ProductCardState extends State<ProductCard> {
                                       .toString()),
                             ],
                           )
+                        : Container(),*/
+
+                    widget.item!.typename == "ConfigurableProduct"
+                        ? Column(
+                      children: [
+                        /* widget.item?.getPriceRange?[0].oldpricevalue == ""
+                                  ? Text('widget')
+                                  : Text(widget
+                                  .item!.getPriceRange![0].oldpricevalue
+                                  .toString()),*/
+                        Text(widget
+                            .item!.getPriceRange![0].normalpricevalue
+                            .toString()),
+                      ],
+                    )
                         : Container(),
 
                     widget.item!.typename == "SimpleProduct"
@@ -491,9 +527,21 @@ class _ProductCardState extends State<ProductCard> {
                                   ),
                                 ),
                                 !isExpired
-                                    ? Text(widget
-                                        .item!.textAttributes[0].specicalprice
-                                        .toString())
+                                    ? Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                          text: '$_price_text',
+                                          style: const TextStyle(
+                                              color: Color(0xFF983030))),
+                                      TextSpan(
+                                        text: ' $_price_value',
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
+                                )
                                     : Container(),
                               ],
                             ),
@@ -685,8 +733,8 @@ class _ProductCardState extends State<ProductCard> {
                         await graphQLService.addProductToCart(
                             widget.item!.sku.toString(), '1',
                             context: context);
-                        Scaffold.of(context).openEndDrawer();
-                      },
+                        widget.openDrawer.call();
+                        },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                         child: Text(

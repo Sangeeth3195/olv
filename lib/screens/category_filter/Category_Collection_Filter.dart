@@ -45,7 +45,7 @@ class _HomeScreenState extends State<Category_Collection_Filter> {
 
   void getNavdata() async {
     isLoading = true;
-    print(widget.data['name']);
+    print(widget.data['name'].toString());
 
     setState(() {
 

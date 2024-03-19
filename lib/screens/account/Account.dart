@@ -40,6 +40,8 @@ class _BodyState extends State<Account> {
 
     customerModel = await graphQLService.get_customer_details();
 
+    print(customerModel);
+
     print(customerModel.customer?.addresses?.length);
     setState(() {
       _firstnameController.text = customerModel.customer?.firstname ?? '';

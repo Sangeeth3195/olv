@@ -109,6 +109,9 @@ class _HomeScreenState extends State<Product_Listing_PLP> {
                       (index) => Padding(
                         padding: const EdgeInsets.all(3),
                         child: ProductCard(
+                          openDrawer: (){
+                            Scaffold.of(context).openEndDrawer();
+                          },
                           title: provider.items[index].name,
                           image: provider.items[index].smallImage.url,
                           fromdate: provider.items[index].specialFromDate,
@@ -153,12 +156,14 @@ class ProductCard extends StatefulWidget {
     required this.todate,
     required this.price,
     required this.press,
+    required this.openDrawer,
     required this.bgColor,
     this.product,
     this.item,
   }) : super(key: key);
   final String image, title, fromdate, todate;
   final VoidCallback press;
+  final VoidCallback openDrawer;
   final String price;
   final Color bgColor;
   final dynamic product;
@@ -553,8 +558,7 @@ class _ProductCardState extends State<ProductCard> {
                         await  graphQLService.addProductToCart(
                             widget.item!.sku.toString(), '1',
                             context: context);
-                        Scaffold.of(context).openEndDrawer();
-
+                        widget.openDrawer.call();
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),

@@ -91,7 +91,7 @@ class _HomeScreenState extends State<ProductListing> {
         myMap[provider.aggregationList[i].attributeCode] = "{in: ${provider.aggregationList[i].selected}}";
       }
       myMap.remove('price');
-      myMap.remove('category_uid');
+      myMap.remove('category_id');
 
       log(myMap.toString());
       provider.loadMoreData(cat_id,
@@ -113,9 +113,7 @@ class _HomeScreenState extends State<ProductListing> {
       cat_id = widget.data['id'];
     }
 
-    getcategoryInfo =
-        await graphQLService.getCategoryInfo(cat_id.toString());
-
+    getcategoryInfo = await graphQLService.getCategoryInfo(cat_id.toString());
     filterData();
 
   }
@@ -124,13 +122,13 @@ class _HomeScreenState extends State<ProductListing> {
     Map<String, dynamic> myMap = {};
     final provider = Provider.of<MyProvider>(context, listen: false);
 
-    myMap['category_id'] = "{eq: $cat_id}"; ////widget.data['id']
+    myMap['category_id'] = "{eq: $cat_id}"; /// widget.data['id']
     for (int i = 0; i < provider.aggregationList.length; i++) {
       myMap[provider.aggregationList[i].attributeCode] = "{in: ${provider.aggregationList[i].selected}}";
     }
     myMap.remove('price');
 
-    print('cat_id');
+    print('cat_id Test');
     print(cat_id);
 
     log(myMap.toString());
