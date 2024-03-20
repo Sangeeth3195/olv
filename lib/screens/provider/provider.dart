@@ -32,6 +32,7 @@ class MyProvider extends ChangeNotifier {
   CustomerModel customerModel = CustomerModel();
 
   int wishListNumbers = 0;
+  Map<String, dynamic> sortHashMap={"position": "ASC"};
 
   void updateHeader(String header) {
     title = header;
@@ -73,7 +74,7 @@ class MyProvider extends ChangeNotifier {
     aggregationList.clear();
     notifyListeners();
     dynamic dataFromAPi =
-        await graphQLService.getproductlist(limit: limit, id: id,hashMap: filter!);
+        await graphQLService.getproductlist(limit: limit, id: id,hashMap: filter!,sortHashMap: sortHashMap);
     List? res1 = dataFromAPi.data?['products']['items'];
     _data = res1!;
     pList = res1;
@@ -91,7 +92,7 @@ class MyProvider extends ChangeNotifier {
   void loadMoreData(int id, {int limit = 20,int currentPage = 20,Map<String, dynamic>? filter}) async {
 
     dynamic dataFromAPi =
-        await graphQLService.getproductlist(limit: limit, id: id,currentPage: currentPage,hashMap: filter!);
+        await graphQLService.getproductlist(limit: limit, id: id,currentPage: currentPage,hashMap: filter!,sortHashMap: sortHashMap);
     if(dataFromAPi == null){
       notifyListeners();
       return ;
@@ -188,18 +189,24 @@ class MyProvider extends ChangeNotifier {
   void sort(String value) {
 
     if (value == "Most Relevant") {
-      items = oldItems;
+      // items = oldItems;
+      sortHashMap = {"position":"ASC"};
     } else if (value == "Product Name") {
-      items.sort((a, b) => a.name.compareTo(b.name));
+      sortHashMap = {"name":"ASC"};
+      // items.sort((a, b) => a.name.compareTo(b.name));
     } else if (value == "Low to high") {
+      sortHashMap = {"price":"ASC"};
+
       // items.sort((a, b) => a.priceRange.minimumPrice.regularPrice.value
       //     .compareTo(b.priceRange.minimumPrice.regularPrice.value));
     } else if (value == "High to low") {
+      sortHashMap = {"price":"DESC"};
+
       // items.sort((a, b) => a.priceRange.minimumPrice.regularPrice.value
       //     .compareTo(b.priceRange.minimumPrice.regularPrice.value));
-      items = items.reversed.toList();
+      // items = items.reversed.toList();
     }
-    notifyListeners();
+    // notifyListeners();
   }
 
   void updateAggrecation(List<dynamic> aggrecationFromApi) {

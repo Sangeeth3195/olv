@@ -554,8 +554,10 @@ class GraphQLService {
     required int id,
     int currentPage = 1,
     required Map<String, dynamic> hashMap,
+    required Map<String, dynamic> sortHashMap,
 
   }) async {
+    hashMap.remove("category_uid");
     try {
       EasyLoading.show(status: 'loading...');
       QueryResult result = await client.query(
@@ -565,7 +567,7 @@ class GraphQLService {
            query Query {
                     products(
                     filter: ${hashMap}
-                      sort: {position: ASC}
+                      sort: $sortHashMap
                       pageSize:"$limit"
                       currentPage:"$currentPage"
                       ) {

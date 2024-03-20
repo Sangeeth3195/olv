@@ -768,6 +768,7 @@ class _HomeScreenState extends State<ProductListing> {
                                   _selectedOption = newValue!;
                                 });
                                 provider.sort(newValue!);
+                                getNavdata();
                               },
                               underline: Container(),
                               items: _options.map<DropdownMenuItem<String>>(

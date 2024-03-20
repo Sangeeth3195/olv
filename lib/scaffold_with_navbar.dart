@@ -503,7 +503,7 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
                                 myProvider.updateHeader(
                                     navHeaderList[index]['name'].toString());
                                 Map<String, dynamic> myMap = {};
-                                myProvider.updateData(catId,filter: myMap);
+                                // myProvider.updateData(catId,filter: myMap);
                                 myProvider.isproduct = true;
                                 myProvider.notifyListeners();
                                 context.go('/home/pdp',
