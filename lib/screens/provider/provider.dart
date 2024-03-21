@@ -33,6 +33,8 @@ class MyProvider extends ChangeNotifier {
 
   int wishListNumbers = 0;
   Map<String, dynamic> sortHashMap={"position": "ASC"};
+  RangeValues? rangeValues;
+
 
   void updateHeader(String header) {
     title = header;
@@ -68,6 +70,16 @@ class MyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+   getSlider() {
+     for (int i = 0; i < aggregationList.length; i++) {
+       print(aggregationList[i].label);
+       if(aggregationList[i].label == "Price"){
+         rangeValues = RangeValues(double.parse(aggregationList[i].options[0].value.split("_")[0]),double.parse(aggregationList[i].options[aggregationList[i].count-1].value.split("_")[1]));
+         notifyListeners();
+       }
+     }
+   }
+
   void updateData(int id, {int limit = 20,Map<String, dynamic>? filter}) async {
     items.clear();
     oldItems.clear();
@@ -83,6 +95,7 @@ class MyProvider extends ChangeNotifier {
         dataFromAPi.data?['products']['aggregations'];
     aggregationList =
         postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
+    getSlider();
     final List<dynamic> itemList = dataFromAPi.data?['products']['items'];
     items = itemList.map((postJson) => Item.fromJson(postJson)).toList();
     oldItems = itemList.map((postJson) => Item.fromJson(postJson)).toList();
@@ -105,6 +118,8 @@ class MyProvider extends ChangeNotifier {
         dataFromAPi.data?['products']['aggregations'];
     aggregationList =
         postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
+    getSlider();
+
     final List<dynamic> itemList = dataFromAPi.data?['products']['items'];
     items.addAll(itemList.map((postJson) => Item.fromJson(postJson)).toList());
     oldItems.addAll(itemList.map((postJson) => Item.fromJson(postJson)).toList());

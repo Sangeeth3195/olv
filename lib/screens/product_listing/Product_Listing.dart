@@ -37,7 +37,6 @@ class _HomeScreenState extends State<ProductListing> {
   ];
 
   final GlobalKey<ScaffoldState> _childDrawerKey = GlobalKey();
-  RangeValues _currentRangeValues = const RangeValues(50, 200);
 
   int currentPage = 1;
   int itemsPerPage = 10;
@@ -53,17 +52,15 @@ class _HomeScreenState extends State<ProductListing> {
     isLoading = true;
     print(widget.data['name']);
 
-    setState(() {
+    setState(() {});
 
-    });
-
-    if(widget.data['rt_from'] == 'home_screen'){
+    if (widget.data['rt_from'] == 'home_screen') {
       print(widget.data['rt_from']);
       print(widget.data['link_data']);
       print(widget.data['id']);
       cat_id = int.parse(widget.data['id']);
       getNavdata();
-    }else {
+    } else {
       getNavdata();
       cat_id = widget.data['id'];
     }
@@ -88,7 +85,8 @@ class _HomeScreenState extends State<ProductListing> {
 
       myMap['category_id'] = "{eq: $cat_id}"; //widget.data['id']
       for (int i = 0; i < provider.aggregationList.length; i++) {
-        myMap[provider.aggregationList[i].attributeCode] = "{in: ${provider.aggregationList[i].selected}}";
+        myMap[provider.aggregationList[i].attributeCode] =
+            "{in: ${provider.aggregationList[i].selected}}";
       }
       myMap.remove('price');
       // myMap.remove('category_id');
@@ -96,7 +94,9 @@ class _HomeScreenState extends State<ProductListing> {
 
       log(myMap.toString());
       provider.loadMoreData(cat_id,
-          limit: 20, currentPage: currentPage,filter: myMap); // widget.data['id']
+          limit: 20,
+          currentPage: currentPage,
+          filter: myMap); // widget.data['id']
     }
   }
 
@@ -107,35 +107,39 @@ class _HomeScreenState extends State<ProductListing> {
   }
 
   void getNavdata() async {
-
-    if(widget.data['rt_from'] == 'home_screen'){
+    if (widget.data['rt_from'] == 'home_screen') {
       cat_id = int.parse(widget.data['id']);
-    }else {
+    } else {
       cat_id = widget.data['id'];
     }
 
     getcategoryInfo = await graphQLService.getCategoryInfo(cat_id.toString());
+    final provider = Provider.of<MyProvider>(context, listen: false);
+    provider.rangeValues = null;
     filterData();
-
   }
 
   void filterData() async {
     Map<String, dynamic> myMap = {};
     final provider = Provider.of<MyProvider>(context, listen: false);
 
-    myMap['category_id'] = "{eq: $cat_id}"; /// widget.data['id']
+    myMap['category_id'] = "{eq: $cat_id}";
+
+    /// widget.data['id']
     for (int i = 0; i < provider.aggregationList.length; i++) {
-      myMap[provider.aggregationList[i].attributeCode] = "{in: ${provider.aggregationList[i].selected}}";
+      myMap[provider.aggregationList[i].attributeCode] =
+          "{in: ${provider.aggregationList[i].selected}}";
     }
     myMap.remove('price');
-
+    if(provider.rangeValues != null){
+      myMap["price"] ="{from:${provider.rangeValues!.start.ceil()},to:${provider.rangeValues!.end.ceil()}}";
+    }
     print('cat_id Test');
     print(cat_id);
 
     log(myMap.toString());
     provider.updateData(cat_id, filter: myMap); //widget.data['id']
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +195,9 @@ class _HomeScreenState extends State<ProductListing> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 15,),
+                    const SizedBox(
+                      height: 15,
+                    ),
                     ListView.separated(
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
@@ -201,17 +207,16 @@ class _HomeScreenState extends State<ProductListing> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
                             Theme(
                               data: Theme.of(context)
                                   .copyWith(dividerColor: Colors.transparent),
                               child: ExpansionTile(
                                 title: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      5.0, 0, 10, 5),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(5.0, 0, 10, 5),
                                   child: Text(
-                                    provider
-                                        .aggregationList[subitemIndex].label.toUpperCase(),
+                                    provider.aggregationList[subitemIndex].label
+                                        .toUpperCase(),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         color: priceColor,
@@ -226,21 +231,47 @@ class _HomeScreenState extends State<ProductListing> {
                                           "Price"
                                       ? Padding(
                                           padding: const EdgeInsets.all(0.0),
-                                          child: RangeSlider(
-                                            values: _currentRangeValues,
-                                            min: 0,
-                                            max: 300,
-                                            divisions: 30,
-                                            // Optional: Increase for a smoother slider
-                                            onChanged: (RangeValues values) {
-                                              setState(() {
-                                                _currentRangeValues = values;
-                                              });
-                                            },
-                                            labels: RangeLabels(
-                                              '\$${_currentRangeValues.start.round()}',
-                                              '\$${_currentRangeValues.end.round()}',
-                                            ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              provider.rangeValues == null ? Container(): RangeSlider(
+                                                values: provider.rangeValues!,
+                                                max: provider.rangeValues!.end,
+                                                // divisions: 30,
+                                                // Optional: Increase for a smoother slider
+                                                onChanged:
+                                                    (RangeValues values) {
+                                                  setState(() {
+                                                    provider.rangeValues =
+                                                        values;
+                                                  });
+
+                                                },
+                                                onChangeEnd: (RangeValues values) {
+                                                  // Call the method to fetch data when slider is released
+                                                  filterData();
+                                                },
+                                                labels: RangeLabels(
+                                                  '\$${provider.rangeValues!.start.round()}',
+                                                  '\$${provider.rangeValues!.end.round()}',
+                                                ),
+                                              ),
+                                              provider.rangeValues == null ? Container():Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        20.0, 0, 10, 5),
+                                                child: Text(
+                                                    " ${provider.rangeValues!.start.ceil()} -  ${provider.rangeValues!.end.ceil()}",
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black54,
+                                                        fontFamily: 'Gotham',
+                                                        height: 1,
+                                                        fontSize: 15)),
+                                              )
+                                            ],
                                           ),
                                         )
                                       : provider.aggregationList[subitemIndex]
@@ -287,15 +318,15 @@ class _HomeScreenState extends State<ProductListing> {
                                                               .aggregationList[
                                                                   subitemIndex]
                                                               .selected
-                                                              .remove(option
-                                                                  .value);
+                                                              .remove(
+                                                                  option.value);
                                                         } else {
                                                           provider
                                                               .aggregationList[
                                                                   subitemIndex]
                                                               .selected
-                                                              .add(option
-                                                                  .value);
+                                                              .add(
+                                                                  option.value);
                                                         }
                                                       });
                                                       print(provider
@@ -309,10 +340,9 @@ class _HomeScreenState extends State<ProductListing> {
                                                           .symmetric(
                                                           horizontal: 5),
                                                       padding:
-                                                          const EdgeInsets
-                                                              .all(5),
-                                                      decoration:
-                                                          BoxDecoration(
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      decoration: BoxDecoration(
                                                         border: Border.all(
                                                           color: isSelected
                                                               ? Colors.red
@@ -323,8 +353,7 @@ class _HomeScreenState extends State<ProductListing> {
                                                           // Change border color if selected
                                                           width: 2.0,
                                                         ),
-                                                        shape:
-                                                            BoxShape.circle,
+                                                        shape: BoxShape.circle,
                                                         color: colorFromHex(
                                                             option.swatchData!
                                                                 .value),
@@ -433,15 +462,15 @@ class _HomeScreenState extends State<ProductListing> {
                                                     controlAffinity:
                                                         ListTileControlAffinity
                                                             .leading,
-
                                                     title: Text(
                                                         "${provider.aggregationList[subitemIndex].options[index].label} (${provider.aggregationList[subitemIndex].options[index].count}) ",
                                                         style: const TextStyle(
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w500,
-                                                            color: Colors.black54,
-                                                            fontFamily: 'Gotham',
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Colors.black54,
+                                                            fontFamily:
+                                                                'Gotham',
                                                             height: 1,
                                                             fontSize: 12)),
                                                     value: provider
@@ -505,7 +534,7 @@ class _HomeScreenState extends State<ProductListing> {
                       children: [
                         Container(
                           padding: EdgeInsets.all(8),
-                          width: MediaQuery.of(context).size.width/2 - 25,
+                          width: MediaQuery.of(context).size.width / 2 - 25,
                           height: 63,
                           child: ElevatedButton(
                             onPressed: () {
@@ -516,22 +545,26 @@ class _HomeScreenState extends State<ProductListing> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: themecolor),
-                                  borderRadius: BorderRadius.circular(
+                                side: BorderSide(color: themecolor),
+                                borderRadius: BorderRadius.circular(
                                     3.0), // Set the corner radius here
                               ),
                               padding: const EdgeInsets.all(
                                   10.0), // Optional: Set padding for the button
                               // Customize other properties like background color, elevation, etc.
                             ),
-                            child: const Text('Clear All',style: TextStyle(color: Colors.black,  fontFamily: 'Gotham',),),
+                            child: const Text(
+                              'Clear All',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Gotham',
+                              ),
+                            ),
                           ),
                         ),
-
                         Container(
                           padding: EdgeInsets.all(8),
-                          width: MediaQuery.of(context).size.width/2 -25,
-
+                          width: MediaQuery.of(context).size.width / 2 - 25,
                           height: 63,
                           child: ElevatedButton(
                             onPressed: () {
@@ -548,7 +581,13 @@ class _HomeScreenState extends State<ProductListing> {
                                   10.0), // Optional: Set padding for the button
                               // Customize other properties like background color, elevation, etc.
                             ),
-                            child: const Text('Apply',style: TextStyle(color: Colors.white,  fontFamily: 'Gotham',),),
+                            child: const Text(
+                              'Apply',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Gotham',
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -730,7 +769,6 @@ class _HomeScreenState extends State<ProductListing> {
                           ),
                         ],
                       ),
-
                       Row(
                         children: [
                           Text(
@@ -792,80 +830,88 @@ class _HomeScreenState extends State<ProductListing> {
                     ],
                   ),
                 ),
-                provider.items.length == 0 ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 250,),
-                    Text("We are curating the perfect list of products for you.",
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(
-                          color: headingColor,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14),
-                    ),
-                    const SizedBox(height: 10,),
-                    Text("Meanwhile please browse our other categories.",
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .copyWith(
-                          color: headingColor,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 14),
-                    ),
-                  ],
-                ):
-                Expanded(
-                  child: GridView.extent(
-                    primary: false,
-                    padding: const EdgeInsets.all(2),
-                    childAspectRatio: 0.55,
-                    maxCrossAxisExtent: 300,
-                    cacheExtent: 10,
-                    controller: _scrollController,
-                    children: List.generate(
-                      provider.items.length + 1,
-                      (index) {
-                        if (index < provider.items.length) {
-                          return Padding(
-                            padding: const EdgeInsets.all(3),
-                            child: ProductCard(
-                              openDrawer: (){
-                                Scaffold.of(context).openEndDrawer();
-                              },
-                              title: provider.items[index].name,
-                              image: provider.items[index].smallImage.url,
-                              price: provider.items[index].typename ==
-                                      "SimpleProduct"
-                                  ? provider.items[index].price.regularPrice
-                                      .amount.value
-                                      .toString()
-                                  : "",
-                              product: provider.items[index],
-                              bgColor: demo_product[0].colors[0],
-                              item: provider.items[index],
-                              press: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailsScreen(
-                                          product: provider.items[index].sku),
-                                    ));
-                              },
-                            ),
-                          );
-                        } else {
-                          return const Center();
-                        }
-                      },
-                    ),
-                  ),
-                ),
+                provider.items.length == 0
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 250,
+                          ),
+                          Text(
+                            "We are curating the perfect list of products for you.",
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                    color: headingColor,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Meanwhile please browse our other categories.",
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1!
+                                .copyWith(
+                                    color: headingColor,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 14),
+                          ),
+                        ],
+                      )
+                    : Expanded(
+                        child: GridView.extent(
+                          primary: false,
+                          padding: const EdgeInsets.all(2),
+                          childAspectRatio: 0.55,
+                          maxCrossAxisExtent: 300,
+                          cacheExtent: 10,
+                          controller: _scrollController,
+                          children: List.generate(
+                            provider.items.length + 1,
+                            (index) {
+                              if (index < provider.items.length) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: ProductCard(
+                                    openDrawer: () {
+                                      Scaffold.of(context).openEndDrawer();
+                                    },
+                                    title: provider.items[index].name,
+                                    image: provider.items[index].smallImage.url,
+                                    price: provider.items[index].typename ==
+                                            "SimpleProduct"
+                                        ? provider.items[index].price
+                                            .regularPrice.amount.value
+                                            .toString()
+                                        : "",
+                                    product: provider.items[index],
+                                    bgColor: demo_product[0].colors[0],
+                                    item: provider.items[index],
+                                    press: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailsScreen(
+                                                product:
+                                                    provider.items[index].sku),
+                                          ));
+                                    },
+                                  ),
+                                );
+                              } else {
+                                return const Center();
+                              }
+                            },
+                          ),
+                        ),
+                      ),
               ],
             ),
           );
