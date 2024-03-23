@@ -43,6 +43,15 @@ class _HomeScreenState extends State<ProductListing> {
   ScrollController _scrollController = ScrollController();
   bool isLoading = false;
   int cat_id = 0;
+  double _minPrice = 100.0;
+  double _maxPrice = 500.0;
+  RangeValues _currentValues = RangeValues(150.0, 300.0);
+
+  void _onRangeChanged(RangeValues values) {
+    setState(() {
+      _currentValues = values;
+    });
+  }
 
   @override
   void initState() {
@@ -115,7 +124,8 @@ class _HomeScreenState extends State<ProductListing> {
 
     getcategoryInfo = await graphQLService.getCategoryInfo(cat_id.toString());
     final provider = Provider.of<MyProvider>(context, listen: false);
-    provider.rangeValues = null;
+    provider.aggregationList.clear();
+    provider.rangeValues= null;
     filterData();
   }
 
@@ -237,15 +247,15 @@ class _HomeScreenState extends State<ProductListing> {
                                             children: [
                                               provider.rangeValues == null ? Container(): RangeSlider(
                                                 values: provider.rangeValues!,
-                                                max: provider.rangeValues!.end,
+                                                max: provider.maxValue!,
+                                                min:provider.minValue!,
                                                 // divisions: 30,
                                                 // Optional: Increase for a smoother slider
                                                 onChanged:
                                                     (RangeValues values) {
-                                                  setState(() {
-                                                    provider.rangeValues =
-                                                        values;
-                                                  });
+                                                      provider.rangeValues =
+                                                          values;
+                                                      provider.notifyListeners();
 
                                                 },
                                                 onChangeEnd: (RangeValues values) {

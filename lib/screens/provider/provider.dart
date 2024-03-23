@@ -34,6 +34,10 @@ class MyProvider extends ChangeNotifier {
   int wishListNumbers = 0;
   Map<String, dynamic> sortHashMap={"position": "ASC"};
   RangeValues? rangeValues;
+  double? minValue;
+  double? maxValue;
+
+
 
 
   void updateHeader(String header) {
@@ -74,7 +78,9 @@ class MyProvider extends ChangeNotifier {
      for (int i = 0; i < aggregationList.length; i++) {
        print(aggregationList[i].label);
        if(aggregationList[i].label == "Price"){
-         rangeValues = RangeValues(double.parse(aggregationList[i].options[0].value.split("_")[0]),double.parse(aggregationList[i].options[aggregationList[i].count-1].value.split("_")[1]));
+         minValue = double.parse(aggregationList[i].options[0].value.split("_")[0]);
+         maxValue =double.parse(aggregationList[i].options[aggregationList[i].count-1].value.split("_")[1]);
+         rangeValues = RangeValues(double.parse(aggregationList[i].options[0].value.split("_")[0])+1,double.parse(aggregationList[i].options[aggregationList[i].count-1].value.split("_")[1])-1);
          notifyListeners();
        }
      }
@@ -83,19 +89,21 @@ class MyProvider extends ChangeNotifier {
   void updateData(int id, {int limit = 20,Map<String, dynamic>? filter}) async {
     items.clear();
     oldItems.clear();
-    aggregationList.clear();
     notifyListeners();
     dynamic dataFromAPi =
         await graphQLService.getproductlist(limit: limit, id: id,hashMap: filter!,sortHashMap: sortHashMap);
     List? res1 = dataFromAPi.data?['products']['items'];
     _data = res1!;
     pList = res1;
-    aggrecation = dataFromAPi.data?['products']['aggregations'];
-    final List<dynamic> postList =
-        dataFromAPi.data?['products']['aggregations'];
-    aggregationList =
-        postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
-    getSlider();
+    if(filter.length==1){
+      aggregationList.clear();
+      aggrecation = dataFromAPi.data?['products']['aggregations'];
+      final List<dynamic> postList =
+      dataFromAPi.data?['products']['aggregations'];
+      aggregationList =
+          postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
+      getSlider();
+    }
     final List<dynamic> itemList = dataFromAPi.data?['products']['items'];
     items = itemList.map((postJson) => Item.fromJson(postJson)).toList();
     oldItems = itemList.map((postJson) => Item.fromJson(postJson)).toList();
@@ -113,12 +121,20 @@ class MyProvider extends ChangeNotifier {
     List? res1 = dataFromAPi.data?['products']['items'];
     _data = res1!;
     pList = res1;
-    aggrecation = dataFromAPi.data?['products']['aggregations'];
-    final List<dynamic> postList =
-        dataFromAPi.data?['products']['aggregations'];
-    aggregationList =
-        postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
-    getSlider();
+    if(filter.length==1){
+      aggrecation = dataFromAPi.data?['products']['aggregations'];
+      final List<dynamic> postList =
+      dataFromAPi.data?['products']['aggregations'];
+      aggregationList =
+          postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
+      getSlider();
+    }
+    // aggrecation = dataFromAPi.data?['products']['aggregations'];
+    // final List<dynamic> postList =
+    //     dataFromAPi.data?['products']['aggregations'];
+    // aggregationList =
+    //     postList.map((postJson) => Aggregation.fromJson(postJson)).toList();
+    // getSlider();
 
     final List<dynamic> itemList = dataFromAPi.data?['products']['items'];
     items.addAll(itemList.map((postJson) => Item.fromJson(postJson)).toList());
