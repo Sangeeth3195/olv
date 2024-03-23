@@ -73,13 +73,30 @@ class _BodyState extends State<Body> {
                                 customerModel.customer?.addresses?[index]
                                         .firstname ??
                                     '',
-                                style: const TextStyle(fontSize: 14, fontFamily: 'Gotham',),
+                                style: const TextStyle(fontSize: 15, fontFamily: 'Gotham', fontWeight: FontWeight.bold),
                               ),
-                              subtitle: Text(
-                                customerModel.customer?.addresses?[index].street
-                                        ?.first ??
-                                    '',
-                                style: const TextStyle(fontSize: 13, fontFamily: 'Gotham',),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    customerModel.customer?.addresses?[index].street
+                                            ?.first ??
+                                        '',
+                                    style: const TextStyle(fontSize: 13, fontFamily: 'Gotham',),
+                                  ),
+                                  Text(
+                                    customerModel.customer?.addresses?[index].city
+                                             ??
+                                        '',
+                                    style: const TextStyle(fontSize: 13, fontFamily: 'Gotham',),
+                                  ),
+                                  Text(
+                                    customerModel.customer?.addresses?[index].telephone
+                                             ??
+                                        '',
+                                    style: const TextStyle(fontSize: 13, fontFamily: 'Gotham',),
+                                  ),
+                                ],
                               ),
                               trailing: const SizedBox(
                                 width: 70,
@@ -88,11 +105,11 @@ class _BodyState extends State<Body> {
                                     Text(
                                       'Edit |',
                                       style: TextStyle(
-                                          color: headingColor, fontSize: 12),
+                                          color: headingColor, fontSize: 16),
                                     ),
                                     Icon(
-                                      Icons.arrow_forward_outlined,
-                                      size: 12,
+                                      Icons.delete,
+                                      size: 20,
                                       color: headingColor,
                                     ),
                                   ],
@@ -114,21 +131,41 @@ class _BodyState extends State<Body> {
                       },
                     ),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigator.of(context, rootNavigator: true).pushNamed("/addaddress");
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddAddress( title:'Add Address',)),
-          );
-        },
-        backgroundColor: headingColor,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
+      floatingActionButton: Container(
+        width: MediaQuery.of(context).size.width-30,
+        child: ElevatedButton(
+          onPressed: () {
+            // Button pressed action
+            print('Button Pressed!');
+            Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AddAddress( title:'Add Address',)),
+                    );
+          },
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(themecolor)
+            // Add your customizations here
+          ),
+          child: Text('Add Address',style: TextStyle(color: Colors.white),),
+          // color: Colors.blue,
+          // textColor: Colors.white,
         ),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // Navigator.of(context, rootNavigator: true).pushNamed("/addaddress");
+      //
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => const AddAddress( title:'Add Address',)),
+      //     );
+      //   },
+      //   backgroundColor: headingColor,
+      //   child: const Icon(
+      //     Icons.add,
+      //     color: Colors.white,
+      //   ),
+      // ),
     );
   }
 }
