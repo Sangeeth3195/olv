@@ -51,7 +51,6 @@ dependencies:
   fwfh_text_style: ^2.22.8+3
   flutter_inappwebview: ^6.0.0
   syncfusion_flutter_sliders: ^25.1.35
-  flutter_webview_plugin: ^0.4.0
 #  flutter_login_facebook: ^1.9.0
 #  fwfh_text_style: ^2.23.8
 #  flutter_facebook_auth: ^6.0.1

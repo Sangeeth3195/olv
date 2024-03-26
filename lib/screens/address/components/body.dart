@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/CustomerModel.dart';
 import 'package:omaliving/screens/add_address/add_address.dart';
@@ -21,6 +22,7 @@ class _BodyState extends State<Body> {
 
   CustomerModel customerModel = CustomerModel();
   MyProvider? myProvider;
+
   @override
   void initState() {
     super.initState();
@@ -44,11 +46,18 @@ class _BodyState extends State<Body> {
       },
     );
     Widget continueButton = TextButton(
-      child: const Text("Ok"),
+      child: Text("Ok"),
       onPressed: () async {
-        graphQLService.deleteaddress(id!);
-        myProvider!.getuserdata();
+        String adressUpdate = await graphQLService.deleteaddress(id!);
+        Fluttertoast.showToast(msg: adressUpdate);
         EasyLoading.show(status: 'loading...');
+
+        customerModel = await graphQLService.get_customer_details();
+        setState(() {
+
+        });
+        EasyLoading.dismiss();
+
         Navigator.pop(context);
       },
     );

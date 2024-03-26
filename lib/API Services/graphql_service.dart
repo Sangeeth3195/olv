@@ -4497,6 +4497,7 @@ class GraphQLService {
       if (result.hasException) {
         EasyLoading.dismiss();
         print(result);
+        return result.exception!.raw![0]['message'].toString();
 
         if (kDebugMode) {
           print(result.exception?.graphqlErrors[0].message);

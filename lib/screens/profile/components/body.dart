@@ -135,6 +135,7 @@ class _BodyState extends State<Body> {
                 text: "Wishlist",
                 icon: Icons.favorite,
                 press: () {
+                  // context.go('/profile/wishlist');
                   context.go('/profile/wishlist');
 
                   /* Navigator.of(context, rootNavigator: true)
