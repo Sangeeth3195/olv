@@ -332,12 +332,10 @@ class _ProductCardState extends State<ProductCard> {
                     GestureDetector(
                       onTap: () async {
                         EasyLoading.show(status: 'loading...');
-
                         print(widget.sku.toString());
                        await graphQLService.addProductToCart(
                             widget.sku.toString(), '1',
                             context: context);
-
                         dynamic listData =
                             await graphQLService.remove_Product_from_wishlist(
                                 wishlistId: myProvider!
@@ -347,7 +345,6 @@ class _ProductCardState extends State<ProductCard> {
                         myProvider!.getuserdata();
                         EasyLoading.show();
                         Scaffold.of(context).openEndDrawer();
-
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(5.0, 0, 0, 0),

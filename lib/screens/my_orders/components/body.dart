@@ -97,7 +97,7 @@ class _BodyState extends State<Body> {
                           }else if(ordersModel.customer?.orders?.items?[index].status == 'Pending') {
                             mainColor = const Color(0xFF800080);
                           }else {
-
+                            mainColor = const Color(0xff000000);
                           }
 
                           return Padding(
@@ -292,7 +292,6 @@ class _BodyState extends State<Body> {
                                                               )));
                                             },
                                             style: OutlinedButton.styleFrom(
-                                                primary: headingColor,
                                                 textStyle: const TextStyle(fontSize: 12, fontStyle: FontStyle.normal),
                                                 shape: const RoundedRectangleBorder(
                                                     borderRadius: BorderRadius.all(Radius.circular(5)))),

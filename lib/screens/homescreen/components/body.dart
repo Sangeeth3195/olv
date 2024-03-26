@@ -72,9 +72,10 @@ class _BodyState extends State<Body> {
 
     if (homePageModel.typename != null) {
       videoPlayerController = VideoPlayerController.network(
-          'https://omaliving.com/media/wysiwyg/homevideodesk4.MOV');
+          'https://omaliving.com/media/wysiwyg/homevideomob4.MOV');
 
       await videoPlayerController!.initialize();
+      _chewieController!.setVolume(0.0);
       _chewieController = ChewieController(
         videoPlayerController: videoPlayerController!,
         aspectRatio: 16 / 9,
@@ -818,68 +819,13 @@ class _BodyState extends State<Body> {
                               };
                               context.go('/home/pdp', extra: someMap);
                             }
-
-                            /*final value1 = values[0];
-                            final value2 = values[1];
-                            final value3 = values[2];
-                            final value4 = values[3];
-                            final value5 = values[4];
-
-                            print(value1.toString());
-                            print(value2);
-                            print(value3);
-                            print(value4);
-                            print(value5);
-
-                            print('split');
-                            print(value5);
-
-                            final split1 = value1.toString().split('=');
-                            print(split1[1]);
-
-                            final split2 = value2.toString().split('=');
-                            print(split2[1]);
-
-                            final split3 = value3.toString().split('=');
-                            print(split3[1]);
-
-                            final split4 = value4.toString().split('=');
-                            print(split4[1]);
-
-                            if(split4[1] == '1'){
-                              print('show_collection');
-
-                              final Map<String, dynamic> someMap = {
-                                "name": "BATH COLLECTION",
-                              };
-
-                              context.go(
-                                  '/home/cat_listing_filter',
-                                  extra: someMap);
-
-                            }else {
-
-                              print(value4!);
-
-                              final Map<String, String> someMap = {
-                                "id": split1[1],
-                                "name": homePageModel
-                                    .getHomePageData![2].title!,
-                                "product_count": "20",
-                                "show_collection":split4[1],
-                                "link_data":value4,
-                                "rt_from":'home_screen',
-                              };
-                              context.go('/home/pdp', extra: someMap);
-                            }*/
-
                           },
                           child: SizedBox(
                             height: 260,
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: AspectRatio(
-                                aspectRatio: 16 / 2,
+                                aspectRatio: 16 / 9,
                                 child: Chewie(
                                   controller: _chewieController!,
                                 ),

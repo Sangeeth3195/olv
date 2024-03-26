@@ -37,9 +37,6 @@ class MyProvider extends ChangeNotifier {
   double? minValue;
   double? maxValue;
 
-
-
-
   void updateHeader(String header) {
     title = header;
     notifyListeners();
@@ -70,11 +67,14 @@ class MyProvider extends ChangeNotifier {
         customerModel.customer!.wishlist != null ||
         customerModel.customer!.wishlist!.items != null) {
       wishListNumbers = customerModel.customer!.wishlist!.items!.length;
+    }else{
+      print('else');
+      print(customerModel.customer);
     }
     notifyListeners();
   }
 
-   getSlider() {
+  getSlider() {
      for (int i = 0; i < aggregationList.length; i++) {
        print(aggregationList[i].label);
        if(aggregationList[i].label == "Price"){
@@ -110,6 +110,7 @@ class MyProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
   void loadMoreData(int id, {int limit = 20,int currentPage = 20,Map<String, dynamic>? filter}) async {
 
     dynamic dataFromAPi =
@@ -250,4 +251,5 @@ class MyProvider extends ChangeNotifier {
     productData = await graphQLService.getproductdescription(id: id);
     notifyListeners();
   }
+
 }

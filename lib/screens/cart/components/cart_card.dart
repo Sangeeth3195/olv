@@ -100,7 +100,7 @@ class _BodyState extends State<CartCard> {
                 child: AspectRatio(
                   aspectRatio: 0.80,
                   child: Container(
-                    padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+                    padding: EdgeInsets.all(getProportionateScreenWidth(5)),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF5F6F9),
                       borderRadius: BorderRadius.circular(5),
@@ -124,7 +124,7 @@ class _BodyState extends State<CartCard> {
             ],
           ),
           const SizedBox(
-            height: 12,
+            height: 5,
           ),
         ],
       ),
@@ -155,7 +155,7 @@ class _BodyState extends State<CartCard> {
                 color: Colors.black87,
                 height: 1.5,
                 fontFamily: 'Gotham',
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.w500),
           ),
           const SizedBox(
             height: 5,
@@ -165,10 +165,10 @@ class _BodyState extends State<CartCard> {
               Expanded(
                 // Place `Expanded` inside `Row`
                 child: SizedBox(
-                  height: 15, // <-- Your height
+                  height: 18, // <-- Your height
                   child: Text(
                     '₹ ${widget.item.product!.priceRange!.minimumPrice!.regularPrice!.value.toString()}',
-                    style: const TextStyle(color: Colors.black,fontSize: 13),
+                    style: const TextStyle(color: Colors.black,fontSize: 13,fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
@@ -178,7 +178,7 @@ class _BodyState extends State<CartCard> {
               Container(
                   decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.grey,
+                        color: Colors.black38,
                       ),
                       borderRadius: const BorderRadius.all(Radius.circular(5))),
                   child: SizedBox(
@@ -224,7 +224,7 @@ class _BodyState extends State<CartCard> {
           ),
 
           const SizedBox(
-            height: 10,
+            height: 5,
           ),
           /*widget.isFromActionBar?Container():*/Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -258,7 +258,7 @@ class _BodyState extends State<CartCard> {
                     children: [
                       Text(
                         'Move to wishlist |',
-                        style: TextStyle(color: headingColor, fontSize: 13),
+                        style: TextStyle(color: headingColor, fontSize: 12),
                       ),
                       Icon(
                         Icons.arrow_forward_outlined,
@@ -295,7 +295,7 @@ class _BodyState extends State<CartCard> {
                       style: TextStyle(
                           color: headingColor,
                           fontSize: 12,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),

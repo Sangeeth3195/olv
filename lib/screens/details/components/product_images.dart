@@ -28,7 +28,7 @@ class _ProductImagesState extends State<ProductImages> {
       children: [
         Container(
           color: omaColor,
-          margin: const EdgeInsets.all(16.0),
+          margin: const EdgeInsets.all(8.0),
           width: MediaQuery.of(context).size.width,
           child: AspectRatio(
             aspectRatio: 1,
@@ -38,7 +38,7 @@ class _ProductImagesState extends State<ProductImages> {
             ),
           ),
         ),
-        SizedBox(height: getProportionateScreenWidth(20)),
+        SizedBox(height: getProportionateScreenWidth(2)),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -62,12 +62,12 @@ class _ProductImagesState extends State<ProductImages> {
       },
       child: AnimatedContainer(
         duration: defaultDuration,
-        margin: const EdgeInsets.only(right: 15,left: 15),
+        margin: const EdgeInsets.only(right: 0,left: 8),
         padding: const EdgeInsets.all(0),
         height: getProportionateScreenWidth(80),
         width: getProportionateScreenWidth(80),
         decoration: BoxDecoration(
-          color: selectedImage == index?omaColor:Colors.white,
+          color: selectedImage == index?omaColor:bg_color,
           borderRadius: BorderRadius.circular(2),
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),

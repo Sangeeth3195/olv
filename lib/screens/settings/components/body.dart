@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:omaliving/constants.dart';
 import 'package:omaliving/models/CustomerModel.dart';
-import 'package:omaliving/screens/order_summary/ordersummary.dart';
 import 'package:omaliving/screens/provider/provider.dart';
 import 'package:omaliving/screens/settings/components/settings_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../API Services/graphql_service.dart';
+import '../../../demo/btm.dart';
+import '../../../demo/slider.dart';
 import '../../webview/WebViewGQL.dart';
+import '../../webview/Webview_dyn.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -36,8 +38,8 @@ class _BodyState extends State<Body> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebViewGraphql(
-                          url: 'about-us', title: 'About Us'))),
+                      builder: (context) => const Webview_Dyn(
+                          url: 'https://www.omaliving.com/about-us', title: 'About Us'))),///url: 'about-us', title: 'About Us'
             },
           ),
           const Padding(
@@ -54,8 +56,8 @@ class _BodyState extends State<Body> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebViewGraphql(
-                          url: 'a-life-of-beauty', title: 'A Life of Beauty')));
+                      builder: (context) => const Webview_Dyn(
+                          url: 'https://www.omaliving.com/a-life-of-beauty', title: 'A Life of Beauty')));
             },
           ),
           const Padding(
@@ -72,8 +74,8 @@ class _BodyState extends State<Body> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebViewGraphql(
-                          url: 'shipping-payment',
+                      builder: (context) => const Webview_Dyn(
+                          url: 'https://www.omaliving.com/shipping-payment',
                           title: 'Shipping & Payment')));
             },
           ),
@@ -91,8 +93,8 @@ class _BodyState extends State<Body> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebViewGraphql(
-                          url: 'returns-exchanges',
+                      builder: (context) => const Webview_Dyn(
+                          url: 'https://www.omaliving.com/returns-exchanges',
                           title: 'Returns & Exchanges')));
             },
           ),
@@ -110,8 +112,8 @@ class _BodyState extends State<Body> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebViewGraphql(
-                          url: 'terms-of-use', title: 'Terms of Use')));
+                      builder: (context) => const Webview_Dyn(
+                          url: 'https://www.omaliving.com/terms-of-use', title: 'Terms of Use')));
             },
           ),
           const Padding(
@@ -128,8 +130,8 @@ class _BodyState extends State<Body> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const CommonWebViewGraphql(
-                          url: 'privacy-policy', title: 'Privacy Policy')));
+                      builder: (context) => const Webview_Dyn(
+                          url: 'https://www.omaliving.com/privacy-policy', title: 'Privacy Policy')));
             },
           ),
           /*const Padding(
@@ -187,5 +189,4 @@ class _BodyState extends State<Body> {
       ),
     );
   }
-
 }

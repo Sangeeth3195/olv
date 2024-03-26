@@ -292,7 +292,20 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
           ),
         ),
         actions: [
-          IconButton(
+
+          GestureDetector(
+            child: Image.asset(
+              'assets/images/search.png',
+              width: 28,
+              height: 22,
+            ),
+            onTap: () {
+              myProvider!.showHideSearch();
+            },
+          ),
+
+          const SizedBox(width: 10,),
+          /*IconButton(
             onPressed: () {
               // isSearch = !isSearch;
               // setState(() {
@@ -301,11 +314,11 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               myProvider!.showHideSearch();
             },
             icon: const Icon(Icons.search),
-          ),
+          ),*/
           Center(
             child: Builder(
               builder: (context) => Padding(
-                padding: const EdgeInsets.only(right: 12.0),
+                padding: const EdgeInsets.only(right: 10.0),
                 child: GestureDetector(
                   child: Image.asset(
                     'assets/images/shopping_bag.png',
@@ -402,19 +415,18 @@ class _ScaffoldWithNavbarState extends State<ScaffoldWithNavbar>
               ),
               actions: [
                 Center(
-                  child: GestureDetector(
-                    child: const Padding(
-                      padding: EdgeInsets.only(right: 12.0),
-                      child: Icon(
-                        Icons.search,
-                        size: 25,
-                        color: headingColor,
-                      ),
+                  child:  GestureDetector(
+                    child: Image.asset(
+                      'assets/images/search.png',
+                      width: 28,
+                      height: 22,
                     ),
-
-                    onTap: () {},
+                    onTap: () {
+                      myProvider!.showHideSearch();
+                    },
                   ),
                 ),
+                const SizedBox(width: 10,),
                 Center(
                   child: Builder(
                     builder: (context) => Padding(

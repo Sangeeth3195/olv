@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:omaliving/MainLayout.dart';
 import 'package:omaliving/app_router.dart';
 import 'package:omaliving/constants.dart';
@@ -14,6 +16,8 @@ import 'package:provider/provider.dart';
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
+
+
 
     if (Platform.isIOS) {
       // await Firebase.initializeApp(

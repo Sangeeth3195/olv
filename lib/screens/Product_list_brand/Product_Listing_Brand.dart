@@ -204,7 +204,6 @@ class _ProductCardState extends State<ProductCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     print('widget.data');
     print(widget.data);
   }

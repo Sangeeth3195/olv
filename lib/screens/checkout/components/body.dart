@@ -73,21 +73,21 @@ class _BodyState extends State<Body> {
     return Consumer<CartProvider>(
       builder: (context, provider, _) {
         return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             child: Container(
                 margin: const EdgeInsets.only(bottom: 5),
                 child: Column(children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
+
                       const Padding(
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                         child: Text(
                           'Shipping Address',
                           style: TextStyle(
-                              color: headingColor, fontWeight: FontWeight.bold),
+                              color: headingColor, fontWeight: FontWeight.w500),
                         ),
                       ),
                       Padding(
@@ -157,7 +157,7 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       const Padding(
                         padding:
@@ -165,7 +165,7 @@ class _BodyState extends State<Body> {
                         child: Text(
                           'Billing Address',
                           style: TextStyle(
-                              color: headingColor, fontWeight: FontWeight.bold),
+                              color: headingColor, fontWeight: FontWeight.w500),
                         ),
                       ),
                       Padding(
@@ -230,15 +230,15 @@ class _BodyState extends State<Body> {
                       ),
                       const Padding(
                         padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                            EdgeInsets.symmetric(vertical: 0, horizontal: 25),
                         child: Text(
                           'Shipping Method',
                           style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
+                              color: Colors.black, fontWeight: FontWeight.w500),
                         ),
                       ),
                       ListTile(
-                        title: const Text('Standard Shipping'),
+                        title: const Text('Standard Shipping',style: TextStyle(fontSize: 15),),
                         leading: Radio<Fruit>(
                           value: Fruit.apple,
                           groupValue: _fruit,
@@ -251,11 +251,11 @@ class _BodyState extends State<Body> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 85),
+                            vertical: 0, horizontal: 85),
                         child: Text(
                           '₹ ${provider.cartModel.cart!.prices!.subtotalExcludingTax!.value! > 10000 ? 0 : 500}',
                           style: const TextStyle(
-                              color: headingColor, fontWeight: FontWeight.bold),
+                              color: headingColor, fontWeight: FontWeight.w500),
                         ),
                       ),
 

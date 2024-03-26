@@ -165,13 +165,15 @@ class _ProductDescriptionState extends State<ProductDescription> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        Container(
                           height: 44,
                           width: 40,
+                          color: chip2Color,
                           child: IconButton(
                             icon: const Icon(
                               Icons.remove,
                               color: headingColor,
+                              size: 16,
                             ),
                             onPressed: () {
                               decrementQuantity();
@@ -187,7 +189,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(
-                              color: headingColor, // Border color
+                              color: priceColor, // Border color
                               width: 0.5, // Border width
                             ),
                             borderRadius: BorderRadius.circular(
@@ -196,17 +198,19 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           child: Center(
                             child: Text(
                               quantity.toString(),
-                              style: const TextStyle(fontSize: 15),
+                              style: const TextStyle(fontSize: 15,color: headingColor),
                             ),
                           ),
                         ),
-                        SizedBox(
+                          Container(
                           height: 44,
                           width: 40,
+                          color: chip2Color,
                           child: IconButton(
                             icon: const Icon(
                               Icons.add,
                               color: headingColor,
+                              size: 16,
                             ),
                             onPressed: () {
                               incrementQuantity();
@@ -265,7 +269,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                          color: headingColor, // Border color
+                          color: priceColor, // Border color
                           width: 0.5, // Border width
                         ),
                         borderRadius: BorderRadius.circular(
@@ -338,9 +342,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                   fontSize: 12)),
                         ),
 
-                        const SizedBox(
-                          height: 5,
-                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: getProportionateScreenWidth(10)),
@@ -414,7 +415,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         ),*/
                         provider.productData[0]['configurable_options'] != null
                             ? Container(
-                          margin: EdgeInsets.only(left: 10),
+                          margin: const EdgeInsets.only(left: 10),
                               child: ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: provider
@@ -553,7 +554,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                         ),
                                       );
                                     }  else {
-                                      return Text("No configtype");
+                                      return const Text("No configtype");
                                     }
                                   },
                                 ),
@@ -652,7 +653,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         //     : Container(),
 
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
 
                         Padding(
@@ -880,9 +881,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         //       )
                         //     : Container(),
 
-                        const SizedBox(
-                          height: 18,
-                        ),
+
                         // Row(
                         //   children: [
                         //     Padding(
@@ -1148,7 +1147,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                         //   ],
                         // ),
                         const SizedBox(
-                          height: 12,
+                          height: 8,
                         ),
                         Container(
                           color: backgroundCategoryColor.withOpacity(0.9),
@@ -1161,12 +1160,12 @@ class _ProductDescriptionState extends State<ProductDescription> {
                               trailing: _isExpanded
                                   ? const Icon(
                                       Icons.remove,
-                                      size: 20,
+                                      size: 16,
                                       color: headingColor,
                                     ) // Icon when expanded
                                   : const Icon(
                                       Icons.add,
-                                      size: 20,
+                                      size: 16,
                                       color: headingColor,
                                     ),
                               childrenPadding: const EdgeInsets.symmetric(
@@ -1225,9 +1224,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                   CrossAxisAlignment.end,
                               maintainState: true,
                               onExpansionChanged: _onExpansionChanged1,
-                              // trailing: _isExpanded
-                              //     ? const Icon(Icons.remove) // Icon when expanded
-                              //     : const Icon(Icons.add),
                               title: const Padding(
                                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: Text(
@@ -1252,7 +1248,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                           : Padding(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
-                                                      10, 0, 0, 0),
+                                                      15, 0, 0, 0),
                                               child: Text('Height: ' +
                                                   product[0]['height'])),
                                       product[0]['diameter'] == null
@@ -1350,7 +1346,6 @@ class _ProductDescriptionState extends State<ProductDescription> {
                                       fontSize: 15),
                                 ),
                               ),
-
                               children: [
                                 SingleChildScrollView(
                                   padding: const EdgeInsets.all(5.0),

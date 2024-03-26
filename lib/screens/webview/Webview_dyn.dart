@@ -1,17 +1,19 @@
 import 'dart:collection';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+class Webview_Dyn extends StatefulWidget {
+  final String url;
+  final String title;
 
-class MyAppWebview extends StatefulWidget {
-  const MyAppWebview({Key? key}) : super(key: key);
+  const Webview_Dyn(
+      {super.key, required this.url, required this.title});
 
   @override
-  State<MyAppWebview> createState() => _MyAppState();
+  _CommonWebViewState createState() => _CommonWebViewState();
 }
 
-class _MyAppState extends State<MyAppWebview> {
+class _CommonWebViewState extends State<Webview_Dyn> {
   final GlobalKey webViewKey = GlobalKey();
 
   InAppWebViewController? webViewController;
@@ -20,18 +22,32 @@ class _MyAppState extends State<MyAppWebview> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("InAppWebView test"),
+          title: Text(
+            widget.title,
+            style: const TextStyle(
+                fontFamily: 'Gotham',
+                fontWeight: FontWeight.w500,
+                fontSize: 14.0,
+                color: Colors.black),
+          ),
         ),
         body: Column(children: <Widget>[
           Expanded(
             child: InAppWebView(
               key: webViewKey,
               initialUrlRequest:
-              URLRequest(url: WebUri("https://www.omaliving.com/about-us")),
-
+              URLRequest(url: WebUri(widget.url)),
               initialUserScripts: UnmodifiableListView([
                 UserScript(source: """
+                
                 window.addEventListener('DOMContentLoaded', function(event) {
+                
+                var breadcrumbs = document.querySelector('.breadcrumbs'); // use here the correct CSS selector for your use case
+                  if (breadcrumbs != null) {
+                    breadcrumbs.style.display = 'none';
+                    breadcrumbs.remove(); // remove the HTML element. Instead, to simply hide the HTML element, use header.style.display = 'none';
+                  }
+                  
                   var header = document.querySelector('.page-header'); // use here the correct CSS selector for your use case
                   if (header != null) {
                     header.style.display = 'none';
@@ -44,6 +60,7 @@ class _MyAppState extends State<MyAppWebview> {
                     footer.remove(); // remove the HTML element. Instead, to simply hide the HTML element, use footer.style.display = 'none';
                   }
                 });
+                
                 """, injectionTime: UserScriptInjectionTime.AT_DOCUMENT_START)
               ]),
               onWebViewCreated: (controller) {

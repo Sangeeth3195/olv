@@ -2518,11 +2518,15 @@ class GraphQLService {
         await preferences.clear();
         print(result.exception?.graphqlErrors[0].message);
 
+        if(result.exception?.graphqlErrors[0].message == "The current customer isn't authorized."){
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          await preferences.clear();
+        }
+
       } else if (result.data != null) {
         EasyLoading.dismiss();
         log(jsonEncode(result.data));
         print('login check');
-
         print(result.data?['customer']['addresses']);
         return CustomerModel.fromJson(result.data!);
       }
@@ -4338,13 +4342,9 @@ class GraphQLService {
   Future<String> place_order() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String cartToken = prefs.getString('cart_token') ?? '';
-
     print(cartToken);
-
     log(plc_ord(cartToken));
-
     EasyLoading.show(status: 'loading...');
-
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -4354,15 +4354,10 @@ class GraphQLService {
 
       if (result.hasException) {
         EasyLoading.dismiss();
-        print(result.exception?.graphqlErrors[0].message);
-        // Fluttertoast.showToast(
-        //     msg: result.exception!.graphqlErrors[0].message.toString());
       } else if (result.data != null) {
         log(jsonEncode(result.data));
         print(result.data);
-
         EasyLoading.dismiss();
-
         return result.data?['placeOrder']['order']['order_number'];
       }
 
@@ -4404,9 +4399,7 @@ class GraphQLService {
   }
 
   Future<dynamic> re_order(String order_id) async {
-
     EasyLoading.show(status: 'loading...');
-
     try {
       QueryResult result = await client.mutate(
         MutationOptions(
@@ -4427,7 +4420,7 @@ class GraphQLService {
   }
 
 /// add product to cart
-  ///
+
   static String add_prod_to_cart(
       String cartToken,
   List<Map<String, dynamic>> qty,
@@ -4481,6 +4474,45 @@ class GraphQLService {
     } catch (e) {
       print('exception');
       print(e);
+      return "";
+    }
+  }
+
+  /// Delete Address
+  Future<String> deleteaddress(int? id) async {
+    try {
+      QueryResult result = await client.query(
+        QueryOptions(
+          fetchPolicy: FetchPolicy.noCache,
+          document: gql("""
+           mutation {
+              deleteCustomerAddress(
+                id: $id
+              ) 
+            }
+            """),
+        ),
+      );
+
+      if (result.hasException) {
+        EasyLoading.dismiss();
+        print(result);
+
+        if (kDebugMode) {
+          print(result.exception?.graphqlErrors[0].message);
+        }
+      } else if (result.data != null) {
+
+        print(result);
+
+        EasyLoading.dismiss();
+        Fluttertoast.showToast(msg: 'Address deleted successfully');
+      }
+      return "";
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
       return "";
     }
   }

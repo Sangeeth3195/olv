@@ -164,6 +164,7 @@ class _HomeScreenState extends State<ProductListing> {
       },
       child: Consumer<MyProvider>(
         builder: (context, provider, _) {
+
           return Scaffold(
             key: _childDrawerKey,
             drawer: Container(
@@ -171,6 +172,7 @@ class _HomeScreenState extends State<ProductListing> {
               width: MediaQuery.of(context).size.width - 50,
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
+
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,14 +274,14 @@ class _HomeScreenState extends State<ProductListing> {
                                                     const EdgeInsets.fromLTRB(
                                                         20.0, 0, 10, 5),
                                                 child: Text(
-                                                    " ${provider.rangeValues!.start.ceil()} -  ${provider.rangeValues!.end.ceil()}",
+                                                    "₹${provider.rangeValues!.start.ceil()} -  ₹${provider.rangeValues!.end.ceil()}",
                                                     style: const TextStyle(
                                                         fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.black54,
+                                                            FontWeight.w500,
+                                                        color: headingColor,
                                                         fontFamily: 'Gotham',
                                                         height: 1,
-                                                        fontSize: 15)),
+                                                        fontSize: 14)),
                                               )
                                             ],
                                           ),

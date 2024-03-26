@@ -271,10 +271,17 @@ class _MyHomePageState extends State<CheckoutCard> {
                         );*/
                                 },
                           child: const Text(
-                            'Pay with Razorpay',
+                            'Next',
                             style:
                                 TextStyle(fontSize: 14.0, color: Colors.white),
                           ),
+
+                          /*Text(
+                            'Pay with Razorpay',
+                            style:
+                            TextStyle(fontSize: 14.0, color: Colors.white),
+                          ),*/
+
                         ),
                       ),
                     ),
