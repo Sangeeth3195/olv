@@ -110,7 +110,7 @@ class _BodyState extends State<Body> {
                                 Expanded(
                                   child: Text(
                                     shippingAddress != null
-                                        ? "${shippingAddress!.street![0]}\n${shippingAddress!.city}, ${shippingAddress!.city}"
+                                        ? "${shippingAddress!.firstname}\n${billingAddress!.street![0]}\n${shippingAddress!.city}\n${shippingAddress!.telephone}"
                                         : "",
                                     style: const TextStyle(
                                         color: Colors.black,
@@ -180,7 +180,7 @@ class _BodyState extends State<Body> {
                                 Expanded(
                                   child: Text(
                                     billingAddress != null
-                                        ? "${billingAddress!.street![0]}\n${billingAddress!.city}, ${billingAddress!.city}"
+                                        ? "${billingAddress!.firstname}\n${billingAddress!.street![0]}\n${billingAddress!.city}\n${billingAddress!.telephone}"
                                         : "",
                                     style: const TextStyle(
                                         color: Colors.black,
